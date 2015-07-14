@@ -1,0 +1,46 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:compat="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="org.de.jmg.learn.MainActivity" >
+
+    <item android:id="@+id/mnuHome" 
+        android:title="@string/mnuHome"
+        compat:showAsAction="always"  
+        android:icon="@drawable/ic_menu_home">
+        
+    </item><item android:id="@+id/mnuFileOpen" 
+        android:title="@string/mnuFileOpen" 
+        compat:showAsAction="always" 
+        android:icon="@drawable/ic_menu_archive">
+    </item>
+    <item android:id="@+id/mnuOpenUri" android:title="@string/mnuOpenUri"></item>
+    <item android:id="@+id/mnuFileSave" android:title="@string/mnuFileSave"></item>
+    <item android:id="@+id/mnuSaveAs" 
+        android:title="@string/mnuSaveAs" 
+        compat:showAsAction="always" 
+        android:icon="@drawable/ic_menu_save">
+    </item>
+    <item android:id="@+id/mnuRestart" android:title="@string/mnuRestart"></item>
+    <item android:id="@+id/mnuAddWord" android:title="@string/mnuAddWord" compat:showAsAction="always" android:icon="@drawable/ic_menu_add" />
+    <item android:id="@+id/mnuExtras" 
+        android:title="@string/mnuExtras" 
+        compat:showAsAction="never" 
+        android:icon="@drawable/ic_menu_more" >
+        <menu>
+            <item android:id="@+id/mnuNew" android:title="@string/mnuNew" /><item android:id="@+id/mnuFileOpenASCII" android:title="@string/mnuFileOpenASCII"></item>
+       		<item android:id="@+id/mnuDelete" android:title="@string/mnuDelete"></item>
+    		<item android:id="@+id/mnuReverse" android:title="@string/mnuReverse"></item>
+    		<item android:id="@+id/mnuReset" android:title="@string/mnuReset"></item>
+    		<item android:id="@+id/mnuConvMulti" android:title="@string/mnuConvertMulti"></item>
+    		<item android:id="@+id/mnuStatistics" android:title="@string/mnuStatistics"></item>   
+    	</menu>
+    </item>
+    <item android:id="@+id/mnuContact" android:title="@string/mnuContact"></item><item
+       android:id="@+id/action_settings"
+       android:orderInCategory="100"
+       android:title="@string/action_settings"
+       android:icon="@drawable/ic_menu_preferences"
+    />
+    
+    
+ </menu>

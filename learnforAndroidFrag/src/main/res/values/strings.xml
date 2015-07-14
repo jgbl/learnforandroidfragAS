@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Learnforandroid</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">settings</string>
+    <string name="btnNext">next</string>
+    <string name="btnSkip">skip</string>
+    <string name="TotalNumber">total number</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="ok">OK</string>
+    <string name="SaveAsUniCode">Do you want to save this file as Unicode?</string>
+    <string name="FileDoesNotExist">The file does not exist!</string>
+    <string name="btnRight">right</string>
+    <string name="view">btnView</string>
+    <string name="btnView">view</string>
+    <string name="btnWrong">wrong</string>
+    <string name="action_loadfile">load file</string>
+    <string name="mnuFile">File</string>
+    <string name="mnuFileOpen">open file</string>
+    <string name="Save">Do you want to save the vocabulary?</string>
+    <string name="btnSave">save</string>
+    <string name="mnuFileSave">save</string>
+    <string name="mnuFileOpenASCII">open ASCII</string>
+    <string name="FileFormatNotRecognized">The file format could not be recognized! Aborting load!</string>
+    <string name="btnEdit">Edit</string>
+    <string name="mnuDelete">delete word</string>
+    <string-array name="spnAbfragebereichEntries">
+        <item >All</item>
+        <item >0</item>
+        <item >1</item>
+        <item >2</item>
+        <item >3</item>
+        <item >4</item>
+        <item >5</item>
+        <item >6</item>
+    </string-array>
+    <string-array name="spnLanguages">
+        <item >normal</item>
+        <item >hebrew</item>
+        <item >greek</item>
+        <item >other1</item>
+        <item >other2</item>
+        <item >other3</item>
+        <item >undefined</item>
+     </string-array>
+        <string name="spnAbfragebereichDescription">Specifies the range of vocabulary to be asked</string>
+        <string name="spnAbfragebereich">asking range</string>
+        <string name="spnASCIIFont">Charset for ASCII</string>
+        <string name="spnASCIIFontDescription">Charset for loading ASCII files</string>
+        <string name="askingRange">asking range</string>
+        <string name="spnSelect">select ...</string>
+        <string name="txtSettings">settings</string>
+        <string name="txtAbfragebereich">asking range</string>
+        <string name="txtAbfragebereich_wear">range</string>
+        <string name="txtCharsetASCII">charset ascii</string>
+        <string name="txtCharsetASCII_wear">ascii</string>
+        <string name="btnOK">OK</string>
+        <string name="btnCancel">Cancel</string>
+        <string name="txtStep">step</string>
+        <string name="spnStep">step</string>
+        <string name="spnStepDescriptions">enter the step used for repeating not known vocabulary</string>
+        <string-array name="spnStepEntries">
+            <item >5</item>
+            <item >6</item>
+            <item >7</item>
+            <item >8</item>
+            <item >9</item>
+            <item >10</item>
+            <item >15</item>
+            <item >20</item>
+        </string-array>
+        <string-array name="spnRestartInterval">
+            <item >off</item>
+            <item >5</item>
+            <item >6</item>
+            <item >7</item>
+            <item >8</item>
+            <item >9</item>
+            <item >10</item>
+            <item >15</item>
+            <item >20</item>
+        </string-array>
+            <string name="txtAnzeigedauerWord">display duration word</string>
+            <string name="txtAnzeigedauerWord_wear">dd word</string>
+            <string name="spnAnzeigedauerWord">display duration</string>
+            <string name="spnAnzeigedauerWordDescription">display duration of word if wrong</string>
+            <string name="txtAnzeigedauerBed">display duration of meaning</string>
+            <string name="spnAnzeigedauerBed">display duration</string>
+            <string name="spnAnzeigedauerBedDescription">display duration of meaning if wrong</string>
+        <string-array name="spnDurations">
+                <item >1</item>
+                <item >1.5</item>
+                <item >2</item>
+                <item >2.5</item>
+                <item >3</item>
+                <item >4</item>
+                <item >5</item>
+	            <item >6</item>
+	            <item >7</item>
+	            <item >8</item>
+	            <item >9</item>
+	            <item >10</item>
+	            <item >15</item>
+	            <item >20</item>
+         </string-array>
+         <string-array name="spnRepetitions">
+                <item >1</item>
+                <item >2</item>
+                <item >3</item>
+                <item >4</item>
+                <item >5</item>
+	            <item >6</item>
+	            <item >7</item>
+	            <item >8</item>
+	            <item >9</item>
+	            <item >10</item>
+	      </string-array>
+	      
+         <string-array name="spnProbabilityFactors">
+                <item >auto</item>
+                <item >0.5</item>
+                <item >1</item>
+                <item >1.5</item>
+                <item >2</item>
+                <item >2.5</item>
+                <item >3</item>
+                <item >3.5</item>
+                <item >4</item>
+	            <item >4.5</item>
+	            <item >5</item>
+	            <item >6</item>
+	            <item >7</item>
+	            <item >8</item>
+	            <item >9</item>
+	            <item >10</item>
+         </string-array>
+        
+         <string-array name="spnColors">
+                <item >word</item>
+                <item >meaning</item>
+                <item >comment</item>
+                <item >background</item>
+                <item >box word</item>
+                <item >box meaning</item>
+                <item >background wrong</item>
+          </string-array>
+          
+         <string-array name="spnSounds">
+             	<item>right0</item>
+		        <item>right1</item>
+				<item>right2</item>
+				<item>right3</item>
+				<item>right4</item>
+				<item>right5</item>
+				<item>wrong0</item>
+				<item>wrong1</item>
+				<item>wrong2</item>
+				<item>wrong3</item>
+				<item>wrong4</item>
+				<item>wrong5</item>
+				<item>Beep</item>       
+          </string-array>
+         
+         
+	            <string name="txtRepetitions">repetitions if wrong</string>
+	            <string name="spnRepetions">repetitions if wrong</string>
+	            <string name="spnRepetitionsDescription">if a word is wrong the right meaning is shown so many times</string>
+	            <string name="mnuReverse">reverse vocabulary</string>
+	            <string name="txtProbabilityFactor">probability factor</string>
+	            <string name="spnProbabilityFactor">probability factor</string>
+	            <string name="spnProbabilityFactorDescription">This is the factor by which the probability for showing a word is divided</string>
+	            <string name="chkRandom">Random</string>
+	            <string name="chkRandomHint">ask vocabulary randomly not subsequently</string>
+	            <string name="chkAskAll">Ask all</string>
+	            <string name="chkAskAllHint">ask all vocabulary subsequently independent of  how often they were right</string>
+	            <string name="mnuReset">reset vocabulary</string>
+	            <string name="ResetVocabulary">Do you really want to reset the vocabulary?</string>
+	            <string name="PressBackAgain">press back again to exit</string>
+	            <string name="txtColors">colors</string>
+	            <string name="spnColors">Colors</string>
+	            <string name="spnColorDescription">Select Colors for each element with a long touch</string>
+	            <string name="SelColor">sel</string>
+	            <string name="btnSelectColorHint">select the color of each element</string>
+	            <string name="imgColors">image containing the selected color</string>
+	            <string name="txtColors2">&quot;   &quot;</string>
+	            <string name="MeaningSimilar">the entered meaning is similar</string>
+	            <string name="MeaningPartiallyCorrect">the entered meaning is partially correct!</string>
+	            <string name="AnswerCorrect">the answer is correct!</string>
+	            <string name="MeaningIsSubstring">The answer is a subset of the meaning!</string>
+	            <string name="MeaningIsSubstringSimilar">The entered meaning is partially a substring and partially similar</string>
+	            <string name="MeaningIsPartiallyCorrectSimilar">The meaning is partially correct and partially similar!</string>
+	            <string name="MeaningIsPartiallyCorrectSimilarSubstring">The meaning is partially correct, partially similar and partially a substring!</string>
+	            <string name="MeaningIsPartiallyCorrectSubstring">The meaning is partially correct and partially a substring!</string>
+	            <string name="mnuStatistics">statistics</string>
+	            <string name="number">Number</string>
+	            <string name="counter">Counter</string>
+	            <string name="chkSound">Sound</string>
+	            <string name="chkSoundHint">switch sound on or off</string>
+	            <string name="txtSounds">sounds</string>
+	            <string name="spnSoundsDescription">select a soundfile with a long touch</string>
+	            <string name="spnSounds">select as soundfile</string>
+	            <string name="mnuConvertMulti">convert multitext</string>
+	            <string name="mnuExtras">extras</string>
+	            <string name="mnuSaveAs">save as</string>
+	            <string name="SaveAs">save as</string>
+	            <string name="EnterNewFilename">enter new filename</string>
+	            <string name="Overwrite">Do you want to overwrite the existing file?</string>
+	            <string name="mnuRestart">restart</string>
+	            <string name="mnuResize">resize</string>
+	            <string name="mnuAddWord">add word</string>
+	            <string name="mnuNew">new</string>
+	            <string name="txtLanguage">language</string>
+	            <string name="spnLanguage">language?</string>
+	            <string name="txtFlashCardFile">Do you want to create a flashcard file?</string>
+	            <string name="SaveNewVokabularyAs">Do you want to save the new vocabulary?</string>
+	            <string name="mnuOpenUri">open URI</string>
+	            <string name="msgWrongExt">You have chosen a wrong extension! Do you want to save nevertheless?</string>
+	            <string name="msgWrongExtLoad">The filename has a wrong extension! Do you want to load the file nevertheless?</string>
+	            <string name="InstallFilemanager">Please install a filemanager!</string>
+	            <string name="msgStartExternalProgram">Do you want to start an external program?</string>
+	            <string name="msgFileCouldNotBeSaved">The file could not be saved with the selected content provider! Do you want to chosse another provider?</string>
+	            <string name="msgFileCouldNotBeSaved2">The file could not be saved with the selected content provider!</string>
+	            <string name="msgShowDocumentProvider">Do you want to select only from document providers?</string>
+	            <string name="msgNoPersistableUriPermissionCouldBeTaken">No persistable Uri permission could be taken!</string>
+	            <string name="msgRememberChoice">remember this choice</string>
+	            <string name="msgDontShowThisMessageAgain">Don\'t show this message again</string>
+	            <string name="question">Question</string>
+	            <string name="message">Message</string>
+	            <string name="TakeDocumentProvider">take document provider</string>
+	            <string name="hintProvider">here you can select wether open opens only the document providers or all providers</string>
+	            <string name="chkShowWarning">Don\'t show warning if permission could not be taken</string>
+	            <string name="hintShowWarning">show warning if permanent permission could not be taken (this happens if document provider was not selected)</string>
+	            <string name="msgSaveSettings">Do you want to save the settings?</string>
+	            <string name="msgResetSetting">Do you want to reset this setting to the default value?</string>
+	            <string name="Error">Error</string>
+	            <string name="chkAlwaysStartExternalProgram">always start external program</string>
+	            <string name="hintStartExternalProgram">Start external program for opening and saving files</string>
+	            <string name="chkFora">enable Fora Dictionary</string>
+	            <string name="hintFora">enable Fora dictionary for searching for vocabulary on long press</string>
+	            <string name="chkNGHS">enable NGHS offline dictionaries</string>
+	            <string name="hintNGHS">enable NGHS offline dictionaries on long click</string>
+	            <string name="chkTranslate">enable Google translate</string>
+	            <string name="hintTranslate">enable Google translate on long click</string>
+	            <string name="mnuHome">home</string>
+	            <string name="txtRestartInterval">restart interval</string>
+	            <string name="spnRestartInterval">interval</string>
+	            <string name="auto">auto</string>
+	            <string name="off">off</string>
+	            <string name="descCharSetASCII">Charset that is used to loading older files, which are not encoded in Unicode</string>
+	            <string name="descAbfragebereich">Range of words, the number correlates to how often the word has been answered right or wrong. Default is All.</string>
+	            <string name="descStep">Defines the step/chunk size after which not known words are repeated</string>
+	            <string name="descAnzeigedauerWord">Defines how long a word is displayed if it is wrong</string>
+	            <string name="descAnzeigedauerBed">Definines how long a meaning is displayed if wrong</string>
+	            <string name="descRepetitions">Defines how often words and meanings are shown if wrong</string>
+	            <string name="descProbabilityFactor">Defines the divisor for the probability with which known words are asked again</string>
+	            <string name="descRestartInterval">Defines how many wrong answers must be made, after which the program starts asking from the beginning again.</string>
+	            <string name="help">Help</string>
+	            <string name="close">Do you want to close the window?</string>
+	            <string name="mnuContact">contact</string>
+	            <string name="MeaningMustContainText">meaning 1 must contain text!</string>
+	            <string name="WordOrMeaningMissing">The word or the meaning is missing! Do you want to delete the vocabulary?</string>
+	            <string name="EmptyWord">You can not assign an empty value to a word!</string>
+        
+</resources>
