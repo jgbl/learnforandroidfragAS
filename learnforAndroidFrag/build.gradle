@@ -20,7 +20,7 @@ android {
 
 dependencies {
     compile project(':fileChooser')
-    compile project(':main')
+    compile project(':library')
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile files('libs/achartengine-1.1.0.jar')
 }

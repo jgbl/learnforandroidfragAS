@@ -1,3 +1,2 @@
-include ':fileChooser'
-include ':main'
+include ':fileChooser', ':library'
 include ':learnforAndroidFrag'
