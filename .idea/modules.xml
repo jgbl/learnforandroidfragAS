@@ -8,7 +8,6 @@
       <module fileurl="file://$PROJECT_DIR$/learnforandroidfragAS.iml" filepath="$PROJECT_DIR$/learnforandroidfragAS.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
       <module fileurl="file://$PROJECT_DIR$/../import/library/library.iml" filepath="$PROJECT_DIR$/../import/library/library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
     </modules>
   </component>
 </project>
