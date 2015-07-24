@@ -3,11 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/fileChooser/fileChooser.iml" filepath="$PROJECT_DIR$/fileChooser/fileChooser.iml" />
-      <module fileurl="file://$PROJECT_DIR$/fileChooser/fileChooser.iml" filepath="$PROJECT_DIR$/fileChooser/fileChooser.iml" />
       <module fileurl="file://$PROJECT_DIR$/learnforAndroidFrag/learnforAndroidFrag.iml" filepath="$PROJECT_DIR$/learnforAndroidFrag/learnforAndroidFrag.iml" />
       <module fileurl="file://$PROJECT_DIR$/learnforandroidfragAS.iml" filepath="$PROJECT_DIR$/learnforandroidfragAS.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../import/library/library.iml" filepath="$PROJECT_DIR$/../import/library/library.iml" />
     </modules>
   </component>
 </project>
