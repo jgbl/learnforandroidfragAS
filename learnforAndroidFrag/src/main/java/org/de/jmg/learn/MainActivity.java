@@ -179,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else if (position == SettingsActivity.fragID)
 						{
+							mnuAddNew.setEnabled(false);
 							if(fPA!=null && fPA.fragSettings!=null)
 							{
 								try
