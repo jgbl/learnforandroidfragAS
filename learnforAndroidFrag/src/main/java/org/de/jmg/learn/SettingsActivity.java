@@ -898,8 +898,7 @@ public class SettingsActivity extends Fragment
 			int Language = getIntent().getIntExtra(
 					"Language", org.de.jmg.learn.vok.Vokabel.EnumSprachen.undefiniert.ordinal());
 			spnLanguages.setSelection(Language);
-
-			spnLanguages
+	        spnLanguages
 					.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 						@Override
