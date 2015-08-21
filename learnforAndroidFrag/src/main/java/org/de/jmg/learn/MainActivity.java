@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                     					}
                     					catch (Exception ex)
                     					{
-                    						Log.e("fragSettings.saveResultsAndFinish",ex.getMessage(),ex);
+                    						Log.e(".saveResultsAndFinish",ex.getMessage(),ex);
                     					}
                     					/*
                     					if (lib.NookSimpleTouch()) 
