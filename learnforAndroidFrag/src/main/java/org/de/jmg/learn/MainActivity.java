@@ -177,7 +177,23 @@ public class MainActivity extends AppCompatActivity {
                         {
                         	mnuAddNew.setEnabled(true);
                         }
-                        else
+                        else if (position == SettingsActivity.fragID)
+						{
+							if(fPA!=null && fPA.fragSettings!=null)
+							{
+								try
+								{
+									int Language = fPA.fragSettings.getIntent().getIntExtra(
+											"Language", org.de.jmg.learn.vok.Vokabel.EnumSprachen.undefiniert.ordinal());
+									fPA.fragSettings.spnLanguages.setSelection(Language);
+								}
+								catch (Exception ex)
+								{
+									Log.e(".saveResultsAndFinish",ex.getMessage(),ex);
+								}
+							}
+						}
+						else
                         {
                         	mnuAddNew.setEnabled(false);
                         }

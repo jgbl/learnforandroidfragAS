@@ -1501,7 +1501,7 @@ public class _MainActivity extends Fragment {
 		public View view;
 
 		public resetLayoutTask(View layout) {
-			// TODO Auto-generated constructor stub
+
 			if (layout == null) layout = (RelativeLayout) findViewById(R.id.layoutMainParent);
 			this.view = layout;
 		}
@@ -1551,7 +1551,7 @@ public class _MainActivity extends Fragment {
 		public BorderedEditText Bed;
 
 		public showBedBordersTask(BorderedEditText Bed) {
-			// TODO Auto-generated constructor stub
+
 			this.Bed = Bed;
 		}
 
@@ -1574,7 +1574,7 @@ public class _MainActivity extends Fragment {
 		public BorderedEditText Bed;
 
 		public hideBedBordersTask(BorderedEditText Bed) {
-			// TODO Auto-generated constructor stub
+
 			this.Bed = Bed;
 		}
 
@@ -1590,7 +1590,7 @@ public class _MainActivity extends Fragment {
 
 	/*
 	 * private class CancelTimerTask extends TimerTask { public Timer T; public
-	 * CancelTimerTask(Timer T) { // TODO Auto-generated constructor stub this.T
+	 * CancelTimerTask(Timer T) {  this.T
 	 * = T; }
 	 * 
 	 * @Override public void run() { // TODO Auto-generated method stub

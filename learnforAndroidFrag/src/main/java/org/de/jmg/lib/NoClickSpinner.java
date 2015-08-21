@@ -31,17 +31,17 @@ public class NoClickSpinner extends Spinner {
 
 	public NoClickSpinner(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public NoClickSpinner(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public NoClickSpinner(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
-		// TODO Auto-generated constructor stub
+
 
 	}
 

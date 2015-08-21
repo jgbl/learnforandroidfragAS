@@ -1003,7 +1003,7 @@ public class SettingsActivity extends Fragment
 		}
 	}
 
-	private Intent getIntent() {
+	public Intent getIntent() {
 		// TODO Auto-generated method stub
 		return _Intent;
 	}

@@ -33,7 +33,7 @@ public class ScaledArrayAdapter<T> extends AbstractScaledArrayAdapter<T> {
 
 	public ScaledArrayAdapter(Context context, int resource) {
 		super(context, resource);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	@Override

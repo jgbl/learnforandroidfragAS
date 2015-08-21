@@ -26,7 +26,7 @@ public class SoundSetting {
 	public lib.Sounds Sound;
 
 	public SoundSetting(lib.Sounds Sound, String SoundName, String SoundPath) {
-		// TODO Auto-generated constructor stub
+
 		this.Sound = Sound;
 		this.SoundName = SoundName;
 		this.SoundPath = SoundPath;

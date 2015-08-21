@@ -30,7 +30,7 @@ public class ColorSetting {
 	}
 
 	public ColorSetting(ColorItems ColorItem, String ColorName, int ColorValue) {
-		// TODO Auto-generated constructor stub
+
 		this.ColorItem = ColorItem;
 		this.ColorName = ColorName;
 		this.ColorValue = ColorValue;

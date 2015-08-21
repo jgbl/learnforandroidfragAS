@@ -58,6 +58,6 @@ public class typVok {
 	}
 
 	public typVok() {
-		// TODO Auto-generated constructor stub
+
 	}
 }

@@ -311,7 +311,7 @@ public class clsFont {
 	}
 
 	public clsFont() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 }
