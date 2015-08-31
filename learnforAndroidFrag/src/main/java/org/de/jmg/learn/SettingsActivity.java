@@ -1343,32 +1343,30 @@ public class SettingsActivity extends Fragment
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		try {
-			if (requestCode == FILE_CHOOSERSOUND
-					&& (resultCode == Activity.RESULT_OK)) {
-				String fileSelected = data.getStringExtra("fileSelected");
-				SoundSetting item = Sounds
-						.getItem(spnSounds.getSelectedItemPosition());
-				item.SoundPath = fileSelected;
-				File F = new File(item.SoundPath);
-				try {
-					if (F.exists())
-						{
+			if (requestCode == FILE_CHOOSERSOUND) {
+				if (resultCode == Activity.RESULT_OK) {
+					String fileSelected = data.getStringExtra("fileSelected");
+					SoundSetting item = Sounds
+							.getItem(spnSounds.getSelectedItemPosition());
+					item.SoundPath = fileSelected;
+					File F = new File(item.SoundPath);
+					try {
+						if (F.exists()) {
 							lib.playSound(F);
 							_main.setSoundDir(F.getParent());
-						}
-						
-					else
-						lib.playSound(_main.getAssets(), item.SoundPath);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+						} else
+							lib.playSound(_main.getAssets(), item.SoundPath);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Editor editor = prefs.edit();
+					editor.putString(item.Sound.name(), item.SoundPath);
+					intent.putExtra(item.Sound.name(), item.SoundName);
+					intent.putExtra("OK", "OK");
+					editor.commit();
+					Sounds.notifyDataSetChanged();
 				}
-				Editor editor = prefs.edit();
-				editor.putString(item.Sound.name(), item.SoundPath);
-				intent.putExtra(item.Sound.name(), item.SoundName);
-				intent.putExtra("OK","OK");
-				editor.commit();
-				Sounds.notifyDataSetChanged();
 				spnSounds.blnDontCallOnClick = false;
 			}
 		} catch (Exception ex) {
