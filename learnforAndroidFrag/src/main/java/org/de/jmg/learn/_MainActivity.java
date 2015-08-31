@@ -796,10 +796,11 @@ public class _MainActivity extends Fragment {
 
 		_txtMeaning1 = (BorderedEditText) findViewById(R.id.txtMeaning1);
 		//int bottom = (_txtMeaning1.getPaddingBottom() == 0 ? 5 : _txtMeaning1.getPaddingBottom());
-		_txtMeaning1.setPadding(_txtMeaning1.getPaddingLeft()
+		/*_txtMeaning1.setPadding(_txtMeaning1.getPaddingLeft()
 				, 0
 				, _txtMeaning1.getPaddingRight()
 				, 0);
+				*/
 		_txtMeaning1.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -834,6 +835,7 @@ public class _MainActivity extends Fragment {
         });
 	
 		_txtMeaning1.setOnLongClickListener(textlongclicklistener);
+		//_txtMeaning1.setBackgroundColor(Color.BLACK);
 		_MeaningBG = _txtMeaning1.getBackground();
 		//_txtMeaning1.setBackgroundResource(0);
 		//_txtMeaning1.setOnTouchListener(OnTouchListenerRemoveCallbacks);
