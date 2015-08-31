@@ -122,7 +122,7 @@ public class _MainActivity extends Fragment {
 		libLearn.gStatus = "onCreate InitButtons";
 		try 
 		{
-			InitButtons();
+			InitControls();
 			libLearn.gStatus = "onCreate InitMeanings";
 			InitMeanings();
 			
@@ -680,7 +680,7 @@ public class _MainActivity extends Fragment {
 	MovementMethod oldMeaning1MovementMethod; 
 	
 	@SuppressLint("ClickableViewAccessibility")
-	private void InitButtons() throws Exception {
+	private void InitControls() throws Exception {
 		View v = findViewById(R.id.btnRight);
 		Button b = (Button) v;
 		_btnRight = b;
@@ -1347,6 +1347,7 @@ public class _MainActivity extends Fragment {
 	MovementMethod _originalMovementmethod = null;
 	public void SetViewsToVokMode()
 	{
+		if (_mBackgroundBack != null) _MeaningBG = _mBackgroundBack;
 		// _txtWord.setMaxLines(3);
 		// _txtWord.setLines(1);
 		_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
@@ -1395,6 +1396,7 @@ public class _MainActivity extends Fragment {
 		_txtMeaning3.setHorizontallyScrolling(false);
 
 	}
+	private Drawable _mBackgroundBack = null;
 	public void SetViewsToCardmode()
 	{
 		// _txtWord.setMaxLines(3);
@@ -1426,6 +1428,8 @@ public class _MainActivity extends Fragment {
 		// KeyEvent.KEYCODE_ENTER);
 		_txtMeaning2.setVisibility(View.GONE);
 		_txtMeaning3.setVisibility(View.GONE);
+		if (_MeaningBG != null) _mBackgroundBack = _MeaningBG;
+		_MeaningBG = null;
 	
 	}
 
