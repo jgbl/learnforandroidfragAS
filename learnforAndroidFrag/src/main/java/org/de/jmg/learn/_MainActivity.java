@@ -635,6 +635,9 @@ public class _MainActivity extends Fragment {
 				_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 				_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_DONE);
 			}
+			lib.setBgEditText(_txtMeaning1, _MeaningBG);
+			lib.setBgEditText(_txtMeaning2, _MeaningBG);
+			lib.setBgEditText(_txtMeaning3, _MeaningBG);
 			_txtMeaning1.requestFocus();
 			SetActionBarTitle();
 			_scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() 
@@ -1459,6 +1462,10 @@ public class _MainActivity extends Fragment {
 		layoutButtons.setVisibility(View.GONE);
 		View tb = _main.findViewById(R.id.action_bar);
 		tb.setVisibility(View.GONE);
+
+		_txtMeaning1.setBackgroundResource(0);
+		_txtMeaning2.setBackgroundResource(0);
+		_txtMeaning3.setBackgroundResource(0);
 		
 		if (_isSmallDevice)
 		{

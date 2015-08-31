@@ -62,13 +62,7 @@ public class BorderedEditText extends EditText {
 			GradientDrawable drawable = (GradientDrawable) this.getBackground();
 			drawable.setColor(BackColor);
 		} else  {
-			if (_MeaningBG!=null)
-			{
-				lib.setBgEditText(this, _MeaningBG);
-			}
-			else {
-				this.setBackgroundResource(0);
-			}
+			this.setBackgroundResource(0);
 			// this.setBackgroundColor(BackColor);
 		}
 		this.invalidate();
