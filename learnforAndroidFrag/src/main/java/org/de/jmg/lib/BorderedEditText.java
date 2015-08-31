@@ -24,6 +24,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.widget.EditText;
@@ -36,6 +37,7 @@ public class BorderedEditText extends EditText {
 	public static final int BORDER_LEFT = 0x00000008;
 	public RectF RoundedRect;
 	public boolean showBorders;
+	private Drawable _MeaningBG;
 
 	public BorderedEditText(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -55,11 +57,18 @@ public class BorderedEditText extends EditText {
 	public void setShowBorders(boolean showBorders, int BackColor) {
 		this.showBorders = showBorders;
 		if (showBorders) {
+			if (_MeaningBG == null) _MeaningBG = this.getBackground();
 			this.setBackgroundResource(org.de.jmg.learn.R.layout.roundedbox);
 			GradientDrawable drawable = (GradientDrawable) this.getBackground();
 			drawable.setColor(BackColor);
-		} else {
-			this.setBackgroundResource(0);
+		} else  {
+			if (_MeaningBG!=null)
+			{
+				lib.setBgEditText(this, _MeaningBG);
+			}
+			else {
+				this.setBackgroundResource(0);
+			}
 			// this.setBackgroundColor(BackColor);
 		}
 		this.invalidate();

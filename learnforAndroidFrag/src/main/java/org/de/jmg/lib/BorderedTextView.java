@@ -23,6 +23,7 @@ package org.de.jmg.lib;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.widget.TextView;
@@ -33,7 +34,7 @@ public class BorderedTextView extends TextView {
 	public static final int BORDER_RIGHT = 0x00000002;
 	public static final int BORDER_BOTTOM = 0x00000004;
 	public static final int BORDER_LEFT = 0x00000008;
-
+	private Drawable _MeaningBG;
 	public boolean showBorders;
 
 	// private RectF RoundedRect;
@@ -56,12 +57,19 @@ public class BorderedTextView extends TextView {
 	public void setShowBorders(boolean showBorders, int backColor) {
 		this.showBorders = showBorders;
 		if (showBorders) {
+			if (_MeaningBG != null) _MeaningBG = this.getBackground();
 			this.setBackgroundResource(org.de.jmg.learn.R.layout.roundedbox);
 			GradientDrawable drawable = (GradientDrawable) this.getBackground();
 			drawable.setColor(backColor);
 
 		} else {
-			this.setBackgroundResource(0);
+			if (_MeaningBG!=null)
+			{
+				lib.setBgEditText(this, _MeaningBG);
+			}
+			else {
+				this.setBackgroundResource(0);
+			}
 		}
 		this.invalidate();
 	}

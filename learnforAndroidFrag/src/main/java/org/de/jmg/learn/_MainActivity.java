@@ -832,17 +832,17 @@ public class _MainActivity extends Fragment {
 	
 		_txtMeaning1.setOnLongClickListener(textlongclicklistener);
 		_MeaningBG = _txtMeaning1.getBackground();
-		_txtMeaning1.setBackgroundResource(0);
+		//_txtMeaning1.setBackgroundResource(0);
 		//_txtMeaning1.setOnTouchListener(OnTouchListenerRemoveCallbacks);
 		
 		_txtMeaning2 = (BorderedEditText) findViewById(R.id.txtMeaning2);
 		_txtMeaning2.setOnLongClickListener(textlongclicklistener);
-		_txtMeaning2.setBackgroundResource(0);
+		//_txtMeaning2.setBackgroundResource(0);
 		_txtMeaning2.setOnTouchListener(OnTouchListenerRemoveCallbacks);
 		
 		_txtMeaning3 = (BorderedEditText) findViewById(R.id.txtMeaning3);
 		_txtMeaning3.setOnLongClickListener(textlongclicklistener);
-		_txtMeaning3.setBackgroundResource(0);
+		//_txtMeaning3.setBackgroundResource(0);
 		_txtMeaning3.setOnTouchListener(OnTouchListenerRemoveCallbacks);
 		
 		_txtWord = (BorderedTextView) findViewById(R.id.word);
@@ -1150,9 +1150,12 @@ public class _MainActivity extends Fragment {
 			_txtMeaning1.setImeOptions(EditorInfo.IME_ACTION_DONE);
 			_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_DONE);
 			_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_DONE);
-			_txtMeaning1.setBackgroundResource(0);
+			lib.setBgEditText(_txtMeaning1, _MeaningBG);
+			lib.setBgEditText(_txtMeaning2, _MeaningBG);
+			lib.setBgEditText(_txtMeaning3, _MeaningBG);
+			/*_txtMeaning1.setBackgroundResource(0);
 			_txtMeaning2.setBackgroundResource(0);
-			_txtMeaning3.setBackgroundResource(0);
+			_txtMeaning3.setBackgroundResource(0);*/
 			if (!_vok.getCardMode())
 			{
 				_txtMeaning1.setLines(1);

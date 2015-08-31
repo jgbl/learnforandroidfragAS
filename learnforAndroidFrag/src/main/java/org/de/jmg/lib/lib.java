@@ -77,6 +77,7 @@ import android.view.ViewTreeObserver.OnWindowFocusChangeListener;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class lib {
@@ -965,7 +966,7 @@ public class lib {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @SuppressWarnings("deprecation")
-    public static void setBgEditText(EditText e, Drawable drawable)
+    public static void setBgEditText(TextView e, Drawable drawable)
     {
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN)
         {
