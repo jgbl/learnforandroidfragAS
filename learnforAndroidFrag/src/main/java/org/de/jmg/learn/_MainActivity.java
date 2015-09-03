@@ -574,6 +574,14 @@ public class _MainActivity extends Fragment {
 				t.setTypeface(Typeface.DEFAULT);
 				_txtedKom.setTypeface(Typeface.DEFAULT);
 			}
+			if (_isSmallDevice && libString.IsNullOrEmpty(t.getText().toString()))
+			{
+				t.setVisibility(View.GONE);
+			}
+			else
+			{
+				t.setVisibility(View.VISIBLE);
+			}
 
 			v = findViewById(R.id.txtMeaning1);
 			t = (TextView) v;
