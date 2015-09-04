@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>    
+    <string name="app_name">File Chooser</string>
+    <string name="currentDir">Current Dir</string>
+    <string name="fileSize">File Size</string>
+    <string name="folder">Folder</string>
+    <string name="parentDirectory">Parent Directory</string>   
+    <string name="openFolder">Open folder</string>
+    <string name="selectThis">Select this</string>    
+    <string name="optionSelection">Option selection</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="quit">Do you want to quit?</string>
+</resources>

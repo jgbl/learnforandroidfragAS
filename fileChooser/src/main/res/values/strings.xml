@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="edFile">Please enter the new filename here!</string>
+    <string name="btnSave">save</string>
+    <string name="btnSaveSelect">select</string>
+    <string name="mnuCreateFolder">create folder</string>
+    <string name="ok">ok</string>
+    <string name="cancel">cancel</string>
+    <string name="btnCreateFolder">create folder</string>
+</resources>
