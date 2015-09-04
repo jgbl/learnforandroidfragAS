@@ -872,7 +872,7 @@ public class MainActivity extends AppCompatActivity {
 				F= new File(getApplicationInfo().dataDir);
 			}
 			String extPath = F.getPath();
-			JMGDataDirectory = prefs.getString("JMGDataDirectory",Path.combine(extPath, "learnforandroid", "vok"));
+			JMGDataDirectory = prefs.getString("JMGDataDirectory", Path.combine(extPath, "learnforandroid", "vok"));
 			//JMGDataDirectory = Path.combine(extPath, "learnforandroid", "vok");
 	
 			if (F.isDirectory() && F.exists()) {
@@ -1488,7 +1488,12 @@ public class MainActivity extends AppCompatActivity {
 		fPA.fragMain.getVokabel(true, false);
 		fPA.fragMain.StartEdit();
 	}
-	
+
+	public void setJMGDataDirectory (String value)
+	{
+		JMGDataDirectory = value;
+		if (fPA.fragChooser!=null) fPA.fragChooser.setCurrentDir((value));
+	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -1515,7 +1520,7 @@ public class MainActivity extends AppCompatActivity {
 					&& (resultCode == Activity.RESULT_OK)) {
 				final String fileSelected = data.getStringExtra("fileSelected");
 				_blnUniCode = data.getBooleanExtra("blnUniCode", true);
-				final boolean blnNew = data.getBooleanExtra("blnNew",false);
+				final boolean blnNew = data.getBooleanExtra("blnNew", false);
 				if (!libString.IsNullOrEmpty(fileSelected)) 
 				{
 					mPager.setCurrentItem(_MainActivity.fragID);

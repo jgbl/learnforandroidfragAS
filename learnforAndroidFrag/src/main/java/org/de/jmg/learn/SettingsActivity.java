@@ -1397,7 +1397,7 @@ public class SettingsActivity extends Fragment
 				File fileSelected = new File(strDataDir);
 				if (fileSelected.isDirectory() && fileSelected.exists())
 				{
-					_main.JMGDataDirectory = fileSelected.getPath();
+					_main.setJMGDataDirectory(fileSelected.getPath());
 					edDataDir.setText(_main.JMGDataDirectory);
 					Editor editor = prefs.edit();
 					editor.putString("JMGDataDirectory", fileSelected.getPath());

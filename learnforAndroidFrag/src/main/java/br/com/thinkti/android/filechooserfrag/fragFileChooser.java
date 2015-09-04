@@ -107,11 +107,7 @@ public class fragFileChooser extends ListFragment
 				}
 			}
 			
-			
-			if (DefaultDir == null || DefaultDir.length()==0) DefaultDir=Environment.getExternalStorageDirectory().getPath();
-			currentDir = new File(DefaultDir);
-			Toast.makeText(_main, "Loading " + currentDir.getPath(), Toast.LENGTH_LONG).show();
-			fill(currentDir);
+			setCurrentDir((DefaultDir));
 			_blnInitialized=true;
 		}
 		catch(Exception ex)
@@ -119,7 +115,16 @@ public class fragFileChooser extends ListFragment
 			Toast.makeText(_main, "Error " + ex.getMessage(), Toast.LENGTH_LONG).show();
 		}
 	}
-	
+
+	public void setCurrentDir (String dir)
+	{
+		DefaultDir = dir;
+		if (DefaultDir == null || DefaultDir.length()==0) DefaultDir=Environment.getExternalStorageDirectory().getPath();
+		currentDir = new File(DefaultDir);
+		Toast.makeText(_main, "Loading " + currentDir.getPath(), Toast.LENGTH_LONG).show();
+		fill(currentDir);;
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
