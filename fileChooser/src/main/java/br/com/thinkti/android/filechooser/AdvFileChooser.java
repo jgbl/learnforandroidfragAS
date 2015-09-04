@@ -179,7 +179,8 @@ public class AdvFileChooser extends Activity {
 		}
 		
 		Toast.makeText(this, "Loading " + currentDir.getPath(), Toast.LENGTH_LONG).show();
-		fill(currentDir);		
+		fill(currentDir);
+		if (selectFolder) edSelect.setText(currentDir.getName());
 	}
 	
 	public String getRealPathFromURI(android.net.Uri contentURI) throws Exception 
