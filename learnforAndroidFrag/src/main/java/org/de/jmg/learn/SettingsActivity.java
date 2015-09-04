@@ -63,6 +63,9 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.EditText;
+
+import br.com.thinkti.android.filechooser.AdvFileChooser;
 import br.com.thinkti.android.filechooser.FileChooser;
 
 import org.de.jmg.learn.R;
@@ -83,6 +86,7 @@ public class SettingsActivity extends Fragment
 {
 	
 	public static final int FILE_CHOOSERSOUND = 0x42FA;
+	public static final int FILE_CHOOSERDATADIR = 0x42FB;
 	public final static int fragID = 3;
 	public Spinner spnAbfragebereich;
 	public Spinner spnASCII;
@@ -104,6 +108,7 @@ public class SettingsActivity extends Fragment
 	public CheckBox chkFora;
 	public CheckBox chkNGHS;
 	public CheckBox chkTranslate;
+	public EditText edDataDir;
 	CheckBox chkAlwaysStartExternalProgram;
 	public ColorsArrayAdapter Colors;
 	public SoundsArrayAdapter Sounds;
@@ -233,6 +238,15 @@ public class SettingsActivity extends Fragment
 			initCheckBoxes();
 			initButtons();
 			initHelp();
+			edDataDir = (EditText) findViewById(R.id.edDataDir);
+			edDataDir.setText(_main.JMGDataDirectory);
+			edDataDir.setOnLongClickListener(new OnLongClickListener() {
+				@Override
+				public boolean onLongClick(View v) {
+					ShowDataDirDialog();
+					return true;
+				}
+			});
 			if (!(lib.NookSimpleTouch()) && !_main.isSmallDevice)
 			{
 				SettingsView.getViewTreeObserver().addOnGlobalLayoutListener
@@ -1340,6 +1354,14 @@ public class SettingsActivity extends Fragment
 		_main.startActivityForResult(intent, FILE_CHOOSERSOUND);
 	}
 
+	private void ShowDataDirDialog() {
+		String  dir = edDataDir.getText().toString();
+		Intent intent = new Intent(_main, AdvFileChooser.class);
+		intent.putExtra("DefaultDir", dir);
+		intent.putExtra("selectFolder",true);
+		_main.startActivityForResult(intent, FILE_CHOOSERDATADIR);
+	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		try {
@@ -1368,6 +1390,19 @@ public class SettingsActivity extends Fragment
 					Sounds.notifyDataSetChanged();
 				}
 				spnSounds.blnDontCallOnClick = false;
+			}
+			else if (requestCode == FILE_CHOOSERDATADIR && resultCode == Activity.RESULT_OK)
+			{
+				String strDataDir = data.getStringExtra("fileSelected");
+				File fileSelected = new File(strDataDir);
+				if (fileSelected.isDirectory() && fileSelected.exists())
+				{
+					_main.JMGDataDirectory = fileSelected.getPath();
+					edDataDir.setText(_main.JMGDataDirectory);
+					Editor editor = prefs.edit();
+					editor.putString("JMGDataDirectory", fileSelected.getPath());
+					editor.commit();
+				}
 			}
 		} catch (Exception ex) {
 			lib.ShowException(_main, ex);

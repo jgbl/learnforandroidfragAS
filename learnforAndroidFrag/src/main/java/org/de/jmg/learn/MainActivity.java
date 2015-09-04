@@ -872,7 +872,8 @@ public class MainActivity extends AppCompatActivity {
 				F= new File(getApplicationInfo().dataDir);
 			}
 			String extPath = F.getPath();
-			JMGDataDirectory = Path.combine(extPath, "learnforandroid", "vok");
+			JMGDataDirectory = prefs.getString("JMGDataDirectory",Path.combine(extPath, "learnforandroid", "vok"));
+			//JMGDataDirectory = Path.combine(extPath, "learnforandroid", "vok");
 	
 			if (F.isDirectory() && F.exists()) {
 				File F1 = new File(JMGDataDirectory);
@@ -1501,6 +1502,11 @@ public class MainActivity extends AppCompatActivity {
 
 			}
 			else if (requestCode == SettingsActivity.FILE_CHOOSERSOUND)
+			{
+				if (fPA.fragSettings!=null && fPA.fragSettings.SettingsView!=null)
+					fPA.fragSettings.onActivityResult(requestCode, resultCode, data);
+			}
+			else if (requestCode == SettingsActivity.FILE_CHOOSERDATADIR)
 			{
 				if (fPA.fragSettings!=null && fPA.fragSettings.SettingsView!=null)
 					fPA.fragSettings.onActivityResult(requestCode, resultCode, data);

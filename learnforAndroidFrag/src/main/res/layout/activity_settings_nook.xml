@@ -250,11 +250,8 @@
 				style="?android:attr/spinnerItemStyle"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_alignBaseline="@+id/txtDataDir"
+				android:layout_below="@+id/txtDataDir"
 				android:textSize="27sp"
-				android:layout_alignParentRight="true"
-				android:layout_gravity="right"
-				android:gravity="right"
 				android:prompt="@string/edDataDir" />
 
 
@@ -262,7 +259,7 @@
 	            android:id="@+id/txtColors"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:layout_below="@+id/txtDataDir"
+	            android:layout_below="@+id/edDataDir"
 	            android:contentDescription="@string/spnColorDescription"
 	            android:layout_marginTop="45dp"
 	            android:text="@string/txtColors"
