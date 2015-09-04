@@ -215,9 +215,6 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/txtDataDir"
 				android:textSize="18sp"
-				android:layout_alignParentRight="true"
-				android:layout_gravity="right"
-				android:gravity="right"
 				android:prompt="@string/edDataDir" />
 
 			<TextView

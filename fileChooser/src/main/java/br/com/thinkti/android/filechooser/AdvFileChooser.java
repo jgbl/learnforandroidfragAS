@@ -425,6 +425,7 @@ public class AdvFileChooser extends Activity {
 			dirs = f.listFiles();
 			
 		this.setTitle(getString(R.string.currentDir) + ": " + f.getName());
+		if (selectFolder) edSelect.setText(currentDir.getName());
 		List<Option> dir = new ArrayList<Option>();
 		List<Option> fls = new ArrayList<Option>();
 		try {
@@ -476,11 +477,10 @@ public class AdvFileChooser extends Activity {
 				currentDir = new File(o.getPath());
 				fill(currentDir);
 			}
-			else
-			{
+			else {
 				currentDir = new File(o.getPath());
 				fill(currentDir);
-				edSelect.setText(currentDir.getName());
+				//edSelect.setText(currentDir.getName());
 			}
 		} else {
 			//onFileClick(o);
