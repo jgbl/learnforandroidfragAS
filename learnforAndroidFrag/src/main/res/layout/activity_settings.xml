@@ -226,12 +226,34 @@
 	            android:layout_gravity="right"
 	            android:gravity="right"
 	            android:prompt="@string/spnLanguage" />
+
+			<TextView
+				android:id="@+id/txtDataDir"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/txtLanguage"
+				android:text="@string/txtDataDir"
+				android:textSize="18sp"
+				android:textStyle="bold"
+				android:typeface="normal" />
+
+			<EditText
+				android:id="@+id/edDataDir"
+				style="?android:attr/spinnerItemStyle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignBaseline="@+id/txtDataDir"
+				android:layout_alignParentRight="true"
+				android:layout_gravity="right"
+				android:gravity="right"
+				android:prompt="@string/edDataDir" />
+
 	        
 	        <TextView
 	            android:id="@+id/txtColors"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:layout_below="@+id/txtLanguage"
+	            android:layout_below="@+id/txtDataDir"
 	            android:layout_marginTop="30dp"
 	            android:contentDescription="@string/spnColorDescription"
 	            android:text="@string/txtColors"
@@ -270,6 +292,8 @@
 	            android:layout_marginTop="0dp"
 	            android:prompt="@string/spnSounds"
 	            android:textSize="18sp" />
+
+
 
 		        <CheckBox
 		            android:id="@+id/chkRandom"

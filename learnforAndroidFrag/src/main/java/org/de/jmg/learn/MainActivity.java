@@ -47,6 +47,7 @@ import br.com.thinkti.android.filechooser.FileChooser;
 import br.com.thinkti.android.filechooserfrag.fragFileChooser;
 
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -1233,6 +1234,20 @@ public class MainActivity extends AppCompatActivity {
 			//resize();
 			OptionsMenu = menu;
 			mnuAddNew = menu.findItem(R.id.mnuAddWord);
+			/*
+			if (isSmallDevice)
+			{
+				MenuItem m = menu.findItem(R.id.mnuHome);
+				MenuItemCompat.setShowAsAction(m,MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+				m = menu.findItem(R.id.mnuFileOpen);
+				MenuItemCompat.setShowAsAction(m,MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+				m = menu.findItem(R.id.mnuSaveAs);
+				MenuItemCompat.setShowAsAction(m,MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+				m = menu.findItem(R.id.mnuAddWord);
+				MenuItemCompat.setShowAsAction(m,MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+				//lib.ShowToast(this,"Menus set to IF_ROOM!");
+			}
+			*/
 			return true;
 		} catch (Exception ex) {
 			lib.ShowException(this, ex);

@@ -261,5 +261,7 @@
 	            <string name="MeaningMustContainText">meaning 1 must contain text!</string>
 	            <string name="WordOrMeaningMissing">The word or the meaning is missing! Do you want to delete the vocabulary?</string>
 	            <string name="EmptyWord">You can not assign an empty value to a word!</string>
+				<string name="txtDataDir">data directory</string>
+				<string name="edDataDir">data directory</string>
         
 </resources>
