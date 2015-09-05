@@ -255,7 +255,8 @@
 	            <string name="descRepetitions">Defines how often words and meanings are shown if wrong</string>
 	            <string name="descProbabilityFactor">Defines the divisor for the probability with which known words are asked again</string>
 	            <string name="descRestartInterval">Defines how many wrong answers must be made, after which the program starts asking from the beginning again.</string>
-	            <string name="help">Help</string>
+				<string name="descConentDscription">Edit directory or select directory with long click.</string>
+				<string name="help">Help</string>
 	            <string name="close">Do you want to close the window?</string>
 	            <string name="mnuContact">contact</string>
 	            <string name="MeaningMustContainText">meaning 1 must contain text!</string>
@@ -263,5 +264,6 @@
 	            <string name="EmptyWord">You can not assign an empty value to a word!</string>
 				<string name="txtDataDir">data directory</string>
 				<string name="edDataDir">data directory</string>
+
         
 </resources>

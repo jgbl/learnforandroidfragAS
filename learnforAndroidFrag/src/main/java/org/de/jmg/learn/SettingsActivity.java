@@ -22,6 +22,7 @@ package org.de.jmg.learn;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ import android.view.MenuItem;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.View.OnLongClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -239,7 +241,28 @@ public class SettingsActivity extends Fragment
 			initButtons();
 			initHelp();
 			edDataDir = (EditText) findViewById(R.id.edDataDir);
+			edDataDir.setSingleLine(true);
 			edDataDir.setText(_main.JMGDataDirectory);
+			edDataDir.setImeOptions(EditorInfo.IME_ACTION_DONE);
+			edDataDir.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+				@Override
+				public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+					if(actionId == EditorInfo.IME_ACTION_DONE)
+					{
+						String strDataDir = edDataDir.getText().toString();
+						File fileSelected = new File(strDataDir);
+						if (fileSelected.isDirectory() && fileSelected.exists())
+						{
+							_main.setJMGDataDirectory(fileSelected.getPath());
+							edDataDir.setText(_main.JMGDataDirectory);
+							Editor editor = prefs.edit();
+							editor.putString("JMGDataDirectory", fileSelected.getPath());
+							editor.commit();
+						}
+					}
+					return true;
+				}
+			});
 			edDataDir.setOnLongClickListener(new OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v) {
