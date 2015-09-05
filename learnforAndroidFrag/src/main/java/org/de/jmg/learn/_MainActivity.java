@@ -262,7 +262,10 @@ public class _MainActivity extends Fragment {
 			{
 				_isSmallDevice = true;
 				_main.isSmallDevice = true;
-				scale = .5f;
+				if (scale < .4f)
+				{
+					scale = .4f;
+				}
 			}
 			/*
 			 * lib.ShowMessage(this, "Meaning3 Bottom: " +_txtMeaning3.getBottom() +
@@ -280,7 +283,14 @@ public class _MainActivity extends Fragment {
 							(float) (_txtMeaning1.getTextSize() * scale));
 					params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning1
 							.getLayoutParams();
-					params.topMargin = (int) (params.topMargin * scale);
+					if (!_isSmallDevice)
+					{
+						params.topMargin = (int) (params.topMargin * scale);
+					}
+					else
+					{
+						params.topMargin = (int)(params.topMargin * .1f);
+					}
 					_txtMeaning1.setLayoutParams(params);
 				}
 				
@@ -646,7 +656,14 @@ public class _MainActivity extends Fragment {
 			lib.setBgEditText(_txtMeaning1, _MeaningBG);
 			lib.setBgEditText(_txtMeaning2, _MeaningBG);
 			lib.setBgEditText(_txtMeaning3, _MeaningBG);
-			_txtMeaning1.requestFocus();
+			if (!_isSmallDevice)
+			{
+				_txtMeaning1.requestFocus();
+			}
+			else
+			{
+				_txtWord.requestFocus();
+			}
 			SetActionBarTitle();
 			_scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() 
 			{
