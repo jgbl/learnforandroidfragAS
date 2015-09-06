@@ -1371,12 +1371,12 @@ public class MainActivity extends AppCompatActivity {
 					}
 
 				}
+			}
 			else if (id == R.id.mnuEdit)
+			{
+				if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
 				{
-					if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
-					{
 						fPA.fragMain.edit();
-					}
 				}
 			}
 
