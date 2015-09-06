@@ -802,15 +802,7 @@ public class _MainActivity extends Fragment {
 			@Override
 			public void onClick(View v) {
 				try {
-					if (_txtWord.getVisibility()==View.VISIBLE)
-					{
-						StartEdit();
-					}
-					else
-					{
-						EndEdit(false);
-					}
-					
+					edit();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					lib.ShowException(_main, e);
@@ -1051,7 +1043,16 @@ public class _MainActivity extends Fragment {
 			return false;
 		}
 	};
-	
+	public void edit() throws Exception {
+		if (_txtWord.getVisibility()==View.VISIBLE)
+		{
+			StartEdit();
+		}
+		else
+		{
+			EndEdit(false);
+		}
+	}
 	void StartEdit() throws Exception
 	{
 		_txtWord.setVisibility(View.GONE);

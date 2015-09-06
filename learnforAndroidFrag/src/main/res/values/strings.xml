@@ -264,6 +264,7 @@
 	            <string name="EmptyWord">You can not assign an empty value to a word!</string>
 				<string name="txtDataDir">data directory</string>
 				<string name="edDataDir">data directory</string>
+				<string name="mnuEdit">edit</string>
 
         
 </resources>

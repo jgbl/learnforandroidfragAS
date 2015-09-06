@@ -32,7 +32,8 @@
     		<item android:id="@+id/mnuReverse" android:title="@string/mnuReverse"></item>
     		<item android:id="@+id/mnuReset" android:title="@string/mnuReset"></item>
     		<item android:id="@+id/mnuConvMulti" android:title="@string/mnuConvertMulti"></item>
-    		<item android:id="@+id/mnuStatistics" android:title="@string/mnuStatistics"></item>   
+    		<item android:id="@+id/mnuStatistics" android:title="@string/mnuStatistics"></item>
+            <item android:id="@+id/mnuEdit" android:title="@string/mnuEdit"></item>
     	</menu>
     </item>
     <item android:id="@+id/mnuContact" android:title="@string/mnuContact"></item><item

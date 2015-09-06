@@ -1349,13 +1349,15 @@ public class MainActivity extends AppCompatActivity {
 					vok.revert();
 					fPA.fragMain.getVokabel(false, false);
 				}
-			} else if (id == R.id.mnuReset) {
+			}
+			else if (id == R.id.mnuReset) {
 				if (lib.ShowMessageYesNo(this,
 						this.getString(R.string.ResetVocabulary),"")==yesnoundefined.yes) {
 					vok.reset();
 				}
 
-			} else if (id == R.id.mnuStatistics) {
+			}
+			else if (id == R.id.mnuStatistics) {
 				if (vok.getGesamtzahl() > 5) {
 					try {
 						/*
@@ -1368,6 +1370,13 @@ public class MainActivity extends AppCompatActivity {
 						lib.ShowException(this, ex);
 					}
 
+				}
+			else if (id == R.id.mnuEdit)
+				{
+					if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
+					{
+						fPA.fragMain.edit();
+					}
 				}
 			}
 
