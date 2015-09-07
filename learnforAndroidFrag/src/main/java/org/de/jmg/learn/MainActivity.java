@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import org.de.jmg.learn.vok.Vokabel;
 import org.de.jmg.lib.ColorSetting;
 import org.de.jmg.lib.Path;
 import org.de.jmg.lib.SoundSetting;
+import org.de.jmg.lib.WindowsBufferedReader;
 import org.de.jmg.lib.lib;
 import org.de.jmg.lib.ColorSetting.ColorItems;
 import org.de.jmg.lib.lib.Sounds;
@@ -257,6 +259,24 @@ public class MainActivity extends AppCompatActivity {
 				SoundDir = prefs.getString("SoundDir", Environment.getExternalStorageDirectory().getPath());
 				Colors = getColorsFromPrefs();
 				colSounds = getSoundsFromPrefs();
+				boolean blnLicenseAccepted = prefs.getBoolean("LicenseAccepted", false);
+				if (!blnLicenseAccepted)
+				{
+					InputStream is = this.getAssets().open("LICENSE");
+					java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+					String strLicense =  s.hasNext() ? s.next() : "";
+					s.close();
+					is.close();
+					if (lib.ShowMessageYesNo(this,strLicense,getString(R.string.license))==yesnoundefined.yes)
+					{
+						prefs.edit().putBoolean("LicenseAccepted", true).commit();
+					}
+					else
+					{
+						finish();;
+					}
+					is.close();
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				lib.ShowException(this, e);

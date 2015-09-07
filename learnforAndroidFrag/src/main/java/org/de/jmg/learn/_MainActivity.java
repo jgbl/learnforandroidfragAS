@@ -246,122 +246,111 @@ public class _MainActivity extends Fragment {
 	Double ScaleTextButtons = 0d;
 	boolean blnWrongWidth = false;
 	int width;
-	private void resize() 
+	private void resize()
 	{
 		RelativeLayout.LayoutParams params;
-		if (true)
-		{	
-			Resources resources = context.getResources();
-			DisplayMetrics metrics = resources.getDisplayMetrics();
-			int height = metrics.heightPixels;
-			width = metrics.widthPixels;
-			int viewTop = _main.findViewById(Window.ID_ANDROID_CONTENT).getTop();
-			height = height - viewTop;
-			scale = (double) height / (double) 950;
-			if (scale < .5f) 
+		Resources resources = context.getResources();
+		DisplayMetrics metrics = resources.getDisplayMetrics();
+		int height = metrics.heightPixels;
+		width = metrics.widthPixels;
+		int viewTop = _main.findViewById(Window.ID_ANDROID_CONTENT).getTop();
+		height = height - viewTop;
+		scale = (double) height / (double) 950;
+		boolean blnHorizontal = width > height;
+		if (scale < .5f)
+		{
+			_isSmallDevice = true;
+			_main.isSmallDevice = true;
+			if (scale < .4f)
 			{
-				_isSmallDevice = true;
-				_main.isSmallDevice = true;
-				if (scale < .4f)
-				{
-					scale = .4f;
-				}
+				scale = .4f;
 			}
-			/*
-			 * lib.ShowMessage(this, "Meaning3 Bottom: " +_txtMeaning3.getBottom() +
-			 * "\nbtnRight.Top: " + _btnRight.getTop() + "\nDisplayHeight: " +
-			 * height);
-			 */
-			if (scale != 1) 
+		}
+		/*
+		 * lib.ShowMessage(this, "Meaning3 Bottom: " +_txtMeaning3.getBottom() +
+		 * "\nbtnRight.Top: " + _btnRight.getTop() + "\nDisplayHeight: " +
+		 * height);
+		 */
+		if (scale != 1)
+		{
+			lib.ShowToast(_main, "Scaling font by " + scale + " Screenheight = "
+					+ height);
+
+			if (_txtMeaning1.getTextSize()==40)
 			{
-				lib.ShowToast(_main, "Scaling font by " + scale + " Screenheight = "
-						+ height);
-				
-				if (_txtMeaning1.getTextSize()==40)
+				_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+						(float) (_txtMeaning1.getTextSize() * scale));
+				params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning1
+						.getLayoutParams();
+				if (!_isSmallDevice)
 				{
-					_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-							(float) (_txtMeaning1.getTextSize() * scale));
-					params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning1
-							.getLayoutParams();
-					if (!_isSmallDevice)
-					{
-						params.topMargin = (int) (params.topMargin * scale);
-					}
-					else
-					{
-						params.topMargin = (int)(params.topMargin * .1f);
-					}
-					_txtMeaning1.setLayoutParams(params);
-				}
-				
-				if (_txtMeaning2.getTextSize()==40)
-				{
-					_txtMeaning2.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-						(float) (_txtMeaning2.getTextSize() * scale));
-					params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning2
-							.getLayoutParams();
 					params.topMargin = (int) (params.topMargin * scale);
-					_txtMeaning2.setLayoutParams(params);
-				}
-				
-				if (_txtMeaning3.getTextSize()==40)
-				{
-					_txtMeaning3.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-						(float) (_txtMeaning3.getTextSize() * scale));
-					params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning3
-							.getLayoutParams();
-					params.topMargin = (int) (params.topMargin * scale);
-					_txtMeaning3.setLayoutParams(params);
-				}
-				
-				float size = _txtWord.getTextSize();
-				if (size == 60)
-				{
-					size *= scale;
-					_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,size);
-				}
-				if (_txtKom.getTextSize()==35)
-				{
-					_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-						(float) (_txtKom.getTextSize() * scale));
-				}
-				if (_txtedWord.getTextSize()==60)
-				{
-					_txtedWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-							(float) (_txtedWord.getTextSize() * scale));
-				}
-				if (_txtedKom.getTextSize()==35)
-				{
-					_txtedKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-							(float) (_txtedKom.getTextSize() * scale));
-				}
-				if (_vok!= null && _vok.getCardMode())
-				{
-					SetViewsToCardmode();
 				}
 				else
 				{
-					SetViewsToVokMode();
+					params.topMargin = (int)(params.topMargin * .1f);
 				}
-	
-				/*
-				 * _txtMeaning1.setOnFocusChangeListener(new
-				 * View.OnFocusChangeListener() {
-				 * 
-				 * @Override public void onFocusChange(View v, boolean hasFocus) {
-				 * // TODO Auto-generated method stub if (_firstFocus && hasFocus) {
-				 * hideKeyboard(); _firstFocus = false; } } });
-				 */
-	
-					
-				
-				
-				
-				
-				
-						
+				_txtMeaning1.setLayoutParams(params);
 			}
-			
+
+			if (_txtMeaning2.getTextSize()==40)
+			{
+				_txtMeaning2.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					(float) (_txtMeaning2.getTextSize() * scale));
+				params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning2
+						.getLayoutParams();
+				params.topMargin = (int) (params.topMargin * scale);
+				_txtMeaning2.setLayoutParams(params);
+			}
+
+			if (_txtMeaning3.getTextSize()==40)
+			{
+				_txtMeaning3.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					(float) (_txtMeaning3.getTextSize() * scale));
+				params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning3
+						.getLayoutParams();
+				params.topMargin = (int) (params.topMargin * scale);
+				_txtMeaning3.setLayoutParams(params);
+			}
+
+			float size = _txtWord.getTextSize();
+			if (size == 60)
+			{
+				size *= scale;
+				_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,size);
+			}
+			if (_txtKom.getTextSize()==35)
+			{
+				_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					(float) (_txtKom.getTextSize() * scale));
+			}
+			if (_txtedWord.getTextSize()==60)
+			{
+				_txtedWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+						(float) (_txtedWord.getTextSize() * scale));
+			}
+			if (_txtedKom.getTextSize()==35)
+			{
+				_txtedKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+						(float) (_txtedKom.getTextSize() * scale));
+			}
+			if (_vok!= null && _vok.getCardMode())
+			{
+				SetViewsToCardmode();
+			}
+			else
+			{
+				SetViewsToVokMode();
+			}
+
+			/*
+			 * _txtMeaning1.setOnFocusChangeListener(new
+			 * View.OnFocusChangeListener() {
+			 *
+			 * @Override public void onFocusChange(View v, boolean hasFocus) {
+			 * // TODO Auto-generated method stub if (_firstFocus && hasFocus) {
+			 * hideKeyboard(); _firstFocus = false; } } });
+			 */
 		}
 		if (scale != 1)
 		{
@@ -395,9 +384,9 @@ public class _MainActivity extends Fragment {
 			else
 			{
 				ScaleTextButtons = ((scale < ScaleWidth)?scale:ScaleWidth);
-				
+
 			}
-			
+
 			_btnRight.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 					(float) (_btnRight.getTextSize() * ScaleTextButtons));
 			_btnSkip.setTextSize(TypedValue.COMPLEX_UNIT_PX,
@@ -435,6 +424,7 @@ public class _MainActivity extends Fragment {
 				params.bottomMargin = (int) (0 * ScaleWidth);
 			}
 			params.width = (int) (params.width * ScaleWidth);
+			if (blnHorizontal) params.height*= width/height;
 			_btnRight.setLayoutParams(params);
 			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnWrong
@@ -450,6 +440,7 @@ public class _MainActivity extends Fragment {
 				params.bottomMargin = (int) (0 * ScaleWidth);
 			}
 			params.width = (int) (params.width * ScaleWidth);
+			if (blnHorizontal) params.height*= width/height;;
 			_btnWrong.setLayoutParams(params);
 			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnSkip
@@ -465,6 +456,7 @@ public class _MainActivity extends Fragment {
 				params.bottomMargin = (int) (0 * ScaleWidth);
 			}
 			params.width = (int) (params.width * ScaleWidth);
+			if (blnHorizontal) params.height*= width/height;
 			_btnSkip.setLayoutParams(params);
 			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnView
@@ -480,6 +472,7 @@ public class _MainActivity extends Fragment {
 				params.bottomMargin = (int) (0 * ScaleWidth);
 			}
 			params.width = (int) (params.width * ScaleWidth);
+			if (blnHorizontal) params.height*= width/height;
 			_btnView.setLayoutParams(params);
 			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnEdit
@@ -495,6 +488,7 @@ public class _MainActivity extends Fragment {
 				params.bottomMargin = (int) (0 * ScaleWidth);
 			}
 			params.width = (int) (params.width * ScaleWidth);
+			if (blnHorizontal) params.height*= width/height;
 			_btnEdit.setLayoutParams(params);
 		
 			
