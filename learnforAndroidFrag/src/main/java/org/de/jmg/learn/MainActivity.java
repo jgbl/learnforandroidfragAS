@@ -271,6 +271,23 @@ public class MainActivity extends AppCompatActivity {
 							strLicense,
 							getString(R.string.license),
 							true) );
+					/*
+					java.lang.CharSequence[] cbxs = {getString(R.string.gpl),getString(R.string.gplno)};
+					boolean[] blns = {false,false};
+					lib.yesnoundefined res = (lib.ShowMessageYesNoWithCheckboxes
+							(this,
+									strLicense,
+									cbxs,
+									blns,
+									new DialogInterface.OnMultiChoiceClickListener() {
+
+										@Override
+										public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+
+										}
+									})
+					);
+					*/
 					if (res==yesnoundefined.no.yes)
 					{
 						prefs.edit().putBoolean("LicenseAccepted", true).commit();

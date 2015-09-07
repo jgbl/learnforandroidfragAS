@@ -601,7 +601,10 @@ public class lib {
 
 
     public static synchronized yesnoundefined ShowMessageYesNoWithCheckboxes(Context context,
-                                                                             String msg, CharSequence[] items, boolean[]checkedItems, DialogInterface.OnMultiChoiceClickListener cbListener) {
+                                                                             String msg,
+                                                                             CharSequence[] items,
+                                                                             boolean[]checkedItems,
+                                                                             DialogInterface.OnMultiChoiceClickListener cbListener) {
         // System.Threading.SynchronizationContext.Current.Post(new
         // System.Threading.SendOrPostCallback(DelShowException),new
         // ExStateInfo(context, ex));
