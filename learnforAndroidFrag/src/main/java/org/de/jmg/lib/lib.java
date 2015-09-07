@@ -70,6 +70,7 @@ import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -492,7 +493,13 @@ public class lib {
     public static Handler YesNoHandler;
 
     public static synchronized yesnoundefined ShowMessageYesNo(Context context,
-                                                               String msg, String title) {
+                                                               String msg, String title)
+    {
+        return ShowMessageYesNo(context,msg,title,false);
+    }
+
+    public static synchronized yesnoundefined ShowMessageYesNo(Context context,
+                                                               String msg, String title, boolean center) {
         // System.Threading.SynchronizationContext.Current.Post(new
         // System.Threading.SendOrPostCallback(DelShowException),new
         // ExStateInfo(context, ex));
@@ -515,6 +522,11 @@ public class lib {
             AlertDialog dlg = A.create();
             dlg.show();
             OpenDialogs.add(dlg);
+            if (center)
+            {
+                TextView messageView = (TextView)dlg.findViewById(android.R.id.message);
+                messageView.setGravity(Gravity.CENTER);
+            }
             try
 
             {
@@ -532,7 +544,10 @@ public class lib {
     }
 
     public static synchronized YesNoCheckResult ShowMessageYesNoWithCheckbox(Context context,
-                                                                             String title, String msg, String CheckBoxTitle) {
+                                                                             String title,
+                                                                             String msg,
+                                                                             String CheckBoxTitle,
+                                                                             boolean center) {
         // System.Threading.SynchronizationContext.Current.Post(new
         // System.Threading.SendOrPostCallback(DelShowException),new
         // ExStateInfo(context, ex));
@@ -561,6 +576,12 @@ public class lib {
             AlertDialog dlg = A.create();
             dlg.show();
             OpenDialogs.add(dlg);
+            if (center)
+            {
+                TextView messageView = (TextView)dlg.findViewById(android.R.id.message);
+                messageView.setGravity(Gravity.CENTER);
+            }
+
             try
 
             {
@@ -1028,7 +1049,7 @@ public class lib {
         lib.YesNoCheckResult res = null;
         if (Build.VERSION.SDK_INT>=19 && ShowAlwaysDocumentProvider==999)
         {
-            res = ShowMessageYesNoWithCheckbox(context, "", msg, checkBoxTitle);
+            res = ShowMessageYesNoWithCheckbox(context, "", msg, checkBoxTitle,false);
             if (res.res == yesnoundefined.undefined) return;
         }
 

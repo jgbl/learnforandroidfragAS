@@ -266,5 +266,5 @@
 				<string name="edDataDir">data directory</string>
 				<string name="mnuEdit">edit</string>
 				<string name="license">I accept the license</string>
-				<string name="gpl">license</string>
+				<string name="gpl">I accept the gnu general public license</string>
 </resources>

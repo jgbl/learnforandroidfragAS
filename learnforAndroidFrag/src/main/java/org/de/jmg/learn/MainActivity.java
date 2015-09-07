@@ -267,7 +267,11 @@ public class MainActivity extends AppCompatActivity {
 					String strLicense =  s.hasNext() ? s.next() : "";
 					s.close();
 					is.close();
-					if (lib.ShowMessageYesNo(this,strLicense,getString(R.string.license))==yesnoundefined.yes)
+					lib.yesnoundefined res = (lib.ShowMessageYesNo(this,
+							strLicense,
+							getString(R.string.license),
+							true) );
+					if (res==yesnoundefined.no.yes)
 					{
 						prefs.edit().putBoolean("LicenseAccepted", true).commit();
 					}
@@ -1084,7 +1088,7 @@ public class MainActivity extends AppCompatActivity {
 						lib.YesNoCheckResult res = null;
 						if (AlwaysStartExternalProgram==999 && !(vok.getURI()!=null && i == 1))
 						{
-							res = lib.ShowMessageYesNoWithCheckbox(this, "", getString(R.string.msgStartExternalProgram), getString(R.string.msgRememberChoice));
+							res = lib.ShowMessageYesNoWithCheckbox(this, "", getString(R.string.msgStartExternalProgram), getString(R.string.msgRememberChoice),false);
 							if (res.res==yesnoundefined.undefined) return;
 							if (res.checked) prefs.edit().putInt(key, res.res==yesnoundefined.yes?-1:0).commit();
 						}
