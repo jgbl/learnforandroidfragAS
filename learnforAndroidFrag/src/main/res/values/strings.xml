@@ -267,5 +267,5 @@
 				<string name="mnuEdit">edit</string>
 				<string name="license">I accept the license</string>
 				<string name="gpl">I accept the gnu general public license</string>
-	<string name="gplno">I don't accept the gnu general public license</string>
+				<string name="gplno">I don\'t accept the gnu general public license</string>
 </resources>
