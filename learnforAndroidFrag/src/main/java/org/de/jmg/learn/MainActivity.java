@@ -101,11 +101,12 @@ public class MainActivity extends AppCompatActivity {
 	public SharedPreferences prefs; // =
 	public MyFragmentPagerAdapter fPA;
 	public String SoundDir;
+	public boolean isAndroidWear;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		isAndroidWear = lib.CheckAndroidWear();
 		if (savedInstanceState!=null)
 		{
 			JMGDataDirectory = savedInstanceState.getString("JMGDataDirectory");
