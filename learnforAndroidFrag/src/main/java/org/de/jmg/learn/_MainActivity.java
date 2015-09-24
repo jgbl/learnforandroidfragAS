@@ -276,7 +276,7 @@ public class _MainActivity extends Fragment {
 			lib.ShowToast(_main, "Scaling font by " + scale + " Screenheight = "
 					+ height);
 
-			if (_txtMeaning1.getTextSize()==40)
+			if (_txtMeaning1.getTextSize()==40 || (_vok.getCardMode()&& _txtMeaning1.getTextSize()==25))
 			{
 				_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (_txtMeaning1.getTextSize() * scale));

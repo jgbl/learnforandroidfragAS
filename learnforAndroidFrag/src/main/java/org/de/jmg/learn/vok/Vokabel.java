@@ -544,7 +544,7 @@ public class Vokabel {
 		// Gleichung verwendet.
 		// Syntax: Debug.Print X.Kommentar
 		if (mIndex>mVok.size()-1) mIndex= mVok.size()-1;
-		functionReturnValue = mVok.get(mIndex).Kom;
+		if (mVok.get(mIndex).Kom != null) functionReturnValue = mVok.get(mIndex).Kom;
 		return functionReturnValue;
 	}
 
@@ -554,7 +554,7 @@ public class Vokabel {
 		// ERROR: Not supported in C#: OnErrorStatement
 		// wird beim Zuweisen eines Werts in eine Eigenschaft auf der linken
 		// Seite der Gleichung, verwendet.
-		// Syntax: X.Kommentar = 5
+		// Syntax: X.Kommentar = 5https://banking.ing-diba.de/app/rd/auftrag_an_die_diba?x=shITyvzDn9yY
 		mVok.get(mIndex).Kom = value;
 		aend = true;
 	}
