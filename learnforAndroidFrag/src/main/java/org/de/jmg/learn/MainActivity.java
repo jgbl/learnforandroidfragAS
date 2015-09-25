@@ -693,7 +693,7 @@ public class MainActivity extends AppCompatActivity {
 			if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
 			{
 				fPA.fragMain.setBtnsEnabled(false);
-				fPA.fragMain.EndEdit(false);
+				if (!fPA.fragMain.EndEdit(false)) return;
 			}
 			if (uri==null) saveVok(false);
 			try 
@@ -726,17 +726,17 @@ public class MainActivity extends AppCompatActivity {
 			// if (index >0 ) vok.setIndex(index);
 			if (Lernvokabeln != null)
 				vok.setLernvokabeln(Lernvokabeln);
-			if (Lernindex > 0)
-				vok.setLernIndex((short) Lernindex);
 			if (vok.getGesamtzahl() > 0)
-				{
+			{
+				if (Lernindex > 0)
+					vok.setLernIndex((short) Lernindex);
 				if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)fPA.fragMain.setBtnsEnabled(true);
-				}
-			if (fPA.fragMain!=null && fPA.fragMain.mainView!=null) fPA.fragMain.getVokabel(false, false);
+			}
+			if (fPA.fragMain!=null && fPA.fragMain.mainView!=null) fPA.fragMain.getVokabel(false, false, false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			lib.ShowException(this, e);
-			if (fPA.fragMain!=null && fPA.fragMain.mainView!=null) fPA.fragMain.getVokabel(true, true);
+			if (fPA.fragMain!=null && fPA.fragMain.mainView!=null) fPA.fragMain.getVokabel(true, true, false);
 		}
 	}
 	
@@ -748,7 +748,7 @@ public class MainActivity extends AppCompatActivity {
 		{
 			if (fPA.fragMain.EndEdit(false)==false) return false ;
 		}
-		if (vok.aend) 
+		if (vok.aend && vok.getGesamtzahl()>0)
 		{
 			if (!dontPrompt) 
 			{
@@ -1358,10 +1358,11 @@ public class MainActivity extends AppCompatActivity {
 				mPager.setCurrentItem(_MainActivity.fragID);
 				if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
 				{
-					fPA.fragMain.EndEdit(false);
-					vok.AddVokabel();
-					fPA.fragMain.getVokabel(true, false);
-					fPA.fragMain.StartEdit();
+					if (fPA.fragMain.EndEdit(false)) {
+						vok.AddVokabel();
+						fPA.fragMain.getVokabel(true, false, true);
+						fPA.fragMain.StartEdit();
+					}
 				}
 				
 			} else if (id == R.id.mnuFileOpenASCII) {
@@ -1539,7 +1540,7 @@ public class MainActivity extends AppCompatActivity {
 			fPA.fragMain.SetViewsToVokMode();
 		}
 		vok.AddVokabel();
-		fPA.fragMain.getVokabel(true, false);
+		fPA.fragMain.getVokabel(true, false, true);
 		fPA.fragMain.StartEdit();
 	}
 

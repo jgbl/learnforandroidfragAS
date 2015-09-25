@@ -167,7 +167,7 @@
 			
 			    <Button
 			        android:id="@+id/btnRight"
-			        android:layout_width="100px"
+			        android:layout_width="110px"
 			        android:layout_height="60px"
 			        android:layout_toRightOf="@+id/btnSkip"
 			        android:layout_marginBottom="0px"

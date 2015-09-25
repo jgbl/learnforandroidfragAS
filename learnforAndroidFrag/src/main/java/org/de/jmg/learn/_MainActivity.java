@@ -78,6 +78,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -379,7 +380,7 @@ public class _MainActivity extends Fragment {
 					blnWrongWidth = true;
 				}
 				ScaleWidth = (width - 50)/(double)widthButtons;
-				if (ScaleWidth<.5d) ScaleWidth=.5d;
+				if (ScaleWidth<.4d) ScaleWidth=.4d;
 				ScaleTextButtons = ((scale > ScaleWidth)?scale:ScaleWidth);
 			}
 			else
@@ -523,10 +524,14 @@ public class _MainActivity extends Fragment {
 		if (mainView == null) return null;
 		return this.mainView.findViewById(id);
 	}
-	
-	
-	
-	public void getVokabel(boolean showBeds, boolean LoadNext) {
+
+	public void getVokabel(boolean showBeds, boolean LoadNext)
+	{
+		getVokabel(showBeds, LoadNext, false);
+	}
+
+
+		public void getVokabel(boolean showBeds, boolean LoadNext, boolean requestFocusEdWord) {
 		try {
 			if (_btnRight == null) return;
 			EndEdit(false);
@@ -651,13 +656,13 @@ public class _MainActivity extends Fragment {
 			lib.setBgEditText(_txtMeaning1, _MeaningBG);
 			lib.setBgEditText(_txtMeaning2, _MeaningBG);
 			lib.setBgEditText(_txtMeaning3, _MeaningBG);
-			if (!_isSmallDevice)
+			if (!_isSmallDevice && !requestFocusEdWord)
 			{
 				_txtMeaning1.requestFocus();
 			}
 			else
 			{
-				_txtWord.requestFocus();
+				if (!requestFocusEdWord) _txtWord.requestFocus(); else _txtedWord.requestFocus();
 			}
 			SetActionBarTitle();
 			_scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() 
@@ -1106,10 +1111,12 @@ public class _MainActivity extends Fragment {
 		}
 		//_txtMeaning1.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 		_txtMeaning1.setText(_vok.getBedeutung1());
-		_txtedWord.requestFocus();
 		setBtnsEnabled(false);
 		_btnEdit.setEnabled(true);
-		
+		_txtMeaning1.clearFocus();
+		_txtedWord.clearFocus();
+		//_txtedWord.requestFocusFromTouch();
+		_txtedWord.requestFocus();
 	}
 	
 	boolean EndEdit(boolean dontPrompt) throws Exception
@@ -1158,6 +1165,7 @@ public class _MainActivity extends Fragment {
 			catch (Exception ex)
 			{
 				lib.ShowMessage(context, ex.getMessage(), null);
+				return false;
 			}
 
 		}
