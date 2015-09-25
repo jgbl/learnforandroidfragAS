@@ -58,6 +58,7 @@ import android.text.method.MovementMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -1111,9 +1112,9 @@ public class _MainActivity extends Fragment {
 		
 	}
 	
-	void EndEdit(boolean dontPrompt) throws Exception
+	boolean EndEdit(boolean dontPrompt) throws Exception
 	{
-		if (_txtedWord==null)return;
+		if (_txtedWord==null)return true;
 		if (_txtedWord.getVisibility()== View.VISIBLE)
 		{
 			
@@ -1136,11 +1137,19 @@ public class _MainActivity extends Fragment {
 					}
 					else
 					{
-						_vok.setWort(_txtedWord.getText().toString(),false);
-						_vok.setKommentar(_txtedKom.getText().toString());
-						_vok.setBedeutung1(_txtMeaning1.getText().toString(),false);
-						_vok.setBedeutung2(_txtMeaning2.getText().toString());
-						_vok.setBedeutung3(_txtMeaning3.getText().toString());
+						try
+						{
+							_vok.setWort(_txtedWord.getText().toString(), false);
+							_vok.setKommentar(_txtedKom.getText().toString());
+							_vok.setBedeutung1(_txtMeaning1.getText().toString(), false);
+							_vok.setBedeutung2(_txtMeaning2.getText().toString());
+							_vok.setBedeutung3(_txtMeaning3.getText().toString());
+						}
+						catch (Exception eex)
+						{
+							Log.e("EndEdit", eex.getMessage(), eex);
+							return false;
+						}
 					}
 				}
 					
@@ -1150,8 +1159,9 @@ public class _MainActivity extends Fragment {
 			{
 				lib.ShowMessage(context, ex.getMessage(), null);
 			}
+
 		}
-		
+		return true;
 	}
 	
 	void EndEdit2() throws Exception

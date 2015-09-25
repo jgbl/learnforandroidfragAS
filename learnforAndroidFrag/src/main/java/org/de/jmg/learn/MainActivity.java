@@ -744,7 +744,10 @@ public class MainActivity extends AppCompatActivity {
 	private Handler handlerbackpressed = new Handler();
 
 	private synchronized boolean saveVok(boolean dontPrompt) throws Exception {
-		if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)fPA.fragMain.EndEdit(false);
+		if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
+		{
+			if (fPA.fragMain.EndEdit(false)==false) return false ;
+		}
 		if (vok.aend) 
 		{
 			if (!dontPrompt) 
