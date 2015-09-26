@@ -380,7 +380,7 @@ public class _MainActivity extends Fragment {
 					widthButtons=320;
 					blnWrongWidth = true;
 				}
-				Scal eWidth = (width - ((Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT_WATCH)? 70: 50))/(double)widthButtons;
+				ScaleWidth = (width - ((Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT_WATCH)? 70: 50))/(double)widthButtons;
 				if (ScaleWidth<.4d) ScaleWidth=.4d;
 				ScaleTextButtons = ((scale > ScaleWidth)?scale:ScaleWidth);
 			}
