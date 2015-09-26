@@ -380,7 +380,7 @@ public class _MainActivity extends Fragment {
 					widthButtons=330;
 					blnWrongWidth = true;
 				}
-				ScaleWidth = ((double)(width - 50))/(double)widthButtons;
+				ScaleWidth = ((double)(_txtMeaning1.getRight() - _txtMeaning1.getLeft()))/(double)widthButtons;
 				if (ScaleWidth<.4d) ScaleWidth=.4d;
 				ScaleTextButtons = ((scale > ScaleWidth)?scale:ScaleWidth);
 			}
@@ -390,17 +390,7 @@ public class _MainActivity extends Fragment {
 
 			}
 
-			_btnRight.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					(float) (_btnRight.getTextSize() * ScaleTextButtons));
-			_btnSkip.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					(float) (_btnSkip.getTextSize() * ScaleTextButtons));
-			_btnView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					(float) (_btnView.getTextSize() * ScaleTextButtons));
-			_btnWrong.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					(float) (_btnWrong.getTextSize() * ScaleTextButtons));
-			_btnEdit.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					(float) (_btnEdit.getTextSize() * ScaleTextButtons));
-			
+
 			RelativeLayout layoutButtons = (RelativeLayout) findViewById(R.id.layoutButtonsInner);
 			params = (android.widget.RelativeLayout.LayoutParams) layoutButtons
 					.getLayoutParams();
@@ -493,16 +483,10 @@ public class _MainActivity extends Fragment {
 			params.width = (int) (params.width * ScaleWidth);
 			if (blnHorizontal) params.height*= width/height;
 			_btnEdit.setLayoutParams(params);
-		
-			
-			
-			
-			_txtStatus.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					(float) (_txtStatus.getTextSize() * ScaleTextButtons));
-			
+
 			params = (android.widget.RelativeLayout.LayoutParams) _txtStatus
 					.getLayoutParams();
-			if (!blnWrongWidth) 
+			if (!blnWrongWidth)
 			{
 				params.topMargin = (int) (params.topMargin * scale);
 			}
@@ -511,6 +495,20 @@ public class _MainActivity extends Fragment {
 				params.topMargin = (int) (0 * ScaleWidth);
 			}
 			_txtStatus.setLayoutParams(params);
+
+			_btnRight.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					(float) (_btnRight.getTextSize() * ScaleTextButtons));
+			_btnSkip.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					(float) (_btnSkip.getTextSize() * ScaleTextButtons));
+			_btnView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					(float) (_btnView.getTextSize() * ScaleTextButtons));
+			_btnWrong.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					(float) (_btnWrong.getTextSize() * ScaleTextButtons));
+			_btnEdit.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					(float) (_btnEdit.getTextSize() * ScaleTextButtons));
+			_txtStatus.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					(float) (_txtStatus.getTextSize() * ScaleTextButtons));
+			
 			_ActionBarOriginalTextSize = 0;
 			resizeActionbar(0);
 			Runnable r = new resetLayoutTask(null);
