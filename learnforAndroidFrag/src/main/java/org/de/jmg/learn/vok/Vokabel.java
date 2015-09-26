@@ -1622,7 +1622,7 @@ public class Vokabel {
 		//
 		if (index == -1)
 			index = mIndex;
-		if (mVok.size()<=mIndex)return;
+		if (mVok.size()<=index || index < 0)return;
 		mVok.remove(index);
 		aend = true;
 		mGesamtzahl = mVok.size();

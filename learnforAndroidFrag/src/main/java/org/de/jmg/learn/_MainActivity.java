@@ -375,12 +375,12 @@ public class _MainActivity extends Fragment {
 				_btnEdit.setVisibility(View.GONE);
 				_btnSkip.setVisibility(View.GONE);
 				widthButtons = _btnWrong.getRight() - _btnRight.getLeft();
-				if (widthButtons< 320) 
+				if (widthButtons< 330)
 				{
-					widthButtons=320;
+					widthButtons=330;
 					blnWrongWidth = true;
 				}
-				ScaleWidth = (width - ((Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT_WATCH)? 70: 50))/(double)widthButtons;
+				ScaleWidth = ((double)(width - 50))/(double)widthButtons;
 				if (ScaleWidth<.4d) ScaleWidth=.4d;
 				ScaleTextButtons = ((scale > ScaleWidth)?scale:ScaleWidth);
 			}
