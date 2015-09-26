@@ -1513,7 +1513,7 @@ public class MainActivity extends AppCompatActivity {
 		intent.putStringArrayListExtra("filterFileExtension", extensions);
 		intent.putExtra("blnUniCode", blnUniCode);
 		intent.putExtra("DefaultDir",
-				(JMGDataDirectory!= null && new File(JMGDataDirectory).exists()) ? JMGDataDirectory
+				(JMGDataDirectory != null && new File(JMGDataDirectory).exists()) ? JMGDataDirectory
 						: "/sdcard/");
 		if (_blnUniCode)
 			_oldUniCode = yesnoundefined.yes;
@@ -1797,6 +1797,11 @@ public class MainActivity extends AppCompatActivity {
 						}
 					}
 				}
+				else
+				{
+					_backPressed = 0;
+					// vok.aend=true;
+				}
 			}
 			else if (resultCode == RESULT_OK && requestCode == FILE_OPENINTENT && data!=null) 
 			{
@@ -1856,6 +1861,11 @@ public class MainActivity extends AppCompatActivity {
 								//lib.ShowMessage(this, ex.getMessage(), this.getString(R.string.Error));
 							}
 						}
+					}
+					else
+					{
+						_backPressed = 0;
+						//vok.aend=true;
 					}
 				}
 				catch(Exception e)

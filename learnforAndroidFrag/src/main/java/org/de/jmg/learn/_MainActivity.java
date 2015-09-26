@@ -1117,6 +1117,15 @@ public class _MainActivity extends Fragment {
 		_txtedWord.clearFocus();
 		//_txtedWord.requestFocusFromTouch();
 		_txtedWord.requestFocus();
+		mainView.getViewTreeObserver().addOnGlobalLayoutListener(
+				new ViewTreeObserver.OnGlobalLayoutListener() {
+
+					@Override
+					public void onGlobalLayout() {
+						lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
+						_txtedWord.requestFocus();
+					}
+				});
 	}
 	
 	boolean EndEdit(boolean dontPrompt) throws Exception
