@@ -300,6 +300,7 @@ public class _MainActivity extends Fragment {
 			{
 				_txtMeaning2.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 					(float) (_txtMeaning2.getTextSize() * scale));
+
 				params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning2
 						.getLayoutParams();
 				params.topMargin = (int) (params.topMargin * scale);
@@ -398,8 +399,7 @@ public class _MainActivity extends Fragment {
 			{
 				params.bottomMargin = (int) (params.bottomMargin * scale);
 			}
-			else
-			{
+			else {
 				params.bottomMargin = (int) (0 * ScaleWidth);
 			}
 			layoutButtons.setLayoutParams(params);
@@ -415,6 +415,10 @@ public class _MainActivity extends Fragment {
 			{
 				params.height = (int) (60 * ScaleWidth);
 				params.bottomMargin = (int) (0 * ScaleWidth);
+				_btnRight.setPadding((int)(_btnRight.getPaddingLeft()*ScaleWidth)
+										, (int)(_btnRight.getPaddingTop()*ScaleWidth)
+										, (int)(_btnRight.getPaddingRight()*ScaleWidth)
+										, (int)(_btnRight.getPaddingBottom()*ScaleWidth));
 			}
 			params.width = (int) (params.width * ScaleWidth);
 			if (blnHorizontal) params.height*= width/height;
@@ -431,6 +435,10 @@ public class _MainActivity extends Fragment {
 			{
 				params.height = (int) (60 * ScaleWidth);
 				params.bottomMargin = (int) (0 * ScaleWidth);
+				_btnWrong.setPadding((int)(_btnWrong.getPaddingLeft()*ScaleWidth)
+						, (int)(_btnWrong.getPaddingTop()*ScaleWidth)
+						, (int)(_btnWrong.getPaddingRight()*ScaleWidth)
+						, (int)(_btnWrong.getPaddingBottom()*ScaleWidth));
 			}
 			params.width = (int) (params.width * ScaleWidth);
 			if (blnHorizontal) params.height*= width/height;;
@@ -463,6 +471,10 @@ public class _MainActivity extends Fragment {
 			{
 				params.height = (int) (60 * ScaleWidth);
 				params.bottomMargin = (int) (0 * ScaleWidth);
+				_btnView.setPadding((int)(_btnView.getPaddingLeft()*ScaleWidth)
+						, (int)(_btnView.getPaddingTop()*ScaleWidth)
+						, (int)(_btnView.getPaddingRight()*ScaleWidth)
+						, (int)(_btnView.getPaddingBottom()*ScaleWidth));
 			}
 			params.width = (int) (params.width * ScaleWidth);
 			if (blnHorizontal) params.height*= width/height;
@@ -535,12 +547,21 @@ public class _MainActivity extends Fragment {
 			if (_btnRight == null) return;
 			EndEdit(false);
 			setBtnsEnabled(true);
-			if (showBeds) {
+			if (showBeds && _vok.getIndex()>=0) {
 				_btnRight.setEnabled(true);
 				_btnWrong.setEnabled(true);
+				_btnEdit.setEnabled(true);
+				_btnSkip.setEnabled(true);
+				_btnView.setEnabled(true);
 			} else {
 				_btnRight.setEnabled(false);
 				_btnWrong.setEnabled(false);
+				if(_vok.getIndex()<0)
+				{
+					_btnEdit.setEnabled(false);
+					_btnSkip.setEnabled(false);
+					_btnView.setEnabled(false);
+				}
 			}
 			if (LoadNext)
 				_vok.setLernIndex((short) (_vok.getLernIndex() + 1));

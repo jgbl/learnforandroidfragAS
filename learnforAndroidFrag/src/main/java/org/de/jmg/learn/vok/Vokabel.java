@@ -1659,7 +1659,7 @@ public class Vokabel {
 	public synchronized void SaveFile(String strFileName,Uri uri, boolean blnUniCode,
 			boolean dontPrompt) throws Exception 
 	{
-		if (libString.IsNullOrEmpty(strFileName) && uri==null)
+		if ((libString.IsNullOrEmpty(strFileName) && uri==null)|| mVok.size()==0)
 			return;
 		ParcelFileDescriptor pfd = null;
 		java.io.OutputStreamWriter sWriter = null;
