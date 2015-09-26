@@ -47,6 +47,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -379,7 +380,7 @@ public class _MainActivity extends Fragment {
 					widthButtons=320;
 					blnWrongWidth = true;
 				}
-				ScaleWidth = (width - 50)/(double)widthButtons;
+				Scal eWidth = (width - ((Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT_WATCH)? 70: 50))/(double)widthButtons;
 				if (ScaleWidth<.4d) ScaleWidth=.4d;
 				ScaleTextButtons = ((scale > ScaleWidth)?scale:ScaleWidth);
 			}
