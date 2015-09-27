@@ -81,6 +81,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static android.content.Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION;
+
 public class lib {
 
     public static class YesNoCheckResult {
@@ -778,12 +780,21 @@ public class lib {
 
     public static void putIntArrayToPrefs(SharedPreferences prefs, int array[],
                                           String name) {
-        int count = array.length - 1;
         Editor edit = prefs.edit();
-        edit.putInt(name, count);
-        for (int i = 0; i <= count; i++) {
-            edit.putInt(name + i, array[i]);
+        if (array==null)
+        {
+            edit.putInt(name, -1);
+            //edit.putInt(name + 0, 1);
         }
+        else
+        {
+            int count = array.length - 1;
+            edit.putInt(name, count);
+            for (int i = 0; i <= count; i++) {
+                edit.putInt(name + i, array[i]);
+            }
+        }
+
 
         edit.commit();
 
@@ -1085,7 +1096,7 @@ public class lib {
                 prefs.edit().putInt(key, -1).commit();
             }
         }
-        intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+        intent.addFlags(FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
         intent.setType("*/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         Intent chooser = Intent.createChooser(intent, "Open");
@@ -1230,7 +1241,7 @@ public class lib {
             Flags = Flags | Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
             if (Build.VERSION.SDK_INT>=19)
             {
-                Flags = Flags | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION;
+                Flags = Flags | FLAG_GRANT_PERSISTABLE_URI_PERMISSION;
                 container.getContentResolver().takePersistableUriPermission(uri, Flags);
             }
 

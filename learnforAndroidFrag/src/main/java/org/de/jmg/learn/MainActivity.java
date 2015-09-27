@@ -165,13 +165,15 @@ public class MainActivity extends AppCompatActivity {
                         		fPA.fragMain.removeCallbacks();
                         	}
                         }
-                        LastPosition=position;
-                        
+
                         if (position == fragFileChooser.fragID)
                     	{
                         	mnuAddNew.setEnabled(false);
                         	try {
-								checkLoadFile();
+								if (!checkLoadFile())
+								{
+									mPager.setCurrentItem(_MainActivity.fragID);
+								}
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								lib.ShowException(MainActivity.this, e);
@@ -202,10 +204,11 @@ public class MainActivity extends AppCompatActivity {
                         {
                         	mnuAddNew.setEnabled(false);
                         }
-                        
-        				
-        				
-                }
+
+						LastPosition=position;
+
+
+				}
 
         };
         
@@ -947,27 +950,36 @@ public class MainActivity extends AppCompatActivity {
 								// file.delete();
 								successful = true;
 							} else {
-								file.createNewFile();
-								OutputStream myOutput = new FileOutputStream(file);
-	
-								byte[] buffer = new byte[1024];
-								int length;
-								while ((length = myInput.read(buffer, 0, 1024)) > 0) {
-									myOutput.write(buffer, 0, length);
+								try {
+									file.createNewFile();
+									OutputStream myOutput = new FileOutputStream(file);
+
+									byte[] buffer = new byte[1024];
+									int length;
+									while ((length = myInput.read(buffer, 0, 1024)) > 0) {
+										myOutput.write(buffer, 0, length);
+									}
+
+									// Close the streams
+									myOutput.flush();
+									myOutput.close();
+									myInput.close();
+									successful = true;
 								}
-	
-								// Close the streams
-								myOutput.flush();
-								myOutput.close();
-								myInput.close();
-								successful = true;
+								catch (Exception eex)
+								{
+									if (i == 0) throw eex;
+									lib.ShowMessage(this,"Could not create file " + outFileName, "Error");
+									successful=false;
+									throw eex;
+								}
 							}
 						}
 					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					// e.printStackTrace();
-					lib.ShowMessage(this, e.getMessage(),null);
+					if (i>0) lib.ShowException(this, e);
 					// lib.ShowMessage(this, "CopyAssets");
 					successful = false;
 				}
@@ -1096,7 +1108,7 @@ public class MainActivity extends AppCompatActivity {
 		boolean blnActionCreateDocument = false;
 		try
 		{
-			fPA.fragMain.EndEdit(false);
+			if (fPA.fragMain != null && fPA.fragMain.mainView != null) fPA.fragMain.EndEdit(false);
 			if (!libString.IsNullOrEmpty(vok.getFileName()) || vok.getURI()==null || Build.VERSION.SDK_INT<19)
 			{
 				boolean blnSuccess = false;
@@ -1466,12 +1478,18 @@ public class MainActivity extends AppCompatActivity {
 	public boolean checkLoadFile() throws Exception
 	{
 		boolean blnLoadFile = false;
+		if(fPA.fragMain != null && fPA.fragMain.mainView != null)
+		{
+			boolean res = fPA.fragMain.EndEdit(false);
+			if (!res) return res;
+		}
 		if (vok.getGesamtzahl()>0 && vok.aend && libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()==null)
 		{
 			if (lib.ShowMessageYesNo(this, getString(R.string.SaveNewVokabularyAs),"")==yesnoundefined.yes)
 			{
-				Crashes
-				SaveVokAs(true,false);
+				//Crashes
+				//SaveVokAs(true,false);
+				blnLoadFile = false;
 			}
 			else
 			{
