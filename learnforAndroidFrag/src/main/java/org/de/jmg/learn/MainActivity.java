@@ -1466,10 +1466,11 @@ public class MainActivity extends AppCompatActivity {
 	public boolean checkLoadFile() throws Exception
 	{
 		boolean blnLoadFile = false;
-		if (vok.aend && libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()==null)
+		if (vok.getGesamtzahl()>0 && vok.aend && libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()==null)
 		{
 			if (lib.ShowMessageYesNo(this, getString(R.string.SaveNewVokabularyAs),"")==yesnoundefined.yes)
 			{
+				Crashes
 				SaveVokAs(true,false);
 			}
 			else
