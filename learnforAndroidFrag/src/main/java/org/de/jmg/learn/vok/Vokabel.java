@@ -1622,7 +1622,7 @@ public class Vokabel {
 		//
 		if (index == -1)
 			index = mIndex;
-		if (mVok.size()<=index || index < 0)return;
+		if (mVok.size()<=index || index < 1)return;
 		mVok.remove(index);
 		aend = true;
 		mGesamtzahl = mVok.size();
@@ -1659,8 +1659,12 @@ public class Vokabel {
 	public synchronized void SaveFile(String strFileName,Uri uri, boolean blnUniCode,
 			boolean dontPrompt) throws Exception 
 	{
-		if ((libString.IsNullOrEmpty(strFileName) && uri==null)|| mVok.size()==0)
+		if ((libString.IsNullOrEmpty(strFileName) && uri==null)|| mVok.size()<2)
+		{
+			if (mVok.size()<2) aend = false;
 			return;
+		}
+
 		ParcelFileDescriptor pfd = null;
 		java.io.OutputStreamWriter sWriter = null;
 		FileOutputStream os = null;

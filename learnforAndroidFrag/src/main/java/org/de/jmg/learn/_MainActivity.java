@@ -547,7 +547,7 @@ public class _MainActivity extends Fragment {
 			if (_btnRight == null) return;
 			EndEdit(false);
 			setBtnsEnabled(true);
-			if (showBeds && _vok.getIndex()>=0) {
+			if (showBeds && _vok.getIndex()>=1) {
 				_btnRight.setEnabled(true);
 				_btnWrong.setEnabled(true);
 				_btnEdit.setEnabled(true);
@@ -556,7 +556,7 @@ public class _MainActivity extends Fragment {
 			} else {
 				_btnRight.setEnabled(false);
 				_btnWrong.setEnabled(false);
-				if(_vok.getIndex()<0)
+				if(_vok.getIndex()<1)
 				{
 					_btnEdit.setEnabled(false);
 					_btnSkip.setEnabled(false);
