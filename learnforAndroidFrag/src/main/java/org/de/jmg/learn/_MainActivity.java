@@ -1499,6 +1499,7 @@ public class _MainActivity extends Fragment {
 		_txtMeaning3.setVisibility(View.GONE);
 		if (_MeaningBG != null) _mBackgroundBack = _MeaningBG;
 		_MeaningBG = null;
+		//if (_mBackgroundBack!=null) _MeaningBG = _mBackgroundBack;
 	
 	}
 
