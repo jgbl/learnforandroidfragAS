@@ -40,8 +40,10 @@ import org.de.jmg.lib.lib.yesnoundefined;
 
 import android.annotation.SuppressLint;
 import android.app.SearchManager;
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -251,6 +253,7 @@ public class _MainActivity extends Fragment {
 	int width;
 	private void resize()
 	{
+		int UIMode = lib.getUIMode(_main);
 		RelativeLayout.LayoutParams params;
 		Resources resources = context.getResources();
 		DisplayMetrics metrics = resources.getDisplayMetrics();
@@ -259,6 +262,7 @@ public class _MainActivity extends Fragment {
 		int viewTop = _main.findViewById(Window.ID_ANDROID_CONTENT).getTop();
 		height = height - viewTop;
 		scale = (double) height / (double) 950;
+		double ratio = Math.pow((double)width / (double)height,.5d) ;
 		boolean blnHorizontal = width > height;
 		if (scale < .5f)
 		{
@@ -421,7 +425,12 @@ public class _MainActivity extends Fragment {
 										, (int)(_btnRight.getPaddingBottom()*ScaleWidth));
 			}
 			params.width = (int) (params.width * ScaleWidth);
-			if (blnHorizontal) params.height*= width/height;
+			double ScaleTextButtonsOrig = ScaleTextButtons;
+
+			if (blnHorizontal) {
+				params.height*= ratio;
+				ScaleTextButtons *= ratio;
+			}
 			_btnRight.setLayoutParams(params);
 			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnWrong
@@ -441,7 +450,7 @@ public class _MainActivity extends Fragment {
 						, (int)(_btnWrong.getPaddingBottom()*ScaleWidth));
 			}
 			params.width = (int) (params.width * ScaleWidth);
-			if (blnHorizontal) params.height*= width/height;;
+			if (blnHorizontal) params.height*= ratio;;
 			_btnWrong.setLayoutParams(params);
 			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnSkip
@@ -457,7 +466,7 @@ public class _MainActivity extends Fragment {
 				params.bottomMargin = (int) (0 * ScaleWidth);
 			}
 			params.width = (int) (params.width * ScaleWidth);
-			if (blnHorizontal) params.height*= width/height;
+			if (blnHorizontal) params.height*= ratio;
 			_btnSkip.setLayoutParams(params);
 			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnView
@@ -477,7 +486,7 @@ public class _MainActivity extends Fragment {
 						, (int)(_btnView.getPaddingBottom()*ScaleWidth));
 			}
 			params.width = (int) (params.width * ScaleWidth);
-			if (blnHorizontal) params.height*= width/height;
+			if (blnHorizontal) params.height*= ratio;
 			_btnView.setLayoutParams(params);
 			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnEdit
@@ -493,7 +502,7 @@ public class _MainActivity extends Fragment {
 				params.bottomMargin = (int) (0 * ScaleWidth);
 			}
 			params.width = (int) (params.width * ScaleWidth);
-			if (blnHorizontal) params.height*= width/height;
+			if (blnHorizontal) params.height*= ratio;
 			_btnEdit.setLayoutParams(params);
 
 			params = (android.widget.RelativeLayout.LayoutParams) _txtStatus
@@ -519,7 +528,7 @@ public class _MainActivity extends Fragment {
 			_btnEdit.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 					(float) (_btnEdit.getTextSize() * ScaleTextButtons));
 			_txtStatus.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					(float) (_txtStatus.getTextSize() * ScaleTextButtons));
+					(float) (_txtStatus.getTextSize() * ScaleTextButtonsOrig));
 			
 			_ActionBarOriginalTextSize = 0;
 			resizeActionbar(0);
