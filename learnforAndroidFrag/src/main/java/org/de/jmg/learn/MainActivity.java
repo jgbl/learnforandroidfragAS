@@ -102,7 +102,9 @@ public class MainActivity extends AppCompatActivity {
 	public MyFragmentPagerAdapter fPA;
 	public String SoundDir;
 	public boolean isAndroidWear;
-	
+	public boolean isTV;
+	public boolean isWatch;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

@@ -1493,7 +1493,7 @@ public class lib {
 
     public static int getUIMode(Context context)
     {
-        if (Build.VERSION.SDK_INT>8)
+        if (Build.VERSION.SDK_INT>=8)
         {
             UiModeManager uiModeManager = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
             return uiModeManager.getCurrentModeType();
