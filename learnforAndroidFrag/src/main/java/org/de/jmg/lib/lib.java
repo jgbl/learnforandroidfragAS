@@ -46,6 +46,7 @@ import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.SharedPreferences.Editor;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -1128,7 +1129,7 @@ public class lib {
                     observer,listener);
         } else {
             removeLayoutListenerPost16(
-                    observer,listener);
+                    observer, listener);
         }
     }
     @SuppressWarnings("deprecation")
@@ -1490,6 +1491,18 @@ public class lib {
         strBuilder.removeSpan(span);
     }
 
+    public static int getUIMode(Context context)
+    {
+        if (Build.VERSION.SDK_INT>=8)
+        {
+            UiModeManager uiModeManager = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
+            return uiModeManager.getCurrentModeType();
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
 
 

@@ -102,7 +102,9 @@ public class MainActivity extends AppCompatActivity {
 	public MyFragmentPagerAdapter fPA;
 	public String SoundDir;
 	public boolean isAndroidWear;
-	
+	public boolean isTV;
+	public boolean isWatch;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -169,7 +171,8 @@ public class MainActivity extends AppCompatActivity {
                         if (position == fragFileChooser.fragID)
                     	{
                         	mnuAddNew.setEnabled(false);
-                        	try {
+                        	/*
+							try {
 								if (!checkLoadFile())
 								{
 									mPager.setCurrentItem(_MainActivity.fragID);
@@ -178,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
 								// TODO Auto-generated catch block
 								lib.ShowException(MainActivity.this, e);
 							}
+							*/
                     	}
                         else if (position == _MainActivity.fragID)
                         {
@@ -698,7 +702,9 @@ public class MainActivity extends AppCompatActivity {
 				fPA.fragMain.setBtnsEnabled(false);
 				if (!fPA.fragMain.EndEdit(false)) return;
 			}
-			if (uri==null) saveVok(false);
+			if (uri==null){
+				if (saveVok(false) == false) return;
+			}
 			try 
 			{
 				vok.LoadFile(this, fileSelected, uri, false, false, _blnUniCode);
@@ -808,6 +814,7 @@ public class MainActivity extends AppCompatActivity {
 					if (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()==null)
 					{
 						SaveVokAs(true,false);
+						return false;
 					}
 					else
 					{
