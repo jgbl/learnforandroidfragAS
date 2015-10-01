@@ -1441,7 +1441,18 @@ public class MainActivity extends AppCompatActivity  {
 					try {
 						/*
 						IDemoChart chart = new org.de.jmg.learn.chart.LearnBarChart();
-						Intent intent = chart.execute(this);
+					int UIMode = lib.getUIMode(this);
+
+		switch (UIMode)
+		{
+			case Configuration.UI_MODE_TYPE_TELEVISION:
+				isTV = true;
+				break;
+			case Configuration.UI_MODE_TYPE_WATCH:
+				isWatch = true;
+				break;
+		}
+	Intent intent = chart.execute(this);
 						this.startActivity(intent);
 						*/
 						mPager.setCurrentItem(fragStatistics.fragID);
