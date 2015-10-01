@@ -999,17 +999,7 @@ public class lib {
         }
 
     }
-    public static boolean CheckAndroidWear()
-    {
-        if(Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT_WATCH)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @SuppressWarnings("deprecation")

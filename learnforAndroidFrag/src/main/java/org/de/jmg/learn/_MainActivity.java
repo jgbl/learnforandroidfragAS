@@ -254,17 +254,6 @@ public class _MainActivity extends Fragment {
 	private void resize()
 	{
 
-		int UIMode = lib.getUIMode(_main);
-
-		switch (UIMode)
-		{
-			case Configuration.UI_MODE_TYPE_TELEVISION:
-				_main.isTV = true;
-				break;
-			case Configuration.UI_MODE_TYPE_WATCH:
-				_main.isWatch = true;
-				break;
-		}
 
 		RelativeLayout.LayoutParams params;
 		Resources resources = context.getResources();

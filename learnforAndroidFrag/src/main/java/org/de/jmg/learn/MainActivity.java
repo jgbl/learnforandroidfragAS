@@ -48,7 +48,9 @@ import br.com.thinkti.android.filechooser.AdvFileChooser;
 import br.com.thinkti.android.filechooser.FileChooser;
 import br.com.thinkti.android.filechooserfrag.fragFileChooser;
 
+import android.content.res.Configuration;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -75,7 +77,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity  {
 
 	public ViewPager mPager;	
 	public static final int FILE_CHOOSER = 34823;
@@ -108,7 +111,18 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		isAndroidWear = lib.CheckAndroidWear();
+		int UIMode = lib.getUIMode(this);
+
+		switch (UIMode)
+		{
+			case Configuration.UI_MODE_TYPE_TELEVISION:
+				isTV = true;
+				break;
+			case Configuration.UI_MODE_TYPE_WATCH:
+				isWatch = true;
+				break;
+		}
+
 		if (savedInstanceState!=null)
 		{
 			JMGDataDirectory = savedInstanceState.getString("JMGDataDirectory");
@@ -453,10 +467,10 @@ public class MainActivity extends AppCompatActivity {
 			lib.ShowException(this, ex);
 		}
 
-        
+
 
     }
-	
+
 	
 	
 	
@@ -1997,10 +2011,11 @@ public class MainActivity extends AppCompatActivity {
 
 	}
 
-	public void setSoundDir(String dir) 
+	public void setSoundDir(String dir)
 	{
 		SoundDir = dir;
 		prefs.edit().putString("SoundDir", dir).commit();
 	}
+
 
 }
