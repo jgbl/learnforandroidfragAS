@@ -826,7 +826,7 @@ public class SettingsActivity extends Fragment
 			float ProbabilityFactor = getIntent().getFloatExtra(
 					"ProbabilityFactor", -1f);
 			if (ProbabilityFactor == -1) {
-				strDD = "auto";
+				strDD = _main.getString((R.string.auto));
 			} else {
 				strDD = "" + ProbabilityFactor;
 				strDD = strDD.replace(".0", "");

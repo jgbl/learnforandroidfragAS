@@ -3,8 +3,7 @@
     <string name="app_name">Learnforandroid</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">settings</string>
-    <string name="btnNext">next</string>
-    <string name="btnSkip">skip</string>
+	<string name="btnSkip">skip</string>
     <string name="TotalNumber">total number</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
@@ -268,4 +267,5 @@
 				<string name="license">I accept the license</string>
 				<string name="gpl">I accept the gnu general public license</string>
 				<string name="gplno">I don\'t accept the gnu general public license</string>
+	<string name="btnNext">next</string>
 </resources>
