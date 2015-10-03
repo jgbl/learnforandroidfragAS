@@ -112,7 +112,7 @@ public class fragFileChooser extends ListFragment
 		}
 		catch(Exception ex)
 		{
-			Toast.makeText(_main, "Error " + ex.getMessage(), Toast.LENGTH_LONG).show();
+			Toast.makeText(_main, _main.getString(R.string.Error) + ex.getMessage(), Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -121,7 +121,7 @@ public class fragFileChooser extends ListFragment
 		DefaultDir = dir;
 		if (DefaultDir == null || DefaultDir.length()==0) DefaultDir=Environment.getExternalStorageDirectory().getPath();
 		currentDir = new File(DefaultDir);
-		Toast.makeText(_main, "Loading " + currentDir.getPath(), Toast.LENGTH_LONG).show();
+		Toast.makeText(_main, _main.getString(R.string.txtLoading) + currentDir.getPath(), Toast.LENGTH_LONG).show();
 		fill(currentDir);;
 	}
 
@@ -185,7 +185,7 @@ public class fragFileChooser extends ListFragment
 							}
 						});
 				A.setMessage(getString(R.string.close));
-				A.setTitle("Question");
+				A.setTitle(_main.getString((R.string.question)));
 				A.show();
 
         		

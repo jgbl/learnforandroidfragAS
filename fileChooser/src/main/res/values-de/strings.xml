@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">File Chooser</string>
+    <string name="btnCreateFolder">Ordner erstellen</string>
+    <string name="btnSave">speichern</string>
+    <string name="btnSaveSelect">auswählen</string>
+    <string name="cancel">abbrechen</string>
+    <string name="currentDir">aktuelles Verz.</string>
+    <string name="edFile">Bitte geben Sie den Dateinamen hier ein!</string>
+    <string name="fileSize">Dateigröße</string>
+    <string name="folder">Ordner</string>
+    <string name="mnuCreateFolder">Verzeichnis erstellen</string>
+    <string name="no">NEIN</string>
+    <string name="ok">OK</string>
+    <string name="openFolder">Verzeichnis öffnen</string>
+    <string name="optionSelection">Auswahl öffnen</string>
+    <string name="parentDirectory">übergeordnetes Verzeichnis</string>
+    <string name="quit">Möchten Sie die Dateiauswahl schließen?</string>
+    <string name="selectThis">Dies auswählen</string>
+    <string name="yes">JA</string>
+</resources>

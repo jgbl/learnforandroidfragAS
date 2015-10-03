@@ -268,4 +268,5 @@
     <string name="spnRepetions">Wiederholungen falls falsch</string>
     <string name="spnStepDescriptions">Geben Sie die Schrittweite an; innerhalb dieser Schrittweite werden nicht gewußte Vokabeln wiederholt.</string>
     <string name="txtSounds">Klänge</string>
+    <string name="txtLoading">Lade</string>
 </resources>

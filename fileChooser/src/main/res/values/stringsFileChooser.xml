@@ -10,5 +10,5 @@
     <string name="optionSelection">Option selection</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
-    <string name="quit">Do you want to quit?</string>
+    <string name="quit">Do you want to close the file chooser?</string>
 </resources>
