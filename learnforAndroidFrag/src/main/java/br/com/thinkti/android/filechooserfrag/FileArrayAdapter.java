@@ -33,6 +33,7 @@ import br.com.thinkti.android.filechooser.Option;
 import br.com.thinkti.android.filechooser.R;
 
 import android.content.Context;
+import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,9 +73,9 @@ public class FileArrayAdapter extends ArrayAdapter<Option> {
 			TextView t1 = (TextView) v.findViewById(R.id.TextView01);
 			TextView t2 = (TextView) v.findViewById(R.id.TextView02);
 			
-			if(o.getData().equalsIgnoreCase("folder")){
+			if(o.getData().equalsIgnoreCase(getString(R.string.folder))){
 				im.setImageResource(R.drawable.folder);
-			} else if (o.getData().equalsIgnoreCase("parent directory")) {
+			} else if (o.getData().equalsIgnoreCase(getString(R.string.parentDirectory))) {
 				im.setImageResource(R.drawable.back);
 			} else {
 				String name = o.getName().toLowerCase();
@@ -112,5 +113,28 @@ public class FileArrayAdapter extends ArrayAdapter<Option> {
 		}
 		return v;
 	}
+	/**
+	 * Return a localized string from the application's package's
+	 * default string table.
+	 *
+	 * @param resId Resource id for the string
+	 */
+	public final String getString(@StringRes int resId) {
+		return c.getResources().getString(resId);
+	}
+
+	/**
+	 * Return a localized formatted string from the application's package's
+	 * default string table, substituting the format arguments as defined in
+	 * {@link java.util.Formatter} and {@link java.lang.String#format}.
+	 *
+	 * @param resId Resource id for the format string
+	 * @param formatArgs The format arguments that will be used for substitution.
+	 */
+
+	public final String getString(@StringRes int resId, Object... formatArgs) {
+		return c.getResources().getString(resId, formatArgs);
+	}
+
 
 }

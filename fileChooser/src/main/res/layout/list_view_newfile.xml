@@ -26,7 +26,7 @@
   			
 	    	<Button
 	    	    android:id="@+id/btnCreateFolder"
-	    	    android:layout_width="wrap_content"
+	    	    android:layout_width="40dp"
 	    	    android:layout_height="wrap_content"
 	    	    android:background="@drawable/folder" >
 
@@ -49,7 +49,9 @@
 			    android:id="@+id/btnSelect"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
-			    android:text="@string/btnSave" >
+			    android:text="@string/btnSave"
+				android:padding="5dp"
+				android:textSize="20sp">
 
 			</Button>
 		</LinearLayout>

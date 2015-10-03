@@ -268,6 +268,5 @@
 				<string name="gplno">I don\'t accept the gnu general public license</string>
 	<string name="btnNext">next</string>
 	<string name="spnColors">Colors</string>
-	<string name="txtLoading">Loading</string>
-	<string name="Question">Question</string>
+	<string name="txtLoading">loading</string>
 </resources>

@@ -1732,6 +1732,14 @@ public class _MainActivity extends Fragment {
 			{
 				FName = _vok.getURIName();
 			}
+			if (FName.length()>15 && _isSmallDevice)
+			{
+				FName=FName.substring(0,15);
+			}
+			else if (FName.length()>30)
+			{
+				FName=FName.substring(0,30);
+			}
 			String title = "" + FName
 					+ " " + getString(R.string.number) + ": " + _vok.getIndex()
 					+ " " + getString(R.string.counter) + ": "

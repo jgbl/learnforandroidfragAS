@@ -20,7 +20,7 @@
     <string name="SaveAsUniCode">Möchten Sie die Datei im Unicode-Format speichern?</string>
     <string name="btnRight">richtig</string>
     <string name="view">btnView</string>
-    <string name="btnView">anzeigen</string>
+    <string name="btnView">zeigen</string>
     <string name="btnWrong">falsch</string>
     <string name="action_loadfile">Datei laden</string>
     <string name="mnuFileOpen">Datei öffnen</string>
