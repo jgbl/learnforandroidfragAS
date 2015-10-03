@@ -58,7 +58,7 @@
         <string name="btnCancel">Cancel</string>
         <string name="txtStep">step</string>
         <string name="spnStep">step</string>
-        <string name="spnStepDescriptions">enter the step used for repeating not known vocabulary</string>
+        <string name="spnStepDescriptions">enter the step after which not known vocabulary are repeated</string>
         <string-array name="spnStepEntries">
             <item >5</item>
             <item >6</item>
@@ -177,8 +177,7 @@
 	            <string name="ResetVocabulary">Do you really want to reset the vocabulary?</string>
 	            <string name="PressBackAgain">press back again to exit</string>
 	            <string name="txtColors">colors</string>
-	            <string name="spnColors">Colors</string>
-	            <string name="spnColorDescription">Select Colors for each element with a long touch</string>
+	<string name="spnColorDescription">Select Colors for each element with a long touch</string>
 	            <string name="SelColor">sel</string>
 	            <string name="btnSelectColorHint">select the color of each element</string>
 	            <string name="imgColors">image containing the selected color</string>
@@ -268,4 +267,5 @@
 				<string name="gpl">I accept the gnu general public license</string>
 				<string name="gplno">I don\'t accept the gnu general public license</string>
 	<string name="btnNext">next</string>
+	<string name="spnColors">Colors</string>
 </resources>
