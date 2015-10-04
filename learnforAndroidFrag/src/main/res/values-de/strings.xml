@@ -269,4 +269,6 @@
     <string name="spnStepDescriptions">Geben Sie die Schrittweite an; innerhalb dieser Schrittweite werden nicht gewußte Vokabeln wiederholt.</string>
     <string name="txtSounds">Klänge</string>
     <string name="txtLoading">Lade</string>
+    <string name="ConvertVok">Wenn Sie mir eine Vokabel Datei senden, konvertiere ich diese für Sie.</string>
+    <string name="SendMail">E-Mail senden....</string>
 </resources>

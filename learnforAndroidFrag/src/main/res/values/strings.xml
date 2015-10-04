@@ -269,4 +269,6 @@
 	<string name="btnNext">next</string>
 	<string name="spnColors">Colors</string>
 	<string name="txtLoading">loading</string>
+	<string name="ConvertVok">If you send me a vocabulary file, I will convert it for you.</string>
+	<string name="SendMail">Send mail...</string>
 </resources>
