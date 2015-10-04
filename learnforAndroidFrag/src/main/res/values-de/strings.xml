@@ -271,4 +271,7 @@
     <string name="txtLoading">Lade</string>
     <string name="ConvertVok">Wenn Sie mir eine Vokabel Datei senden, konvertiere ich diese für Sie.</string>
     <string name="SendMail">E-Mail senden....</string>
+    <string name="LearnedVocabulary">Gelernte Vokabeln für </string>
+    <string name="LearnIndex">Lernindex</string>
+    <string name="Words">Vokabeln</string>
 </resources>

@@ -271,4 +271,7 @@
 	<string name="txtLoading">loading</string>
 	<string name="ConvertVok">If you send me a vocabulary file, I will convert it for you.</string>
 	<string name="SendMail">Send mail...</string>
+	<string name="LearnedVocabulary">Learned vocabulary for</string>
+	<string name="LearnIndex">Learnindex</string>
+	<string name="Words">Words</string>
 </resources>

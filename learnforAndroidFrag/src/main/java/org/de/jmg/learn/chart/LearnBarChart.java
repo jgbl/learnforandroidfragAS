@@ -47,6 +47,7 @@ import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 import org.de.jmg.learn.MainActivity;
+import org.de.jmg.learn.R;
 import org.de.jmg.learn.vok.Vokabel;
 import org.de.jmg.lib.lib;
 import org.de.jmg.lib.lib.libString;
@@ -136,8 +137,8 @@ public class LearnBarChart extends AbstractDemoChart {
 		renderer = buildBarRenderer(colors);
 		renderer.setOrientation(Orientation.HORIZONTAL);
 
-		setChartSettings(renderer, "Learned vocabulary for " + name,
-				"Learnindex", "Words", 1, 14, 0, vok.getGesamtzahl(),
+		setChartSettings(renderer, Main.getString(R.string.LearnedVocabulary) + name,
+				Main.getString(R.string.LearnIndex), Main.getString((R.string.Words)), 1, 14, 0, vok.getGesamtzahl(),
 				Color.GREEN, Color.YELLOW);
 		renderer.setBackgroundColor(Color.BLACK);
 		renderer.setApplyBackgroundColor(true);
