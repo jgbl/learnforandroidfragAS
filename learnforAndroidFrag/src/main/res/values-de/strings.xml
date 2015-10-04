@@ -274,4 +274,5 @@
     <string name="LearnedVocabulary">Gelernte Vokabeln für </string>
     <string name="LearnIndex">Lernindex</string>
     <string name="Words">Vokabeln</string>
+    <string name="mnuRename">umbenennen</string>
 </resources>

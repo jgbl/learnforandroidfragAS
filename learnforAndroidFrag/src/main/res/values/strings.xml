@@ -274,4 +274,5 @@
 	<string name="LearnedVocabulary">Learned vocabulary for </string>
 	<string name="LearnIndex">Learnindex</string>
 	<string name="Words">Words</string>
+	<string name="mnuRename">rename</string>
 </resources>

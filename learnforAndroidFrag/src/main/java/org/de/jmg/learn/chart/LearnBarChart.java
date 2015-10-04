@@ -124,6 +124,14 @@ public class LearnBarChart extends AbstractDemoChart {
 			name = lib.dumpUriMetaData(Main, uri);
 			if (name.contains(":")) name = name.split(":")[0];
 		}
+		if (Main.isSmallDevice && name.length()>15)
+		{
+			name = name.substring(0,15);
+		}
+		else if(name.length()>30)
+		{
+			name = name.substring(0,30);
+		}
 		titles = new String[] { name };
 		values = new ArrayList<double[]>();
 		double v[] = new double[14];
