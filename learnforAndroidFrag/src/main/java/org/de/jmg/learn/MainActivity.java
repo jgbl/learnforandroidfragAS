@@ -653,7 +653,7 @@ public class MainActivity extends AppCompatActivity  {
 					  }
 				  }); 
 				  A.setMessage(getString(R.string.Save));
-				  A.setTitle("Question"); 
+				  A.setTitle(getString(R.string.question));
 				  A.show(); 
 				  if (!dontPrompt) 
 				  { 

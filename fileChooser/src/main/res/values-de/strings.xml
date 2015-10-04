@@ -18,4 +18,5 @@
     <string name="quit">Möchten Sie die Dateiauswahl schließen?</string>
     <string name="selectThis">Dies auswählen</string>
     <string name="yes">JA</string>
+    <string name="question">Frage</string>
 </resources>

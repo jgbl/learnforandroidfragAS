@@ -406,7 +406,7 @@ public class AdvFileChooser extends Activity {
 							}
 						});
 				A.setMessage(getString(R.string.quit));
-				A.setTitle("Question");
+				A.setTitle(getString(R.string.question));
 				A.show();
 
         	} else {

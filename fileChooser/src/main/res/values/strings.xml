@@ -7,4 +7,5 @@
     <string name="ok">ok</string>
     <string name="cancel">cancel</string>
     <string name="btnCreateFolder">create folder</string>
+    <string name="question">Question</string>
 </resources>
