@@ -137,7 +137,7 @@ public class LearnBarChart extends AbstractDemoChart {
 		renderer = buildBarRenderer(colors);
 		renderer.setOrientation(Orientation.HORIZONTAL);
 
-		setChartSettings(renderer, Main.getString(R.string.LearnedVocabulary) + name,
+		setChartSettings(renderer, Main.getString(R.string.LearnedVocabulary) + " " + name,
 				Main.getString(R.string.LearnIndex), Main.getString((R.string.Words)), 1, 14, 0, vok.getGesamtzahl(),
 				Color.GREEN, Color.YELLOW);
 		renderer.setBackgroundColor(Color.BLACK);
