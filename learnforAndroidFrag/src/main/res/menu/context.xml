@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/mnuRename" android:title="@string/mnuRename"></item>
-    <item android:id="@+id/mnuDelete" android:title="@string/mnuDelete"></item>
+    <item android:id="@+id/mnuDelete" android:title="@string/cmnuDelete"></item>
 
 </menu>

@@ -275,4 +275,5 @@
     <string name="LearnIndex">Lernindex</string>
     <string name="Words">Vokabeln</string>
     <string name="mnuRename">umbenennen</string>
+    <string name="cmnuDelete">löschen</string>
 </resources>

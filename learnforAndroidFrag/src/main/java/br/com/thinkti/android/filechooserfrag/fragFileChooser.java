@@ -53,6 +53,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -154,24 +155,29 @@ public class fragFileChooser extends ListFragment
 	public void onCreateContextMenu(ContextMenu menu, View v,
 									ContextMenu.ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		MenuInflater inflater = _main.getMenuInflater();
-		inflater.inflate(R.menu.context, menu);
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+		if (info.position>0)
+		{
+			MenuInflater inflater = _main.getMenuInflater();
+			inflater.inflate(R.menu.context, menu);
+		}
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterViewCompat.AdapterContextMenuInfo info = (AdapterViewCompat.AdapterContextMenuInfo) item.getMenuInfo();
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		View v = info.targetView;
 		ImageView im = (ImageView) v.findViewById(br.com.thinkti.android.filechooser.R.id.img1);
 		TextView t1 = (TextView) v.findViewById(br.com.thinkti.android.filechooser.R.id.TextView01);
 		TextView t2 = (TextView) v.findViewById(br.com.thinkti.android.filechooser.R.id.TextView02);
+		Option o = adapter.getItem((int)info.id);
 		switch (item.getItemId()) {
 			case R.id.mnuDelete:
-				lib.ShowToast(_main,"delete" + t1.getText().toString() + t2.getText().toString());
+				lib.ShowToast(_main,"delete " + t1.getText().toString() + " " + t2.getText().toString() + " " + o.getData() + " "  + o.getPath() + " " + o.getName());
 				//editNote(info.id);
 				return true;
 			case R.id.mnuRename:
-				lib.ShowToast(_main, "rename" + t1.getText().toString() + t2.getText().toString());
+				lib.ShowToast(_main, "rename " + t1.getText().toString() + " " + t2.getText().toString() + " " + o.getData() + " "  + o.getPath() + " " + o.getName());
 				return true;
 			default:
 				return super.onContextItemSelected(item);
