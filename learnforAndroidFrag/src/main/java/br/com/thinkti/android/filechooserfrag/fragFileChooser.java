@@ -79,10 +79,19 @@ public class fragFileChooser extends ListFragment
 		if (_main==null)_main = (MainActivity)getActivity();
 		if (_Intent==null&&_main!=null)_Intent=_main.getFileChooserIntent(true);
 		init();
-		registerForContextMenu(_chooserView);
 		return _chooserView;
 	}
-	
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState)
+	{
+	 	super.onActivityCreated(savedInstanceState);
+		registerForContextMenu(getListView());
+	}
+
+
+
+
 	public void init(Intent intent, MainActivity main)
 	{
 			_main = main;
