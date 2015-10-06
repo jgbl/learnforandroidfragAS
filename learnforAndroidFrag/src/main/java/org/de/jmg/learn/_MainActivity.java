@@ -284,12 +284,16 @@ public class _MainActivity extends Fragment {
 			lib.ShowToast(_main, "Scaling font by " + scale + " Screenheight = "
 					+ height);
 
-			if (_txtMeaning1.getTextSize()==40 || (_vok.getCardMode()&& _txtMeaning1.getTextSize()==25))
+			float tSize = _txtMeaning1.getTextSize();
+			if (tSize==40 || (_vok.getCardMode()&& tSize==25))
 			{
 				_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (_txtMeaning1.getTextSize() * scale));
-				params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning1
-						.getLayoutParams();
+			}
+			params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning1
+					.getLayoutParams();
+			if (params.topMargin == 120)
+			{
 				if (!_isSmallDevice)
 				{
 					params.topMargin = (int) (params.topMargin * scale);
@@ -304,10 +308,12 @@ public class _MainActivity extends Fragment {
 			if (_txtMeaning2.getTextSize()==40)
 			{
 				_txtMeaning2.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					(float) (_txtMeaning2.getTextSize() * scale));
-
-				params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning2
-						.getLayoutParams();
+						(float) (_txtMeaning2.getTextSize() * scale));
+			}
+			params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning2
+					.getLayoutParams();
+			if (params.topMargin==56)
+			{
 				params.topMargin = (int) (params.topMargin * scale);
 				_txtMeaning2.setLayoutParams(params);
 			}
@@ -315,12 +321,16 @@ public class _MainActivity extends Fragment {
 			if (_txtMeaning3.getTextSize()==40)
 			{
 				_txtMeaning3.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					(float) (_txtMeaning3.getTextSize() * scale));
-				params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning3
-						.getLayoutParams();
+						(float) (_txtMeaning3.getTextSize() * scale));
+			}
+			params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning3
+					.getLayoutParams();
+			if (params.topMargin==56)
+			{
 				params.topMargin = (int) (params.topMargin * scale);
 				_txtMeaning3.setLayoutParams(params);
 			}
+
 
 			float size = _txtWord.getTextSize();
 			if (size == 60)
