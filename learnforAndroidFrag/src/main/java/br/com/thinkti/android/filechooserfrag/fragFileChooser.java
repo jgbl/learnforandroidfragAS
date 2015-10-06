@@ -168,9 +168,6 @@ public class fragFileChooser extends ListFragment
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		View v = info.targetView;
-		ImageView im = (ImageView) v.findViewById(br.com.thinkti.android.filechooser.R.id.img1);
-		TextView t1 = (TextView) v.findViewById(br.com.thinkti.android.filechooser.R.id.TextView01);
-		TextView t2 = (TextView) v.findViewById(br.com.thinkti.android.filechooser.R.id.TextView02);
 		Option o = adapter.getItem((int)info.id);
 		switch (item.getItemId()) {
 			case R.id.mnuDelete:
