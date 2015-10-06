@@ -276,4 +276,9 @@
 	<string name="Words">Words</string>
 	<string name="mnuRename">rename</string>
 	<string name="cmnuDelete">delete</string>
+	<string name="cmnuCancel">cancel</string>
+	<string name="txtReallyDelete">Do you really want to delete %s?</string>
+	<string name="txtReallyRename">Do you really want to rename %s?</string>
+	<string name="rename">Rename</string>
+	<string name="txtRenameFile">Please enter the new filename for %s.</string>
 </resources>

@@ -63,6 +63,7 @@ import android.os.Message;
 //import android.runtime.*;
 import android.provider.*;
 import android.text.Html;
+import android.text.InputType;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
@@ -94,6 +95,17 @@ public class lib {
         {
             this.res=res;
             this.checked= checked;
+        }
+    }
+
+    public static class OkCancelStringResult {
+
+        public okcancelundefined res;
+        public String input;
+        public OkCancelStringResult(okcancelundefined res, String input)
+        {
+            this.res=res;
+            this.input=input;
         }
     }
 
@@ -602,6 +614,76 @@ public class lib {
         return null;
     }
 
+    public static synchronized OkCancelStringResult InputBox(Context context,
+                                                                             String title,
+                                                                             String msg,
+                                                                             String prompt,
+                                                                             boolean center) {
+        // System.Threading.SynchronizationContext.Current.Post(new
+        // System.Threading.SendOrPostCallback(DelShowException),new
+        // ExStateInfo(context, ex));
+        if (libString.IsNullOrEmpty(title)) title = context.getString(R.string.question);
+        libLearn.gStatus= "ShowMessageYesNoWithCheckbox";
+        try {
+            if (YesNoHandler == null)
+                YesNoHandler = new Handler() {
+                    @Override
+                    public void handleMessage(Message mesg) {
+                        throw new RuntimeException();
+                    }
+                };
+
+            DialogResultYes = yesnoundefined.undefined;
+            AlertDialog.Builder A = new AlertDialog.Builder(context);
+            A.setPositiveButton(context.getString(R.string.ok), listenerYesNo);
+            A.setNegativeButton(context.getString(R.string.cancel), listenerYesNo);
+            A.setMessage(msg);
+            A.setTitle(title);
+            final EditText input = new EditText(context);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            input.setText(prompt);
+            A.setView(input);
+            AlertDialog dlg = A.create();
+            dlg.show();
+            OpenDialogs.add(dlg);
+            if (center)
+            {
+                TextView messageView = (TextView)dlg.findViewById(android.R.id.message);
+                messageView.setGravity(Gravity.CENTER);
+            }
+
+            try
+
+            {
+                Looper.loop();
+            } catch (RuntimeException e2) {
+                // Looper.myLooper().quit();
+                YesNoHandler = null;
+                OpenDialogs.remove(dlg);
+                dlg = null;
+            }
+            okcancelundefined res;
+            if (DialogResultYes == yesnoundefined.yes)
+            {
+                res=okcancelundefined.ok;
+            }
+            else if(DialogResultYes==yesnoundefined.no)
+            {
+                res=okcancelundefined.cancel;
+            }
+            else
+            {
+                res=okcancelundefined.undefined;
+            }
+            return new OkCancelStringResult(res, input.getText().toString());
+        } catch (Exception ex) {
+            ShowException(context, ex);
+        }
+        return null;
+    }
+
+
 
     public static synchronized yesnoundefined ShowMessageYesNoWithCheckboxes(Context context,
                                                                              String msg,
@@ -658,6 +740,9 @@ public class lib {
 
     public enum yesnoundefined {
         yes, no, undefined
+    }
+    public enum okcancelundefined {
+        ok, cancel, undefined
     }
     private static yesnoundefined DialogResultYes = yesnoundefined.undefined;
     private static DialogInterface.OnClickListener listenerYesNo = new DialogInterface.OnClickListener() {

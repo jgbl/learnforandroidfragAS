@@ -276,4 +276,9 @@
     <string name="Words">Vokabeln</string>
     <string name="mnuRename">umbenennen</string>
     <string name="cmnuDelete">löschen</string>
+    <string name="cmnuCancel">abbrechen</string>
+    <string name="txtReallyDelete">Möchten Sie wirklich %s löschen?</string>
+    <string name="txtReallyRename">Möchten Sie wirklich %s umbenennen?</string>
+    <string name="rename">Umbenennen</string>
+    <string name="txtRenameFile">Bitte geben Sie den neuen Dateinamen für %s ein.</string>
 </resources>

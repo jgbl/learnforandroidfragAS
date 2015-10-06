@@ -46,6 +46,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ListFragment;
 import android.support.v7.internal.widget.AdapterViewCompat;
+import android.text.format.Formatter;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -173,11 +174,40 @@ public class fragFileChooser extends ListFragment
 		Option o = adapter.getItem((int)info.id);
 		switch (item.getItemId()) {
 			case R.id.mnuDelete:
-				lib.ShowToast(_main,"delete " + t1.getText().toString() + " " + t2.getText().toString() + " " + o.getData() + " "  + o.getPath() + " " + o.getName());
+				String msg = String.format(getString(R.string.txtReallyDelete),o.getName());
+				if (lib.ShowMessageYesNo(_main, msg,_main.getString(R.string.question))== lib.yesnoundefined.yes)
+				{
+					try
+					{
+						File F = new File(o.getPath());
+						F.delete();
+					}
+					catch(Exception ex)
+					{
+						lib.ShowMessage(_main,ex.getMessage(),getString((R.string.Error)));
+					}
+				}
+				//lib.ShowToast(_main,"delete " + t1.getText().toString() + " " + t2.getText().toString() + " " + o.getData() + " "  + o.getPath() + " " + o.getName());
 				//editNote(info.id);
 				return true;
 			case R.id.mnuRename:
-				lib.ShowToast(_main, "rename " + t1.getText().toString() + " " + t2.getText().toString() + " " + o.getData() + " "  + o.getPath() + " " + o.getName());
+				String msg2 = String.format(getString(R.string.txtRenameFile),o.getName());
+				lib.OkCancelStringResult res = lib.InputBox(_main,getString(R.string.rename),msg2,o.getName(),false);
+				if (res.res == lib.okcancelundefined.ok.ok && res.input!=null && res.input != o.getName())
+				{
+					try
+					{
+
+						File F = new File(o.getPath());
+						File F2 = new File(F.getPath(),res.input);
+						F.renameTo(F2);
+					}
+					catch(Exception ex)
+					{
+						lib.ShowMessage(_main,ex.getMessage(),getString((R.string.Error)));
+					}
+				}
+				//lib.ShowToast(_main, "rename " + t1.getText().toString() + " " + t2.getText().toString() + " " + o.getData() + " "  + o.getPath() + " " + o.getName());
 				return true;
 			default:
 				return super.onContextItemSelected(item);
