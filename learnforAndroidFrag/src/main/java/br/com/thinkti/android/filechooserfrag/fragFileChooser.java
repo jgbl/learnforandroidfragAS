@@ -181,6 +181,8 @@ public class fragFileChooser extends ListFragment
 					{
 						File F = new File(o.getPath());
 						F.delete();
+						adapter.remove(o);
+
 					}
 					catch(Exception ex)
 					{
@@ -193,14 +195,16 @@ public class fragFileChooser extends ListFragment
 			case R.id.mnuRename:
 				String msg2 = String.format(getString(R.string.txtRenameFile),o.getName());
 				lib.OkCancelStringResult res = lib.InputBox(_main,getString(R.string.rename),msg2,o.getName(),false);
-				if (res.res == lib.okcancelundefined.ok.ok && res.input!=null && res.input != o.getName())
+				if (res.res == lib.okcancelundefined.ok.ok && !lib.libString.IsNullOrEmpty(res.input) && res.input != o.getName())
 				{
 					try
 					{
 
 						File F = new File(o.getPath());
-						File F2 = new File(F.getPath(),res.input);
+						File F2 = new File(F.getParent(),res.input);
 						F.renameTo(F2);
+						o.setName(res.input);
+						o.setPath(F2.getPath());
 					}
 					catch(Exception ex)
 					{

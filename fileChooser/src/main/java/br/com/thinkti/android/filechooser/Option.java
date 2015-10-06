@@ -17,6 +17,14 @@ public class Option implements Comparable<Option>{
 		this.parent = parent;
 		this.back = back;
 	}
+	public void setName(String value)
+	{
+		name = value;
+	}
+	public void setPath(String value)
+	{
+		path = value;
+	}
 	public String getName()
 	{
 		return name;
