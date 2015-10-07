@@ -232,7 +232,7 @@
     <string name="mnuHome">Home</string>
     <string name="txtRestartInterval">Neustart Intervall</string>
     <string name="spnRestartInterval">Intervall</string>
-    <string name="auto">automatisch</string>
+    <string name="auto">auto</string>
     <string name="off">aus</string>
     <string name="descCharSetASCII">Zeichensatz zum Laden von alten Dateien, die nicht mit Unicode kodiert wurden</string>
     <string name="descAbfragebereich">Abfragebereich, die Zahl bezieht sich darauf, wie oft ein Wort gewusst oder nicht gewusst wurde. Der default Wert ist Alle. Es werden dann alle Vokabeln gewichtet abgefragt.</string>
