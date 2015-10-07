@@ -177,7 +177,16 @@ public class fragFileChooser extends ListFragment
 					try
 					{
 						File F = new File(o.getPath());
-						F.delete();
+						if (F.exists()) {
+							if (F.isDirectory()) {
+								String [] deleteCmd = {"rm", "-r", F.getPath()};
+								Runtime runtime = Runtime.getRuntime();
+								runtime.exec(deleteCmd);
+							} else {
+								F.delete();
+							}
+						}
+
 						adapter.remove(o);
 
 					}
