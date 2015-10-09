@@ -27,8 +27,6 @@
  */
 package br.com.thinkti.android.filechooserfrag;
 
-import br.com.thinkti.android.filechooserfrag.Option;
-
 public class Option implements Comparable<Option>{
 	private String name;
 	private String data;
@@ -45,6 +43,18 @@ public class Option implements Comparable<Option>{
 		this.folder = folder;
 		this.parent = parent;
 		this.back = back;
+	}
+	public void setName(String value)
+	{
+		name = value;
+	}
+	public void setPath(String value)
+	{
+		path = value;
+	}
+	public void setData(String value)
+	{
+		data = value;
 	}
 	public String getName()
 	{

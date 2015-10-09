@@ -29,9 +29,9 @@ package br.com.thinkti.android.filechooserfrag;
 
 import java.util.List;
 
-import br.com.thinkti.android.filechooser.Option;
-import br.com.thinkti.android.filechooser.R;
-
+import br.com.thinkti.android.filechooserfrag.Option;
+//import br.com.thinkti.android.filechooserfrag.R;
+import org.de.jmg.learn.R;
 import android.content.Context;
 import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
