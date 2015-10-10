@@ -14,6 +14,7 @@
         android:icon="@drawable/ic_menu_archive">
     </item>
     <item android:id="@+id/mnuOpenUri" android:title="@string/mnuOpenUri"></item>
+    <item android:id="@+id/mnuOpenQuizlet" android:title="@string/mnuOpenQuizlet"></item>
     <item android:id="@+id/mnuFileSave" android:title="@string/mnuFileSave"></item>
     <item android:id="@+id/mnuSaveAs" 
         android:title="@string/mnuSaveAs" 

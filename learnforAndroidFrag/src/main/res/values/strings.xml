@@ -281,4 +281,8 @@
 	<string name="txtReallyRename">Do you really want to rename %s?</string>
 	<string name="rename">Rename</string>
 	<string name="txtRenameFile">Please enter the new filename for %s.</string>
+	<string name="picture">picture</string>
+	<string name="Search">search</string>
+	<string name="SearchQuizlet">Search Quizlet for</string>
+	<string name="mnuOpenQuizlet">open Quizlet</string>
 </resources>
