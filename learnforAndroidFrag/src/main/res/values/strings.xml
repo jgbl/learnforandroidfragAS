@@ -285,4 +285,5 @@
 	<string name="Search">search</string>
 	<string name="SearchQuizlet">Search Quizlet for</string>
 	<string name="mnuOpenQuizlet">open Quizlet</string>
+	<string name="loading">Loading...</string>
 </resources>
