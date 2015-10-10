@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity  {
 							if (fPA != null & fPA.fragQuizlet != null)
 							{
 								lib.OkCancelStringResult res = lib.InputBox(MainActivity.this, getString(R.string.Search), getString(R.string.SearchQuizlet), fPA.fragQuizlet.getSearchPhrase(), false);
-								if (res.res== lib.okcancelundefined.ok && !libString.IsNullOrEmpty(res.input) && res.input.equals(fPA.fragQuizlet.getSearchPhrase()))
+								if (res.res== lib.okcancelundefined.ok && !libString.IsNullOrEmpty(res.input))
 								{
 									fPA.fragQuizlet.setSearchPhrase(res.input);
 									fPA.fragQuizlet.Load();

@@ -925,6 +925,7 @@ public class _MainActivity extends Fragment {
 		_txtKom = (BorderedTextView) findViewById(R.id.Comment);
 		_txtKom.setOnLongClickListener(textlongclicklistener);
 		_txtKom.setOnTouchListener(OnTouchListenerRemoveCallbacks);
+		_txtKom.setMovementMethod(LinkMovementMethod.getInstance());
 		
 		_txtStatus = (BorderedTextView) findViewById(R.id.txtStatus);
 		
@@ -1111,7 +1112,7 @@ public class _MainActivity extends Fragment {
 		params.width = LayoutParams.MATCH_PARENT;
 		LayWord.setLayoutParams(params);
 		_txtedKom.setVisibility(View.VISIBLE);
-		_txtedKom.setText(_txtKom.getText());
+		_txtedKom.setText(_vok.getKommentar());
 		_txtedKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,_txtKom.getTextSize());
 		_txtedWord.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 		_txtedKom.setImeOptions(EditorInfo.IME_ACTION_NEXT);
