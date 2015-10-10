@@ -14,11 +14,15 @@
         android:icon="@drawable/ic_menu_archive">
     </item>
     <item android:id="@+id/mnuOpenUri" android:title="@string/mnuOpenUri"></item>
-    <item android:id="@+id/mnuOpenQuizlet" android:title="@string/mnuOpenQuizlet"></item>
+    <item android:id="@+id/mnuOpenQuizlet"
+        android:title="@string/mnuOpenQuizlet"
+        compat:showAsAction="always"
+        android:icon="@drawable/ic_menu_import">
+    </item>
     <item android:id="@+id/mnuFileSave" android:title="@string/mnuFileSave"></item>
     <item android:id="@+id/mnuSaveAs" 
         android:title="@string/mnuSaveAs" 
-        compat:showAsAction="always" 
+        compat:showAsAction="ifRoom"
         android:icon="@drawable/ic_menu_save">
     </item>
     <item android:id="@+id/mnuRestart" android:title="@string/mnuRestart"></item>
@@ -37,7 +41,8 @@
             <item android:id="@+id/mnuEdit" android:title="@string/mnuEdit"></item>
     	</menu>
     </item>
-    <item android:id="@+id/mnuContact" android:title="@string/mnuContact"></item><item
+    <item android:id="@+id/mnuContact" android:title="@string/mnuContact"></item>
+    <item
        android:id="@+id/action_settings"
        android:orderInCategory="100"
        android:title="@string/action_settings"
