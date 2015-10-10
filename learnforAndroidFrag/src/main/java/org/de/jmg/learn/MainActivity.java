@@ -47,6 +47,7 @@ import org.de.jmg.lib.lib.yesnoundefined;
 import br.com.thinkti.android.filechooser.AdvFileChooser;
 import br.com.thinkti.android.filechooser.FileChooser;
 import br.com.thinkti.android.filechooserfrag.fragFileChooser;
+import br.com.thinkti.android.filechooserfrag.fragFileChooserQuizlet;
 
 import android.content.res.Configuration;
 import android.support.v4.app.FragmentManager;
@@ -215,6 +216,18 @@ public class MainActivity extends AppCompatActivity  {
 								catch (Exception ex)
 								{
 									Log.e(".saveResultsAndFinish",ex.getMessage(),ex);
+								}
+							}
+						}
+						else if (position == fragFileChooserQuizlet.fragID)
+						{
+							if (fPA != null & fPA.fragQuizlet != null)
+							{
+								lib.OkCancelStringResult res = lib.InputBox(MainActivity.this, getString(R.string.Search), getString(R.string.SearchQuizlet), fPA.fragQuizlet.getSearchPhrase(), false);
+								if (res.res== lib.okcancelundefined.ok && !libString.IsNullOrEmpty(res.input) && res.input.equals(fPA.fragQuizlet.getSearchPhrase()))
+								{
+									fPA.fragQuizlet.setSearchPhrase(res.input);
+									fPA.fragQuizlet.Load();
 								}
 							}
 						}
@@ -1313,6 +1326,10 @@ public class MainActivity extends AppCompatActivity  {
 			//resize();
 			OptionsMenu = menu;
 			mnuAddNew = menu.findItem(R.id.mnuAddWord);
+			if (Build.VERSION.SDK_INT<11)
+			{
+				menu.findItem(R.id.mnuOpenQuizlet).setVisible(false);
+			}
 			/*
 			if (isSmallDevice)
 			{
@@ -1364,6 +1381,10 @@ public class MainActivity extends AppCompatActivity  {
 			{
 				mPager.setCurrentItem(_MainActivity.fragID);
 			}
+			else if (id == R.id.mnuOpenQuizlet)
+			{
+				mPager.setCurrentItem(fragFileChooserQuizlet.fragID);
+			}
 			else if (id == R.id.mnuOpenUri) 
 			{
 				if (saveVok(false))
@@ -1406,7 +1427,7 @@ public class MainActivity extends AppCompatActivity  {
 			} else if (id == R.id.mnuFileSave) {
 				saveVok(false);
 			} else if (id == R.id.mnuSaveAs) {
-				SaveVokAs(true,false);
+				SaveVokAs(true, false);
 			} else if (id == R.id.mnuRestart) {
 				vok.restart();
 			} 
@@ -1428,7 +1449,7 @@ public class MainActivity extends AppCompatActivity  {
 			}
 			else if (id == R.id.mnuReset) {
 				if (lib.ShowMessageYesNo(this,
-						this.getString(R.string.ResetVocabulary),"")==yesnoundefined.yes) {
+						this.getString(R.string.ResetVocabulary), "")==yesnoundefined.yes) {
 					vok.reset();
 				}
 

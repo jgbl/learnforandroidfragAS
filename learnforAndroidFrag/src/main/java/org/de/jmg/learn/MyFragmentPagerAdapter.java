@@ -140,7 +140,7 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter{
 				if (fragQuizlet == null)
 				{
 					fragQuizlet = new fragFileChooserQuizlet();
-					fragQuizlet.initfragFileChooserQuizlet(main,"","Spanish");
+					fragQuizlet.initfragFileChooserQuizlet(main,"","");
 
 				}
 				LastItem = fragQuizlet;

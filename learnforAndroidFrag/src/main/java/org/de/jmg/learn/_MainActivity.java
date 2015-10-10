@@ -558,14 +558,19 @@ public class _MainActivity extends Fragment {
 
 	public void getVokabel(boolean showBeds, boolean LoadNext)
 	{
-		getVokabel(showBeds, LoadNext, false);
+		getVokabel(showBeds, LoadNext, false, false);
+	}
+
+	public void getVokabel(boolean showBeds, boolean LoadNext, boolean requestFocusEdWord)
+	{
+		getVokabel(showBeds, LoadNext, requestFocusEdWord, false);
 	}
 
 
-		public void getVokabel(boolean showBeds, boolean LoadNext, boolean requestFocusEdWord) {
+		public void getVokabel(boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt) {
 		try {
 			if (_btnRight == null) return;
-			EndEdit(false);
+			EndEdit(DontPrompt);
 			setBtnsEnabled(true);
 			if (showBeds && _vok.getIndex()>=1) {
 				_btnRight.setEnabled(true);
@@ -1176,7 +1181,7 @@ public class _MainActivity extends Fragment {
 			
 			try
 			{
-				if (dontPrompt || (!libString.IsNullOrEmpty(_txtedWord.getText().toString())
+				if ((!libString.IsNullOrEmpty(_txtedWord.getText().toString())
 						&& !libString.IsNullOrEmpty(_txtMeaning1.getText().toString())))
 				{
 					_vok.setWort(_txtedWord.getText().toString(),dontPrompt);
@@ -1187,7 +1192,7 @@ public class _MainActivity extends Fragment {
 				}
 				else
 				{
-					if (lib.ShowMessageYesNo(context,context.getString(R.string.WordOrMeaningMissing), "" )==yesnoundefined.yes)
+					if (dontPrompt || lib.ShowMessageYesNo(context,context.getString(R.string.WordOrMeaningMissing), "" )==yesnoundefined.yes)
 					{
 						_vok.DeleteVokabel();
 					}
