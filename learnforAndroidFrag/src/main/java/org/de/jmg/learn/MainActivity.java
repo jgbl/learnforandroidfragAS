@@ -1382,10 +1382,7 @@ public class MainActivity extends AppCompatActivity  {
 					lib.SelectFile(this,def);
 				}
 			} else if (id == R.id.mnuNew) {
-				if (saveVok(false))
-				{
-					newvok();
-				}
+				newVok();
 				
 			} else if (id == R.id.mnuAddWord) {
 				mPager.setCurrentItem(_MainActivity.fragID);
@@ -1475,7 +1472,17 @@ public class MainActivity extends AppCompatActivity  {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
+	public boolean newVok() throws  Exception
+	{
+		if (saveVok(false))
+		{
+			newvok();
+			return true;
+		}
+		return false;
+	}
+
 	public Intent getSettingsIntent() 
 	{
 		libLearn.gStatus = "initializing SettingsFragment";

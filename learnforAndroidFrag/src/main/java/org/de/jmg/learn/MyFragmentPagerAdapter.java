@@ -23,6 +23,9 @@ package org.de.jmg.learn;
 import org.de.jmg.lib.lib;
 
 import br.com.thinkti.android.filechooserfrag.fragFileChooser;
+import br.com.thinkti.android.filechooserfrag.fragFileChooserQuizlet;
+
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -31,10 +34,11 @@ import android.view.ViewGroup;
 
 public class MyFragmentPagerAdapter extends FragmentPagerAdapter{
 	
-	final int PAGE_COUNT = 4;
+	int PAGE_COUNT = 5;
 	public _MainActivity fragMain;
 	public SettingsActivity fragSettings;
 	public br.com.thinkti.android.filechooserfrag.fragFileChooser fragChooser;
+	public br.com.thinkti.android.filechooserfrag.fragFileChooserQuizlet fragQuizlet;
 	public MainActivity main;
 	public fragStatistics fragChart;
 	/** Constructor of the class */
@@ -68,6 +72,10 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter{
 					else if (f instanceof fragStatistics)
 					{
 						fragChart = (fragStatistics) f;
+					}
+					else if (f instanceof fragFileChooserQuizlet)
+					{
+						fragQuizlet = (fragFileChooserQuizlet) f;
 					}
 				}
 			}
@@ -127,7 +135,16 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter{
 					fragSettings.init(main.getSettingsIntent(),main);
 				}
 				LastItem = fragSettings;
-				return fragSettings;	
+				return fragSettings;
+			case fragFileChooserQuizlet.fragID:
+				if (fragQuizlet == null)
+				{
+					fragQuizlet = new fragFileChooserQuizlet();
+					fragQuizlet.initfragFileChooserQuizlet(main,"","Spanish");
+
+				}
+				LastItem = fragQuizlet;
+				return fragQuizlet;
 		}
 		
 		return null;
@@ -136,6 +153,7 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter{
 	/** Returns the number of pages */
 	@Override
 	public int getCount() {		
+		if (Build.VERSION.SDK_INT < 11) PAGE_COUNT = 4;
 		return PAGE_COUNT;
 	}
 	@Override
