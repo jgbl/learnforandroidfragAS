@@ -1867,7 +1867,7 @@ public class _MainActivity extends Fragment {
 		if (t.getText() instanceof SpannedString) {
 			p.setTextSize(t.getTextSize());
 			SpannedString s = (SpannedString) t.getText();
-			width = width  - width/7;
+			width = width  - width/5;
 			float measuredWidth = p.measureText(s.toString());
 			if (measuredWidth != width)
 			{

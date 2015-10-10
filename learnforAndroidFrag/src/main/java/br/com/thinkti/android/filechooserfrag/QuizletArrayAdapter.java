@@ -58,7 +58,8 @@ public class QuizletArrayAdapter extends ArrayAdapter<RowData> {
 		this.parent = parent;
 	}
 
-	public RowData getItem(int i) {
+	public RowData getItem(int i)
+	{
 		return items.get(i);
 	}
 
