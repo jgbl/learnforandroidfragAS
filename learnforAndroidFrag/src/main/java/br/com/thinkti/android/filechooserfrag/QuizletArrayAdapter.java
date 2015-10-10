@@ -114,7 +114,7 @@ public class QuizletArrayAdapter extends ArrayAdapter<RowData> {
 				t2.setText(o.description);
 
 		}
-		if (position == this.getCount()-1) this.parent.nextPage();
+		if (position == this.getCount()-1 && this.parent.getTotalPages() > this.parent.getPage()) this.parent.nextPage();
 		return v;
 
 	}
