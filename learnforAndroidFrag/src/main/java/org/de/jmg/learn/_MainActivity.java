@@ -1867,11 +1867,12 @@ public class _MainActivity extends Fragment {
 		if (t.getText() instanceof SpannedString) {
 			p.setTextSize(t.getTextSize());
 			SpannedString s = (SpannedString) t.getText();
-			width = width  - lib.dpToPx(70);
+			width = width  - width/7;
 			float measuredWidth = p.measureText(s.toString());
 			if (measuredWidth != width)
 			{
 				float scaleA = (float)width / (float)measuredWidth;
+				if(libString.IsNullOrEmpty(_vok.getFileName())) scaleA*=.75f;
 				if (scaleA < .5f) scaleA = .5f;
 				if (scaleA>2.0f) scaleA = 2.0f;
 				float size = t.getTextSize();
