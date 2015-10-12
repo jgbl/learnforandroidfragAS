@@ -125,7 +125,8 @@ public class AdvFileChooser extends Activity {
 			try {
 				fileSelected = new File(getRealPathFromURI(uri));
 				final EditText edFile = (EditText)findViewById(R.id.edFile);
-				edFile.setText(fileSelected.getName());
+				String name = fileSelected.getName();
+				edFile.setText(name);
 				if (fileSelected.exists())
 				{
 					currentDir = fileSelected.getParentFile();
@@ -161,7 +162,7 @@ public class AdvFileChooser extends Activity {
 						FName = extras.getString("URIName");
 						if (FName!=null && FName.length()>1 && FName.startsWith("/")) FName = FName.substring(1);
 					}
-					edFile.setText(FName);
+					if (!(FName == null || FName.length() == 0)) edFile.setText(FName);
 					fileSelected = null;
 					uri = null;
 				}

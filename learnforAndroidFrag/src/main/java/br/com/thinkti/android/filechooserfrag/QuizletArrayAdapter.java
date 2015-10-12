@@ -110,7 +110,7 @@ public class QuizletArrayAdapter extends ArrayAdapter<RowData> {
 			//}
 
 			if (t1 != null)
-				t1.setText(o.name);
+				t1.setText(o.name + "(" + o.numCards + ")");
 			if (t2 != null)
 				t2.setText(o.description);
 
