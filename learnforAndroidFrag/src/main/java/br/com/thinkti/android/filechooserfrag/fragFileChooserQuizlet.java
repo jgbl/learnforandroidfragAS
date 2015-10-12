@@ -215,7 +215,7 @@ public class fragFileChooserQuizlet extends ListFragment
 		@Override
 		protected void onPreExecute() {
 			p = new ProgressDialog(fragFileChooserQuizlet.this._main);
-			//pdia.setMessage("Loading...");
+			p.setMessage(_main.getString(R.string.loading));
 			p.show();
 		}
 
@@ -250,17 +250,43 @@ public class fragFileChooserQuizlet extends ListFragment
 			{
 				if(list!=null)
 				{
-					if (_main.vok.getGesamtzahl() == 1)
-					{
-						_main.vok.DeleteVokabel();
-					}
+					_main.vok.NewFile();
 					_main.vok.getVokabeln().addAll(list);
-					_main.mPager.setCurrentItem(_MainActivity.fragID);
+
 					if (_main.vok.getGesamtzahl()>1)
 					{
-						_main.vok.setIndex(1);
+						//_main.vok.setIndex(1);
+
+						_main.vok.aend = true;
 
 						_main.vok.InitAbfrage();
+
+						_main.mPager.setCurrentItem(_MainActivity.fragID);
+
+						lib.yesnoundefined res = lib.ShowMessageYesNo(_main, getString(R.string.txtFlashCardFile),"");
+						if (res == lib.yesnoundefined.yes)
+						{
+							_main.vok.setCardMode(true);
+							_main.fPA.fragMain.SetViewsToCardmode();
+						}
+						else
+						{
+							_main.vok.setCardMode(false);
+							_main.fPA.fragMain.SetViewsToVokMode();
+						}
+						try
+						{
+							if (!lib.libString.IsNullOrEmpty(_main.vok.title))
+							{
+								File file = new File(_main.vok.getvok_Path(), _main.vok.title + (_main.vok.getCardMode()?".kar":".vok"));
+								_main.vok.setFileName(file.getPath());
+							}
+
+						}
+						catch (Exception ex)
+						{
+
+						}
 
 						_main.fPA.fragMain.getVokabel(false, false, false, true);
 					}
@@ -276,13 +302,9 @@ public class fragFileChooserQuizlet extends ListFragment
 		@Override
 		protected void onPreExecute() {
 			p = new ProgressDialog(fragFileChooserQuizlet.this._main);
-			//pdia.setMessage("Loading...");
+			p.setMessage(_main.getString(R.string.loading));
 			p.show();
-			try {
-				jlklklif (_main.newVok()==false) this.cancel(true);
-			} catch (Exception e) {
-				lib.ShowException(_main,e);
-			}
+
 		}
 
 		@Override
@@ -360,6 +382,7 @@ public class fragFileChooserQuizlet extends ListFragment
 		InputStream inputStream = null ;
 		List<typVok>list = new ArrayList<typVok>();
 		String Kom = "";
+		_main.vok.title = "";
 		try {
 			URL url = new URL( getDeckUrl(id) );
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -385,15 +408,7 @@ public class fragFileChooserQuizlet extends ListFragment
 						String strUrl = reader.nextString();
 					} else if ("title".equals(name)) {
 						String title = reader.nextString();
-						try
-						{
-							File file = new File(_main.vok.getvok_Path(), title + (_main.vok.getCardMode()?".kar":".vok"));
-							_main.vok.setFileName(file.getPath());
-						}
-						catch (Exception ex)
-						{
-
-						}
+						_main.vok.title = title;
 					} else if ("created_by".equals(name)) {
 						String created_by = reader.nextString();
 						Kom = _main.getString(R.string.created_by) + " " + created_by
@@ -439,6 +454,10 @@ public class fragFileChooserQuizlet extends ListFragment
 			String name = reader.nextName();
 			if ( name.equals( "title" )) {
 				rowData.name = reader.nextString();
+			}
+			else if ( name.equals( "description" )) {
+				rowData.description = reader.nextString();
+				if (rowData.description.length()>200) rowData.description = rowData.description.substring(0,100);
 			}
 			else if ( name.equals( "id" )) {
 				rowData.id = reader.nextInt();
@@ -677,7 +696,15 @@ public class fragFileChooserQuizlet extends ListFragment
 		RowData o = adapter.getItem(position);
 			//onFileClick(o);
 		String[]params = new String[]{"" + o.id};
-		new TaskopenSet().execute(params);
+		try {
+			if (_main.saveVok(false))
+			{
+				new TaskopenSet().execute(params);
+			}
+		} catch (Exception e) {
+			lib.ShowException(_main,e);
+		}
+
 
 	}
 

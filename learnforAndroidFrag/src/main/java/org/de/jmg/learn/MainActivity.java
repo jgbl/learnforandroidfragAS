@@ -779,7 +779,7 @@ public class MainActivity extends AppCompatActivity  {
 	private int _backPressed;
 	private Handler handlerbackpressed = new Handler();
 
-	private synchronized boolean saveVok(boolean dontPrompt) throws Exception {
+	public synchronized boolean saveVok(boolean dontPrompt) throws Exception {
 		if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
 		{
 			if (fPA.fragMain.EndEdit(false)==false) return false ;
@@ -838,7 +838,10 @@ public class MainActivity extends AppCompatActivity  {
 				try 
 				{
 					
-					if (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()==null)
+					if ((libString.IsNullOrEmpty(vok.getFileName())
+							|| libString.IsNullOrEmpty(vok.getvok_Path())
+							|| new File(vok.getFileName()).getParent() == null)
+							&& vok.getURI()==null)
 					{
 						SaveVokAs(true,false);
 						return false;

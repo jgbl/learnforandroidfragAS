@@ -113,7 +113,7 @@ public class Vokabel {
 	public float ProbabilityFactor = -1;
 	public int RestartInterval = 10;
 	public Typeface TypefaceCardo;
-	
+	public String title;
 	public int AnzFalsch;
 
 	public enum Bewertung {
@@ -456,6 +456,10 @@ public class Vokabel {
 	// verwendet.
 	// Syntax: Debug.Print X.Gesamtzahl
 	public int getGesamtzahl() {
+		if (mGesamtzahl == 0 && mVok != null)
+		{
+			mGesamtzahl = mVok.size();
+		}
 		return mGesamtzahl;
 	}
 
