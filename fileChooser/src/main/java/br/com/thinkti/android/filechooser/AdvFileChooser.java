@@ -459,7 +459,7 @@ public class AdvFileChooser extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> l, View v, int position,
 					long id) {
-				// TODO Auto-generated method stub
+
 				Option o = adapter.getItem(position);
 				if (!o.isBack())
 					doSelect(o);

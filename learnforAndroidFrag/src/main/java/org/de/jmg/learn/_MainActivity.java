@@ -239,7 +239,7 @@ public class _MainActivity extends Fragment {
 
 		@Override
 		public void uncaughtException(Thread thread, Throwable ex) {
-			// TODO Auto-generated method stub
+
 			ex.printStackTrace();
 		}
 	};
@@ -367,7 +367,7 @@ public class _MainActivity extends Fragment {
 			 * View.OnFocusChangeListener() {
 			 *
 			 * @Override public void onFocusChange(View v, boolean hasFocus) {
-			 * // TODO Auto-generated method stub if (_firstFocus && hasFocus) {
+			 *  if (_firstFocus && hasFocus) {
 			 * hideKeyboard(); _firstFocus = false; } } });
 			 */
 		}
@@ -551,7 +551,7 @@ public class _MainActivity extends Fragment {
 	}
 
 	private View findViewById(int id) {
-		// TODO Auto-generated method stub
+
 		if (mainView == null) return null;
 		return this.mainView.findViewById(id);
 	}
@@ -615,6 +615,7 @@ public class _MainActivity extends Fragment {
 				t.setTypeface(Typeface.DEFAULT);
 				_txtedWord.setTypeface(Typeface.DEFAULT);
 			}
+			t.scrollTo(0, 0);
 
 			v = findViewById(R.id.Comment);
 			t = (TextView) v;
@@ -653,7 +654,7 @@ public class _MainActivity extends Fragment {
 
 				@Override
 				public void onFocusChange(View v, boolean hasFocus) {
-					// TODO Auto-generated method stub
+
 					if (hasFocus && _firstFocus) {
 						hideKeyboard();
 						_firstFocus = false;
@@ -715,7 +716,7 @@ public class _MainActivity extends Fragment {
 				
 				@Override
 				public void onGlobalLayout() {
-					// TODO Auto-generated method stub
+
 					lib.removeLayoutListener(_scrollView.getViewTreeObserver(), this);
 					hideKeyboard();
 					_scrollView.fullScroll(View.FOCUS_UP);
@@ -736,7 +737,7 @@ public class _MainActivity extends Fragment {
 
 		@Override
 		public void onWindowFocusChanged(boolean hasFocus) {
-			// TODO Auto-generated method stub
+
 			if (hasFocus) {
 				lib.removewfcListener(_scrollView.getViewTreeObserver(), this);
 				hideKeyboard();
@@ -747,8 +748,8 @@ public class _MainActivity extends Fragment {
 	}
 	
 	private int _lastIsWrongVokID;
-	MovementMethod oldMeaning1MovementMethod; 
-	
+	MovementMethod oldMeaning1MovementMethod;
+	MovementMethod oldWordMovementMethod;
 	@SuppressLint("ClickableViewAccessibility")
 	private void InitControls() throws Exception {
 		View v = findViewById(R.id.btnRight);
@@ -914,8 +915,39 @@ public class _MainActivity extends Fragment {
 		
 		_txtWord = (BorderedTextView) findViewById(R.id.word);
 		_txtWord.setOnLongClickListener(textlongclicklistener);
-		_txtWord.setOnTouchListener(OnTouchListenerRemoveCallbacks);
+		//_txtWord.setOnTouchListener(OnTouchListenerRemoveCallbacks);
+		_txtWord.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				removeCallbacks();
+				try
+				{
+					if (v.getId() == R.id.word && v.getVisibility()==View.VISIBLE && _txtWord.getLineCount()>3)
+					{
+						if (_txtWord.getMovementMethod()!=ScrollingMovementMethod.getInstance())
+						{
+							oldWordMovementMethod = _txtWord.getMovementMethod();
+						}
+						_txtWord.setMovementMethod(android.text.method.ScrollingMovementMethod.getInstance());
+						_txtWord.getParent().requestDisallowInterceptTouchEvent(true);
+						detectorWord.onTouchEvent(event);
+						if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP)
+						{
+							_txtWord.getParent().requestDisallowInterceptTouchEvent(false);
+							if (oldWordMovementMethod!=null) _txtWord.setMovementMethod(oldWordMovementMethod);
+						}
 
+					}
+				}
+				catch(Exception ex)
+				{
+					ex.printStackTrace();
+					//lib.ShowException(_main, ex);
+				}
+
+				return false;
+			}
+		});
 		_txtedWord= (BorderedEditText) findViewById(R.id.edword);
 		_txtedWord.setOnLongClickListener(textlongclicklistener);
 		
@@ -945,14 +977,87 @@ public class _MainActivity extends Fragment {
 			return false;
 		}
 	};
-	
+
+
+	GestureDetector detectorWord = new GestureDetector(_main, new GestureDetector.OnGestureListener() {
+
+		@Override
+		public boolean onSingleTapUp(MotionEvent e) {
+			try
+			{
+				if ((e.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP)
+				{
+					_txtWord.getParent().requestDisallowInterceptTouchEvent(false);
+					if (oldWordMovementMethod!=null) _txtWord.setMovementMethod(oldWordMovementMethod);
+				}
+			}
+			catch (Exception ex)
+			{
+				ex.printStackTrace();
+				//lib.ShowException(_main, ex);
+			}
+			return false;
+		}
+
+		@Override
+		public void onShowPress(MotionEvent e) {
+
+
+		}
+
+		@Override
+		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+								float distanceY) {
+			if (e1 ==null||e2==null)return false;
+			try
+			{
+				_txtWord.getParent().requestDisallowInterceptTouchEvent(true);
+				BorderedTextView.BottomOrTop pos = _txtWord.getScrollBottomOrTopReached();
+				float distY = e2.getY()-e1.getY();
+				float distX = e2.getX()-e1.getX();
+				if ((Math.abs(distX) > Math.abs(distY)) || (pos == BorderedTextView.BottomOrTop.both) || (pos == BorderedTextView.BottomOrTop.top
+						&& distY >= 0)
+						|| (pos == BorderedTextView.BottomOrTop.bottom
+						&& distY <= 0))
+				{
+					_txtWord.getParent().requestDisallowInterceptTouchEvent(false);
+				}
+			}
+			catch (Exception ex)
+			{
+				ex.printStackTrace();
+				//lib.ShowException(_main, ex);
+			}
+			return false;
+		}
+
+		@Override
+		public void onLongPress(MotionEvent e) {
+
+
+		}
+
+		@Override
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+							   float velocityY) {
+
+			return false;
+		}
+
+		@Override
+		public boolean onDown(MotionEvent e) {
+
+			return false;
+		}
+	});
+
 	GestureDetector detectorMeaning1 = new GestureDetector(_main, new GestureDetector.OnGestureListener() {
 		
 		@Override
 		public boolean onSingleTapUp(MotionEvent e) {
 			try
 			{
-				if ((e.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) 
+				if ((e.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP)
 	            {
 	                _txtMeaning1.getParent().requestDisallowInterceptTouchEvent(false);
 	                if (oldMeaning1MovementMethod!=null) _txtMeaning1.setMovementMethod(oldMeaning1MovementMethod);
@@ -968,7 +1073,7 @@ public class _MainActivity extends Fragment {
 		
 		@Override
 		public void onShowPress(MotionEvent e) {
-			// TODO Auto-generated method stub
+
 			
 		}
 		
@@ -1000,20 +1105,20 @@ public class _MainActivity extends Fragment {
 		
 		@Override
 		public void onLongPress(MotionEvent e) {
-			// TODO Auto-generated method stub
+
 			
 		}
 		
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 				float velocityY) {
-			// TODO Auto-generated method stub
+
 			return false;
 		}
 		
 		@Override
 		public boolean onDown(MotionEvent e) {
-			// TODO Auto-generated method stub
+
 			return false;
 		}
 	});
@@ -1022,7 +1127,7 @@ public class _MainActivity extends Fragment {
 		
 		@Override
 		public boolean onLongClick(View v) {
-			// TODO Auto-generated method stub
+
 			TextView txt = (TextView)v;
 			Intent intent = null;
 			if (libString.IsNullOrEmpty(txt.getText().toString())
@@ -1301,7 +1406,7 @@ public class _MainActivity extends Fragment {
 
 		@Override
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-			// TODO Auto-generated method stub
+
 			if (event == null) {
 				if (actionId == EditorInfo.IME_ACTION_DONE) {
 					hideKeyboard();
@@ -1547,7 +1652,7 @@ public class _MainActivity extends Fragment {
 	/*
 	 * private void runFlashWords() { new Thread(new Runnable() {
 	 * 
-	 * @Override public void run() { // TODO Auto-generated method stub try {
+	 * @Override public void run() {  try {
 	 * flashwords(); } catch (Exception e) { // TODO Auto-generated catch block
 	 * e.printStackTrace(); } } }).start(); }
 	 */
@@ -1651,7 +1756,7 @@ public class _MainActivity extends Fragment {
 	private class hideWordBordersTask implements Runnable {
 
 		public void run() {
-			// TODO Auto-generated method stub
+
 			hideWordBorders();
 		}
 
@@ -1666,7 +1771,7 @@ public class _MainActivity extends Fragment {
 		}
 
 		public void run() {
-			// TODO Auto-generated method stub
+
 			// Bed.setPadding(5, 5, 5, 5);
 			Bed.setShowBorders(true,
 					_main.Colors.get(ColorItems.box_meaning).ColorValue);
@@ -1690,7 +1795,7 @@ public class _MainActivity extends Fragment {
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
+
 			// Bed.setPadding(0, 0, 0, 0);
 			Bed.setShowBorders(false,
 					_main.Colors.get(ColorItems.background).ColorValue);
@@ -1703,20 +1808,20 @@ public class _MainActivity extends Fragment {
 	 * CancelTimerTask(Timer T) {  this.T
 	 * = T; }
 	 * 
-	 * @Override public void run() { // TODO Auto-generated method stub
+	 * @Override public void run() {
 	 * T.cancel(); }
 	 * 
 	 * }
 	 */
 	private void showWordBorders() {
-		// TODO Auto-generated method stub
+
 		// _txtWord.setPadding(5, 5, 5, 5);
 		_txtWord.setShowBorders(true,
 				_main.Colors.get(ColorItems.box_word).ColorValue);
 	}
 
 	private void hideWordBorders() {
-		// TODO Auto-generated method stub
+
 		// _txtWord.setPadding(0, 0, 0, 0);
 		_txtWord.setShowBorders(false,
 				_main.Colors.get(ColorItems.background).ColorValue);

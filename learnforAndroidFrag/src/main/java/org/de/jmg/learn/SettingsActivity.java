@@ -200,7 +200,7 @@ public class SettingsActivity extends Fragment
 	Intent _Intent;
 	boolean _blnInitialized = false;	
 	public void init(Intent mainintent, MainActivity main) {
-	// TODO Auto-generated method stub
+
 		
 		_Intent = mainintent;
 		_main = main;
@@ -308,7 +308,7 @@ public class SettingsActivity extends Fragment
 	
 
 	private View findViewById(int id) {
-		// TODO Auto-generated method stub
+
 		return SettingsView.findViewById(id);
 	}
 
@@ -347,7 +347,7 @@ public class SettingsActivity extends Fragment
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
-				// TODO Auto-generated method stub
+
 				intent.putExtra("nghs", isChecked);
 				intent.putExtra("OK","OK");
 			}
@@ -363,7 +363,7 @@ public class SettingsActivity extends Fragment
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
-				// TODO Auto-generated method stub
+
 				intent.putExtra("fora", isChecked);
 				intent.putExtra("OK","OK");
 			}
@@ -379,7 +379,7 @@ public class SettingsActivity extends Fragment
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
-				// TODO Auto-generated method stub
+
 				intent.putExtra("translate", isChecked);
 				intent.putExtra("OK","OK");
 			}
@@ -396,7 +396,7 @@ public class SettingsActivity extends Fragment
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
-				// TODO Auto-generated method stub
+
 				intent.putExtra("Random", isChecked);
 				intent.putExtra("OK","OK");
 			}
@@ -412,7 +412,7 @@ public class SettingsActivity extends Fragment
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
-				// TODO Auto-generated method stub
+
 				intent.putExtra("AskAll", isChecked);
 				intent.putExtra("OK","OK");
 			}
@@ -428,7 +428,7 @@ public class SettingsActivity extends Fragment
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
-				// TODO Auto-generated method stub
+
 				intent.putExtra("Sound", isChecked);
 				intent.putExtra("OK","OK");
 			}
@@ -469,7 +469,7 @@ public class SettingsActivity extends Fragment
 				
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					// TODO Auto-generated method stub
+
 					int ShowAlwaysDocumentProvider = isChecked?-1:0;
 					if(!isChecked)
 					{
@@ -503,7 +503,7 @@ public class SettingsActivity extends Fragment
 				
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					// TODO Auto-generated method stub
+
 					int DontShowPersistableURIMessage = isChecked?-1:0;
 					intent.putExtra(keyURIMessage, DontShowPersistableURIMessage);
 					intent.putExtra("OK","OK");
@@ -532,7 +532,7 @@ public class SettingsActivity extends Fragment
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				// TODO Auto-generated method stub
+
 				int AlwaysStartExternalProgram = isChecked?-1:0;
 				if(!isChecked)
 				{
@@ -618,7 +618,7 @@ public class SettingsActivity extends Fragment
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
 								View view, int position, long id) {
-							// TODO Auto-generated method stub
+
 							intent.putExtra("Abfragebereich",
 									(short) (position - 1));
 							intent.putExtra("OK","OK");
@@ -626,7 +626,7 @@ public class SettingsActivity extends Fragment
 
 						@Override
 						public void onNothingSelected(AdapterView<?> parent) {
-							// TODO Auto-generated method stub
+
 							
 						}
 
@@ -648,7 +648,7 @@ public class SettingsActivity extends Fragment
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view,
 						int position, long id) {
-					// TODO Auto-generated method stub
+
 					intent.putExtra("Step", (short) (Integer
 							.parseInt((String) parent
 									.getItemAtPosition(position))));
@@ -657,7 +657,7 @@ public class SettingsActivity extends Fragment
 
 				@Override
 				public void onNothingSelected(AdapterView<?> parent) {
-					// TODO Auto-generated method stub
+
 					
 				}
 
@@ -697,7 +697,7 @@ public class SettingsActivity extends Fragment
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view,
 						int position, long id) {
-					// TODO Auto-generated method stub
+
 					intent.putExtra("CharsetASCII",
 							((String) (parent.getSelectedItem())));
 					intent.putExtra("OK","OK");
@@ -705,7 +705,7 @@ public class SettingsActivity extends Fragment
 
 				@Override
 				public void onNothingSelected(AdapterView<?> parent) {
-					// TODO Auto-generated method stub
+
 					
 				}
 
@@ -732,7 +732,7 @@ public class SettingsActivity extends Fragment
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
 								View view, int position, long id) {
-							// TODO Auto-generated method stub
+
 							intent.putExtra("DisplayDurationWord", (Float
 									.parseFloat((String) parent
 											.getItemAtPosition(position))));
@@ -741,7 +741,7 @@ public class SettingsActivity extends Fragment
 
 						@Override
 						public void onNothingSelected(AdapterView<?> parent) {
-							// TODO Auto-generated method stub
+
 							
 						}
 
@@ -767,7 +767,7 @@ public class SettingsActivity extends Fragment
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
 								View view, int position, long id) {
-							// TODO Auto-generated method stub
+
 							intent.putExtra("DisplayDurationBed", (Float
 									.parseFloat((String) parent
 											.getItemAtPosition(position))));
@@ -776,7 +776,7 @@ public class SettingsActivity extends Fragment
 
 						@Override
 						public void onNothingSelected(AdapterView<?> parent) {
-							// TODO Auto-generated method stub
+
 							
 						}
 
@@ -799,7 +799,7 @@ public class SettingsActivity extends Fragment
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
 								View view, int position, long id) {
-							// TODO Auto-generated method stub
+
 							intent.putExtra("PaukRepetitions", (Integer
 									.parseInt((String) parent
 											.getItemAtPosition(position))));
@@ -808,7 +808,7 @@ public class SettingsActivity extends Fragment
 
 						@Override
 						public void onNothingSelected(AdapterView<?> parent) {
-							// TODO Auto-generated method stub
+
 							
 						}
 
@@ -851,7 +851,7 @@ public class SettingsActivity extends Fragment
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
 								View view, int position, long id) {
-							// TODO Auto-generated method stub
+
 							String strDD = (String) parent
 									.getItemAtPosition(position);
 							if (strDD.equalsIgnoreCase(_main.getString(R.string.auto)))
@@ -863,7 +863,7 @@ public class SettingsActivity extends Fragment
 
 						@Override
 						public void onNothingSelected(AdapterView<?> parent) {
-							// TODO Auto-generated method stub
+
 							
 						}
 
@@ -905,7 +905,7 @@ public class SettingsActivity extends Fragment
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
 								View view, int position, long id) {
-							// TODO Auto-generated method stub
+
 							String strDD = (String) parent
 									.getItemAtPosition(position);
 							if (strDD.equalsIgnoreCase(_main.getString(R.string.off)))
@@ -917,7 +917,7 @@ public class SettingsActivity extends Fragment
 
 						@Override
 						public void onNothingSelected(AdapterView<?> parent) {
-							// TODO Auto-generated method stub
+
 							
 						}
 
@@ -947,7 +947,7 @@ public class SettingsActivity extends Fragment
 
 						@Override
 						public void onNothingSelected(AdapterView<?> parent) {
-							// TODO Auto-generated method stub
+
 							
 						}
 
@@ -961,7 +961,7 @@ public class SettingsActivity extends Fragment
 
 						@Override
 						public boolean onLongClick(View v) {
-							// TODO Auto-generated method stub
+
 							spnColors.blnDontCallOnClick = true;
 							ShowColorDialog();
 							return false;
@@ -973,7 +973,7 @@ public class SettingsActivity extends Fragment
 						@Override
 						public boolean onItemLongClick(AdapterView<?> parent,
 								View view, int position, long id) {
-							// TODO Auto-generated method stub
+
 							spnColors.blnDontCallOnClick = true;
 							ShowColorDialog();
 							return false;
@@ -987,7 +987,7 @@ public class SettingsActivity extends Fragment
 
 						@Override
 						public boolean onLongClick(View v) {
-							// TODO Auto-generated method stub
+
 							spnSounds.blnDontCallOnClick = true;
 							ShowSoundsDialog();
 							return false;
@@ -999,7 +999,7 @@ public class SettingsActivity extends Fragment
 						@Override
 						public boolean onItemLongClick(AdapterView<?> parent,
 								View view, int position, long id) {
-							// TODO Auto-generated method stub
+
 							spnSounds.blnDontCallOnClick = true;
 							ShowSoundsDialog();
 							return false;
@@ -1011,7 +1011,7 @@ public class SettingsActivity extends Fragment
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view,
 						int position, long id) {
-					// TODO Auto-generated method stub
+
 					SoundSetting item = (SoundSetting) parent
 							.getItemAtPosition(position);
 					File F = new File(item.SoundPath);
@@ -1028,7 +1028,7 @@ public class SettingsActivity extends Fragment
 
 				@Override
 				public void onNothingSelected(AdapterView<?> parent) {
-					// TODO Auto-generated method stub
+
 					
 				}
 
@@ -1041,7 +1041,7 @@ public class SettingsActivity extends Fragment
 	}
 
 	public Intent getIntent() {
-		// TODO Auto-generated method stub
+
 		return _Intent;
 	}
 
@@ -1055,7 +1055,7 @@ public class SettingsActivity extends Fragment
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				try {
 					saveResultsAndFinish(false);
 				} catch (Exception e) {
@@ -1069,7 +1069,7 @@ public class SettingsActivity extends Fragment
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				_main.mPager.setCurrentItem(_MainActivity.fragID);
 			}
 		});
@@ -1099,7 +1099,7 @@ public class SettingsActivity extends Fragment
 		
 		@Override
 		public boolean onLongClick(View v) {
-			// TODO Auto-generated method stub
+
 			if ( v.getContentDescription()!=null && v.getContentDescription().length()>0)
 			{
 				lib.ShowMessage(_main, (String) v.getContentDescription(), _main.getString(R.string.help));
@@ -1321,7 +1321,7 @@ public class SettingsActivity extends Fragment
 
 					@Override
 					public void onOk(AmbilWarnaDialog dialog, int color) {
-						// TODO Auto-generated method stub
+
 						//ColorSetting item = Colors
 						//		.getItem(spnColors.getSelectedItemPosition());
 						item.ColorValue = color;
@@ -1348,7 +1348,7 @@ public class SettingsActivity extends Fragment
 
 					@Override
 					public void onCancel(AmbilWarnaDialog dialog) {
-						// TODO Auto-generated method stub
+
 						spnColors.blnDontCallOnClick = false;
 					}
 				});
@@ -1436,7 +1436,7 @@ public class SettingsActivity extends Fragment
 
 		@Override
 		public void uncaughtException(Thread thread, Throwable ex) {
-			// TODO Auto-generated method stub
+
 			lib.ShowException(_main, ex);
 		}
 	};

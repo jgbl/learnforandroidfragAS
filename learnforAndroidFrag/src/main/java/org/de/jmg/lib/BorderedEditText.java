@@ -58,7 +58,7 @@ public class BorderedEditText extends EditText {
 		this.showBorders = showBorders;
 		if (showBorders) {
 			if (_MeaningBG == null) _MeaningBG = this.getBackground();
-			this.setBackgroundResource(org.de.jmg.learn.R.layout.roundedbox);
+			this.setBackgroundResource(org.de.jmg.learn.R.drawable.roundedbox);
 			GradientDrawable drawable = (GradientDrawable) this.getBackground();
 			drawable.setColor(BackColor);
 		} else  {

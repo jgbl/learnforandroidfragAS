@@ -73,10 +73,10 @@ public class Vokabel {
 
 	// ******** Events ************
 	interface FehlerEventHandler {
-		public void Fehler(String strText);
+		void Fehler(String strText);
 	}
 
-	List<FehlerEventHandler> FehlerEventlisteners = new ArrayList<FehlerEventHandler>();
+	List<FehlerEventHandler> FehlerEventlisteners = new ArrayList<>();
 
 	public void addFehlerEventListener(FehlerEventHandler toAdd) {
 		FehlerEventlisteners.add(toAdd);
@@ -90,10 +90,10 @@ public class Vokabel {
 	}
 
 	interface AbfrageEndeEventHandler {
-		public void AbfrageEnde(String strText);
+		void AbfrageEnde(String strText);
 	}
 
-	List<AbfrageEndeEventHandler> AbfrageEndeEventlisteners = new ArrayList<AbfrageEndeEventHandler>();
+	List<AbfrageEndeEventHandler> AbfrageEndeEventlisteners = new ArrayList<>();
 
 	public void addAbfrageEndeEventListener(AbfrageEndeEventHandler toAdd) {
 		AbfrageEndeEventlisteners.add(toAdd);
@@ -232,7 +232,7 @@ public class Vokabel {
 	}
 
 	public String getProperties() throws Exception {
-		String txt = null;
+		String txt;
 		txt = getContext().getString(R.string.TotalNumber) + ": "
 				+ this.getGesamtzahl();
 		for (int i = -6; i <= 6; i++) {
@@ -297,7 +297,7 @@ public class Vokabel {
 		libLearn.gStatus = "Vokabel.LernIndex Start";
 		if (value > mSchrittweite)
 			value = 1;
-		if (mblnLernInit == false)
+		if (!mblnLernInit)
 			InitAbfrage();
 			if (value > mSchrittweite) value = mSchrittweite;
 		if (value > 0 && value <= mSchrittweite && mblnLernInit) {
@@ -307,7 +307,7 @@ public class Vokabel {
 			throw new Exception(
 					"Die Abfrage konnte nicht aktualisiert werden oder Fehler!");
 		}
-		return;
+
 	}
 
 	public EnumSprachen getSprache() {
@@ -321,7 +321,7 @@ public class Vokabel {
 			mSprache = value;
 			aend = true;
 		}
-		return;
+
 	}
 
 	private String[] _Trennzeichen = new String[6];
@@ -335,7 +335,7 @@ public class Vokabel {
 	public void setTrennzeichen(String value) {
 		libLearn.gStatus = "Vokabel.Trennzeichen Start";
 		_Trennzeichen[mSprache.ordinal()] = value;
-		return;
+
 	}
 
 	public short getLerngeschwindigkeit() {
@@ -407,11 +407,11 @@ public class Vokabel {
 		} else {
 			mSchrittweite = (short) mGesamtzahl;
 		}
-		return;
+
 	}
 
 	public String getStatus() throws Exception {
-		String functionReturnValue = null;
+		String functionReturnValue;
 		// ERROR: Not supported in C#: OnErrorStatement
 		libLearn.gStatus = "Vokabel.libLearn.gStatus Start";
 		//
@@ -428,11 +428,11 @@ public class Vokabel {
 		}
 
 		mSTatus = value;
-		return;
+
 	}
 
 	public boolean getConfirmChanges() throws Exception {
-		boolean functionReturnValue = false;
+		boolean functionReturnValue;
 		// ERROR: Not supported in C#: OnErrorStatement
 		libLearn.gStatus = "Vokabel.ConfirmChanges Start";
 		// wird beim Ermitteln einer Eignschaft auf der rechten Seite der
@@ -449,7 +449,7 @@ public class Vokabel {
 		// Seite der Gleichung, verwendet.
 		// Syntax: X.ConfirmChanges = 5
 		mConfirmChanges = value;
-		return;
+
 	}
 
 	// wird beim Ermitteln einer Eignschaft auf der rechten Seite der Gleichung
@@ -2201,6 +2201,7 @@ public class Vokabel {
 		mVok = new ArrVok();
 		mVok.add(new typVok());
 		mLastIndex = 0;
+		mLernindex = 0;
 		mGesamtzahl = 0;
 		mIndex = 0;
 		mFileName = "";
@@ -3100,7 +3101,7 @@ public class Vokabel {
 	 * }
 	 */
 	public int getAnzBed() throws Exception {
-		// TODO Auto-generated method stub
+
 		return mVok.get(mIndex).getAnzBed();
 	}
 	
@@ -3108,7 +3109,7 @@ public class Vokabel {
 	private String _URIName = "";
 	public void setURIName(String uriName) 
 	{
-		// TODO Auto-generated method stub
+
 		if (uriName != null && uriName.length()>1)
 		{
 			do

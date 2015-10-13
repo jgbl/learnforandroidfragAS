@@ -58,7 +58,7 @@ public class BorderedTextView extends TextView {
 		this.showBorders = showBorders;
 		if (showBorders) {
 			if (_MeaningBG != null) _MeaningBG = this.getBackground();
-			this.setBackgroundResource(org.de.jmg.learn.R.layout.roundedbox);
+			this.setBackgroundResource(org.de.jmg.learn.R.drawable.roundedbox);
 			GradientDrawable drawable = (GradientDrawable) this.getBackground();
 			drawable.setColor(backColor);
 
@@ -73,6 +73,40 @@ public class BorderedTextView extends TextView {
 		}
 		this.invalidate();
 	}
+
+	public enum BottomOrTop
+	{
+		undefined, between, bottom, top, both
+	}
+	public BottomOrTop getScrollBottomOrTopReached() throws Exception
+
+	{
+
+		if (getLineCount()>0)
+		{
+			int Top = getLayout().getLineTop(0);
+			int Bottom = getLayout().getLineBottom(getLineCount()-1);
+			int ScrollY = getScrollY();
+			if (ScrollY <= Top && ScrollY + getHeight() >= Bottom)
+			{
+				return BottomOrTop.both;
+			}
+			else if(ScrollY <= Top)
+			{
+				return BottomOrTop.top;
+			}
+			else if (ScrollY + getHeight() >= Bottom)
+			{
+				return BottomOrTop.bottom;
+			}
+			else
+			{
+				return BottomOrTop.between;
+			}
+		}
+		return BottomOrTop.undefined;
+	}
+
 
 	private void init() {
 		paint.setStyle(Paint.Style.STROKE);
