@@ -130,11 +130,7 @@ public class AdvFileChooser extends Activity {
 				if (fileSelected.exists())
 				{
 					currentDir = fileSelected.getParentFile();
-					if (currentDir.list()!=null && currentDir.list().length>0)
-					{
-						
-					}
-					else
+					if (!(currentDir.list()!=null && currentDir.list().length>0))
 					{
 						uri = null;
 						currentDir = null;
@@ -142,7 +138,7 @@ public class AdvFileChooser extends Activity {
 				}
 				else
 				{
-					String FName = "";
+					String FName=null;
 					String path = dumpUriMetaData(uri);
 					if (path!=null && path.length()>0)
 					{
@@ -157,7 +153,7 @@ public class AdvFileChooser extends Activity {
 							FName = path;
 						}
 					}
-					else
+					else if (extras!=null)
 					{
 						FName = extras.getString("URIName");
 						if (FName!=null && FName.length()>1 && FName.startsWith("/")) FName = FName.substring(1);
@@ -250,7 +246,7 @@ public class AdvFileChooser extends Activity {
 	            // a rule, check if it's null before assigning to an int.  This will
 	            // happen often:  The storage API allows for remote files, whose
 	            // size might not be locally known.
-	            String size = null;
+	            String size;
 	            if (!cursor.isNull(sizeIndex)) {
 	                // Technically the column stores an int, but cursor.getString()
 	                // will do the conversion automatically.
@@ -328,8 +324,8 @@ public class AdvFileChooser extends Activity {
 							File F = new File(currentDir, value);
 							if (!F.exists())
 							{
-								F.mkdirs();
-								fill(currentDir);
+								boolean res = F.mkdirs();
+								if (res) fill(currentDir);
 							}
 						} catch (Exception e) {
 

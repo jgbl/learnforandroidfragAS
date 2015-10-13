@@ -570,7 +570,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	}
 
 
-		public void getVokabel(boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt) {
+		public void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt) {
 		try {
 			if (_btnRight == null) return;
 			EndEdit(DontPrompt);
@@ -724,7 +724,14 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 					lib.removeLayoutListener(_scrollView.getViewTreeObserver(), this);
 					hideKeyboard();
-					_scrollView.fullScroll(View.FOCUS_UP);
+					if (showBeds)
+					{
+						_scrollView.scrollTo(0,_txtMeaning1.getBottom());
+					}
+					else
+					{
+						_scrollView.fullScroll(View.FOCUS_UP);
+					}
 				}
 			});
 			
@@ -848,6 +855,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			public void onClick(View v) {
 		try {
 					getVokabel(true, false);
+
 				} catch (Exception e) {
 
 					lib.ShowException(_main, e);
@@ -929,7 +937,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		OnTouchListenerScrollKom = new OnTouchListenerScroll(detectorKom,this);
 		ListenerKom.l = OnTouchListenerScrollKom;
 		ListenerKom.t = _txtKom;
-		_txtKom.setOnTouchListener(OnTouchListenerRemoveCallbacks);
+		_txtKom.setOnTouchListener(OnTouchListenerScrollKom);
 		_txtKom.setMovementMethod(LinkMovementMethod.getInstance());
 		
 		_txtStatus = (BorderedTextView) findViewById(R.id.txtStatus);
