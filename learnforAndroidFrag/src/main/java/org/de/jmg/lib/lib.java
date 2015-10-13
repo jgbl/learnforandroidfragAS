@@ -302,7 +302,7 @@ public class lib {
         }
 
         public static String Right(String wort, int i) {
-            // TODO Auto-generated method stub
+
             return wort.substring(wort.length() - i);
         }
 
@@ -1120,7 +1120,7 @@ public class lib {
         public String key;
         @Override
         public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-            // TODO Auto-generated method stub
+
             prefs.edit().putInt(key, isChecked?-1:0).commit();
         }
     }
@@ -1189,7 +1189,7 @@ public class lib {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public static void removewfcListener(ViewTreeObserver observer,
                                          OnWindowFocusChangeListener wfcListener) {
-        // TODO Auto-generated method stub
+
         if (Build.VERSION.SDK_INT>=18)
         {
             observer.removeOnWindowFocusChangeListener(wfcListener);
@@ -1317,7 +1317,7 @@ public class lib {
             Flags = Flags | Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
             if (Build.VERSION.SDK_INT>=19)
             {
-                Flags = Flags | FLAG_GRANT_PERSISTABLE_URI_PERMISSION;
+                //Flags = Flags | FLAG_GRANT_PERSISTABLE_URI_PERMISSION;
                 container.getContentResolver().takePersistableUriPermission(uri, Flags);
             }
 

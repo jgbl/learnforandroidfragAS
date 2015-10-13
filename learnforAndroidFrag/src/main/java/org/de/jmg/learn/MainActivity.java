@@ -716,7 +716,7 @@ public class MainActivity extends AppCompatActivity  {
 
 		@Override
 		public void uncaughtException(Thread thread, Throwable ex) {
-			// TODO Auto-generated method stub
+
 			lib.ShowException(MainActivity.this, ex);
 		}
 	};
