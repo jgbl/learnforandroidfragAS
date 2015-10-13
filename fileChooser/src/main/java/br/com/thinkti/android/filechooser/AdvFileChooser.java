@@ -74,7 +74,7 @@ public class AdvFileChooser extends Activity {
 				public void onClick(View v) {
 					if (edFile.getText()!=null && edFile.getText().length()>0)
 					{
-						if (selectFolder==false)
+						if (!selectFolder)
 						{
 							fileSelected = new File(currentDir,edFile.getText().toString());
 						}
@@ -167,7 +167,7 @@ public class AdvFileChooser extends Activity {
 					uri = null;
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 				fileSelected = null;
 				uri = null;
@@ -332,7 +332,7 @@ public class AdvFileChooser extends Activity {
 								fill(currentDir);
 							}
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
+
 							e.printStackTrace();
 						}
 					}
