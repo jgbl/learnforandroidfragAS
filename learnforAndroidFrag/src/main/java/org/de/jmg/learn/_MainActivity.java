@@ -750,6 +750,7 @@ public class _MainActivity extends Fragment {
 	private int _lastIsWrongVokID;
 	MovementMethod oldMeaning1MovementMethod;
 	MovementMethod oldWordMovementMethod;
+	MovementMethod oldedWordMovementMethod;
 	@SuppressLint("ClickableViewAccessibility")
 	private void InitControls() throws Exception {
 		View v = findViewById(R.id.btnRight);
@@ -950,6 +951,33 @@ public class _MainActivity extends Fragment {
 		});
 		_txtedWord= (BorderedEditText) findViewById(R.id.edword);
 		_txtedWord.setOnLongClickListener(textlongclicklistener);
+		_txtedWord.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				removeCallbacks();
+				try {
+					if (v.getId() == R.id.edword && v.getVisibility() == View.VISIBLE && _txtedWord.getLineCount() > 3) {
+						if (_txtedWord.getMovementMethod() != ScrollingMovementMethod.getInstance()) {
+							oldedWordMovementMethod = _txtedWord.getMovementMethod();
+						}
+						_txtedWord.setMovementMethod(android.text.method.ScrollingMovementMethod.getInstance());
+						_txtedWord.getParent().requestDisallowInterceptTouchEvent(true);
+						detectoredWord.onTouchEvent(event);
+						if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+							_txtedWord.getParent().requestDisallowInterceptTouchEvent(false);
+							if (oldedWordMovementMethod != null)
+								_txtedWord.setMovementMethod(oldedWordMovementMethod);
+						}
+
+					}
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					//lib.ShowException(_main, ex);
+				}
+
+				return false;
+			}
+		});
 		
 		_txtedKom = (BorderedEditText) findViewById(R.id.edComment);
 		_txtedKom.setOnLongClickListener(textlongclicklistener);
@@ -1021,6 +1049,78 @@ public class _MainActivity extends Fragment {
 						&& distY <= 0))
 				{
 					_txtWord.getParent().requestDisallowInterceptTouchEvent(false);
+				}
+			}
+			catch (Exception ex)
+			{
+				ex.printStackTrace();
+				//lib.ShowException(_main, ex);
+			}
+			return false;
+		}
+
+		@Override
+		public void onLongPress(MotionEvent e) {
+
+
+		}
+
+		@Override
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+							   float velocityY) {
+
+			return false;
+		}
+
+		@Override
+		public boolean onDown(MotionEvent e) {
+
+			return false;
+		}
+	});
+
+	GestureDetector detectoredWord = new GestureDetector(_main, new GestureDetector.OnGestureListener() {
+
+		@Override
+		public boolean onSingleTapUp(MotionEvent e) {
+			try
+			{
+				if ((e.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP)
+				{
+					_txtedWord.getParent().requestDisallowInterceptTouchEvent(false);
+					if (oldedWordMovementMethod!=null) _txtedWord.setMovementMethod(oldedWordMovementMethod);
+				}
+			}
+			catch (Exception ex)
+			{
+				ex.printStackTrace();
+				//lib.ShowException(_main, ex);
+			}
+			return false;
+		}
+
+		@Override
+		public void onShowPress(MotionEvent e) {
+
+
+		}
+
+		@Override
+		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+								float distanceY) {
+			if (e1 ==null||e2==null)return false;
+			try
+			{
+				_txtedWord.getParent().requestDisallowInterceptTouchEvent(true);
+				BottomOrTop pos = _txtedWord.getScrollBottomOrTopReached();
+				float distY = e2.getY()-e1.getY();
+				float distX = e2.getX()-e1.getX();
+				if ((Math.abs(distX) > Math.abs(distY)) || (pos == BottomOrTop.both) || (pos == BottomOrTop.top
+						&& distY >= 0)
+						|| (pos == BottomOrTop.bottom
+						&& distY <= 0))
+				{
+					_txtedWord.getParent().requestDisallowInterceptTouchEvent(false);
 				}
 			}
 			catch (Exception ex)
