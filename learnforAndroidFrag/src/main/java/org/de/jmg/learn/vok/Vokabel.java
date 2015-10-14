@@ -2208,6 +2208,8 @@ public class Vokabel {
 		_URIName= "";
 		_uri = null;
 		mSprache=EnumSprachen.Normal;
+		AnzRichtig = 0;
+		AnzFalsch = 0;
 	}
 
 	public void LoadFile(String strFileName) throws Exception {

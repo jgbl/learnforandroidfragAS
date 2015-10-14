@@ -22,7 +22,7 @@
     <item android:id="@+id/mnuFileSave" android:title="@string/mnuFileSave"></item>
     <item android:id="@+id/mnuSaveAs" 
         android:title="@string/mnuSaveAs" 
-        compat:showAsAction="ifRoom"
+        compat:showAsAction="always"
         android:icon="@drawable/ic_menu_save">
     </item>
     <item android:id="@+id/mnuRestart" android:title="@string/mnuRestart"></item>
