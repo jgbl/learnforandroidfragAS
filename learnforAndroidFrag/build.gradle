@@ -10,6 +10,21 @@ android {
         targetSdkVersion 22
     }
 
+    signingConfigs {
+        release {
+            keyAlias 'learnforandroid2'
+            keyPassword '89374thd'
+            storeFile file('/pub/keystore')
+            storePassword '89374thd'
+        }
+        debug {
+            keyAlias 'learnforandroid2'
+            keyPassword '89374thd'
+            storeFile file('/pub/keystore')
+            storePassword '89374thd'
+        }
+    }
+
     buildTypes {
         debug {
             debuggable true
