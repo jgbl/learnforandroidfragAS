@@ -29,12 +29,8 @@ import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
-public class BorderedEditText extends EditText {
+public class BorderedEditText extends EditText implements IBorderedView {
 	private Paint paint = new Paint();
-	public static final int BORDER_TOP = 0x00000001;
-	public static final int BORDER_RIGHT = 0x00000002;
-	public static final int BORDER_BOTTOM = 0x00000004;
-	public static final int BORDER_LEFT = 0x00000008;
 	public RectF RoundedRect;
 	public boolean showBorders;
 	private Drawable _MeaningBG;
@@ -68,17 +64,13 @@ public class BorderedEditText extends EditText {
 		this.invalidate();
 	}
 
-	private void init() {
+	public void init() {
 		paint.setStyle(Paint.Style.STROKE);
 		paint.setColor(Color.BLACK);
 		paint.setStrokeWidth(4);
 		
 	}
 	
-	public enum BottomOrTop
-	{
-		undefined, between, bottom, top, both;
-	}
 	public BottomOrTop getScrollBottomOrTopReached() throws Exception
 	
 	{

@@ -114,7 +114,7 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter{
 				return fragChooser;
 				
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+
 				lib.ShowException(main, e);
 			}
 				

@@ -145,7 +145,7 @@ public class SettingsActivity extends Fragment
 		try {
 			saveResultsAndFinish(true);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+
 			lib.ShowException(_main, e);
 		}
 	}
@@ -1021,7 +1021,7 @@ public class SettingsActivity extends Fragment
 						else
 							lib.playSound(_main.getAssets(), item.SoundPath);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
+
 						e.printStackTrace();
 					}
 				}
@@ -1059,7 +1059,7 @@ public class SettingsActivity extends Fragment
 				try {
 					saveResultsAndFinish(false);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 				}
 			}
@@ -1402,7 +1402,7 @@ public class SettingsActivity extends Fragment
 						} else
 							lib.playSound(_main.getAssets(), item.SoundPath);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
+
 						e.printStackTrace();
 					}
 					Editor editor = prefs.edit();
