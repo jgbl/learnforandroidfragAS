@@ -30,8 +30,11 @@ import org.de.jmg.learn.vok.Vokabel.Bewertung;
 import org.de.jmg.learn.vok.Vokabel.EnumSprachen;
 import org.de.jmg.learn.R;
 import org.de.jmg.lib.BorderedEditText;
-import org.de.jmg.lib.BorderedEditText.BottomOrTop;
+import org.de.jmg.lib.IBorderedView.BottomOrTop;
 import org.de.jmg.lib.BorderedTextView;
+import org.de.jmg.lib.OnTouchListenerScroll;
+import org.de.jmg.lib.RemoveCallbackListener;
+import org.de.jmg.lib.ScrollGestureListener;
 import org.de.jmg.lib.lib;
 import org.de.jmg.lib.ColorSetting.ColorItems;
 import org.de.jmg.lib.lib.Sounds;
@@ -88,7 +91,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 
-public class _MainActivity extends Fragment {
+public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	public View mainView;
 	private Context context;
@@ -163,14 +166,14 @@ public class _MainActivity extends Fragment {
 				}
 				getVokabel(false, false);
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
+
 				lib.ShowException(_main, e1);
 				getVokabel(true, true);
 			}
 		} 
 		catch (Exception e) 
 		{
-			// TODO Auto-generated catch block
+
 			lib.ShowException(_main, e);
 		}
 		
@@ -567,7 +570,7 @@ public class _MainActivity extends Fragment {
 	}
 
 
-		public void getVokabel(boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt) {
+		public void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt) {
 		try {
 			if (_btnRight == null) return;
 			EndEdit(DontPrompt);
@@ -638,6 +641,8 @@ public class _MainActivity extends Fragment {
 			{
 				t.setVisibility(View.VISIBLE);
 			}
+			t.scrollTo(0, 0);
+
 
 			v = findViewById(R.id.txtMeaning1);
 			t = (TextView) v;
@@ -719,18 +724,30 @@ public class _MainActivity extends Fragment {
 
 					lib.removeLayoutListener(_scrollView.getViewTreeObserver(), this);
 					hideKeyboard();
-					_scrollView.fullScroll(View.FOCUS_UP);
+					if (showBeds)
+					{
+						_scrollView.scrollTo(0,_txtMeaning1.getBottom());
+					}
+					else
+					{
+						_scrollView.fullScroll(View.FOCUS_UP);
+					}
 				}
 			});
 			
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+
 			lib.ShowException(_main, e);
 		}
 
 	}
-	
+
+	@Override
+	public void RemoveCallback() {
+		removeCallbacks();
+	}
+
 	@SuppressLint("NewApi")
 	private class wfcListener implements OnWindowFocusChangeListener
 	{
@@ -751,6 +768,11 @@ public class _MainActivity extends Fragment {
 	MovementMethod oldMeaning1MovementMethod;
 	MovementMethod oldWordMovementMethod;
 	MovementMethod oldedWordMovementMethod;
+	OnTouchListenerScroll OnTouchListenerScrollWord;
+	OnTouchListenerScroll OnTouchListenerScrolledWord;
+	OnTouchListenerScroll OnTouchListenerScrollKom;
+	OnTouchListenerScroll OnTouchListenerScrolledKom;
+	OnTouchListenerScroll OnTouchListenerScrollMeaning1;
 	@SuppressLint("ClickableViewAccessibility")
 	private void InitControls() throws Exception {
 		View v = findViewById(R.id.btnRight);
@@ -774,7 +796,7 @@ public class _MainActivity extends Fragment {
 					_lastIsWrongVokID = -1;
 
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+
 					lib.ShowException(_main, e);
 
 				}
@@ -801,7 +823,7 @@ public class _MainActivity extends Fragment {
 						getVokabel(false, false);
 					}
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+
 					lib.ShowException(_main, e);
 				}
 
@@ -818,7 +840,7 @@ public class _MainActivity extends Fragment {
 					_vok.SkipVokabel();
 					getVokabel(false, false);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+
 					lib.ShowException(_main, e);
 				}
 
@@ -831,10 +853,11 @@ public class _MainActivity extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				try {
+		try {
 					getVokabel(true, false);
+
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+
 					lib.ShowException(_main, e);
 				}
 
@@ -851,7 +874,7 @@ public class _MainActivity extends Fragment {
 				try {
 					edit();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+
 					lib.ShowException(_main, e);
 				}
 
@@ -865,39 +888,10 @@ public class _MainActivity extends Fragment {
 				, _txtMeaning1.getPaddingRight()
 				, 0);
 				*/
-		_txtMeaning1.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-            	removeCallbacks();
-            	try
-                {
-	            	if (v.getId() == R.id.txtMeaning1 && v.getVisibility()==View.VISIBLE && _txtMeaning1.getLineCount()>3) 
-	                {
-	                	if (_txtMeaning1.getMovementMethod()!=ScrollingMovementMethod.getInstance())
-	                	{
-	                		oldMeaning1MovementMethod = _txtMeaning1.getMovementMethod();
-	                	}
-	                	_txtMeaning1.setMovementMethod(android.text.method.ScrollingMovementMethod.getInstance());
-	                	_txtMeaning1.getParent().requestDisallowInterceptTouchEvent(true);
-	                	detectorMeaning1.onTouchEvent(event);
-	                    if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) 
-	                    {
-	                        _txtMeaning1.getParent().requestDisallowInterceptTouchEvent(false);
-	                        if (oldMeaning1MovementMethod!=null) _txtMeaning1.setMovementMethod(oldMeaning1MovementMethod);
-	                    }
-	                    
-	                }
-                }
-                catch(Exception ex)
-                {
-                	ex.printStackTrace();
-                	//lib.ShowException(_main, ex);
-                }
-                
-                return false;
-            }
-        });
-	
+		OnTouchListenerScrollMeaning1 = new OnTouchListenerScroll(detectorMeaning1,this);
+		ListenerMeaning1.l = OnTouchListenerScrollMeaning1;
+		ListenerMeaning1.t = _txtMeaning1;
+		_txtMeaning1.setOnTouchListener(OnTouchListenerScrollMeaning1);
 		_txtMeaning1.setOnLongClickListener(textlongclicklistener);
 		//_txtMeaning1.setBackgroundColor(Color.BLACK);
 		_MeaningBG = _txtMeaning1.getBackground();
@@ -917,74 +911,33 @@ public class _MainActivity extends Fragment {
 		_txtWord = (BorderedTextView) findViewById(R.id.word);
 		_txtWord.setOnLongClickListener(textlongclicklistener);
 		//_txtWord.setOnTouchListener(OnTouchListenerRemoveCallbacks);
-		_txtWord.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				removeCallbacks();
-				try
-				{
-					if (v.getId() == R.id.word && v.getVisibility()==View.VISIBLE && _txtWord.getLineCount()>3)
-					{
-						if (_txtWord.getMovementMethod()!=ScrollingMovementMethod.getInstance())
-						{
-							oldWordMovementMethod = _txtWord.getMovementMethod();
-						}
-						_txtWord.setMovementMethod(android.text.method.ScrollingMovementMethod.getInstance());
-						_txtWord.getParent().requestDisallowInterceptTouchEvent(true);
-						detectorWord.onTouchEvent(event);
-						if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP)
-						{
-							_txtWord.getParent().requestDisallowInterceptTouchEvent(false);
-							if (oldWordMovementMethod!=null) _txtWord.setMovementMethod(oldWordMovementMethod);
-						}
+		OnTouchListenerScrollWord = new OnTouchListenerScroll(detectorWord,this);
+		ListenerWord.l = OnTouchListenerScrollWord;
+		ListenerWord.t = _txtWord;
+		_txtWord.setOnTouchListener(OnTouchListenerScrollWord);
 
-					}
-				}
-				catch(Exception ex)
-				{
-					ex.printStackTrace();
-					//lib.ShowException(_main, ex);
-				}
 
-				return false;
-			}
-		});
 		_txtedWord= (BorderedEditText) findViewById(R.id.edword);
 		_txtedWord.setOnLongClickListener(textlongclicklistener);
-		_txtedWord.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				removeCallbacks();
-				try {
-					if (v.getId() == R.id.edword && v.getVisibility() == View.VISIBLE && _txtedWord.getLineCount() > 3) {
-						if (_txtedWord.getMovementMethod() != ScrollingMovementMethod.getInstance()) {
-							oldedWordMovementMethod = _txtedWord.getMovementMethod();
-						}
-						_txtedWord.setMovementMethod(android.text.method.ScrollingMovementMethod.getInstance());
-						_txtedWord.getParent().requestDisallowInterceptTouchEvent(true);
-						detectoredWord.onTouchEvent(event);
-						if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-							_txtedWord.getParent().requestDisallowInterceptTouchEvent(false);
-							if (oldedWordMovementMethod != null)
-								_txtedWord.setMovementMethod(oldedWordMovementMethod);
-						}
-
-					}
-				} catch (Exception ex) {
-					ex.printStackTrace();
-					//lib.ShowException(_main, ex);
-				}
-
-				return false;
-			}
-		});
+		OnTouchListenerScrolledWord = new OnTouchListenerScroll(detectoredWord,this);
+		ListeneredWord.l = OnTouchListenerScrolledWord;
+		ListeneredWord.t = _txtedWord;
+		_txtedWord.setOnTouchListener(OnTouchListenerScrolledWord);
 		
 		_txtedKom = (BorderedEditText) findViewById(R.id.edComment);
 		_txtedKom.setOnLongClickListener(textlongclicklistener);
-		
+		OnTouchListenerScrolledKom = new OnTouchListenerScroll(detectoredKom,this);
+		ListeneredKom.l = OnTouchListenerScrolledKom;
+		ListeneredKom.t = _txtedKom;
+		_txtedKom.setOnTouchListener(OnTouchListenerScrolledKom);
+
+
 		_txtKom = (BorderedTextView) findViewById(R.id.Comment);
 		_txtKom.setOnLongClickListener(textlongclicklistener);
-		_txtKom.setOnTouchListener(OnTouchListenerRemoveCallbacks);
+		OnTouchListenerScrollKom = new OnTouchListenerScroll(detectorKom,this);
+		ListenerKom.l = OnTouchListenerScrollKom;
+		ListenerKom.t = _txtKom;
+		_txtKom.setOnTouchListener(OnTouchListenerScrollKom);
 		_txtKom.setMovementMethod(LinkMovementMethod.getInstance());
 		
 		_txtStatus = (BorderedTextView) findViewById(R.id.txtStatus);
@@ -1007,222 +960,19 @@ public class _MainActivity extends Fragment {
 	};
 
 
-	GestureDetector detectorWord = new GestureDetector(_main, new GestureDetector.OnGestureListener() {
 
-		@Override
-		public boolean onSingleTapUp(MotionEvent e) {
-			try
-			{
-				if ((e.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP)
-				{
-					_txtWord.getParent().requestDisallowInterceptTouchEvent(false);
-					if (oldWordMovementMethod!=null) _txtWord.setMovementMethod(oldWordMovementMethod);
-				}
-			}
-			catch (Exception ex)
-			{
-				ex.printStackTrace();
-				//lib.ShowException(_main, ex);
-			}
-			return false;
-		}
-
-		@Override
-		public void onShowPress(MotionEvent e) {
+	ScrollGestureListener ListenerWord = new ScrollGestureListener(_txtWord, OnTouchListenerScrollWord);
+	GestureDetector detectorWord = new GestureDetector(_main,ListenerWord);
+	ScrollGestureListener ListeneredWord = new ScrollGestureListener(_txtedWord, OnTouchListenerScrolledWord);
+	GestureDetector detectoredWord = new GestureDetector(_main,ListeneredWord);
+	ScrollGestureListener ListenerMeaning1 = new ScrollGestureListener(_txtMeaning1, OnTouchListenerScrollMeaning1);
+	GestureDetector detectorMeaning1 = new GestureDetector(_main,ListenerMeaning1);
+	ScrollGestureListener ListenerKom = new ScrollGestureListener(_txtKom, OnTouchListenerScrollKom);
+	GestureDetector detectorKom = new GestureDetector(_main,ListenerKom);
+	ScrollGestureListener ListeneredKom = new ScrollGestureListener(_txtedKom, OnTouchListenerScrolledKom);
+	GestureDetector detectoredKom = new GestureDetector(_main,ListeneredKom);
 
 
-		}
-
-		@Override
-		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-								float distanceY) {
-			if (e1 ==null||e2==null)return false;
-			try
-			{
-				_txtWord.getParent().requestDisallowInterceptTouchEvent(true);
-				BorderedTextView.BottomOrTop pos = _txtWord.getScrollBottomOrTopReached();
-				float distY = e2.getY()-e1.getY();
-				float distX = e2.getX()-e1.getX();
-				if ((Math.abs(distX) > Math.abs(distY)) || (pos == BorderedTextView.BottomOrTop.both) || (pos == BorderedTextView.BottomOrTop.top
-						&& distY >= 0)
-						|| (pos == BorderedTextView.BottomOrTop.bottom
-						&& distY <= 0))
-				{
-					_txtWord.getParent().requestDisallowInterceptTouchEvent(false);
-				}
-			}
-			catch (Exception ex)
-			{
-				ex.printStackTrace();
-				//lib.ShowException(_main, ex);
-			}
-			return false;
-		}
-
-		@Override
-		public void onLongPress(MotionEvent e) {
-
-
-		}
-
-		@Override
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-							   float velocityY) {
-
-			return false;
-		}
-
-		@Override
-		public boolean onDown(MotionEvent e) {
-
-			return false;
-		}
-	});
-
-	GestureDetector detectoredWord = new GestureDetector(_main, new GestureDetector.OnGestureListener() {
-
-		@Override
-		public boolean onSingleTapUp(MotionEvent e) {
-			try
-			{
-				if ((e.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP)
-				{
-					_txtedWord.getParent().requestDisallowInterceptTouchEvent(false);
-					if (oldedWordMovementMethod!=null) _txtedWord.setMovementMethod(oldedWordMovementMethod);
-				}
-			}
-			catch (Exception ex)
-			{
-				ex.printStackTrace();
-				//lib.ShowException(_main, ex);
-			}
-			return false;
-		}
-
-		@Override
-		public void onShowPress(MotionEvent e) {
-
-
-		}
-
-		@Override
-		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-								float distanceY) {
-			if (e1 ==null||e2==null)return false;
-			try
-			{
-				_txtedWord.getParent().requestDisallowInterceptTouchEvent(true);
-				BottomOrTop pos = _txtedWord.getScrollBottomOrTopReached();
-				float distY = e2.getY()-e1.getY();
-				float distX = e2.getX()-e1.getX();
-				if ((Math.abs(distX) > Math.abs(distY)) || (pos == BottomOrTop.both) || (pos == BottomOrTop.top
-						&& distY >= 0)
-						|| (pos == BottomOrTop.bottom
-						&& distY <= 0))
-				{
-					_txtedWord.getParent().requestDisallowInterceptTouchEvent(false);
-				}
-			}
-			catch (Exception ex)
-			{
-				ex.printStackTrace();
-				//lib.ShowException(_main, ex);
-			}
-			return false;
-		}
-
-		@Override
-		public void onLongPress(MotionEvent e) {
-
-
-		}
-
-		@Override
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-							   float velocityY) {
-
-			return false;
-		}
-
-		@Override
-		public boolean onDown(MotionEvent e) {
-
-			return false;
-		}
-	});
-
-	GestureDetector detectorMeaning1 = new GestureDetector(_main, new GestureDetector.OnGestureListener() {
-		
-		@Override
-		public boolean onSingleTapUp(MotionEvent e) {
-			try
-			{
-				if ((e.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP)
-	            {
-	                _txtMeaning1.getParent().requestDisallowInterceptTouchEvent(false);
-	                if (oldMeaning1MovementMethod!=null) _txtMeaning1.setMovementMethod(oldMeaning1MovementMethod);
-	            }
-			}
-			catch (Exception ex)
-			{
-				ex.printStackTrace();
-				//lib.ShowException(_main, ex);
-			}
-			return false;
-		}
-		
-		@Override
-		public void onShowPress(MotionEvent e) {
-
-			
-		}
-		
-		@Override
-		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-				float distanceY) {
-			if (e1 ==null||e2==null)return false;
-			try
-			{
-				_txtMeaning1.getParent().requestDisallowInterceptTouchEvent(true);
-	            BottomOrTop pos = _txtMeaning1.getScrollBottomOrTopReached();
-	            float distY = e2.getY()-e1.getY();
-	            float distX = e2.getX()-e1.getX();
-				if ((Math.abs(distX) > Math.abs(distY)) || (pos == BottomOrTop.both) || (pos == BottomOrTop.top 
-	            		&& distY >= 0)
-	            		|| (pos == BottomOrTop.bottom
-	            		&& distY <= 0)) 
-	            {
-	                _txtMeaning1.getParent().requestDisallowInterceptTouchEvent(false);
-	            }
-			}
-			catch (Exception ex)
-			{
-				ex.printStackTrace();
-				//lib.ShowException(_main, ex);
-			}
-			return false;
-		}
-		
-		@Override
-		public void onLongPress(MotionEvent e) {
-
-			
-		}
-		
-		@Override
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-				float velocityY) {
-
-			return false;
-		}
-		
-		@Override
-		public boolean onDown(MotionEvent e) {
-
-			return false;
-		}
-	});
-	
 	OnLongClickListener textlongclicklistener = new OnLongClickListener() {
 		
 		@Override
@@ -1539,7 +1289,7 @@ public class _MainActivity extends Fragment {
 										
 									}
 								} catch (Exception e) {
-									// TODO Auto-generated catch block
+
 									lib.ShowException(_main, e);
 								}
 							} else if (Bew == Bewertung.aehnlich) {
@@ -1570,7 +1320,7 @@ public class _MainActivity extends Fragment {
 							}
 	
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
+
 							lib.ShowException(_main, e);
 						}
 					}
@@ -1579,7 +1329,7 @@ public class _MainActivity extends Fragment {
 						try {
 							EndEdit(false);
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
+
 							lib.ShowException(_main, e);
 						}
 						
@@ -1753,7 +1503,7 @@ public class _MainActivity extends Fragment {
 	 * private void runFlashWords() { new Thread(new Runnable() {
 	 * 
 	 * @Override public void run() {  try {
-	 * flashwords(); } catch (Exception e) { // TODO Auto-generated catch block
+	 * flashwords(); } catch (Exception e) {
 	 * e.printStackTrace(); } } }).start(); }
 	 */
 	private ArrayList<Runnable> rFlashs = new ArrayList<Runnable>();
@@ -1846,7 +1596,7 @@ public class _MainActivity extends Fragment {
 			try {
 				lib.playSound(_main, org.de.jmg.lib.lib.Sounds.Beep);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 			showWordBorders();
@@ -1878,7 +1628,7 @@ public class _MainActivity extends Fragment {
 			try {
 				lib.playSound(_main, org.de.jmg.lib.lib.Sounds.Beep);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 		}

@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity  {
                     			} 
                         		catch (Exception e) 
                         		{
-                    				// TODO Auto-generated catch block
+
                     				lib.ShowException(MainActivity.this, e);
                     			}
                     	}
@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity  {
 									mPager.setCurrentItem(_MainActivity.fragID);
 								}
 							} catch (Exception e) {
-								// TODO Auto-generated catch block
+
 								lib.ShowException(MainActivity.this, e);
 							}
 							*/
@@ -334,7 +334,7 @@ public class MainActivity extends AppCompatActivity  {
 					is.close();
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+
 				lib.ShowException(this, e);
 			}
 			libLearn.gStatus = "onCreate Copy Assets";
@@ -469,7 +469,7 @@ public class MainActivity extends AppCompatActivity  {
 			} 
 			catch (Exception e) 
 			{
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 				lib.ShowException(this, e);
 			}
@@ -546,7 +546,7 @@ public class MainActivity extends AppCompatActivity  {
 			lib.OpenDialogs.clear();
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+
 			Log.e("OnSaveInstanceState", e.getMessage(), e);
 			e.printStackTrace();
 		}
@@ -570,7 +570,7 @@ public class MainActivity extends AppCompatActivity  {
 			try {
 				saveVok(false);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+
 				lib.ShowException(this, e);
 				return true;
 			}
@@ -587,7 +587,7 @@ public class MainActivity extends AppCompatActivity  {
 			} 
 			catch (Exception e) 
 			{
-				// TODO Auto-generated catch block
+
 				Log.e("onBackPressed", e.getMessage(), e);
 				lib.ShowException(this, e);
 				return true;
@@ -646,7 +646,7 @@ public class MainActivity extends AppCompatActivity  {
 						  } 
 						  catch (Exception e1) 
 						  {
-							// TODO Auto-generated catch block
+
 							e1.printStackTrace();
 							lib.ShowException(MainActivity.this, e1); 
 						  }
@@ -700,7 +700,7 @@ public class MainActivity extends AppCompatActivity  {
 					}
 					
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+
 					lib.ShowException(this, e);
 				}
 			}
@@ -770,7 +770,7 @@ public class MainActivity extends AppCompatActivity  {
 			}
 			if (fPA.fragMain!=null && fPA.fragMain.mainView!=null) fPA.fragMain.getVokabel(false, false, false);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+
 			lib.ShowException(this, e);
 			if (fPA.fragMain!=null && fPA.fragMain.mainView!=null) fPA.fragMain.getVokabel(true, true, false);
 		}
@@ -858,7 +858,7 @@ public class MainActivity extends AppCompatActivity  {
 				} 
 				catch (Exception e) 
 				{
-					// TODO Auto-generated catch block
+
 					//lib.ShowException(this, e);
 					if (lib.ShowMessageYesNo(this, getString(R.string.msgFileCouldNotBeSaved),"")==yesnoundefined.yes)
 					{
@@ -895,7 +895,7 @@ public class MainActivity extends AppCompatActivity  {
 			} 
 			catch (Exception e) 
 			{
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 				Log.e("saveFilePrefs",vok.getURI().toString(),e);
 			}
@@ -1014,7 +1014,7 @@ public class MainActivity extends AppCompatActivity  {
 						}
 					}
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+
 					// e.printStackTrace();
 					if (i>0) lib.ShowException(this, e);
 					// lib.ShowMessage(this, "CopyAssets");
@@ -1717,7 +1717,7 @@ public class MainActivity extends AppCompatActivity  {
 						}
 
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
+
 						lib.ShowException(MainActivity.this, e);
 						e.printStackTrace();
 					}
@@ -1787,7 +1787,7 @@ public class MainActivity extends AppCompatActivity  {
 										}
 
 									} catch (Exception e) {
-										// TODO Auto-generated catch block
+
 										lib.ShowException(MainActivity.this, e);
 										e.printStackTrace();
 									}
