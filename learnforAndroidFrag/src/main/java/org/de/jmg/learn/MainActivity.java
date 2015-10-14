@@ -50,11 +50,13 @@ import br.com.thinkti.android.filechooserfrag.fragFileChooser;
 import br.com.thinkti.android.filechooserfrag.fragFileChooserQuizlet;
 
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -62,6 +64,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -1329,9 +1332,23 @@ public class MainActivity extends AppCompatActivity  {
 			//resize();
 			OptionsMenu = menu;
 			mnuAddNew = menu.findItem(R.id.mnuAddWord);
+			Resources resources = context.getResources();
+			DisplayMetrics metrics = resources.getDisplayMetrics();
+			int height = metrics.heightPixels;
+			int viewTop = this.findViewById(Window.ID_ANDROID_CONTENT).getTop();
+			height = height - viewTop;
+			double scale = (double) height / (double) 950;
+			if (scale < .5f)
+			{
+				isSmallDevice = true;
+			}
 			if (Build.VERSION.SDK_INT<11)
 			{
 				menu.findItem(R.id.mnuOpenQuizlet).setVisible(false);
+			}
+			if (isSmallDevice)
+			{
+				MenuItemCompat.setShowAsAction(menu.findItem(R.id.mnuSaveAs),MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
 			}
 			/*
 			if (isSmallDevice)
