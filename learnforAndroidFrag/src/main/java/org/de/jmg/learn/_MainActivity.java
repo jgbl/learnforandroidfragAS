@@ -726,7 +726,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					hideKeyboard();
 					if (showBeds)
 					{
-						_scrollView.scrollTo(0,_txtMeaning1.getBottom());
+						_scrollView.scrollTo(0,(_txtMeaning1.getBottom()+_txtMeaning1.getTop())/2);
 					}
 					else
 					{
@@ -1822,7 +1822,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		if (t.getText() instanceof SpannedString) {
 			p.setTextSize(t.getTextSize());
 			SpannedString s = (SpannedString) t.getText();
-			width = width  - width/5;
+			width = width  - width/(_isSmallDevice?4:5);
 			float measuredWidth = p.measureText(s.toString());
 			if (measuredWidth != width)
 			{
