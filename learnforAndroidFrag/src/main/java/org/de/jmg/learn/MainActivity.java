@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity  {
 									})
 					);
 					*/
-					if (res==yesnoundefined.no.yes)
+					if (res == lib.yesnoundefined.yes)
 					{
 						prefs.edit().putBoolean("LicenseAccepted", true).commit();
 					}
@@ -334,7 +334,7 @@ public class MainActivity extends AppCompatActivity  {
 					{
 						finish();;
 					}
-					is.close();
+
 				}
 			} catch (Exception e) {
 
@@ -1348,7 +1348,7 @@ public class MainActivity extends AppCompatActivity  {
 			}
 			if (isSmallDevice)
 			{
-				MenuItemCompat.setShowAsAction(menu.findItem(R.id.mnuSaveAs),MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+				MenuItemCompat.setShowAsAction(menu.findItem(R.id.mnuSaveAs), MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
 			}
 			/*
 			if (isSmallDevice)
