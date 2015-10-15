@@ -67,6 +67,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -284,8 +285,8 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		 */
 		if (scale != 1)
 		{
-			lib.ShowToast(_main, "Scaling font by " + scale + " Screenheight = "
-					+ height);
+			// lib.ShowToast(_main, "Scaling font by " + scale + " Screenheight = "
+					//+ height);
 
 			float tSize = _txtMeaning1.getTextSize();
 			if (tSize==40 || (_vok.getCardMode()&& tSize==25))
@@ -1415,6 +1416,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 				(float) (40 * scale));
 		_txtMeaning1.setMaxLines(3);
+		_txtMeaning1.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
 		_txtMeaning1.setHorizontallyScrolling(false);
 		//_txtMeaning1.setAutoLinkMask(0);
 		if (_originalMovementmethod!=null && _txtMeaning1.getMovementMethod() == LinkMovementMethod.getInstance())
@@ -1460,8 +1462,10 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				(float) (30 * scale));
 
 		_txtMeaning1.setSingleLine(false);
-		_txtMeaning1.setMaxLines(200);
+		_txtMeaning1.setMaxLines(1000);
 		_txtMeaning1.setLines(16);
+		//_txtMeaning1.setMinLines(2);
+		_txtMeaning1.setGravity(Gravity.TOP|Gravity.LEFT);
 		_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 				(float) (25 * scale));
 		//_txtMeaning1.requestFocus();

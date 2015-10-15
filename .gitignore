@@ -29,3 +29,5 @@ proguard/
 *.log
 
 /library/
+pub/
+/learnforAndroidFrag/src/main/java/br/com/thinkti/android/filechooserfrag/Data.java
