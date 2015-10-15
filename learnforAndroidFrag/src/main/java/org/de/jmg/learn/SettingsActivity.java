@@ -185,7 +185,11 @@ public class SettingsActivity extends Fragment
 			_Intent=_main.getSettingsIntent();
 			intent = new Intent();
 		}
-		init();
+		try {
+			init();
+		} catch (Exception e) {
+			lib.ShowException(_main,e);
+		}
 		return SettingsView;
 	}
 	
@@ -206,7 +210,7 @@ public class SettingsActivity extends Fragment
 		_main = main;
 	}
 	
-	public void init()
+	public void init() throws Exception
 	{
 		if (_Intent == null || _main == null || SettingsView == null || _blnInitialized)
 		{
@@ -1020,7 +1024,7 @@ public class SettingsActivity extends Fragment
 							lib.playSound(F);
 						else
 							lib.playSound(_main.getAssets(), item.SoundPath);
-					} catch (IOException e) {
+					} catch (Exception e) {
 
 						e.printStackTrace();
 					}

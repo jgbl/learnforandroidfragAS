@@ -727,7 +727,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					hideKeyboard();
 					if (showBeds)
 					{
-						_scrollView.scrollTo(0,(_txtMeaning1.getBottom()+_txtMeaning1.getTop())/2);
+						_scrollView.scrollTo(0,_txtMeaning1.getTop());
 					}
 					else
 					{
@@ -1599,7 +1599,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		public void run() {
 			try {
 				lib.playSound(_main, org.de.jmg.lib.lib.Sounds.Beep);
-			} catch (IOException e) {
+			} catch (Exception e) {
 
 				e.printStackTrace();
 			}
@@ -1631,7 +1631,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					_main.Colors.get(ColorItems.box_meaning).ColorValue);
 			try {
 				lib.playSound(_main, org.de.jmg.lib.lib.Sounds.Beep);
-			} catch (IOException e) {
+			} catch (Exception e) {
 
 				e.printStackTrace();
 			}

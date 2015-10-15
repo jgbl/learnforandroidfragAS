@@ -909,7 +909,7 @@ public class lib {
 
     }
 
-    public static void playSound(Context context, Sounds s) throws IOException {
+    public static void playSound(Context context, Sounds s) throws Exception {
         MainActivity main = (MainActivity) context;
         AssetManager assets = context.getAssets();
         if (main.colSounds.size() > 0) {
@@ -926,7 +926,7 @@ public class lib {
     }
 
     public static void playSound(AssetManager assets, String name)
-            throws IOException {
+            throws Exception {
         if (!sndEnabled)
             return;
         AssetFileDescriptor afd = assets.openFd(name);
@@ -953,7 +953,7 @@ public class lib {
     }
 
     public static void playSound(Context context, int Zaehler)
-            throws IOException {
+            throws Exception {
         MainActivity main = (MainActivity) context;
         if (main.colSounds.size() > 0) {
             if (Zaehler < -4)
@@ -987,7 +987,7 @@ public class lib {
 
     }
 
-    public static void playSound(File F) throws IOException {
+    public static void playSound(File F) throws Exception {
         if (!sndEnabled)
             return;
         try
