@@ -134,24 +134,21 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			InitControls();
 			libLearn.gStatus = "onCreate InitMeanings";
 			InitMeanings();
-			
-			
-			if (true)
-			{
-				mainView.getViewTreeObserver().addOnGlobalLayoutListener(
-						new ViewTreeObserver.OnGlobalLayoutListener() {
-	
-							@Override
-							public void onGlobalLayout() {
-								// Ensure you call it only once :
-								lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
-								// Here you can get the size :)
-								resize();
-								//lib.ShowToast(SettingsActivity.this, "Resize End");
-							}
-						});
-	
-			}
+
+
+			mainView.getViewTreeObserver().addOnGlobalLayoutListener(
+                    new OnGlobalLayoutListener() {
+
+                        @Override
+                        public void onGlobalLayout() {
+                            // Ensure you call it only once :
+                            lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
+                            // Here you can get the size :)
+                            resize();
+                            //lib.ShowToast(SettingsActivity.this, "Resize End");
+                        }
+                    });
+
 			try {
 				this.SetActionBarTitle();
 				if (_vok.getCardMode() ) {
@@ -214,7 +211,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	
 	public void removeCallbacks()
 	{
-		ArrayList<Runnable> runs = new ArrayList<Runnable>();
+		ArrayList<Runnable> runs = new ArrayList<>();
 		//handler.removeCallbacks(runnableFalse);
 		if (rFlashs!=null)
 		{
@@ -465,7 +462,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 						, (int)(_btnWrong.getPaddingBottom()*ScaleWidth));
 			}
 			params.width = (int) (params.width * ScaleWidth);
-			if (blnHorizontal) params.height*= ratio;;
+			if (blnHorizontal) params.height*= ratio;
 			_btnWrong.setLayoutParams(params);
 			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnSkip
@@ -545,7 +542,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			_txtStatus.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 					(float) (_txtStatus.getTextSize() * ScaleTextButtonsOrig));
 			
-			_ActionBarOriginalTextSize = 0;
+			_main.ActionBarOriginalTextSize = 0;
 			resizeActionbar(0);
 			Runnable r = new resetLayoutTask(null);
 			rFlashs.add(r);
@@ -609,6 +606,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			 * 
 			 * } else { t.setLines(1); } }
 			 */
+			assert t != null;
 			t.setText(lib.getSpanableString(_vok.getWort()), TextView.BufferType.SPANNABLE);
 			if (_vok.getSprache() == EnumSprachen.Hebrew
 					|| _vok.getSprache() == EnumSprachen.Griechisch
@@ -623,6 +621,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 			v = findViewById(R.id.Comment);
 			t = (TextView) v;
+			assert t != null;
 			t.setText(lib.getSpanableString(_vok.getKommentar()),
 					TextView.BufferType.SPANNABLE);
 			if (_vok.getSprache() == EnumSprachen.Hebrew
@@ -647,8 +646,10 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 			v = findViewById(R.id.txtMeaning1);
 			t = (TextView) v;
-			if (!libString.IsNullOrEmpty(_vok.getBedeutung2()))
+			assert t != null;
+			if (!libString.IsNullOrEmpty(_vok.getBedeutung2())) {
 				t.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+			}
 			t.setText((showBeds ? lib.getSpanableString(_vok.getBedeutung1()) : Vokabel.getComment(_vok
 					.getBedeutung1())));
 			if (_vok.getFontBed().getName() == "Cardo") {
@@ -671,6 +672,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 			v = findViewById(R.id.txtMeaning2);
 			t = (TextView) v;
+			assert t != null;
 			t.setText((showBeds ? _vok.getBedeutung2() : Vokabel.getComment(_vok
 					.getBedeutung2())));
 			if (_vok.getFontBed().getName() == "Cardo") {
@@ -689,6 +691,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 			v = findViewById(R.id.txtMeaning3);
 			t = (TextView) v;
+			assert t != null;
 			t.setText((showBeds ? _vok.getBedeutung3() : Vokabel.getComment(_vok
 					.getBedeutung3())));
 			if (_vok.getFontBed().getName() == "Cardo") {
@@ -1754,9 +1757,9 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		resizeActionbar(0);
 	}
 	
-	float _ActionBarOriginalTextSize = 0f;
+	
 	int _OriginalWidth = 0;
-	public void resizeActionbar(int width) {
+	public void resizeActionbar(final int width) {
 		/*
 		View tb = this.findViewById(R.id.action_bar);
 		Paint p = new Paint();
@@ -1777,13 +1780,13 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					View v = g.getChildAt(i);
 					if (v instanceof TextView) {
 						TextView t = (TextView) v;
-						if (_ActionBarOriginalTextSize[i] == 0 )
+						if (_main.ActionBarOriginalTextSize[i] == 0 )
 						{
-							_ActionBarOriginalTextSize[i] = t.getTextSize();
+							_main.ActionBarOriginalTextSize[i] = t.getTextSize();
 						}
 						else
 						{
-							t.setTextSize(TypedValue.COMPLEX_UNIT_PX,_ActionBarOriginalTextSize[i]);
+							t.setTextSize(TypedValue.COMPLEX_UNIT_PX,_main.ActionBarOriginalTextSize[i]);
 						}
 						if (t.getText() instanceof SpannedString) {
 							p.setTextSize(t.getTextSize());
@@ -1810,19 +1813,37 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		*/
 		if (mainView == null) return;
 		TextView t = _txtStatus;
-		Paint p = new Paint();
+		if (t.getTextSize()!= 20)
+		{
+			t.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
+			mainView.getViewTreeObserver().addOnGlobalLayoutListener(
+					new ViewTreeObserver.OnGlobalLayoutListener() {
+
+						@Override
+						public void onGlobalLayout() {
+							// Ensure you call it only once :
+							lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
+							// Here you can get the size :)
+							SetTxtStatusSize(width);
+							//lib.ShowToast(SettingsActivity.this, "Resize End");
+						}
+					});
+		}
+		else
+		{
+			SetTxtStatusSize(width);
+		}
+
+	}
+
+	void SetTxtStatusSize(int width)
+	{
 		if (width == 0)	width = mainView.getWidth();
 		if (width == 0 && _OriginalWidth==0) return;
 		if (width == 0) width = _OriginalWidth;
 		_OriginalWidth = width;
-		if (_ActionBarOriginalTextSize == 0 )
-		{
-			_ActionBarOriginalTextSize = t.getTextSize();
-		}
-		else
-		{
-			t.setTextSize(TypedValue.COMPLEX_UNIT_PX,_ActionBarOriginalTextSize);
-		}
+		TextView t = _txtStatus;
+		Paint p = new Paint();
 		if (t.getText() instanceof SpannedString) {
 			p.setTextSize(t.getTextSize());
 			SpannedString s = (SpannedString) t.getText();
@@ -1837,11 +1858,9 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				float size = t.getTextSize();
 				t.setTextSize(TypedValue.COMPLEX_UNIT_PX,size * scaleA);
 			}
-			
+
 		}
 	}
-
-	
 	
 	
 

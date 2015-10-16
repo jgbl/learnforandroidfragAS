@@ -6,7 +6,7 @@
     android:versionName="1.907">
     <uses-sdk
         android:minSdkVersion="7"
-        android:targetSdkVersion="22"
+        android:targetSdkVersion="23"
         />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -39,9 +39,9 @@
 			    <category android:name="android.intent.category.BROWSABLE" />
 			</intent-filter>
         </activity>
-        <activity android:name="br.com.thinkti.android.filechooser.FileChooser"></activity>
-        <activity android:name="org.achartengine.GraphicalActivity"></activity>
-        <activity android:name="br.com.thinkti.android.filechooser.AdvFileChooser"></activity>
+        <activity android:name="br.com.thinkti.android.filechooser.FileChooser"/>
+        <activity android:name="org.achartengine.GraphicalActivity"/>
+        <activity android:name="br.com.thinkti.android.filechooser.AdvFileChooser"/>
     </application>
 
 </manifest>

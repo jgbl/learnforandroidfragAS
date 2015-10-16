@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity  {
 	public boolean isAndroidWear;
 	public boolean isTV;
 	public boolean isWatch;
+	public float ActionBarOriginalTextSize;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -359,6 +360,7 @@ public class MainActivity extends AppCompatActivity  {
 					}
 					*/
 					libLearn.gStatus = "onCreate Load SavedInstanceState";
+					ActionBarOriginalTextSize= savedInstanceState.getFloat("ActionBarOriginalTextSize");
 					String filename = savedInstanceState.getString("vokpath");
 					Uri uri = null;
 					String strURI = savedInstanceState.getString("URI");
@@ -517,6 +519,7 @@ public class MainActivity extends AppCompatActivity  {
 			Uri uri = vok.getURI();
 			outState.putInt("SelFragID", mPager.getCurrentItem());
 			outState.putString("JMGDataDirectory", JMGDataDirectory);
+			outState.putFloat("ActionBarOriginalTextSize", ActionBarOriginalTextSize);
 			if (vok.getGesamtzahl() > 0 ) {
 				saveFilePrefs(true);
 				if(uri!=null)
