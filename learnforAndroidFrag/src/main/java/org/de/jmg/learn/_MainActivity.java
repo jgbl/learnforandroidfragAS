@@ -145,7 +145,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
                             lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
                             // Here you can get the size :)
                             resize();
-                            //lib.ShowToast(SettingsActivity.this, "Resize End");
+							//_scrollView.fullScroll(View.FOCUS_UP);
                         }
                     });
 
@@ -542,7 +542,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			_txtStatus.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 					(float) (_txtStatus.getTextSize() * ScaleTextButtonsOrig));
 			
-			_main.ActionBarOriginalTextSize = 0;
+			//_main.ActionBarOriginalTextSize = 0;
 			resizeActionbar(0);
 			Runnable r = new resetLayoutTask(null);
 			rFlashs.add(r);
@@ -1813,9 +1813,14 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		*/
 		if (mainView == null) return;
 		TextView t = _txtStatus;
-		if (t.getTextSize()!= 20)
+		if (_main.ActionBarOriginalTextSize==0)
 		{
-			t.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
+			_main.ActionBarOriginalTextSize = t.getTextSize();
+			SetTxtStatusSize(width);
+		}
+		else if (t.getTextSize() != _main.ActionBarOriginalTextSize)
+		{
+			t.setTextSize(TypedValue.COMPLEX_UNIT_PX, _main.ActionBarOriginalTextSize);
 			mainView.getViewTreeObserver().addOnGlobalLayoutListener(
 					new ViewTreeObserver.OnGlobalLayoutListener() {
 
