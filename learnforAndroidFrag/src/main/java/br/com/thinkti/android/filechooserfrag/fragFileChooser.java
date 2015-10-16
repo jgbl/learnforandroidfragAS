@@ -26,18 +26,6 @@
  *  along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 package br.com.thinkti.android.filechooserfrag;
-import org.de.jmg.learn.*;
-import org.de.jmg.learn.R;
-import org.de.jmg.lib.lib;
-
-import br.com.thinkti.android.filechooser.FileArrayAdapter;
-import br.com.thinkti.android.filechooser.Option;
-
-import java.io.File;
-import java.io.FileFilter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -45,8 +33,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ListFragment;
-import android.support.v7.internal.widget.AdapterViewCompat;
-import android.text.format.Formatter;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -55,10 +41,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import org.de.jmg.learn.MainActivity;
+import org.de.jmg.learn.R;
+import org.de.jmg.learn._MainActivity;
+import org.de.jmg.lib.lib;
+
+import java.io.File;
+import java.io.FileFilter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import br.com.thinkti.android.filechooser.FileArrayAdapter;
+import br.com.thinkti.android.filechooser.Option;
 
 public class fragFileChooser extends ListFragment 
 {

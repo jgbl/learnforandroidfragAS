@@ -2362,12 +2362,17 @@ public class Vokabel {
 				}
 				libLearn.gStatus = CodeLoc + " ReadLine1";
 				tmp = sr.readLine();
-				try 
+				if (tmp==null)
+				{
+					sp = -2;
+					break;
+				}
+				try
 				{
 					sp = (short) Integer.parseInt(tmp.trim()); // .replaceAll("[^\\d]",
 																// "")'
-				} 
-				catch (NumberFormatException ex) 
+				}
+				catch (NumberFormatException ex)
 				{
 					// lib.ShowException(getContext(), ex);
 					this.setStatus(ex.getMessage());
@@ -2379,13 +2384,13 @@ public class Vokabel {
 						sr.close();
 						sr=null;
 					}
-						
+
 					if (isr != null)
 					{
 						isr.close();
 						isr=null;
 					}
-						
+
 					if (is != null)
 					{
 						is.close();
