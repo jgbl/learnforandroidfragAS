@@ -106,10 +106,10 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	private BorderedEditText _txtedWord;
 	private BorderedEditText _txtedKom;
 	private BorderedTextView _txtStatus;
-	private BorderedEditText _txtMeaning1;
+	protected BorderedEditText _txtMeaning1;
 	private BorderedEditText _txtMeaning2;
 	private BorderedEditText _txtMeaning3;
-	private ScrollView _scrollView; //= (ScrollView) findViewById(R.id.layoutMain);
+	protected ScrollView _scrollView; //= (ScrollView) findViewById(R.id.layoutMain);
 	
 	private double scale = 1;
 	private Drawable _MeaningBG;
@@ -121,7 +121,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) 
 	{
-		
+
 		//if (mainView!=null)return mainView;
 		
 		mainView = inflater.inflate(R.layout.activity_main, container,false);
@@ -151,11 +151,11 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				{
 					setBtnsEnabled(true);
 				}
-				getVokabel(false, false);
+				//getVokabel(false, false);
 			} catch (Exception e1) {
 
 				lib.ShowException(_main, e1);
-				getVokabel(true, true);
+				//getVokabel(true, true);
 			}
 			mainView.getViewTreeObserver().addOnGlobalLayoutListener
 					(
@@ -169,6 +169,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 							lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
 							// Here you can get the size :)
 							resize();
+							/*
 							try
 							{
 								getVokabel(false, false);
@@ -177,8 +178,13 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 							{
 
 								lib.ShowException(_main, e1);
-								getVokabel(true, true);
+								try {
+									getVokabel(true, true);
+								} catch (Exception e) {
+									lib.ShowException(_main, e);
+								}
 							}
+							*/
 							//_scrollView.fullScroll(View.FOCUS_UP);
 						}
 					});
@@ -571,18 +577,19 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		return this.mainView.findViewById(id);
 	}
 
-	public void getVokabel(boolean showBeds, boolean LoadNext)
+	public void getVokabel(boolean showBeds, boolean LoadNext) throws Exception
 	{
 		getVokabel(showBeds, LoadNext, false, false);
 	}
 
-	public void getVokabel(boolean showBeds, boolean LoadNext, boolean requestFocusEdWord)
+	public void getVokabel(boolean showBeds, boolean LoadNext, boolean requestFocusEdWord) throws Exception
 	{
 		getVokabel(showBeds, LoadNext, requestFocusEdWord, false);
 	}
 
 
-		public void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt) {
+		public void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt) throws  Exception
+		{
 		try {
 			if (_btnRight == null) return;
 			EndEdit(DontPrompt);
@@ -671,17 +678,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			} else {
 				t.setTypeface(Typeface.DEFAULT);
 			}
-			t.setOnFocusChangeListener(new OnFocusChangeListener() {
-
-				@Override
-				public void onFocusChange(View v, boolean hasFocus) {
-
-					if (hasFocus && _firstFocus) {
-						hideKeyboard();
-						_firstFocus = false;
-					}
-				}
-			});
+			t.setOnFocusChangeListener(FocusListenerMeaning1);
 			t.scrollTo(0, 0);
 
 			v = findViewById(R.id.txtMeaning2);
@@ -760,6 +757,18 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		}
 
 	}
+
+	protected OnFocusChangeListener FocusListenerMeaning1 = (new OnFocusChangeListener() {
+
+		@Override
+		public void onFocusChange(View v, boolean hasFocus) {
+
+			if (hasFocus && _firstFocus) {
+				hideKeyboard();
+				_firstFocus = false;
+			}
+		}
+	});
 
 	@Override
 	public void RemoveCallback() {
@@ -1516,7 +1525,11 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		@Override
 		public void run() {
 			/* do what you need to do */
-			getVokabel(false, false);
+			try {
+				getVokabel(false, false);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	};
 

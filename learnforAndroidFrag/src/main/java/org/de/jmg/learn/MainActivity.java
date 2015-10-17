@@ -65,9 +65,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -210,18 +212,20 @@ public class MainActivity extends AppCompatActivity  {
                         	mnuAddNew.setEnabled(true);
 							if (fPA!=null && fPA.fragMain!=null)
 							{
-								try
+								fPA.fragMain._txtMeaning1.setOnFocusChangeListener(new View.OnFocusChangeListener()
 								{
-									fPA.fragMain.getVokabel(false, false);
-								}
-								catch (Exception e1)
-								{
+									@Override
+									public void onFocusChange(View v, boolean hasFocus) {
+										fPA.fragMain._txtMeaning1.setOnFocusChangeListener(fPA.fragMain.FocusListenerMeaning1);
+										if (hasFocus)
+										{
+											fPA.fragMain._scrollView.fullScroll(View.FOCUS_UP);
+										}
 
-									lib.ShowException(MainActivity.this, e1);
-									fPA.fragMain.getVokabel(true, true);
-								}
+									}
+								});
 							}
-                        }
+						}
                         else if (position == SettingsActivity.fragID)
 						{
 							mnuAddNew.setEnabled(false);
@@ -260,7 +264,7 @@ public class MainActivity extends AppCompatActivity  {
         };
         
         /** Setting the pageChange listener to the viewPager */
-        mPager.setOnPageChangeListener(pageChangeListener);
+        mPager.addOnPageChangeListener(pageChangeListener);
         
         /** Creating an instance of FragmentPagerAdapter */
         if(fPA==null)fPA = new MyFragmentPagerAdapter(fm, this, savedInstanceState!=null);
@@ -345,7 +349,7 @@ public class MainActivity extends AppCompatActivity  {
 					}
 					else
 					{
-						finish();;
+						finish();
 					}
 
 				}
@@ -383,9 +387,8 @@ public class MainActivity extends AppCompatActivity  {
 					int Lernindex = savedInstanceState.getInt("Lernindex");
 					CardMode = savedInstanceState.getBoolean("Cardmode", false);
 					if (index > 0) {
-						boolean Unicode = savedInstanceState.getBoolean(
+						_blnUniCode = savedInstanceState.getBoolean(
 								"Unicode", true);
-						_blnUniCode = Unicode;
 						LoadVokabel(tmppath, uri, index, Lernvokabeln, Lernindex,
 								CardMode);
 						vok.setLastIndex(savedInstanceState.getInt(
@@ -434,8 +437,7 @@ public class MainActivity extends AppCompatActivity  {
 						
 						int index = prefs.getInt("vokindex", 1);
 						int Lernindex = prefs.getInt("Lernindex", 0);
-						boolean Unicode = prefs.getBoolean("Unicode", true);
-						_blnUniCode = Unicode;
+						_blnUniCode = prefs.getBoolean("Unicode", true);
 						boolean isTmpFile = prefs
 								.getBoolean("isTmpFile", false);
 						boolean aend = prefs.getBoolean("aend", true);
@@ -575,7 +577,7 @@ public class MainActivity extends AppCompatActivity  {
 		if (mPager.getCurrentItem() == fragFileChooser.fragID)
 		{
 			boolean res = this.fPA.fragChooser.onKeyDown(keyCode, event);
-			if (res == false) return res;
+			if (!res) return res;
 		}
 		else if (mPager.getCurrentItem() == _MainActivity.fragID)
 		{
@@ -788,7 +790,15 @@ public class MainActivity extends AppCompatActivity  {
 		catch (Exception e)
 		{
 			lib.ShowException(this, e);
-			if (fPA.fragMain!=null && fPA.fragMain.mainView!=null) fPA.fragMain.getVokabel(true, true, false);
+			if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
+			{
+				try
+				{
+					fPA.fragMain.getVokabel(true, true, false);
+				} catch (Exception e1) {
+					lib.ShowException(this, e);
+				}
+			}
 		}
 	}
 	
