@@ -734,7 +734,8 @@ public class MainActivity extends AppCompatActivity  {
 		@Override
 		public void uncaughtException(Thread thread, Throwable ex) {
 
-			lib.ShowException(MainActivity.this, ex);
+			ex.printStackTrace();
+			//lib.ShowException(MainActivity.this, ex);
 		}
 	};
 	public void LoadVokabel(String fileSelected, Uri uri, int index, int[] Lernvokabeln,

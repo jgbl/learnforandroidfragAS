@@ -231,7 +231,7 @@ public class SettingsActivity extends Fragment
 			lib.setBg(layout, rectShapeDrawable);
 			
 			mainView = _main.findViewById(Window.ID_ANDROID_CONTENT);
-			Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
+			//Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
 			prefs = _main.getPreferences(Context.MODE_PRIVATE);
 			
 					
@@ -1441,7 +1441,8 @@ public class SettingsActivity extends Fragment
 		@Override
 		public void uncaughtException(Thread thread, Throwable ex) {
 
-			lib.ShowException(_main, ex);
+			ex.printStackTrace();
+			//lib.ShowException(_main, ex);
 		}
 	};
 
