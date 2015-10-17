@@ -208,6 +208,19 @@ public class MainActivity extends AppCompatActivity  {
                         else if (position == _MainActivity.fragID)
                         {
                         	mnuAddNew.setEnabled(true);
+							if (fPA!=null && fPA.fragMain!=null)
+							{
+								try
+								{
+									fPA.fragMain.getVokabel(false, false);
+								}
+								catch (Exception e1)
+								{
+
+									lib.ShowException(MainActivity.this, e1);
+									fPA.fragMain.getVokabel(true, true);
+								}
+							}
                         }
                         else if (position == SettingsActivity.fragID)
 						{
