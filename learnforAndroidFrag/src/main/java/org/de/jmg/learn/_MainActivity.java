@@ -136,18 +136,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			InitMeanings();
 
 
-			mainView.getViewTreeObserver().addOnGlobalLayoutListener(
-                    new OnGlobalLayoutListener() {
 
-                        @Override
-                        public void onGlobalLayout() {
-                            // Ensure you call it only once :
-                            lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
-                            // Here you can get the size :)
-                            resize();
-							//_scrollView.fullScroll(View.FOCUS_UP);
-                        }
-                    });
 
 			try {
 				this.SetActionBarTitle();
@@ -168,6 +157,31 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				lib.ShowException(_main, e1);
 				getVokabel(true, true);
 			}
+			mainView.getViewTreeObserver().addOnGlobalLayoutListener
+					(
+					new OnGlobalLayoutListener()
+					{
+
+						@Override
+						public void onGlobalLayout()
+						{
+							// Ensure you call it only once :
+							lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
+							// Here you can get the size :)
+							resize();
+							try
+							{
+								getVokabel(false, false);
+							}
+							catch (Exception e1)
+							{
+
+								lib.ShowException(_main, e1);
+								getVokabel(true, true);
+							}
+							//_scrollView.fullScroll(View.FOCUS_UP);
+						}
+					});
 		} 
 		catch (Exception e) 
 		{
@@ -1821,18 +1835,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		else if (t.getTextSize() != _main.ActionBarOriginalTextSize)
 		{
 			t.setTextSize(TypedValue.COMPLEX_UNIT_PX, _main.ActionBarOriginalTextSize);
-			mainView.getViewTreeObserver().addOnGlobalLayoutListener(
-					new ViewTreeObserver.OnGlobalLayoutListener() {
-
-						@Override
-						public void onGlobalLayout() {
-							// Ensure you call it only once :
-							lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
-							// Here you can get the size :)
-							SetTxtStatusSize(width);
-							//lib.ShowToast(SettingsActivity.this, "Resize End");
-						}
-					});
+			SetTxtStatusSize(width);
 		}
 		else
 		{

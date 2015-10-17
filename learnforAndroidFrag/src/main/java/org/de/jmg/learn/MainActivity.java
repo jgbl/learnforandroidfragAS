@@ -230,34 +230,7 @@ public class MainActivity extends AppCompatActivity  {
 						{
 							if (fPA != null & fPA.fragQuizlet != null)
 							{
-								AlertDialog.Builder A = new AlertDialog.Builder(context);
-								final EditText input = new EditText(context);
-								A.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog, int which) {
-										if (!libString.IsNullOrEmpty(input.getText().toString()))
-										{
-											fPA.fragQuizlet.setSearchPhrase(input.getText().toString());
-											fPA.fragQuizlet.Load();
-											lib.OpenDialogs.remove(dlg);
-										}
-									}
-								});
-								A.setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog, int which) {
-										lib.OpenDialogs.remove(dlg);
-									}
-								});
-								A.setMessage(getString(R.string.SearchQuizlet));
-								A.setTitle(getString(R.string.Search));
-								// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-								input.setInputType(InputType.TYPE_CLASS_TEXT);
-								input.setText(fPA.fragQuizlet.getSearchPhrase());
-								A.setView(input);
-								dlg = A.create();
-								dlg.show();
-								lib.OpenDialogs.add(dlg);
+								searchQuizlet();
 							}
 
 						}
@@ -568,7 +541,7 @@ public class MainActivity extends AppCompatActivity  {
 				
 			}
 			handlerbackpressed.removeCallbacks(rSetBackPressedFalse);
-			for (AlertDialog dlg: lib.OpenDialogs)
+			for (DialogInterface dlg: lib.OpenDialogs)
 			{
 				dlg.dismiss();
 			}
@@ -1439,34 +1412,7 @@ public class MainActivity extends AppCompatActivity  {
 				{
 					if (fPA != null & fPA.fragQuizlet != null)
 					{
-						AlertDialog.Builder A = new AlertDialog.Builder(context);
-						final EditText input = new EditText(context);
-						A.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								if (!libString.IsNullOrEmpty(input.getText().toString()))
-								{
-									fPA.fragQuizlet.setSearchPhrase(input.getText().toString());
-									fPA.fragQuizlet.Load();
-									lib.OpenDialogs.remove(dlg);
-								}
-							}
-						});
-						A.setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								lib.OpenDialogs.remove(dlg);
-							}
-						});
-						A.setMessage(getString(R.string.SearchQuizlet));
-						A.setTitle(getString(R.string.Search));
-						// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-						input.setInputType(InputType.TYPE_CLASS_TEXT);
-						input.setText(fPA.fragQuizlet.getSearchPhrase());
-						A.setView(input);
-						dlg = A.create();
-						dlg.show();
-						lib.OpenDialogs.add(dlg);
+						searchQuizlet();
 					}
 				}
 			}
@@ -1587,6 +1533,46 @@ public class MainActivity extends AppCompatActivity  {
 			return true;
 		}
 		return false;
+	}
+
+	private void searchQuizlet()
+	{
+		try
+		{
+			AlertDialog.Builder A = new AlertDialog.Builder(context);
+			final EditText input = new EditText(context);
+			A.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					if (!libString.IsNullOrEmpty(input.getText().toString()))
+					{
+						fPA.fragQuizlet.setSearchPhrase(input.getText().toString());
+						fPA.fragQuizlet.Load();
+						lib.removeDlg(dlg);
+					}
+				}
+			});
+			A.setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					lib.removeDlg(dlg);
+				}
+			});
+			A.setMessage(getString(R.string.SearchQuizlet));
+			A.setTitle(getString(R.string.Search));
+			// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+			input.setInputType(InputType.TYPE_CLASS_TEXT);
+			input.setText(fPA.fragQuizlet.getSearchPhrase());
+			A.setView(input);
+			dlg = A.create();
+			dlg.show();
+			lib.OpenDialogs.add(dlg);
+		}
+		catch (Exception ex)
+		{
+			lib.ShowException(this,ex);
+		}
+
 	}
 
 	public Intent getSettingsIntent() 

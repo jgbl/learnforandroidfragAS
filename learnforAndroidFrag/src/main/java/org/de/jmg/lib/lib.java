@@ -122,7 +122,16 @@ public class lib {
     public static String getgstatus() {
         return _status;
     }
-    public static ArrayList<AlertDialog> OpenDialogs = new ArrayList<AlertDialog>();
+    public static ArrayList<DialogInterface> OpenDialogs = new ArrayList<>();
+
+
+    public static void removeDlg(DialogInterface dlg)
+    {
+        if (OpenDialogs.contains(dlg))
+        {
+            OpenDialogs.remove(dlg);
+        }
+    }
 
     public static void setgstatus(String value) {
         _status = value;
@@ -471,7 +480,7 @@ public class lib {
             Looper.loop();
         } catch (RuntimeException e2) {
             // Looper.myLooper().quit();
-            OpenDialogs.remove(dlg);
+            removeDlg(dlg);
             dlg=null;
         }
         return cbx.isChecked();
@@ -501,7 +510,7 @@ public class lib {
         @Override
         public void onClick(DialogInterface dialog, int which)
         {
-            OpenDialogs.remove(dialog);
+            removeDlg(dialog);
         }
     }
 
@@ -549,7 +558,7 @@ public class lib {
             } catch (RuntimeException e2) {
                 // Looper.myLooper().quit();
                 YesNoHandler = null;
-                OpenDialogs.remove(dlg);
+                removeDlg(dlg);
                 dlg = null;
             }
         } catch (Exception ex) {
@@ -604,7 +613,7 @@ public class lib {
             } catch (RuntimeException e2) {
                 // Looper.myLooper().quit();
                 YesNoHandler = null;
-                OpenDialogs.remove(dlg);
+                removeDlg(dlg);
                 dlg = null;
             }
             return new YesNoCheckResult(DialogResultYes, cbx.isChecked());
@@ -660,7 +669,7 @@ public class lib {
             } catch (RuntimeException e2) {
                 // Looper.myLooper().quit();
                 YesNoHandler = null;
-                OpenDialogs.remove(dlg);
+                removeDlg(dlg);
                 dlg = null;
             }
             okcancelundefined res;
@@ -721,7 +730,7 @@ public class lib {
             } catch (RuntimeException e2) {
                 // Looper.myLooper().quit();
                 YesNoHandler = null;
-                OpenDialogs.remove(dlg);
+                removeDlg(dlg);
                 dlg = null;
             }
         } catch (Exception ex) {
