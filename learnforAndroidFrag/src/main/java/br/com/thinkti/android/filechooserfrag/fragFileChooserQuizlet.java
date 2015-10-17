@@ -289,6 +289,8 @@ public class fragFileChooserQuizlet extends ListFragment
 						}
 
 						_main.fPA.fragMain.getVokabel(false, false, false, true);
+						_main.fPA.fragMain._scrollView.fullScroll(View.FOCUS_UP);
+
 					}
 				}
 			} catch (Exception e) {
@@ -697,7 +699,7 @@ public class fragFileChooserQuizlet extends ListFragment
 			//onFileClick(o);
 		String[]params = new String[]{"" + o.id};
 		try {
-			if (_main.saveVok(false))
+			if (_main.saveVok(false,true))
 			{
 				new TaskopenSet().execute(params);
 			}

@@ -106,10 +106,10 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	private BorderedEditText _txtedWord;
 	private BorderedEditText _txtedKom;
 	private BorderedTextView _txtStatus;
-	protected BorderedEditText _txtMeaning1;
+	public BorderedEditText _txtMeaning1;
 	private BorderedEditText _txtMeaning2;
 	private BorderedEditText _txtMeaning3;
-	protected ScrollView _scrollView; //= (ScrollView) findViewById(R.id.layoutMain);
+	public ScrollView _scrollView; //= (ScrollView) findViewById(R.id.layoutMain);
 	
 	private double scale = 1;
 	private Drawable _MeaningBG;
@@ -758,7 +758,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	}
 
-	protected OnFocusChangeListener FocusListenerMeaning1 = (new OnFocusChangeListener() {
+	public OnFocusChangeListener FocusListenerMeaning1 = (new OnFocusChangeListener() {
 
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {

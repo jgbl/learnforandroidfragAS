@@ -805,7 +805,12 @@ public class MainActivity extends AppCompatActivity  {
 	private int _backPressed;
 	private Handler handlerbackpressed = new Handler();
 
-	public synchronized boolean saveVok(boolean dontPrompt) throws Exception {
+	public synchronized boolean saveVok(boolean dontPrompt) throws Exception
+	{
+		return saveVok(dontPrompt,false);
+	}
+
+		public synchronized boolean saveVok(boolean dontPrompt, boolean dontShowBackPressed) throws Exception {
 		if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
 		{
 			if (fPA.fragMain.EndEdit(false)==false) return false ;
@@ -818,12 +823,15 @@ public class MainActivity extends AppCompatActivity  {
 						getString(R.string.Save),"");
 				if (res==yesnoundefined.undefined) return false;
 				dontPrompt = res==yesnoundefined.yes;
-				if (!dontPrompt) 
+				if (!dontPrompt)
 				{
-					_backPressed += 1;
-					lib.ShowToast(MainActivity.this, MainActivity.this
-							.getString(R.string.PressBackAgain));
-					handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+					if (!dontShowBackPressed)
+					{
+						_backPressed += 1;
+						lib.ShowToast(MainActivity.this, MainActivity.this
+								.getString(R.string.PressBackAgain));
+						handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+					}
 					return true;
 				}
 				/*
@@ -876,8 +884,10 @@ public class MainActivity extends AppCompatActivity  {
 					{
 						vok.SaveFile();
 						vok.aend = false;
-						_backPressed += 1;
-						handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+						if (!dontShowBackPressed) {
+							_backPressed += 1;
+							handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+						}
 						saveFilePrefs(false);
 						return true;
 					}
@@ -1581,6 +1591,14 @@ public class MainActivity extends AppCompatActivity  {
 					lib.removeDlg(dlg);
 				}
 			});
+			/*
+			A.setOnDismissListener(new DialogInterface.OnDismissListener() {
+				@Override
+				public void onDismiss(DialogInterface dialog) {
+					Log.d("Alert Quzlet","dismiss");
+				}
+			});
+			*/
 			A.setMessage(getString(R.string.SearchQuizlet));
 			A.setTitle(getString(R.string.Search));
 			// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
