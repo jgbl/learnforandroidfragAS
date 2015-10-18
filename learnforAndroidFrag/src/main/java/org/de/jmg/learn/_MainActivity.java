@@ -571,6 +571,11 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		}
 	}
 
+	public void getVokabelDelayed (int ms)
+	{
+		handler.postDelayed(runnableGetVok,ms);
+	}
+
 	private View findViewById(int id) {
 
 		if (mainView == null) return null;
@@ -745,6 +750,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					}
 					else
 					{
+						_txtWord.requestFocus();
 						_scrollView.fullScroll(View.FOCUS_UP);
 					}
 				}
@@ -1527,6 +1533,18 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			/* do what you need to do */
 			try {
 				getVokabel(false, false);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	};
+
+	private Runnable runnableGetVok = new Runnable() {
+		@Override
+		public void run() {
+			/* do what you need to do */
+			try {
+				getVokabel(false, false,false,true);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -287,9 +287,10 @@ public class fragFileChooserQuizlet extends ListFragment
 						{
 
 						}
-
-						_main.fPA.fragMain.getVokabel(false, false, false, true);
-						_main.fPA.fragMain._scrollView.fullScroll(View.FOCUS_UP);
+						_main.fPA.fragMain.SetActionBarTitle();
+						//_main.fPA.fragMain.getVokabelDelayed(1000);
+						//_main.fPA.fragMain.getVokabel(false, false, false, true);
+						//_main.fPA.fragMain._scrollView.fullScroll(View.FOCUS_UP);
 
 					}
 				}
