@@ -1485,11 +1485,11 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	{
 		// _txtWord.setMaxLines(3);
 		// _txtWord.setLines(2);
-		_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-				(float) (40 * scale));
-
 		// _txtKom.setMaxLines(3);
 		// _txtKom.setLines(2);
+
+		_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+				(float) (40 * scale));
 		_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 				(float) (30 * scale));
 
@@ -1503,9 +1503,9 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		//_txtMeaning1.requestFocus();
 		//InputMethodManager Imn = (InputMethodManager) _main.getSystemService(Context.INPUT_METHOD_SERVICE);
 		//Imn.hideSoftInputFromInputMethod(_txtMeaning1.getWindowToken(), 0);
-		_originalMovementmethod = _txtMeaning1.getMovementMethod();
+		if (_originalMovementmethod==null) _originalMovementmethod = _txtMeaning1.getMovementMethod();
 		//_txtMeaning1.setAutoLinkMask(Linkify.ALL);
-		_txtMeaning1.setMovementMethod(LinkMovementMethod.getInstance());
+		if (_txtMeaning1.getMovementMethod()!=LinkMovementMethod.getInstance()) _txtMeaning1.setMovementMethod(LinkMovementMethod.getInstance());
 		//_txtMeaning1.setVerticalScrollBarEnabled(true);
 		//_txtMeaning1.setInputType(InputType.TYPE_NULL);
 		// _txtMeaning1.setImeOptions(EditorInfo.IME_NULL);
@@ -1514,6 +1514,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		// KeyEvent.KEYCODE_ENTER);
 		_txtMeaning2.setVisibility(View.GONE);
 		_txtMeaning3.setVisibility(View.GONE);
+
 		if (_MeaningBG != null) _mBackgroundBack = _MeaningBG;
 		_MeaningBG = null;
 		//if (_mBackgroundBack!=null) _MeaningBG = _mBackgroundBack;
