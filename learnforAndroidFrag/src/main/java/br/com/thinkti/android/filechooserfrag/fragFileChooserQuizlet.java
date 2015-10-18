@@ -259,21 +259,19 @@ public class fragFileChooserQuizlet extends ListFragment
 
 						_main.vok.aend = true;
 
-						_main.vok.InitAbfrage();
-
-						_main.mPager.setCurrentItem(_MainActivity.fragID);
-
 						lib.yesnoundefined res = lib.ShowMessageYesNo(_main, getString(R.string.txtFlashCardFile),"");
+
 						if (res == lib.yesnoundefined.yes)
 						{
 							_main.vok.setCardMode(true);
-							_main.fPA.fragMain.SetViewsToCardmode();
+							//_main.fPA.fragMain.SetViewsToCardmode();
 						}
 						else
 						{
 							_main.vok.setCardMode(false);
-							_main.fPA.fragMain.SetViewsToVokMode();
+							//_main.fPA.fragMain.SetViewsToVokMode();
 						}
+
 						try
 						{
 							if (!lib.libString.IsNullOrEmpty(_main.vok.title))
@@ -287,7 +285,14 @@ public class fragFileChooserQuizlet extends ListFragment
 						{
 
 						}
-						_main.fPA.fragMain.SetActionBarTitle();
+
+
+						_main.vok.InitAbfrage();
+
+						_main.mPager.setCurrentItem(_MainActivity.fragID);
+
+
+						//_main.fPA.fragMain.SetActionBarTitle();
 						//_main.fPA.fragMain.getVokabelDelayed(1000);
 						//_main.fPA.fragMain.getVokabel(false, false, false, true);
 						//_main.fPA.fragMain._scrollView.fullScroll(View.FOCUS_UP);
