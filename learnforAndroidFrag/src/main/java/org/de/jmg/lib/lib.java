@@ -445,6 +445,11 @@ public class lib {
         OpenDialogs.add(dlg);
     }
 
+    public static class MessageException extends  RuntimeException
+    {
+
+    }
+
     public static synchronized boolean ShowMessageWithCheckbox(Context context,String title, String msg, String CheckboxTitle) throws Exception
     {
         // System.Threading.SynchronizationContext.Current.Post(new
@@ -462,16 +467,23 @@ public class lib {
         cbx.setText(CheckboxTitle);
 
         A.setView(checkBoxView);
-
+        DialogResultYes = yesnoundefined.undefined;
         A.setPositiveButton(context.getString(R.string.ok), new OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                throw new RuntimeException();
+                //throw new MessageException();
+                DialogResultYes = yesnoundefined.yes;
             }
         });
-        //A.setMessage(msg);
+         //A.setMessage(msg);
         AlertDialog dlg = A.create();
+        dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                throw new MessageException();
+            }
+        });
         dlg.show();
         OpenDialogs.add(dlg);
         try
@@ -480,11 +492,16 @@ public class lib {
             Looper.loop();
         } catch (Exception e2) {
             // Looper.myLooper().quit();
+            if (dlg.isShowing()) {
+                dlg.setOnDismissListener(null);
+                dlg.dismiss();
+            }
             removeDlg(dlg);
             dlg=null;
+            if (!(e2 instanceof  MessageException)) throw e2;
         }
-        return cbx.isChecked();
-
+        if (DialogResultYes == yesnoundefined.yes) return cbx.isChecked();
+        else return false;
     }
 
     static AlertDialog dlgOK;
@@ -533,7 +550,7 @@ public class lib {
                 YesNoHandler = new Handler() {
                     @Override
                     public void handleMessage(Message mesg) {
-                        throw new RuntimeException();
+                        //throw new MessageException();
                     }
                 };
 
@@ -544,6 +561,13 @@ public class lib {
             A.setMessage(msg);
             A.setTitle(title);
             AlertDialog dlg = A.create();
+            dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    throw new MessageException();
+                }
+            });
+
             dlg.show();
             OpenDialogs.add(dlg);
             if (center)
@@ -558,8 +582,13 @@ public class lib {
             } catch (Exception e2) {
                 // Looper.myLooper().quit();
                 YesNoHandler = null;
+                if (dlg.isShowing()) {
+                    dlg.setOnDismissListener(null);
+                    dlg.dismiss();
+                }
                 removeDlg(dlg);
                 dlg = null;
+                if (!(e2 instanceof  MessageException)) throw e2;
             }
         } catch (Exception ex) {
             ShowException(context, ex);
@@ -582,7 +611,7 @@ public class lib {
                 YesNoHandler = new Handler() {
                     @Override
                     public void handleMessage(Message mesg) {
-                        throw new RuntimeException();
+                        //throw new MessageException();
                     }
                 };
 
@@ -598,6 +627,13 @@ public class lib {
 
             A.setView(checkBoxView);
             AlertDialog dlg = A.create();
+            dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    throw new MessageException();
+                }
+            });
+
             dlg.show();
             OpenDialogs.add(dlg);
             if (center)
@@ -613,8 +649,13 @@ public class lib {
             } catch (Exception e2) {
                 // Looper.myLooper().quit();
                 YesNoHandler = null;
+                if (dlg.isShowing()) {
+                    dlg.setOnDismissListener(null);
+                    dlg.dismiss();
+                }
                 removeDlg(dlg);
                 dlg = null;
+                if (!(e2 instanceof  MessageException)) throw e2;
             }
             return new YesNoCheckResult(DialogResultYes, cbx.isChecked());
         } catch (Exception ex) {
@@ -638,7 +679,7 @@ public class lib {
                 YesNoHandler = new Handler() {
                     @Override
                     public void handleMessage(Message mesg) {
-                        throw new RuntimeException();
+                        //throw new MessageException();
                     }
                 };
 
@@ -654,6 +695,13 @@ public class lib {
             input.setText(prompt);
             A.setView(input);
             AlertDialog dlg = A.create();
+            dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    throw new MessageException();
+                }
+            });
+
             dlg.show();
             OpenDialogs.add(dlg);
             if (center)
@@ -669,8 +717,13 @@ public class lib {
             } catch (Exception e2) {
                 // Looper.myLooper().quit();
                 YesNoHandler = null;
+                if (dlg.isShowing()) {
+                    dlg.setOnDismissListener(null);
+                    dlg.dismiss();
+                }
                 removeDlg(dlg);
                 dlg = null;
+                if (!(e2 instanceof  MessageException)) throw e2;
             }
             okcancelundefined res;
             if (DialogResultYes == yesnoundefined.yes)
@@ -708,7 +761,7 @@ public class lib {
                 YesNoHandler = new Handler() {
                     @Override
                     public void handleMessage(Message mesg) {
-                        throw new RuntimeException();
+                        //throw new MessageException();
                     }
                 };
 
@@ -720,6 +773,13 @@ public class lib {
             A.setTitle(msg);
             A.setMultiChoiceItems(items,checkedItems, cbListener);
             AlertDialog dlg = A.create();
+            dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    throw new MessageException();
+                }
+            });
+
             dlg.show();
             OpenDialogs.add(dlg);
 
@@ -730,8 +790,13 @@ public class lib {
             } catch (Exception e2) {
                 // Looper.myLooper().quit();
                 YesNoHandler = null;
+                if (dlg.isShowing()) {
+                    dlg.setOnDismissListener(null);
+                    dlg.dismiss();
+                }
                 removeDlg(dlg);
                 dlg = null;
+                if (!(e2 instanceof  MessageException)) throw e2;
             }
         } catch (Exception ex) {
             ShowException(context, ex);
