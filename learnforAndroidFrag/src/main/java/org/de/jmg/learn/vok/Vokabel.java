@@ -32,11 +32,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.ParcelFileDescriptor;
 import android.text.SpannableString;
 import android.widget.TextView;
@@ -1657,11 +1660,91 @@ public class Vokabel {
 		return;
 	}
 
-	public synchronized void SaveFile() throws Exception {
+	public void SaveFile() throws Exception {
 		SaveFile(mFileName, _uri, true, false);
 	}
 
-	public synchronized void SaveFile(String strFileName,Uri uri, boolean blnUniCode,
+	public void SaveFileWithoutPrompt() throws Exception {
+		SaveFile(mFileName, _uri, true, true);
+	}
+
+	public void SaveFileAsync(String strFileName,Uri uri, boolean blnUnUniCade) throws Exception
+	{
+		TaskSaveVok T = new TaskSaveVok(strFileName,uri,blnUnUniCade);
+		T.execute();
+		T.Latch.await();
+		if (T.ex!=null) throw  T.ex;
+	}
+
+	class TaskSaveVok extends AsyncTask<Void,Void,Exception>
+	{
+		ProgressDialog p;
+		Exception ex;
+		CountDownLatch Latch = new CountDownLatch(1);
+		String strFileName;
+		Uri uri;
+		boolean blnUnicode;
+
+		TaskSaveVok(String strFileName,Uri uri, boolean blnUnUniCade)
+		{
+			super();
+			this.strFileName = strFileName;
+			this.uri = uri;
+			this.blnUnicode = blnUnUniCade;
+		}
+		@Override
+		protected Exception doInBackground(Void... params) {
+			try
+			{
+				SaveFile(strFileName, uri, blnUnicode, true);
+			}
+
+			catch (Exception e2)
+			{
+				this.ex = e2;
+			}
+
+			Latch.countDown();
+			return ex;
+		}
+
+		@Override
+		protected void onPostExecute(Exception ex)
+		{
+			if(p.isShowing())p.dismiss();
+
+
+		}
+
+
+		@Override
+		protected void onPreExecute() {
+			if (!blnUnicode) {
+				yesnoundefined res = yesnoundefined.undefined;
+				res = lib.ShowMessageYesNo(getContext(), getContext()
+						.getString(R.string.SaveAsUniCode), "");
+
+				if (res == lib.yesnoundefined.yes) {
+					blnUnicode = true;
+				}
+			}
+			p = new ProgressDialog(getContext());
+			p.setMessage(getContext().getString(R.string.loading));
+			p.show();
+
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values)
+			{
+		}
+
+
+
+	}
+
+
+	public void SaveFile(String strFileName,Uri uri, boolean blnUniCode,
 			boolean dontPrompt) throws Exception 
 	{
 		if ((libString.IsNullOrEmpty(strFileName) && uri==null)|| mVok.size()<2)

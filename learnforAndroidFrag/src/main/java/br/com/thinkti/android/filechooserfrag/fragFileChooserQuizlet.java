@@ -208,7 +208,7 @@ public class fragFileChooserQuizlet extends ListFragment
 
 
 			}
-			p.dismiss();
+			if(p.isShowing())p.dismiss();
 
 		}
 
@@ -303,7 +303,7 @@ public class fragFileChooserQuizlet extends ListFragment
 				e.printStackTrace();
 			}
 
-			p.dismiss();
+			if(p.isShowing())p.dismiss();
 
 		}
 

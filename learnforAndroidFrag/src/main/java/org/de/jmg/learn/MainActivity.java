@@ -30,6 +30,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import org.de.jmg.learn.R;
 import org.de.jmg.learn.MyFragmentPagerAdapter;
@@ -809,12 +810,64 @@ public class MainActivity extends AppCompatActivity  {
 	private int _backPressed;
 	private Handler handlerbackpressed = new Handler();
 
-	public synchronized boolean saveVok(boolean dontPrompt) throws Exception
+	public boolean saveVok(boolean dontPrompt) throws Exception
 	{
-		return saveVok(dontPrompt,false);
+		return saveVok(dontPrompt,false,false);
 	}
 
-		public synchronized boolean saveVok(boolean dontPrompt, boolean dontShowBackPressed) throws Exception {
+	public boolean saveVok(boolean dontPrompt, boolean dontShowBackPressed) throws Exception
+	{
+		return saveVok(dontPrompt,dontShowBackPressed,false);
+	}
+
+	class TaskSaveVok extends AsyncTask<Void,Void,Exception>
+	{
+		ProgressDialog p;
+		Exception ex;
+		CountDownLatch Latch = new CountDownLatch(1);
+		@Override
+		protected Exception doInBackground(Void... params) {
+			try
+			{
+				vok.SaveFileWithoutPrompt();
+			}
+
+			catch (Exception e2)
+			{
+				this.ex = e2;
+			}
+
+			Latch.countDown();
+			return ex;
+		}
+
+		@Override
+		protected void onPostExecute(Exception ex)
+		{
+			if(p.isShowing())p.dismiss();
+
+
+		}
+
+
+		@Override
+		protected void onPreExecute() {
+			p = new ProgressDialog(MainActivity.this);
+			p.setMessage(MainActivity.this.getString(R.string.loading));
+			p.show();
+
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values) {
+		}
+
+
+
+	}
+
+
+	public boolean saveVok(boolean dontPrompt, boolean dontShowBackPressed, boolean blnAsync) throws Exception {
 		if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
 		{
 			if (fPA.fragMain.EndEdit(false)==false) return false ;
@@ -886,7 +939,17 @@ public class MainActivity extends AppCompatActivity  {
 					}
 					else
 					{
-						vok.SaveFile();
+						if (blnAsync || (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()!=null))
+						{
+							TaskSaveVok T = new TaskSaveVok();
+							T.execute();
+							T.Latch.await();
+							if (T.ex!=null) throw T.ex;
+						}
+						else
+						{
+							vok.SaveFile();
+						}
 						vok.aend = false;
 						if (!dontShowBackPressed) {
 							_backPressed += 1;
@@ -1968,8 +2031,8 @@ public class MainActivity extends AppCompatActivity  {
 					{
 						mPager.setCurrentItem(_MainActivity.fragID);
 						takePersistableUri(selectedUri,false);
-						vok.SaveFile(null, selectedUri,
-								_blnUniCode, false);
+						vok.SaveFileAsync(null, selectedUri,
+								_blnUniCode); //, false);
 						saveFilePrefs(false);
 						//if (blnNew) newvok();
 						if (fPA.fragMain!=null&&fPA.fragMain.mainView!=null)fPA.fragMain.SetActionBarTitle();
@@ -2033,8 +2096,8 @@ public class MainActivity extends AppCompatActivity  {
 						{
 							mPager.setCurrentItem(_MainActivity.fragID);
 							takePersistableUri(selectedUri,false);
-							vok.SaveFile(null, selectedUri,
-									_blnUniCode, false);
+							vok.SaveFileAsync(null, selectedUri,
+									_blnUniCode); //, false);
 							saveFilePrefs(false);
 							//if (blnNew) newvok();
 							if(fPA.fragMain!=null&&fPA.fragMain.mainView!=null)fPA.fragMain.SetActionBarTitle();
@@ -2127,7 +2190,7 @@ public class MainActivity extends AppCompatActivity  {
 		protected void onPostExecute(Exception ex)
 		{
 
-			p.dismiss();
+			if (p.isShowing()) p.dismiss();
 			try {
 				if (ex == null) {
 					try {
