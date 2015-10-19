@@ -207,7 +207,7 @@
     <string name="SaveNewVokabularyAs">Möchten sie die neue Vokabel-Datei speichern?</string>
     <string name="mnuOpenUri">URI öffnen</string>
     <string name="msgWrongExt">Sie haben eine falsche Dateinamenerweiterung ausgewählt! Möchten Sie trotzdem speichern?</string>
-    <string name="msgWrongExtLoad">Der Dateiname hat eine falsche Erweiterung! Möchten Sie die Datei trotzdem speichern?</string>
+    <string name="msgWrongExtLoad">Der Dateiname hat eine falsche Erweiterung! Möchten Sie die Datei trotzdem laden?</string>
     <string name="msgStartExternalProgram">Möchten Sie ein externes Programm starten?</string>
     <string name="msgFileCouldNotBeSaved">Die Datei konnte nicht mit dem ausgewählten Inhaltsanbieter gespeichern werden! Möchten Sie einen anderen Anbieter auswählen?</string>
     <string name="msgFileCouldNotBeSaved2">Die Datei konnte nicht mit dem ausgewählten Inhaltsanbieter gespeichert werden!</string>

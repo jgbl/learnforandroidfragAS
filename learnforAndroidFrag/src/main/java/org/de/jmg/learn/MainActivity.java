@@ -29,6 +29,7 @@ import java.io.OutputStream;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.de.jmg.learn.R;
 import org.de.jmg.learn.MyFragmentPagerAdapter;
@@ -49,8 +50,10 @@ import br.com.thinkti.android.filechooser.FileChooser;
 import br.com.thinkti.android.filechooserfrag.fragFileChooser;
 import br.com.thinkti.android.filechooserfrag.fragFileChooserQuizlet;
 
+import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -1927,9 +1930,9 @@ public class MainActivity extends AppCompatActivity  {
 				if (lib.RegexMatchVok(path) || lib.ShowMessageYesNo(this, getString(R.string.msgWrongExtLoad),"")==yesnoundefined.yes)
 				{
 					mPager.setCurrentItem(_MainActivity.fragID);
-					LoadVokabel(null,selectedUri, 1, null, 0, false);
-					takePersistableUri(selectedUri,false);
-					prefs.edit().putString("defaultURI",strUri).commit();
+					new TaskOpenUri().execute(new Uri[]{selectedUri});
+					//LoadVokabel(null,selectedUri, 1, null, 0, false);
+
 				}
 				
 			}
@@ -2080,6 +2083,107 @@ public class MainActivity extends AppCompatActivity  {
 			lib.ShowException(MainActivity.this, e);
 		}
 	}
+
+	class TaskOpenUri extends AsyncTask<Uri,Void,Exception>
+	{
+		ProgressDialog p;
+		Uri uri;
+		@Override
+		protected Exception doInBackground(Uri... params) {
+			uri = params[0];
+			try {
+				try {
+					vok.LoadFile(MainActivity.this, null, uri, false, false, _blnUniCode);
+				} catch (RuntimeException ex) {
+					if (ex.getCause() != null) {
+						if (ex.getCause().getMessage() != null
+								&& ex.getCause().getMessage()
+								.contains("IsSingleline")) {
+							vok.LoadFile(MainActivity.this, null, uri, true, false, _blnUniCode);
+						} else {
+							throw ex;
+						}
+					} else {
+						throw ex;
+					}
+				}
+			}
+
+			catch (Exception e2)
+			{
+				return e2;
+			}
+
+
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Exception ex)
+		{
+
+			p.dismiss();
+			try {
+				if (ex == null) {
+					try {
+
+						if (vok.getCardMode()) {
+							if (fPA.fragMain != null && fPA.fragMain.mainView != null)
+								fPA.fragMain.SetViewsToCardmode();
+						} else {
+							if (fPA.fragMain != null && fPA.fragMain.mainView != null)
+								fPA.fragMain.SetViewsToVokMode();
+						}
+
+						// if (index >0 ) vok.setIndex(index);
+						if (vok.getGesamtzahl() > 0) {
+							if (fPA.fragMain != null && fPA.fragMain.mainView != null)
+								fPA.fragMain.setBtnsEnabled(true);
+						}
+						if (fPA.fragMain != null && fPA.fragMain.mainView != null)
+							fPA.fragMain.getVokabel(false, false, false);
+					} catch (Exception e) {
+						lib.ShowException(MainActivity.this, e);
+						if (fPA.fragMain != null && fPA.fragMain.mainView != null) {
+							try {
+								fPA.fragMain.getVokabel(true, true, false);
+							} catch (Exception e1) {
+								lib.ShowException(MainActivity.this, e1);
+							}
+						}
+					}
+					takePersistableUri(uri, false);
+					prefs.edit().putString("defaultURI", uri.toString()).commit();
+
+				} else
+				{
+					throw ex;
+				}
+			}
+			catch (Exception e2)
+			{
+				lib.ShowException(MainActivity.this, ex);
+			}
+
+
+		}
+
+
+		@Override
+		protected void onPreExecute() {
+			p = new ProgressDialog(MainActivity.this);
+			p.setMessage(MainActivity.this.getString(R.string.loading));
+			p.show();
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values) {
+		}
+
+
+
+	}
+
 
 	void processSettingsIntent(Intent data) throws Exception
 	{
