@@ -445,7 +445,7 @@ public class lib {
         OpenDialogs.add(dlg);
     }
 
-    public static synchronized boolean ShowMessageWithCheckbox(Context context,String title, String msg, String CheckboxTitle)
+    public static synchronized boolean ShowMessageWithCheckbox(Context context,String title, String msg, String CheckboxTitle) throws Exception
     {
         // System.Threading.SynchronizationContext.Current.Post(new
         // System.Threading.SendOrPostCallback(DelShowException),new
@@ -478,7 +478,7 @@ public class lib {
 
         {
             Looper.loop();
-        } catch (RuntimeException e2) {
+        } catch (Exception e2) {
             // Looper.myLooper().quit();
             removeDlg(dlg);
             dlg=null;
@@ -555,7 +555,7 @@ public class lib {
 
             {
                 Looper.loop();
-            } catch (RuntimeException e2) {
+            } catch (Exception e2) {
                 // Looper.myLooper().quit();
                 YesNoHandler = null;
                 removeDlg(dlg);
@@ -610,7 +610,7 @@ public class lib {
 
             {
                 Looper.loop();
-            } catch (RuntimeException e2) {
+            } catch (Exception e2) {
                 // Looper.myLooper().quit();
                 YesNoHandler = null;
                 removeDlg(dlg);
@@ -666,7 +666,7 @@ public class lib {
 
             {
                 Looper.loop();
-            } catch (RuntimeException e2) {
+            } catch (Exception e2) {
                 // Looper.myLooper().quit();
                 YesNoHandler = null;
                 removeDlg(dlg);
@@ -727,7 +727,7 @@ public class lib {
 
             {
                 Looper.loop();
-            } catch (RuntimeException e2) {
+            } catch (Exception e2) {
                 // Looper.myLooper().quit();
                 YesNoHandler = null;
                 removeDlg(dlg);

@@ -22,6 +22,7 @@ package org.de.jmg.learn.vok;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -2138,7 +2139,7 @@ public class Vokabel {
 							.substring(hh - 1, h - 1)));
 			} catch (Exception __dummyCatchVar0) {
 				if (fontfil.getValue().substring(hh - 1, h - 1)
-						.equals("HebrÃ¤isch")) {
+						.equals("Hebräisch")) {
 					mSprache = EnumSprachen.Hebrew;
 				} else {
 					mSprache = EnumSprachen.Normal;
@@ -2217,7 +2218,12 @@ public class Vokabel {
 	}
 
 	public void LoadFile(Context context, String strFileName, Uri uri, boolean blnSingleLine,
-			boolean blnAppend, boolean blnUnicode) throws Exception {
+						 boolean blnAppend, boolean blnUnicode) throws Exception {
+		LoadFile(context,strFileName,uri,blnSingleLine,blnAppend,blnUnicode,false);
+	}
+
+	public void LoadFile(Context context, String strFileName, Uri uri, boolean blnSingleLine,
+			boolean blnAppend, boolean blnUnicode, boolean blnDontPrompt) throws Exception {
 		try 
 		{
 			final String CodeLoc = "Vokabel.LoadFile";
@@ -2232,7 +2238,6 @@ public class Vokabel {
 			short indexlang = 0;
 			boolean canBeSingleLine = false;
 			String fontfil = null;
-			@SuppressWarnings("unused")
 			String tastbel = null;
 			String strTmp = null;
 			java.io.InputStreamReader isr = null;
@@ -2263,14 +2268,14 @@ public class Vokabel {
 			} 
 			catch (Exception ex) 
 			{
-				this.setStatus(ex.getMessage());
+				if (!blnDontPrompt) this.setStatus(ex.getMessage());
 			}
 			if (CharsetWindows == null)
 				CharsetWindows = Charset.defaultCharset();
 			Charset CharSetUnicode = null;
 			
 			boolean blnWrongNumberFormat = false;
-			if (libString.IsNullOrEmpty(strFileName) && uri!=null)
+			if (!blnDontPrompt && libString.IsNullOrEmpty(strFileName) && uri!=null)
 			{
 				lib.CheckPermissions(Container, uri,true);
 			}
@@ -2331,6 +2336,8 @@ public class Vokabel {
 					} 
 					else 
 					{
+						if (blnDontPrompt) throw new FileNotFoundException
+								(getContext().getString(R.string.FileDoesNotExist));
 						lib.ShowMessage(getContext(),
 								getContext().getString(R.string.FileDoesNotExist),"");
 						// Call Err.Raise(vbObjectError + ErrWrongfilename, CodeLoc
@@ -2375,7 +2382,7 @@ public class Vokabel {
 				catch (NumberFormatException ex)
 				{
 					// lib.ShowException(getContext(), ex);
-					this.setStatus(ex.getMessage());
+					if(!blnDontPrompt)this.setStatus(ex.getMessage());
 					sp -= 1;
 					blnWrongNumberFormat = true;
 					blnUnicode = (sp > -2 ? !blnUnicode : true);
@@ -2400,6 +2407,8 @@ public class Vokabel {
 			} while (sp < 0 && sp >= -2);
 			if (sp < -1) 
 			{
+				if (blnDontPrompt) throw new RuntimeException(getContext()
+						.getString(R.string.FileFormatNotRecognized));
 				lib.ShowMessage(getContext(),
 						getContext()
 								.getString(R.string.FileFormatNotRecognized),"");

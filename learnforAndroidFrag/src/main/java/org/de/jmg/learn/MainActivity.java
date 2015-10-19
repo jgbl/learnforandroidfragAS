@@ -1930,7 +1930,7 @@ public class MainActivity extends AppCompatActivity  {
 				if (lib.RegexMatchVok(path) || lib.ShowMessageYesNo(this, getString(R.string.msgWrongExtLoad),"")==yesnoundefined.yes)
 				{
 					mPager.setCurrentItem(_MainActivity.fragID);
-					new TaskOpenUri().execute(new Uri[]{selectedUri});
+					new TaskOpenUri(selectedUri).execute();
 					//LoadVokabel(null,selectedUri, 1, null, 0, false);
 
 				}
@@ -2084,16 +2084,21 @@ public class MainActivity extends AppCompatActivity  {
 		}
 	}
 
-	class TaskOpenUri extends AsyncTask<Uri,Void,Exception>
+	class TaskOpenUri extends AsyncTask<Void,Void,Exception>
 	{
 		ProgressDialog p;
 		Uri uri;
+
+		TaskOpenUri(Uri uri)
+		{
+			super();
+			this.uri = uri;
+		}
 		@Override
-		protected Exception doInBackground(Uri... params) {
-			uri = params[0];
+		protected Exception doInBackground(Void... params) {
 			try {
 				try {
-					vok.LoadFile(MainActivity.this, null, uri, false, false, _blnUniCode);
+					vok.LoadFile(MainActivity.this, null, uri, false, false, _blnUniCode,true);
 				} catch (RuntimeException ex) {
 					if (ex.getCause() != null) {
 						if (ex.getCause().getMessage() != null
@@ -2171,9 +2176,16 @@ public class MainActivity extends AppCompatActivity  {
 
 		@Override
 		protected void onPreExecute() {
-			p = new ProgressDialog(MainActivity.this);
-			p.setMessage(MainActivity.this.getString(R.string.loading));
-			p.show();
+			try
+			{
+				lib.CheckPermissions(MainActivity.this, uri,true);
+				p = new ProgressDialog(MainActivity.this);
+				p.setMessage(MainActivity.this.getString(R.string.loading));
+				p.show();
+			} catch (Exception e) {
+				lib.ShowException(MainActivity.this,e);
+				this.cancel(false);
+			}
 		}
 
 		@Override
