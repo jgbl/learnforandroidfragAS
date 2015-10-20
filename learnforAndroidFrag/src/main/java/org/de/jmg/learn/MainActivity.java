@@ -371,7 +371,7 @@ public class MainActivity extends AppCompatActivity  {
 				String tmppath = Path.combine(getApplicationInfo().dataDir,
 						"vok.tmp");
 				// SetActionBarTitle();
-				boolean CardMode = false;
+				boolean CardMode;
 				if (savedInstanceState != null) 
 				{
 					/*
@@ -618,7 +618,7 @@ public class MainActivity extends AppCompatActivity  {
 
 		return super.onKeyDown(keyCode, event);
 
-	};
+	}
 
 	
 	@Override
@@ -649,18 +649,18 @@ public class MainActivity extends AppCompatActivity  {
 					  { 
 						  	if (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()==null)
 						  	{
-							SaveVokAs(true,false);
+								SaveVokAs(true,false);
 						  	}
 							else
 						  	{
-							if (blnAsync || (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()!=null))
-							  {
+								if (blnAsync || (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()!=null))
+							  	{
 								  vok.SaveCurrentFileAsync();
-							  }
-							  else
-							  {
+							  	}
+							  	else
+							  	{
 								  vok.SaveFile(vok.getFileName(),vok.getURI(), vok.getUniCode(),	false);
-							  }
+							  	}
 
 								vok.aend = false;
 								_backPressed += 1;
@@ -698,19 +698,18 @@ public class MainActivity extends AppCompatActivity  {
 				  A.setMessage(getString(R.string.Save));
 				  A.setTitle(getString(R.string.question));
 				  A.show(); 
-				  if (!dontPrompt) 
-				  { 
-					  if (_backPressed > 0) 
-					  { 
-						  return true; 
-					  } 
-					  else 
-					  {
-						  lib.ShowToast(this, this.getString(R.string.PressBackAgain));
-						  _backPressed += 1; 
-						  handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000); }
-				  
+				  if (_backPressed > 0)
+				  {
+					  return true;
 				  }
+				  else
+				  {
+					  lib.ShowToast(this, this.getString(R.string.PressBackAgain));
+					  _backPressed += 1;
+					  handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+				  }
+				  
+
 				 
 			}
 
@@ -722,7 +721,14 @@ public class MainActivity extends AppCompatActivity  {
 					}
 					else
 					{
-						vok.SaveFile();
+						if (blnAsync || (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()!=null))
+						{
+							vok.SaveCurrentFileAsync();
+						}
+						else
+						{
+							vok.SaveFile(vok.getFileName(),vok.getURI(), vok.getUniCode(),	true);
+						}
 						vok.aend = false;
 						_backPressed += 1;
 						handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
@@ -748,7 +754,7 @@ public class MainActivity extends AppCompatActivity  {
 		public void uncaughtException(Thread thread, Throwable ex) {
 
 			ex.printStackTrace();
-			Log.e("uncaught",ex.getMessage(),ex);
+			Log.e("uncaught", ex.getMessage(), ex);
 			//lib.ShowException(MainActivity.this, ex);
 		}
 	};
@@ -762,7 +768,7 @@ public class MainActivity extends AppCompatActivity  {
 				if (!fPA.fragMain.EndEdit(false)) return;
 			}
 			if (uri==null){
-				if (saveVok(false) == false) return;
+				if (!saveVok(false)) return;
 			}
 			try 
 			{
@@ -835,7 +841,7 @@ public class MainActivity extends AppCompatActivity  {
 	public boolean saveVok(boolean dontPrompt, boolean dontShowBackPressed, boolean blnAsync) throws Exception {
 		if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
 		{
-			if (fPA.fragMain.EndEdit(false)==false) return false ;
+			if (!fPA.fragMain.EndEdit(false)) return false ;
 		}
 		if (vok.aend && vok.getGesamtzahl()>0)
 		{
@@ -888,8 +894,7 @@ public class MainActivity extends AppCompatActivity  {
 				 * }
 				 */
 			}
-
-			if (dontPrompt) 
+			else
 			{
 				try 
 				{
@@ -1027,7 +1032,8 @@ public class MainActivity extends AppCompatActivity  {
 	
 			if (F.isDirectory() && F.exists()) {
 				File F1 = new File(JMGDataDirectory);
-				if (F1.isDirectory() == false && !F1.exists()) {
+				if (!F1.isDirectory() && !F1.exists())
+				{
 					F1.mkdirs();
 				}
 				AssetManager A = this.getAssets();
@@ -1041,7 +1047,8 @@ public class MainActivity extends AppCompatActivity  {
 							InputStream myInput = A.open(Path.combine(language,
 									File));
 							String outFileName = Path.combine(F1.getPath(), File);
-							if (F1.isDirectory() == false) {
+							if (!F1.isDirectory())
+							{
 								F1.mkdirs();
 							}
 							// Open the empty db as the output stream
