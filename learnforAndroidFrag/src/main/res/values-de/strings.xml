@@ -288,4 +288,5 @@
     <string name="loading">Lade...</string>
     <string name="created_by">erstellt von</string>
     <string name="at">bei</string>
+    <string name="saving">speichere</string>
 </resources>

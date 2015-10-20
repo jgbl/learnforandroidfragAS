@@ -55,6 +55,7 @@ import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.os.Looper;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -820,6 +821,11 @@ public class MainActivity extends AppCompatActivity  {
 		return saveVok(dontPrompt,dontShowBackPressed,false);
 	}
 
+	class EndLooperException extends RuntimeException
+	{
+
+	}
+
 	class TaskSaveVok extends AsyncTask<Void,Void,Exception>
 	{
 		ProgressDialog p;
@@ -845,7 +851,7 @@ public class MainActivity extends AppCompatActivity  {
 		protected void onPostExecute(Exception ex)
 		{
 			if(p.isShowing())p.dismiss();
-
+			throw new EndLooperException();
 
 		}
 
@@ -853,7 +859,7 @@ public class MainActivity extends AppCompatActivity  {
 		@Override
 		protected void onPreExecute() {
 			p = new ProgressDialog(MainActivity.this);
-			p.setMessage(MainActivity.this.getString(R.string.loading));
+			p.setMessage(MainActivity.this.getString(R.string.saving));
 			p.show();
 
 		}
@@ -943,6 +949,14 @@ public class MainActivity extends AppCompatActivity  {
 						{
 							TaskSaveVok T = new TaskSaveVok();
 							T.execute();
+							try
+							{
+								Looper.loop();
+							}
+							catch (EndLooperException ex)
+							{
+
+							}
 							T.Latch.await();
 							if (T.ex!=null) throw T.ex;
 						}

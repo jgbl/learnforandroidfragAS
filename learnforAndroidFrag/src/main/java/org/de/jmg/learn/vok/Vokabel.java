@@ -40,6 +40,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Looper;
 import android.os.ParcelFileDescriptor;
 import android.text.SpannableString;
 import android.widget.TextView;
@@ -1672,10 +1673,21 @@ public class Vokabel {
 	{
 		TaskSaveVok T = new TaskSaveVok(strFileName,uri,blnUnUniCade);
 		T.execute();
+		try
+		{
+			Looper.loop();
+		}
+		catch (EndLooperException ex)
+		{
+
+		}
 		T.Latch.await();
 		if (T.ex!=null) throw  T.ex;
 	}
+	class EndLooperException extends  RuntimeException
+	{
 
+	}
 	class TaskSaveVok extends AsyncTask<Void,Void,Exception>
 	{
 		ProgressDialog p;
@@ -1712,8 +1724,7 @@ public class Vokabel {
 		protected void onPostExecute(Exception ex)
 		{
 			if(p.isShowing())p.dismiss();
-
-
+			throw new EndLooperException();
 		}
 
 
@@ -1729,7 +1740,7 @@ public class Vokabel {
 				}
 			}
 			p = new ProgressDialog(getContext());
-			p.setMessage(getContext().getString(R.string.loading));
+			p.setMessage(getContext().getString(R.string.saving));
 			p.show();
 
 		}
