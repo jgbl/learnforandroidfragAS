@@ -1665,13 +1665,13 @@ public class Vokabel {
 		SaveFile(mFileName, _uri, true, false);
 	}
 
-	public void SaveFileWithoutPrompt() throws Exception {
-		SaveFile(mFileName, _uri, true, true);
+	public void SaveCurrentFileAsync() throws Exception {
+		SaveFileAsync(mFileName, _uri, _UniCode);
 	}
 
-	public void SaveFileAsync(String strFileName,Uri uri, boolean blnUnUniCade) throws Exception
+	public void SaveFileAsync(String strFileName,Uri uri, boolean blnUniCode) throws Exception
 	{
-		TaskSaveVok T = new TaskSaveVok(strFileName,uri,blnUnUniCade);
+		TaskSaveVok T = new TaskSaveVok(strFileName,uri,blnUniCode);
 		T.execute();
 		try
 		{

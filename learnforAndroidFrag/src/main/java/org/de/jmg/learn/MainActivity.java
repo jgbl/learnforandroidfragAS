@@ -598,7 +598,7 @@ public class MainActivity extends AppCompatActivity  {
 			}
 		} else if (keyCode == KeyEvent.KEYCODE_BACK && mPager.getCurrentItem()==0) {
 			try {
-				if (_backPressed > 0 || saveVokAsync(false)) 
+				if (_backPressed > 0 || saveVokAsync(false,false))
 				{
 					handlerbackpressed.removeCallbacks(rSetBackPressedFalse);
 				} else 
@@ -633,7 +633,7 @@ public class MainActivity extends AppCompatActivity  {
         }
 	}
 	
-	private boolean saveVokAsync(boolean dontPrompt) throws Exception {
+	private boolean saveVokAsync(boolean dontPrompt, final boolean blnAsync) throws Exception {
 		fPA.fragMain.EndEdit(true);
 		if (vok.aend) {
 			if (!dontPrompt) 
@@ -647,17 +647,25 @@ public class MainActivity extends AppCompatActivity  {
 				  { 
 					  try 
 					  { 
-						  if (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()==null)
-						  {
+						  	if (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()==null)
+						  	{
 							SaveVokAs(true,false);
-						  }
+						  	}
 							else
-						  {
-							vok.SaveFile(vok.getFileName(),vok.getURI(), vok.getUniCode(),	false);
-							vok.aend = false; 
-							_backPressed += 1;
-							handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
-							saveFilePrefs(false);
+						  	{
+							if (blnAsync || (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()!=null))
+							  {
+								  vok.SaveCurrentFileAsync();
+							  }
+							  else
+							  {
+								  vok.SaveFile(vok.getFileName(),vok.getURI(), vok.getUniCode(),	false);
+							  }
+
+								vok.aend = false;
+								_backPressed += 1;
+								handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+								saveFilePrefs(false);
 						  }
 					  } 
 					  catch (Exception e) 
@@ -740,6 +748,7 @@ public class MainActivity extends AppCompatActivity  {
 		public void uncaughtException(Thread thread, Throwable ex) {
 
 			ex.printStackTrace();
+			Log.e("uncaught",ex.getMessage(),ex);
 			//lib.ShowException(MainActivity.this, ex);
 		}
 	};
@@ -821,56 +830,6 @@ public class MainActivity extends AppCompatActivity  {
 		return saveVok(dontPrompt,dontShowBackPressed,false);
 	}
 
-	class EndLooperException extends RuntimeException
-	{
-
-	}
-
-	class TaskSaveVok extends AsyncTask<Void,Void,Exception>
-	{
-		ProgressDialog p;
-		Exception ex;
-		CountDownLatch Latch = new CountDownLatch(1);
-		@Override
-		protected Exception doInBackground(Void... params) {
-			try
-			{
-				vok.SaveFileWithoutPrompt();
-			}
-
-			catch (Exception e2)
-			{
-				this.ex = e2;
-			}
-
-			Latch.countDown();
-			return ex;
-		}
-
-		@Override
-		protected void onPostExecute(Exception ex)
-		{
-			if(p.isShowing())p.dismiss();
-			throw new EndLooperException();
-
-		}
-
-
-		@Override
-		protected void onPreExecute() {
-			p = new ProgressDialog(MainActivity.this);
-			p.setMessage(MainActivity.this.getString(R.string.saving));
-			p.show();
-
-		}
-
-		@Override
-		protected void onProgressUpdate(Void... values) {
-		}
-
-
-
-	}
 
 
 	public boolean saveVok(boolean dontPrompt, boolean dontShowBackPressed, boolean blnAsync) throws Exception {
@@ -947,18 +906,7 @@ public class MainActivity extends AppCompatActivity  {
 					{
 						if (blnAsync || (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()!=null))
 						{
-							TaskSaveVok T = new TaskSaveVok();
-							T.execute();
-							try
-							{
-								Looper.loop();
-							}
-							catch (EndLooperException ex)
-							{
-
-							}
-							T.Latch.await();
-							if (T.ex!=null) throw T.ex;
+							vok.SaveCurrentFileAsync();
 						}
 						else
 						{
@@ -1491,8 +1439,9 @@ public class MainActivity extends AppCompatActivity  {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
+
 		try {
+			int id = item.getItemId();
 			if (id == R.id.action_settings) {
 				mPager.setCurrentItem(SettingsActivity.fragID);
 			} 
@@ -1633,7 +1582,7 @@ public class MainActivity extends AppCompatActivity  {
 				}
 			}
 
-		} catch (Exception ex) {
+		} catch (Throwable ex) {
 			lib.ShowException(this, ex);
 		}
 		return super.onOptionsItemSelected(item);

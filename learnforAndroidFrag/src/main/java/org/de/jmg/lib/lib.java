@@ -505,7 +505,7 @@ public class lib {
     }
 
     static AlertDialog dlgOK;
-    public static synchronized void ShowException(Context context, Throwable ex) {
+    public static void ShowException(Context context, Throwable ex) {
         // System.Threading.SynchronizationContext.Current.Post(new
         // System.Threading.SendOrPostCallback(DelShowException),new
         // ExStateInfo(context, ex));
@@ -517,6 +517,12 @@ public class lib {
                 + "\n" + Log.getStackTraceString(ex));
         A.setTitle("Error");
         dlgOK = A.create();
+        dlgOK.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                removeDlg(dialog);
+            }
+        });
         dlgOK.show();
         OpenDialogs.add(dlgOK);
     }
