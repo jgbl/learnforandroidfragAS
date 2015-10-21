@@ -53,6 +53,7 @@ import br.com.thinkti.android.filechooserfrag.fragFileChooserQuizlet;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
@@ -298,6 +299,25 @@ public class MainActivity extends AppCompatActivity  {
 			try {
 				libLearn.gStatus = "onCreate getPrefs";
 				prefs = this.getPreferences(Context.MODE_PRIVATE);
+				String Installer = this.getPackageManager().getInstallerPackageName(this.getPackageName());
+				if (prefs.getBoolean("play",true) && (Installer == null || !Installer.equalsIgnoreCase("com.android.vending")))
+				{
+					lib.YesNoCheckResult res = lib.ShowMessageYesNoWithCheckbox
+							(this,Installer!=null?Installer:"",this.getString(R.string.msgNotGooglePlay)
+									,this.getString(R.string.msgDontShowThisMessageAgain),false);
+					if (res!=null)
+					{
+						prefs.edit().putBoolean("play",!res.checked).commit();
+						if (res.res==yesnoundefined.yes)
+						{
+							String url = "https://play.google.com/apps/testing/org.de.jmg.learn";
+							Intent i = new Intent(Intent.ACTION_VIEW);
+							i.setData(Uri.parse(url));
+							startActivity(i);
+							finish();
+						}
+					}
+				}
 				vok = new Vokabel(this,
 						(TextView) this.findViewById(R.id.txtStatus));
 				if (fPA.fragMain != null) fPA.fragMain._vok = vok;
@@ -679,11 +699,9 @@ public class MainActivity extends AppCompatActivity  {
 						 }
 					 }
 				});
-				A.setNegativeButton(getString(R.string.no), new AlertDialog.OnClickListener()
-				{
+				A.setNegativeButton(getString(R.string.no), new AlertDialog.OnClickListener() {
 					@Override
-					public void onClick(DialogInterface dialog, int which)
-					{
+					public void onClick(DialogInterface dialog, int which) {
 
 					}
 				});
@@ -691,8 +709,7 @@ public class MainActivity extends AppCompatActivity  {
 				A.setTitle(getString(R.string.question));
 				Dialog dlg = A.create();
 				dlg.show();
-				dlg.setOnDismissListener(new DialogInterface.OnDismissListener()
-				{
+				dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
 					@Override
 					public void onDismiss(DialogInterface dialog) {
 						lib.ShowToast(MainActivity.this, MainActivity.this.getString(R.string.PressBackAgain));
