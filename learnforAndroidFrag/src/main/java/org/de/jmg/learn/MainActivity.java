@@ -828,7 +828,7 @@ public class MainActivity extends AppCompatActivity  {
 
 	public boolean saveVok(boolean dontPrompt) throws Exception
 	{
-		return saveVok(dontPrompt,false,false);
+		return saveVok(dontPrompt,false,true);
 	}
 
 	public boolean saveVok(boolean dontPrompt, boolean dontShowBackPressed) throws Exception
