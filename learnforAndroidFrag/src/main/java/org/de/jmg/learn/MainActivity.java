@@ -51,6 +51,7 @@ import br.com.thinkti.android.filechooser.FileChooser;
 import br.com.thinkti.android.filechooserfrag.fragFileChooser;
 import br.com.thinkti.android.filechooserfrag.fragFileChooserQuizlet;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -582,7 +583,7 @@ public class MainActivity extends AppCompatActivity  {
 		if (mPager.getCurrentItem() == fragFileChooser.fragID)
 		{
 			boolean res = this.fPA.fragChooser.onKeyDown(keyCode, event);
-			if (!res) return res;
+			if (!res) return false;
 		}
 		else if (mPager.getCurrentItem() == _MainActivity.fragID)
 		{
@@ -635,86 +636,80 @@ public class MainActivity extends AppCompatActivity  {
 	
 	private boolean saveVokAsync(boolean dontPrompt, final boolean blnAsync) throws Exception {
 		fPA.fragMain.EndEdit(true);
-		if (vok.aend) {
+		if (vok.aend)
+		{
 			if (!dontPrompt) 
 			{
 				
-				 AlertDialog.Builder A = new AlertDialog.Builder(context);
-				 A.setPositiveButton(getString(R.string.yes), new
-				 AlertDialog.OnClickListener() 
-				 {				  
-				  @Override public void onClick(DialogInterface dialog, int which) 
-				  { 
-					  try 
-					  { 
-						  	if (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()==null)
-						  	{
-								SaveVokAs(true,false);
-						  	}
-							else
-						  	{
-								if (blnAsync || (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()!=null))
-							  	{
-								  vok.SaveCurrentFileAsync();
-							  	}
-							  	else
-							  	{
-								  vok.SaveFile(vok.getFileName(),vok.getURI(), vok.getUniCode(),	false);
-							  	}
+				AlertDialog.Builder A = new AlertDialog.Builder(context);
+				A.setPositiveButton(getString(R.string.yes), new AlertDialog.OnClickListener()
+				{
+					 @Override
+					 public void onClick(DialogInterface dialog, int which)
+					 {
+						 try
+						 {
+							 if (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI() == null)
+							 {
+								 SaveVokAs(true, false);
+							 }
+							 else
+							 {
+								 if (blnAsync || (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI() != null))
+								 {
+									 vok.SaveCurrentFileAsync();
+								 }
+								 else
+								 {
+									 vok.SaveFile(vok.getFileName(), vok.getURI(), vok.getUniCode(), false);
+								 }
+								 vok.aend = false;
+								 saveFilePrefs(false);
+							 }
 
-								vok.aend = false;
-								_backPressed += 1;
-								handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
-								saveFilePrefs(false);
-						  }
-					  } 
-					  catch (Exception e) 
-					  { 
-						  try 
-						  {
-							SaveVokAs(true,false);
-						  } 
-						  catch (Exception e1) 
-						  {
 
-							e1.printStackTrace();
-							lib.ShowException(MainActivity.this, e1); 
-						  }
-					  } 
-				  }
-				 });
-				 A.setNegativeButton(getString(R.string.no), new
-				 AlertDialog.OnClickListener() 
-				  {
-					  @Override 
-					  public void onClick(DialogInterface dialog, int which) 
-					  { 
-						  lib.ShowToast( MainActivity.this, 
-								  MainActivity.this.getString(R.string.PressBackAgain)); 
-						  _backPressed += 1;
-						  handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000); 
-					  }
-				  }); 
-				  A.setMessage(getString(R.string.Save));
-				  A.setTitle(getString(R.string.question));
-				  A.show(); 
-				  if (_backPressed > 0)
-				  {
-					  return true;
-				  }
-				  else
-				  {
-					  lib.ShowToast(this, this.getString(R.string.PressBackAgain));
-					  _backPressed += 1;
-					  handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
-				  }
-				  
+						 } catch (Exception e) {
+							 try {
+								 SaveVokAs(true, false);
+							 } catch (Exception e1) {
 
-				 
+								 e1.printStackTrace();
+								 lib.ShowException(MainActivity.this, e1);
+							 }
+						 }
+					 }
+				});
+				A.setNegativeButton(getString(R.string.no), new AlertDialog.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+
+					}
+				});
+				A.setMessage(getString(R.string.Save));
+				A.setTitle(getString(R.string.question));
+				Dialog dlg = A.create();
+				dlg.show();
+				dlg.setOnDismissListener(new DialogInterface.OnDismissListener()
+				{
+					@Override
+					public void onDismiss(DialogInterface dialog) {
+						lib.ShowToast(MainActivity.this, MainActivity.this.getString(R.string.PressBackAgain));
+						_backPressed += 1;
+						handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+					}
+				});
+				if (_backPressed > 0)
+				{
+				  return true;
+				}
 			}
 
-			if (dontPrompt) {
-				try {
+			if (dontPrompt)
+			{
+				try
+				{
 					if (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()==null)
 					{
 						SaveVokAs(true,false);
@@ -730,18 +725,21 @@ public class MainActivity extends AppCompatActivity  {
 							vok.SaveFile(vok.getFileName(),vok.getURI(), vok.getUniCode(),	true);
 						}
 						vok.aend = false;
-						_backPressed += 1;
-						handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
 						saveFilePrefs(false);
 					}
+					_backPressed += 1;
+					handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
 					
-				} catch (Exception e) {
-
+				}
+				catch (Exception e)
+				{
 					lib.ShowException(this, e);
 				}
 			}
 			return false;
-		} else {
+		}
+		else
+		{
 			return true;
 		}
 
@@ -895,48 +893,46 @@ public class MainActivity extends AppCompatActivity  {
 				 */
 			}
 
-			if (dontPrompt)
+			try
 			{
-				try 
+
+				if ((libString.IsNullOrEmpty(vok.getFileName())
+						|| libString.IsNullOrEmpty(vok.getvok_Path())
+						|| new File(vok.getFileName()).getParent() == null)
+						&& vok.getURI()==null)
 				{
-					
-					if ((libString.IsNullOrEmpty(vok.getFileName())
-							|| libString.IsNullOrEmpty(vok.getvok_Path())
-							|| new File(vok.getFileName()).getParent() == null)
-							&& vok.getURI()==null)
+					SaveVokAs(true,false);
+					return false;
+				}
+				else
+				{
+					if (blnAsync || (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()!=null))
 					{
-						SaveVokAs(true,false);
-						return false;
+						vok.SaveCurrentFileAsync();
 					}
 					else
 					{
-						if (blnAsync || (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()!=null))
-						{
-							vok.SaveCurrentFileAsync();
-						}
-						else
-						{
-							vok.SaveFile();
-						}
-						vok.aend = false;
-						if (!dontShowBackPressed) {
-							_backPressed += 1;
-							handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
-						}
-						saveFilePrefs(false);
-						return true;
+						vok.SaveFile();
 					}
-				} 
-				catch (Exception e) 
-				{
-
-					//lib.ShowException(this, e);
-					if (lib.ShowMessageYesNo(this, getString(R.string.msgFileCouldNotBeSaved),"")==yesnoundefined.yes)
-					{
-						SaveVokAs(true,false);
+					vok.aend = false;
+					if (!dontShowBackPressed) {
+						_backPressed += 1;
+						handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
 					}
+					saveFilePrefs(false);
+					return true;
 				}
 			}
+			catch (Exception e)
+			{
+
+				//lib.ShowException(this, e);
+				if (lib.ShowMessageYesNo(this, getString(R.string.msgFileCouldNotBeSaved),"")==yesnoundefined.yes)
+				{
+					SaveVokAs(true,false);
+				}
+			}
+
 			return false;
 		} 
 		else 
@@ -1035,7 +1031,7 @@ public class MainActivity extends AppCompatActivity  {
 				File F1 = new File(JMGDataDirectory);
 				if (!F1.isDirectory() && !F1.exists())
 				{
-					F1.mkdirs();
+					System.out.println(F1.mkdirs());
 				}
 				AssetManager A = this.getAssets();
 				try {
@@ -1050,7 +1046,7 @@ public class MainActivity extends AppCompatActivity  {
 							String outFileName = Path.combine(F1.getPath(), File);
 							if (!F1.isDirectory())
 							{
-								F1.mkdirs();
+								System.out.println(F1.mkdirs());
 							}
 							// Open the empty db as the output stream
 	
@@ -1061,7 +1057,7 @@ public class MainActivity extends AppCompatActivity  {
 								successful = true;
 							} else {
 								try {
-									file.createNewFile();
+									System.out.println(file.createNewFile());
 									OutputStream myOutput = new FileOutputStream(file);
 
 									byte[] buffer = new byte[1024];
@@ -1079,8 +1075,8 @@ public class MainActivity extends AppCompatActivity  {
 								catch (Exception eex)
 								{
 									if (i == 0) throw eex;
-									lib.ShowMessage(this,"Could not create file " + outFileName, "Error");
-									successful=false;
+									lib.ShowMessage(this,this.getString(R.string.fileCouldNotBeCreated)+ " " + outFileName, this.getString(R.string.Error));
+									//successful=false;
 									throw eex;
 								}
 							}
@@ -1099,11 +1095,11 @@ public class MainActivity extends AppCompatActivity  {
 
 	}
 	private HashMap<ColorItems, ColorSetting> getColorsFromPrefs() {
-		HashMap<ColorItems, ColorSetting> res = new HashMap<ColorItems, ColorSetting>();
+		HashMap<ColorItems, ColorSetting> res = new HashMap<>();
 		for (int i = 0; i < ColorSetting.ColorItems.values().length; i++) {
 			ColorItems ColorItem = ColorSetting.ColorItems.values()[i];
 			String Name = getResources().getStringArray(R.array.spnColors)[i];
-			int defValue = 0;
+			int defValue;
 			switch (ColorItem) {
 			case word:
 				defValue = 0xff000000;
@@ -1138,11 +1134,11 @@ public class MainActivity extends AppCompatActivity  {
 	}
 
 	private HashMap<ColorItems, ColorSetting> getColorsFromIntent(Intent intent) {
-		HashMap<ColorItems, ColorSetting> res = new HashMap<ColorItems, ColorSetting>();
+		HashMap<ColorItems, ColorSetting> res = new HashMap<>();
 		for (int i = 0; i < ColorSetting.ColorItems.values().length; i++) {
 			ColorItems ColorItem = ColorSetting.ColorItems.values()[i];
 			String Name = getResources().getStringArray(R.array.spnColors)[i];
-			int defValue = 0;
+			int defValue;
 			switch (ColorItem) {
 			case word:
 				defValue = 0xff000000;
@@ -1177,13 +1173,13 @@ public class MainActivity extends AppCompatActivity  {
 	}
 
 	private HashMap<Sounds, SoundSetting> getSoundsFromIntent(Intent intent) {
-		HashMap<Sounds, SoundSetting> res = new HashMap<Sounds, SoundSetting>();
+		HashMap<Sounds, SoundSetting> res = new HashMap<>();
 		if (lib.AssetSounds[0] == null)
 			lib.initSounds();
 		for (int i = 0; i < lib.Sounds.values().length; i++) {
 			Sounds SoundItem = Sounds.values()[i];
 			String Name = getResources().getStringArray(R.array.spnSounds)[i];
-			String defValue = "";
+			String defValue;
 			defValue = lib.AssetSounds[SoundItem.ordinal()];
 			String SoundPath = intent.getStringExtra(SoundItem.name());
 			if (libString.IsNullOrEmpty(SoundPath)) {
@@ -1196,13 +1192,13 @@ public class MainActivity extends AppCompatActivity  {
 	}
 
 	private HashMap<Sounds, SoundSetting> getSoundsFromPrefs() {
-		HashMap<Sounds, SoundSetting> res = new HashMap<Sounds, SoundSetting>();
+		HashMap<Sounds, SoundSetting> res = new HashMap<>();
 		if (lib.AssetSounds[0] == null)
 			lib.initSounds();
 		for (int i = 0; i < lib.Sounds.values().length; i++) {
 			Sounds SoundItem = Sounds.values()[i];
 			String Name = getResources().getStringArray(R.array.spnSounds)[i];
-			String defValue = "";
+			String defValue;
 			defValue = lib.AssetSounds[SoundItem.ordinal()];
 			String SoundPath = prefs.getString(SoundItem.name(), defValue);
 			res.put(SoundItem, new SoundSetting(SoundItem, Name, SoundPath));
@@ -1221,19 +1217,27 @@ public class MainActivity extends AppCompatActivity  {
 			if (fPA.fragMain != null && fPA.fragMain.mainView != null) fPA.fragMain.EndEdit(false);
 			if (!libString.IsNullOrEmpty(vok.getFileName()) || vok.getURI()==null || Build.VERSION.SDK_INT<19)
 			{
-				boolean blnSuccess = false;
+				boolean blnSuccess;
 				for (int i = 0; i<2; i++)
 				{
 					try
 					{
 						String key = "AlwaysStartExternalProgram";
 						int AlwaysStartExternalProgram = prefs.getInt(key, 999);
-						lib.YesNoCheckResult res = null;
+						lib.YesNoCheckResult res;
 						if (AlwaysStartExternalProgram==999 && !(vok.getURI()!=null && i == 1))
 						{
 							res = lib.ShowMessageYesNoWithCheckbox(this, "", getString(R.string.msgStartExternalProgram), getString(R.string.msgRememberChoice),false);
-							if (res.res==yesnoundefined.undefined) return;
-							if (res.checked) prefs.edit().putInt(key, res.res==yesnoundefined.yes?-1:0).commit();
+							if (res!=null)
+							{
+								if (res.res==yesnoundefined.undefined) return;
+								if (res.checked) prefs.edit().putInt(key, res.res==yesnoundefined.yes?-1:0).commit();
+							}
+							else
+							{
+								yesnoundefined par = yesnoundefined.undefined;
+								res = new lib.YesNoCheckResult(par, true);
+							}
 						}
 						else
 						{
@@ -1245,7 +1249,7 @@ public class MainActivity extends AppCompatActivity  {
 						if ((vok.getURI()!=null && i == 1) || res.res==yesnoundefined.no)
 						{
 							Intent intent = new Intent(this, AdvFileChooser.class);
-							ArrayList<String> extensions = new ArrayList<String>();
+							ArrayList<String> extensions = new ArrayList<>();
 							extensions.add(".k??");
 							extensions.add(".v??");
 							extensions.add(".K??");
@@ -1340,7 +1344,7 @@ public class MainActivity extends AppCompatActivity  {
 			{
 				blnActionCreateDocument = true;
 			}
-			if (blnActionCreateDocument == true)
+			if (blnActionCreateDocument)
 			{
 				/**
 				 * Open a file for writing and append some text to it.
@@ -1481,7 +1485,7 @@ public class MainActivity extends AppCompatActivity  {
 				}
 				else
 				{
-					if (fPA != null & fPA.fragQuizlet != null)
+					if (fPA != null && fPA.fragQuizlet != null)
 					{
 						searchQuizlet();
 					}
@@ -1629,14 +1633,7 @@ public class MainActivity extends AppCompatActivity  {
 					lib.removeDlg(dlg);
 				}
 			});
-			/*
-			A.setOnDismissListener(new DialogInterface.OnDismissListener() {
-				@Override
-				public void onDismiss(DialogInterface dialog) {
-					Log.d("Alert Quzlet","dismiss");
-				}
-			});
-			*/
+
 			A.setMessage(getString(R.string.SearchQuizlet));
 			A.setTitle(getString(R.string.Search));
 			// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
@@ -1645,6 +1642,13 @@ public class MainActivity extends AppCompatActivity  {
 			A.setView(input);
 			dlg = A.create();
 			dlg.show();
+
+			dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+				@Override
+				public void onDismiss(DialogInterface dialog) {
+					lib.removeDlg(dlg);
+				}
+			});
 			lib.OpenDialogs.add(dlg);
 		}
 		catch (Exception ex)
@@ -1687,11 +1691,11 @@ public class MainActivity extends AppCompatActivity  {
 	}
 	public boolean checkLoadFile() throws Exception
 	{
-		boolean blnLoadFile = false;
+		boolean blnLoadFile;
 		if(fPA.fragMain != null && fPA.fragMain.mainView != null)
 		{
 			boolean res = fPA.fragMain.EndEdit(false);
-			if (!res) return res;
+			if (!res) return false;
 		}
 		if (vok.getGesamtzahl()>0 && vok.aend && libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()==null)
 		{
@@ -1727,7 +1731,7 @@ public class MainActivity extends AppCompatActivity  {
 	public Intent getFileChooserIntent(boolean blnUniCode)
 	{
 		Intent intent = new Intent(this, FileChooser.class);
-		ArrayList<String> extensions = new ArrayList<String>();
+		ArrayList<String> extensions = new ArrayList<>();
 		extensions.add(".k??");
 		extensions.add(".v??");
 		extensions.add(".K??");
@@ -1833,7 +1837,7 @@ public class MainActivity extends AppCompatActivity  {
 												getString(R.string.Overwrite),"")==yesnoundefined.yes)) {
 							File ParentDir = F.getParentFile();
 							if (!ParentDir.exists())
-								ParentDir.mkdirs();
+								System.out.println(ParentDir.mkdirs());
 							libLearn.gStatus = "onActivityResult SaveFile";
 							vok.SaveFile(F.getPath(), vok.getURI(),
 									_blnUniCode, false);
@@ -2233,7 +2237,7 @@ public class MainActivity extends AppCompatActivity  {
 
 	void processSettingsIntent(Intent data) throws Exception
 	{
-		if (data.getStringExtra("OK")=="OK")
+		if (data.getStringExtra("OK").equalsIgnoreCase("OK"))
 		{
 			libLearn.gStatus = "getting values from intent";
 			int oldAbfrage = vok.getAbfragebereich();

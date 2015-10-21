@@ -289,4 +289,5 @@
     <string name="created_by">erstellt von</string>
     <string name="at">bei</string>
     <string name="saving">speichere</string>
+    <string name="fileCouldNotBeCreated">Konnte Datei nicht erstellen</string>
 </resources>

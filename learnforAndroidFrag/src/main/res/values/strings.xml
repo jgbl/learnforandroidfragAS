@@ -289,4 +289,5 @@
 	<string name="created_by">created by</string>
 	<string name="at">at</string>
 	<string name="saving">saving</string>
+	<string name="fileCouldNotBeCreated">Could not create file</string>
 </resources>
