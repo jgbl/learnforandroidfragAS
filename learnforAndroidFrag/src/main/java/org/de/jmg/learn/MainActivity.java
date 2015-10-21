@@ -894,7 +894,8 @@ public class MainActivity extends AppCompatActivity  {
 				 * }
 				 */
 			}
-			else
+
+			if (dontPrompt)
 			{
 				try 
 				{
