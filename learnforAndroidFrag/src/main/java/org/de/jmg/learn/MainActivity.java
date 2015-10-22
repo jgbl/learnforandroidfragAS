@@ -300,7 +300,10 @@ public class MainActivity extends AppCompatActivity  {
 				libLearn.gStatus = "onCreate getPrefs";
 				prefs = this.getPreferences(Context.MODE_PRIVATE);
 				String Installer = this.getPackageManager().getInstallerPackageName(this.getPackageName());
-				if (prefs.getBoolean("play",true) && (Installer == null || !Installer.equalsIgnoreCase("com.android.vending")))
+				if (prefs.getBoolean("play",true)
+						&& (Installer == null
+						|| (!Installer.equalsIgnoreCase("com.android.vending")
+						&& Installer.indexOf("com.google.android") == -1)))
 				{
 					lib.YesNoCheckResult res = lib.ShowMessageYesNoWithCheckbox
 							(this,Installer!=null?Installer:"",this.getString(R.string.msgNotGooglePlay)

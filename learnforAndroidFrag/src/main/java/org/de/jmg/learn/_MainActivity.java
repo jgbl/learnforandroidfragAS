@@ -1765,7 +1765,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				FName=FName.substring(0,30);
 			}
 			String title = "" + FName
-					+ " " + getString(R.string.number) + ": " + _vok.getIndex()
+					+ " " + getString(R.string.number) + ": " + _vok.getIndex() + "/" + _vok.getGesamtzahl()
 					+ " " + getString(R.string.counter) + ": "
 					+ _vok.getZaehler();
 			String Right = " " + _vok.AnzRichtig;
