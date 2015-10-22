@@ -39,6 +39,7 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter{
 	public SettingsActivity fragSettings;
 	public br.com.thinkti.android.filechooserfrag.fragFileChooser fragChooser;
 	public br.com.thinkti.android.filechooserfrag.fragFileChooserQuizlet fragQuizlet;
+	//public org.liberty.android.fantastischmemo.downloader.quizlet.QuizletOAuth2AccessCodeRetrievalFragment fragAuthQuizlet;
 	public MainActivity main;
 	public fragStatistics fragChart;
 	/** Constructor of the class */
@@ -77,6 +78,12 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter{
 					{
 						fragQuizlet = (fragFileChooserQuizlet) f;
 					}
+					/*
+					else if (f instanceof QuizletOAuth2AccessCodeRetrievalFragment)
+					{
+						fragAuthQuizlet = (QuizletOAuth2AccessCodeRetrievalFragment) f;
+					}
+					*/
 				}
 			}
 		}
@@ -91,7 +98,8 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter{
 	
 	@Override
 	public Fragment getItem(int arg0) {
-		switch(arg0){
+		switch(arg0)
+		{
 		
 			/** tab1 is selected */
 			case _MainActivity.fragID:
@@ -140,11 +148,34 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter{
 				if (fragQuizlet == null)
 				{
 					fragQuizlet = new fragFileChooserQuizlet();
-					fragQuizlet.initfragFileChooserQuizlet(main,"","");
+					fragQuizlet.initfragFileChooserQuizlet(main, "", "");
+					/*
+					if (fragAuthQuizlet == null) {
+						fragAuthQuizlet = new QuizletOAuth2AccessCodeRetrievalFragment();
+						fragAuthQuizlet.setAuthCodeReceiveListener
+								(new OauthAccessCodeRetrievalFragment.AuthCodeReceiveListener() {
+									@Override
+									public void onAuthCodeReceived(String... codes) {
+										lib.ShowMessage(main, codes[0], "");
+									}
 
+									@Override
+									public void onAuthCodeError(String error) {
+
+									}
+
+									@Override
+									public void onCancelled() {
+
+									}
+								});
+					}
+					fragAuthQuizlet.show( main.getSupportFragmentManager() , "tag");
+					*/
 				}
 				LastItem = fragQuizlet;
 				return fragQuizlet;
+
 		}
 		
 		return null;

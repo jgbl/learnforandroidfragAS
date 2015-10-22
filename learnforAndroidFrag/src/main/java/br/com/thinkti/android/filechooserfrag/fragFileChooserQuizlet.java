@@ -97,7 +97,6 @@ public class fragFileChooserQuizlet extends ListFragment
 
 	// edit the line below with your quizlet client id
 	private static String QUIZLET_CLIENT_ID;
-	private static String QUIZLET_SECRET_KEY;
 	private static String browseApiUrl; //= "https://api.quizlet.com/2.0/search/sets?client_id=" + QUIZLET_CLIENT_ID + "&time_format=fuzzy_date" ;
 	private static String getSetApiUrl; //= "https://api.quizlet.com/2.0/sets?client_id=" + QUIZLET_CLIENT_ID + "&set_ids=" ;
 
@@ -120,7 +119,6 @@ public class fragFileChooserQuizlet extends ListFragment
 		this._main = main;
 		//String passwd = lib.InputBox(_main,"password","password","",false).input;
 		QUIZLET_CLIENT_ID = new String(Base64.decode(Data.QuizletClientID, Base64.DEFAULT));
-		QUIZLET_SECRET_KEY = new String(Base64.decode(Data.SecretKey, Base64.DEFAULT));
 		browseApiUrl = "https://api.quizlet.com/2.0/search/sets?client_id=" + QUIZLET_CLIENT_ID + "&time_format=fuzzy_date" ;
 		getSetApiUrl = "https://api.quizlet.com/2.0/sets?client_id=" + QUIZLET_CLIENT_ID + "&set_ids=" ;
 		blnAdapterInvalid = true;
