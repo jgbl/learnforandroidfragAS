@@ -42,6 +42,7 @@
         <activity android:name="br.com.thinkti.android.filechooser.FileChooser"/>
         <activity android:name="org.achartengine.GraphicalActivity"/>
         <activity android:name="br.com.thinkti.android.filechooser.AdvFileChooser"/>
+        <activity android:name="org.liberty.android.fantastischmemo.downloader.quizlet.LoginQuizletActivity"/>
     </application>
 
 </manifest>

@@ -45,6 +45,9 @@ import org.de.jmg.lib.ColorSetting.ColorItems;
 import org.de.jmg.lib.lib.Sounds;
 import org.de.jmg.lib.lib.libString;
 import org.de.jmg.lib.lib.yesnoundefined;
+import org.liberty.android.fantastischmemo.downloader.oauth.OauthAccessCodeRetrievalFragment;
+import org.liberty.android.fantastischmemo.downloader.quizlet.LoginQuizletActivity;
+import org.liberty.android.fantastischmemo.downloader.quizlet.QuizletOAuth2AccessCodeRetrievalFragment;
 
 import br.com.thinkti.android.filechooser.AdvFileChooser;
 import br.com.thinkti.android.filechooser.FileChooser;
@@ -58,6 +61,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Looper;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -1499,6 +1503,7 @@ public class MainActivity extends AppCompatActivity  {
 			}
 			else if (id == R.id.mnuOpenQuizlet)
 			{
+				//LoginQuizlet();
 				if (mPager.getCurrentItem() != fragFileChooserQuizlet.fragID)
 				{
 					mPager.setCurrentItem(fragFileChooserQuizlet.fragID);
@@ -1613,6 +1618,10 @@ public class MainActivity extends AppCompatActivity  {
 						fPA.fragMain.edit();
 				}
 			}
+			else if (id == R.id.mnuLoginQuizlet)
+			{
+				LoginQuizlet();
+			}
 
 		} catch (Throwable ex) {
 			lib.ShowException(this, ex);
@@ -1644,7 +1653,7 @@ public class MainActivity extends AppCompatActivity  {
 						fPA.fragQuizlet.setSearchPhrase(input.getText().toString());
 						fPA.fragQuizlet.Load();
 						lib.removeDlg(dlg);
-						fPA.fragQuizlet.Login();
+						//fPA.fragQuizlet.Login();
 					}
 				}
 			});
@@ -2342,6 +2351,12 @@ public class MainActivity extends AppCompatActivity  {
 	{
 		SoundDir = dir;
 		prefs.edit().putString("SoundDir", dir).commit();
+	}
+
+	public void LoginQuizlet()
+	{
+		Intent login = new Intent(this, LoginQuizletActivity.class);
+		this.startActivity(login);
 	}
 
 

@@ -291,4 +291,5 @@
     <string name="saving">speichere</string>
     <string name="fileCouldNotBeCreated">Konnte Datei nicht erstellen</string>
     <string name="msgNotGooglePlay">Diese App wurde nicht von Google Play installiert! Möchten Sie die App von dort laden?</string>
+    <string name="mnuLoginQuizlet">login Quizlet</string>
 </resources>

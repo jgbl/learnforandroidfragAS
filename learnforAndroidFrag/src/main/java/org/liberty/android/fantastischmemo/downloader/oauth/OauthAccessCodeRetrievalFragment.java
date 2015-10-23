@@ -23,7 +23,7 @@ package org.liberty.android.fantastischmemo.downloader.oauth;
 import java.io.IOException;
 
 
-
+import roboguice.RoboGuice;
 import roboguice.fragment.RoboDialogFragment;
 
 import android.app.Activity;
@@ -44,7 +44,11 @@ import android.widget.LinearLayout;
 import org.de.jmg.learn.R;
 import org.de.jmg.lib.lib;
 
-public abstract class OauthAccessCodeRetrievalFragment extends RoboDialogFragment {
+public abstract class OauthAccessCodeRetrievalFragment extends RoboDialogFragment
+{
+    static {
+        RoboGuice.setUseAnnotationDatabases(false);
+    }
     private Activity mActivity;
 
     private AuthCodeReceiveListener authCodeReceiveListener = null;
@@ -74,7 +78,7 @@ public abstract class OauthAccessCodeRetrievalFragment extends RoboDialogFragmen
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mActivity = (Activity)activity;
+        mActivity = activity;
     }
 
     @Override

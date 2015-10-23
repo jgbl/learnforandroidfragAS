@@ -37,6 +37,7 @@ import android.inputmethodservice.Keyboard;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 import android.util.Base64;
 import android.util.JsonReader;
@@ -591,28 +592,7 @@ public class fragFileChooserQuizlet extends ListFragment
 		new TaskopenPage().execute();
 	}
 
-	public void Login()
-	{
-		QuizletOAuth2AccessCodeRetrievalFragment dlg = new QuizletOAuth2AccessCodeRetrievalFragment();
-		dlg.setAuthCodeReceiveListener(new OauthAccessCodeRetrievalFragment.AuthCodeReceiveListener() {
-			@Override
-			public void onAuthCodeReceived(String... codes) {
-				lib.ShowMessage(_main,codes[0],"AuthCode");
-			}
 
-			@Override
-			public void onAuthCodeError(String error) {
-
-			}
-
-			@Override
-			public void onCancelled() {
-
-			}
-		});
-		dlg.show(_main.getSupportFragmentManager(),"Login");
-
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
