@@ -83,6 +83,8 @@ public class fragFileChooserQuizlet extends ListFragment
 {
 
 	public final static int fragID = 4;
+	public MainActivity _main;
+	public boolean blnPrivate;
 	private File currentDir;
 	private QuizletArrayAdapter adapter;
 	private FileFilter fileFilter;
@@ -90,7 +92,6 @@ public class fragFileChooserQuizlet extends ListFragment
 	private boolean unicode;
 	private String DefaultDir;
 	private ArrayList<String> extensions;
-	public MainActivity _main;
 	private View _chooserView;
 	private Intent _Intent;
 	private boolean _blnInitialized;
@@ -191,6 +192,10 @@ public class fragFileChooserQuizlet extends ListFragment
 				{
 					Log.d("OpenPage", list.get(0).ex.getMessage(),list.get(0).ex);
 					lib.ShowMessage(_main,list.get(0).ex.getMessage(),_main.getString(R.string.Error));
+				}
+				else if (list.size()==0)
+				{
+					lib.ShowMessage(_main,_main.getString(R.string.ListEmpty),"");
 				}
 				else
 				{
@@ -332,49 +337,53 @@ public class fragFileChooserQuizlet extends ListFragment
 		List<RowData> list = new ArrayList<RowData>();
 		InputStream inputStream = null ;
 		try {
-			URL url = new URL( getCatalogUrl() );
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			if (!blnPrivate)
+			{
+				URL url = new URL( getCatalogUrl() );
+			/*HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			if ( connection.getResponseCode() >= 400 ) {
 				inputStream = connection.getErrorStream();
 			}
 			else {
 				inputStream = connection.getInputStream();
+			}*/
+				inputStream = org.liberty.android.fantastischmemo.downloader.quizlet.lib.makeApiCall(url,_main.QuizletAccessToken);
+			}
+			else
+			{
+				inputStream = org.liberty.android.fantastischmemo.downloader.quizlet.lib.getUserPrivateCardsets(_main.QuizletUser,_main.QuizletAccessToken);
 			}
 			JsonReader reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"));
-			reader.beginObject();
-			while ( reader.hasNext() ) {
-				String name = reader.nextName();
-				if ( "total_pages".equals( name )) {
-					this.totalPages = reader.nextInt();
-					if ( page > totalPages ) {
+			if (!blnPrivate) {
+				reader.beginObject();
+				while (reader.hasNext()) {
+					String name = reader.nextName();
+					if ("total_pages".equals(name)) {
+						this.totalPages = reader.nextInt();
+						if (page > totalPages) {
 
+						}
+					} else if ("total_results".equals(name)) {
+						this.totalResults = reader.nextInt();
+					} else if ("page".equals(name)) {
+						this.page = reader.nextInt();
+					} else if ("error_title".equals(name)) {
+						errorTitle = reader.nextString();
+					} else if ("error_description".equals(name)) {
+						errorDescription = reader.nextString();
+					} else if ("sets".equals(name)) {
+						getSets(reader, list);
+					} else {
+						reader.skipValue();
 					}
 				}
-				else if ( "total_results".equals( name ))
-				{
-					this.totalResults = reader.nextInt();
-				}
-				else if ( "page".equals( name )) {
-					this.page = reader.nextInt();
-				}
-				else if ( "error_title".equals( name )) {
-					errorTitle = reader.nextString();
-				}
-				else if ( "error_description".equals( name )) {
-					errorDescription = reader.nextString();
-				}
-				else if ( "sets".equals( name ) ) {
-					reader.beginArray();
-					while ( reader.hasNext() ) {
-						list.add( parseSetJson( reader ) );
-					}
-					reader.endArray();
-				}
-				else {
-					reader.skipValue();
-				}
+				reader.endObject();
 			}
-			reader.endObject();
+			else
+			{
+				getSets(reader,list);
+			}
+
 		}
 		finally {
 			if ( inputStream != null ) {
@@ -384,6 +393,14 @@ public class fragFileChooserQuizlet extends ListFragment
 		return list ;
 	}
 
+	private void getSets(JsonReader reader, List list) throws IOException
+	{
+		reader.beginArray();
+		while ( reader.hasNext() ) {
+			list.add( parseSetJson( reader ) );
+		}
+		reader.endArray();
+	}
 
 	private List<typVok> openSet(String id) throws Exception {
 		this.errorDescription = null ;
@@ -394,6 +411,7 @@ public class fragFileChooserQuizlet extends ListFragment
 		_main.vok.title = "";
 		try {
 			URL url = new URL( getDeckUrl(id) );
+			/*
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			if ( connection.getResponseCode() >= 400 ) {
 				inputStream = connection.getErrorStream();
@@ -401,6 +419,8 @@ public class fragFileChooserQuizlet extends ListFragment
 			else {
 				inputStream = connection.getInputStream();
 			}
+			*/
+			inputStream = org.liberty.android.fantastischmemo.downloader.quizlet.lib.makeApiCall(url,_main.QuizletAccessToken);
 			JsonReader reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"));
 			reader.beginArray();
 			while ( reader.hasNext() )

@@ -36,7 +36,6 @@ public final class QuizletOAuth2AccessCodeRetrievalFragment extends OauthAccessC
 
     public final static int fragID = 5;
 
-    private String QUIZLET_CLIENT_ID = new String(Base64.decode(Data.QuizletClientID, Base64.DEFAULT));
 
     public QuizletOAuth2AccessCodeRetrievalFragment() { }
 
@@ -51,7 +50,7 @@ public final class QuizletOAuth2AccessCodeRetrievalFragment extends OauthAccessC
             String uri = String
                 .format("https://quizlet.com/authorize/?response_type=%s&client_id=%s&scope=%s&state=%s&redirect_uri=%s",
                     URLEncoder.encode("code", "UTF-8"), URLEncoder
-                    .encode(QUIZLET_CLIENT_ID, "UTF-8"),
+                    .encode(lib.QUIZLET_CLIENT_ID, "UTF-8"),
                     URLEncoder.encode("read write_set", "UTF-8"),
                     URLEncoder.encode("login", "UTF-8"),
                     URLEncoder.encode(Data.RedirectURI,

@@ -292,4 +292,7 @@
 	<string name="fileCouldNotBeCreated">Could not create file</string>
 	<string name="msgNotGooglePlay">This app was not installed from Google Play!\r\nDo you want to load it from Google Play?</string>
 	<string name="mnuLoginQuizlet">login Quizlet</string>
+	<string name="Public">public</string>
+	<string name="Private">private</string>
+	<string name="ListEmpty">the list is empty!</string>
 </resources>

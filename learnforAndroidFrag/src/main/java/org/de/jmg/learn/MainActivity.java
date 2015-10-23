@@ -129,6 +129,8 @@ public class MainActivity extends AppCompatActivity  {
 	public boolean isTV;
 	public boolean isWatch;
 	public float ActionBarOriginalTextSize;
+	public String QuizletUser = null;
+	public String QuizletAccessToken = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -1449,6 +1451,7 @@ public class MainActivity extends AppCompatActivity  {
 			{
 				MenuItemCompat.setShowAsAction(menu.findItem(R.id.mnuSaveAs), MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
 			}
+			menu.findItem(R.id.mnuLoginQuizlet).setVisible(false);
 			/*
 			if (isSmallDevice)
 			{
@@ -1639,48 +1642,76 @@ public class MainActivity extends AppCompatActivity  {
 		}
 		return false;
 	}
-
+	private boolean _blnPrivate = false;
 	private void searchQuizlet()
 	{
 		try
 		{
-			AlertDialog.Builder A = new AlertDialog.Builder(context);
-			final EditText input = new EditText(context);
-			A.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					if (!libString.IsNullOrEmpty(input.getText().toString()))
-					{
-						fPA.fragQuizlet.setSearchPhrase(input.getText().toString());
-						fPA.fragQuizlet.Load();
-						lib.removeDlg(dlg);
-						//fPA.fragQuizlet.Login();
+			if (this.QuizletAccessToken == null)
+			{
+				this.LoginQuizlet();
+			}
+			else
+			{
+
+				final AlertDialog.Builder A = new AlertDialog.Builder(context);
+				final CharSequence[] items = {MainActivity.this.getString(R.string.Private),MainActivity.this.getString(R.string.Public)};
+				A.setSingleChoiceItems(items,_blnPrivate?0:1, new DialogInterface.OnClickListener(){
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+
+								if (which == 0)
+								{
+									_blnPrivate = true;
+								}
+								else
+								{
+									_blnPrivate = false;
+								}
+
+							}
+						});
+
+				final EditText input = new EditText(context);
+				A.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						if (_blnPrivate || !libString.IsNullOrEmpty(input.getText().toString()))
+						{
+							fPA.fragQuizlet.setSearchPhrase(input.getText().toString());
+							fPA.fragQuizlet.blnPrivate = _blnPrivate;
+							fPA.fragQuizlet.Load();
+							lib.removeDlg(dlg);
+							//fPA.fragQuizlet.Login();
+						}
 					}
-				}
-			});
-			A.setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					lib.removeDlg(dlg);
-				}
-			});
+				});
+				A.setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						lib.removeDlg(dlg);
+					}
+				});
 
-			A.setMessage(getString(R.string.SearchQuizlet));
-			A.setTitle(getString(R.string.Search));
-			// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-			input.setInputType(InputType.TYPE_CLASS_TEXT);
-			input.setText(fPA.fragQuizlet.getSearchPhrase());
-			A.setView(input);
-			dlg = A.create();
-			dlg.show();
+				A.setTitle(getString(R.string.SearchQuizlet));
+				//A.setTitle(getString(R.string.Search));
+				// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+				input.setInputType(InputType.TYPE_CLASS_TEXT);
+				input.setText(fPA.fragQuizlet.getSearchPhrase());
+				A.setView(input);
+				dlg = A.create();
+				dlg.show();
 
-			dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
-				@Override
-				public void onDismiss(DialogInterface dialog) {
-					lib.removeDlg(dlg);
-				}
-			});
-			lib.OpenDialogs.add(dlg);
+				dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+					@Override
+					public void onDismiss(DialogInterface dialog) {
+						lib.removeDlg(dlg);
+					}
+				});
+				lib.OpenDialogs.add(dlg);
+			}
+
 		}
 		catch (Exception ex)
 		{
@@ -1993,7 +2024,11 @@ public class MainActivity extends AppCompatActivity  {
 			{
 				String AuthCode = data.getStringExtra("AuthCode");
 				String user = data.getStringExtra("user");
-				lib.ShowMessage(this,"Code: " + AuthCode + " User: " + user,"");
+				String accessToken = data.getStringExtra("accessToken");
+				QuizletUser = user;
+				QuizletAccessToken = accessToken;
+				searchQuizlet();
+				//lib.ShowMessage(this,"Code: " + AuthCode + " User: " + user + "accessToken: "+ accessToken,"");
 			}
 			else if (resultCode == RESULT_OK && requestCode == lib.SELECT_FILE && data!=null) 
 			{
