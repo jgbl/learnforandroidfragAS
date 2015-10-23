@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity  {
 	public static final int Settings_Activity = 34824;
 	public static final int FILE_CHOOSERADV = 34825;
 	public static final int FILE_OPENINTENT = 34826;
+	public static final int LOGINQUIZLETINTENT = 34827;
 	private Context context = this;
 	private boolean _blnEink;
 	boolean _blnUniCode = true;
@@ -1988,7 +1989,12 @@ public class MainActivity extends AppCompatActivity  {
 				}
 
 			}
-
+			else if (resultCode == RESULT_OK && requestCode == LOGINQUIZLETINTENT && data!=null)
+			{
+				String AuthCode = data.getStringExtra("AuthCode");
+				String user = data.getStringExtra("user");
+				lib.ShowMessage(this,"Code: " + AuthCode + " User: " + user,"");
+			}
 			else if (resultCode == RESULT_OK && requestCode == lib.SELECT_FILE && data!=null) 
 			{
 				Uri selectedUri = data.getData();
@@ -2356,7 +2362,7 @@ public class MainActivity extends AppCompatActivity  {
 	public void LoginQuizlet()
 	{
 		Intent login = new Intent(this, LoginQuizletActivity.class);
-		this.startActivity(login);
+		this.startActivityForResult(login,LOGINQUIZLETINTENT);
 	}
 
 

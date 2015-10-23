@@ -1,6 +1,8 @@
 package org.liberty.android.fantastischmemo.downloader.quizlet;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
@@ -28,17 +30,31 @@ public class LoginQuizletActivity extends RoboActionBarActivity {
         dlg.setAuthCodeReceiveListener(new OauthAccessCodeRetrievalFragment.AuthCodeReceiveListener() {
             @Override
             public void onAuthCodeReceived(String... codes) {
-                lib.ShowMessage(LoginQuizletActivity.this, codes[0], "AuthCode");
+                if(codes.length>1)
+                {
+                    Intent intent = new Intent();
+                    intent.putExtra("AuthCode", codes[0]);
+                    intent.putExtra("user", codes[1]);
+                    setResult(Activity.RESULT_OK, intent);
+                }
+                else
+                {
+                    setResult(Activity.RESULT_CANCELED);
+                }
+                finish();
             }
 
             @Override
             public void onAuthCodeError(String error) {
-
+                lib.ShowMessage(LoginQuizletActivity.this,error,"");
+                setResult(Activity.RESULT_CANCELED);
+                finish();
             }
 
             @Override
             public void onCancelled() {
-
+                setResult(Activity.RESULT_CANCELED);
+                finish();
             }
         });
 
