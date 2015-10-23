@@ -1644,6 +1644,7 @@ public class MainActivity extends AppCompatActivity  {
 						fPA.fragQuizlet.setSearchPhrase(input.getText().toString());
 						fPA.fragQuizlet.Load();
 						lib.removeDlg(dlg);
+						fPA.fragQuizlet.Login();
 					}
 				}
 			});

@@ -58,6 +58,8 @@ import org.de.jmg.learn._MainActivity;
 import org.de.jmg.learn.vok.Vokabel;
 import org.de.jmg.learn.vok.typVok;
 import org.de.jmg.lib.lib;
+import org.liberty.android.fantastischmemo.downloader.oauth.OauthAccessCodeRetrievalFragment;
+import org.liberty.android.fantastischmemo.downloader.quizlet.QuizletOAuth2AccessCodeRetrievalFragment;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -587,6 +589,29 @@ public class fragFileChooserQuizlet extends ListFragment
 	public void Load()
 	{
 		new TaskopenPage().execute();
+	}
+
+	public void Login()
+	{
+		QuizletOAuth2AccessCodeRetrievalFragment dlg = new QuizletOAuth2AccessCodeRetrievalFragment();
+		dlg.setAuthCodeReceiveListener(new OauthAccessCodeRetrievalFragment.AuthCodeReceiveListener() {
+			@Override
+			public void onAuthCodeReceived(String... codes) {
+				lib.ShowMessage(_main,codes[0],"AuthCode");
+			}
+
+			@Override
+			public void onAuthCodeError(String error) {
+
+			}
+
+			@Override
+			public void onCancelled() {
+
+			}
+		});
+		dlg.show(_main.getSupportFragmentManager(),"Login");
+
 	}
 
 	@Override
