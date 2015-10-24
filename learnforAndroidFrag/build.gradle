@@ -8,6 +8,7 @@ android {
         applicationId "org.de.jmg.learn"
         minSdkVersion 7
         targetSdkVersion 23
+        multiDexEnabled true
     }
 
     signingConfigs {
@@ -33,7 +34,8 @@ android {
         release {
             debuggable false
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
+            proguardFile 'proguard-rules.txt'
+            //proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
         }
     }
 }
