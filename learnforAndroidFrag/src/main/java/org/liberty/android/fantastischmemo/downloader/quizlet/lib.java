@@ -132,6 +132,7 @@ public class lib
 
         } catch (Exception e) {
             Log.i(TAG, "The saved access token is invalid", e);
+            return false;
         }
         return true;
     }

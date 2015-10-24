@@ -79,6 +79,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -1643,10 +1644,39 @@ public class MainActivity extends AppCompatActivity  {
 		return false;
 	}
 	private boolean _blnPrivate = false;
+	private boolean _blnVerifyToken = false;
 	private void searchQuizlet()
 	{
 		try
 		{
+			if (this.QuizletAccessToken == null)
+			{
+				this.QuizletAccessToken = prefs.getString("QuizletAccessToken",null);
+				this.QuizletUser = prefs.getString("QuizletUser",null);
+				if(QuizletAccessToken!=null)
+				{
+					final CountDownLatch l = new CountDownLatch(1);
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							try {
+								_blnVerifyToken = org.liberty.android.fantastischmemo.downloader.quizlet.lib
+                                        .verifyAccessToken(new String[]{QuizletAccessToken, QuizletUser});
+							} catch (Exception e) {
+								e.printStackTrace();
+								_blnVerifyToken = false;
+							}
+							l.countDown();
+						}
+					}).start();
+					l.await();
+					if (!_blnVerifyToken)
+					{
+						QuizletAccessToken = null;
+						QuizletUser = null;
+					}
+				}
+			}
 			if (this.QuizletAccessToken == null)
 			{
 				this.LoginQuizlet();
@@ -1674,6 +1704,8 @@ public class MainActivity extends AppCompatActivity  {
 						});
 
 				final EditText input = new EditText(context);
+				//final LinearLayout ll = new LinearLayout(context);
+				//ll.addView(input);
 				A.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -1699,7 +1731,22 @@ public class MainActivity extends AppCompatActivity  {
 				// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
 				input.setInputType(InputType.TYPE_CLASS_TEXT);
 				input.setText(fPA.fragQuizlet.getSearchPhrase());
+				/*
+				android.widget.LinearLayout.LayoutParams params
+						= (android.widget.LinearLayout.LayoutParams) input.getLayoutParams();
+				params.topMargin = lib.dpToPx(20);
+				input.setLayoutParams(params);
+				*/
 				A.setView(input);
+				/*
+				int PT =  input.getPaddingTop();
+				int PL = input.getPaddingLeft();
+				int PR = input.getPaddingRight();
+				int PB = input.getPaddingBottom();
+				//int PE = input.getPaddingEnd();
+				//int PS = input.getPaddingStart();
+				input.setPadding(PL,PT*3,PR,PB);
+				*/
 				dlg = A.create();
 				dlg.show();
 
@@ -2027,6 +2074,9 @@ public class MainActivity extends AppCompatActivity  {
 				String accessToken = data.getStringExtra("accessToken");
 				QuizletUser = user;
 				QuizletAccessToken = accessToken;
+				prefs.edit().putString("QuizletAccessToken",QuizletAccessToken).commit();
+				prefs.edit().putString("QuizletUser",QuizletUser).commit();
+
 				searchQuizlet();
 				//lib.ShowMessage(this,"Code: " + AuthCode + " User: " + user + "accessToken: "+ accessToken,"");
 			}
