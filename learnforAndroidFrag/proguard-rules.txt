@@ -17,9 +17,9 @@
 #}
 #-keep class br.com.thinkti.android.filechooser { *; }
 
--keepattributes **
--keep class !android.support.v7.internal.view.menu.**,** {*;}
--dontpreverify
--dontoptimize
--dontshrink
--dontwarn **
+#-keepattributes **
+#-keep class !android.support.v7.internal.view.menu.**,** {*;}
+#-dontpreverify
+#-dontoptimize
+#-dontshrink
+#-dontwarn **

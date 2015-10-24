@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -34,12 +35,12 @@ import org.de.jmg.learn.R;
 import org.de.jmg.lib.lib;
 import org.liberty.android.fantastischmemo.downloader.oauth.OauthAccessCodeRetrievalFragment;
 
-import roboguice.RoboGuice;
-import roboguice.activity.RoboActionBarActivity;
+//import roboguice.RoboGuice;
+//import roboguice.activity.RoboActionBarActivity;
 
-public class LoginQuizletActivity extends RoboActionBarActivity {
+public class LoginQuizletActivity extends AppCompatActivity {
     static {
-        RoboGuice.setUseAnnotationDatabases(false);
+        //RoboGuice.setUseAnnotationDatabases(false);
     }
     public String AccessToken;
     @Override

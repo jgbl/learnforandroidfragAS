@@ -36,7 +36,7 @@ import java.net.URLEncoder;
 import javax.net.ssl.HttpsURLConnection;
 
 import br.com.thinkti.android.filechooserfrag.Data;
-import roboguice.util.Ln;
+//import roboguice.util.Ln;
 
 @TargetApi(11)
 public class lib
@@ -165,7 +165,7 @@ public class lib
         out.close();
 
         if (conn.getResponseCode() / 100 >= 3) {
-            Ln.e(TAG, "Http response code: " + conn.getResponseCode() + " response message: " + conn.getResponseMessage());
+            Log.e(TAG, "Http response code: " + conn.getResponseCode() + " response message: " + conn.getResponseMessage());
             JsonReader r = new JsonReader(new InputStreamReader(conn.getErrorStream(),"UTF-8"));
             String error = "";
             r.beginObject();
@@ -175,7 +175,7 @@ public class lib
             }
             r.endObject();
             r.close();
-            Ln.e("Error response for: " + url1 + " is "
+            Log.e(TAG,"Error response for: " + url1 + " is "
                     + error);
             throw new IOException("Response code: " + conn.getResponseCode());
         }

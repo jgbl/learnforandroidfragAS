@@ -8,7 +8,7 @@ android {
         applicationId "org.de.jmg.learn"
         minSdkVersion 7
         targetSdkVersion 23
-        multiDexEnabled true
+        //multiDexEnabled true
     }
 
     signingConfigs {
@@ -45,8 +45,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile files('libs/achartengine-1.1.0.jar')
     compile project(':library')
-    compile ('org.roboguice:roboguice:3.0.1') {
+    /*compile ('org.roboguice:roboguice:3.0.1') {
         exclude module: 'aopalliance'
         exclude module: 'cglib'
-    }
+    }*/
 }
