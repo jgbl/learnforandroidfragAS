@@ -256,15 +256,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		}
 	}
 	
-	public UncaughtExceptionHandler ErrorHandler = new UncaughtExceptionHandler() {
 
-		@Override
-		public void uncaughtException(Thread thread, Throwable ex) {
-
-			ex.printStackTrace();
-		}
-	};
-	
 	
 	private boolean _firstFocus = true;
 	private boolean _isSmallDevice = false;

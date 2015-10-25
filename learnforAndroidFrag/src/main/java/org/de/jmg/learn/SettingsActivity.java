@@ -1436,15 +1436,6 @@ public class SettingsActivity extends Fragment
 		}
 	}
 	
-	public UncaughtExceptionHandler ErrorHandler = new UncaughtExceptionHandler() {
-
-		@Override
-		public void uncaughtException(Thread thread, Throwable ex) {
-
-			ex.printStackTrace();
-			//lib.ShowException(_main, ex);
-		}
-	};
 
 
 	
