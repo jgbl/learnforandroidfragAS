@@ -1470,7 +1470,14 @@ public class MainActivity extends AppCompatActivity  {
 				MenuItemCompat.setShowAsAction(menu.findItem(R.id.mnuSaveAs), MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
 			}
 			MenuItem mnuQuizlet = menu.findItem(R.id.mnuLoginQuizlet);
-			mnuQuizlet.setVisible(false);
+			mnuQuizlet.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+				@Override
+				public boolean onMenuItemClick(MenuItem item) {
+					throw new RuntimeException("Test");
+					//return true;
+				}
+			});
+			//mnuQuizlet.setVisible(false);
 			/*
 			if (isSmallDevice)
 			{
