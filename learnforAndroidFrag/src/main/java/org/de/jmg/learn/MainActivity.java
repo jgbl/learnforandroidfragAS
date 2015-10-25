@@ -107,11 +107,7 @@ public class MainActivity extends AppCompatActivity  {
 	public static final int FILE_CHOOSERADV = 34825;
 	public static final int FILE_OPENINTENT = 34826;
 	public static final int LOGINQUIZLETINTENT = 34827;
-	private Context context = this;
-	private boolean _blnEink;
-	boolean _blnUniCode = true;
-	yesnoundefined _oldUniCode = yesnoundefined.undefined;
-	
+
 	public float DisplayDurationWord;
 	public float DisplayDurationBed;
 	public int PaukRepetitions = 3;
@@ -132,8 +128,14 @@ public class MainActivity extends AppCompatActivity  {
 	public float ActionBarOriginalTextSize;
 	public String QuizletUser = null;
 	public String QuizletAccessToken = null;
+	private Thread.UncaughtExceptionHandler defaultErrorHandler;
+	private Context context = this;
+	private boolean _blnEink;
+	boolean _blnUniCode = true;
+	yesnoundefined _oldUniCode = yesnoundefined.undefined;
 
-	@Override
+
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		int UIMode = lib.getUIMode(this);
@@ -300,6 +302,7 @@ public class MainActivity extends AppCompatActivity  {
 		try {
 			libLearn.gStatus = "onCreate setContentView";
 			mainView = findViewById(Window.ID_ANDROID_CONTENT);
+			defaultErrorHandler = Thread.getDefaultUncaughtExceptionHandler();
 			Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
 
 			// View LayoutMain = findViewById(R.id.layoutMain);
@@ -782,6 +785,14 @@ public class MainActivity extends AppCompatActivity  {
 			ex.printStackTrace();
 			Log.e("uncaught", ex.getMessage(), ex);
 			//lib.ShowException(MainActivity.this, ex);
+			/*
+			Intent crashedIntent = new Intent(MainActivity.this, SplashActivity.class);
+			crashedIntent.putExtra(EXTRA_CRASHED_FLAG,  "Unexpected Error occurred.");
+			crashedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			crashedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(crashedIntent);
+			*/
+			defaultErrorHandler.uncaughtException(thread,ex);
 		}
 	};
 	public void LoadVokabel(String fileSelected, Uri uri, int index, int[] Lernvokabeln,
