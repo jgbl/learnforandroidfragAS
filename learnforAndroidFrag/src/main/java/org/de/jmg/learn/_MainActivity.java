@@ -55,6 +55,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.text.SpannedString;
@@ -626,6 +627,9 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			 */
 			assert t != null;
 			t.setText(lib.getSpanableString(_vok.getWort()), TextView.BufferType.SPANNABLE);
+
+			speak (t.getText().toString());
+
 			if (_vok.getSprache() == EnumSprachen.Hebrew
 					|| _vok.getSprache() == EnumSprachen.Griechisch
 					|| (_vok.getFontWort().getName() == "Cardo")) {
@@ -670,6 +674,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			}
 			t.setText((showBeds ? lib.getSpanableString(_vok.getBedeutung1()) : Vokabel.getComment(_vok
 					.getBedeutung1())));
+			if (showBeds) speak(t.getText().toString());
 			if (_vok.getFontBed().getName() == "Cardo") {
 				t.setTypeface(_vok.TypefaceCardo);
 			} else {
@@ -695,6 +700,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			} else {
 				t.setVisibility(View.VISIBLE);
 				_txtMeaning1.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+				if (showBeds) speak(t.getText().toString());
 			}
 
 			v = findViewById(R.id.txtMeaning3);
@@ -715,6 +721,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				t.setVisibility(View.VISIBLE);
 				_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 				_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_DONE);
+				if (showBeds) speak(t.getText().toString());
 			}
 			lib.setBgEditText(_txtMeaning1, _MeaningBG);
 			lib.setBgEditText(_txtMeaning2, _MeaningBG);
@@ -754,6 +761,18 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			lib.ShowException(_main, e);
 		}
 
+	}
+
+	public void speak(String t)
+	{
+		if (Build.VERSION.SDK_INT<21)
+		{
+			_main.tts.speak(t,TextToSpeech.QUEUE_ADD, null);
+		}
+		else
+		{
+			_main.tts.speak(t,TextToSpeech.QUEUE_ADD, null, null);
+		}
 	}
 
 	public OnFocusChangeListener FocusListenerMeaning1 = (new OnFocusChangeListener() {

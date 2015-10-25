@@ -28,6 +28,7 @@ import java.io.OutputStream;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 
 import org.de.jmg.learn.vok.Vokabel;
@@ -52,6 +53,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Looper;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -112,6 +114,7 @@ public class MainActivity extends AppCompatActivity  {
 	public float ActionBarOriginalTextSize;
 	public String QuizletUser = null;
 	public String QuizletAccessToken = null;
+	public TextToSpeech tts;
 	private Thread.UncaughtExceptionHandler defaultErrorHandler;
 	private Context context = this;
 	private boolean _blnEink;
@@ -145,6 +148,12 @@ public class MainActivity extends AppCompatActivity  {
         Layout = (ViewGroup) pager;
 		mPager = (ViewPager) pager;
 
+		tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+			@Override
+			public void onInit(int status) {
+				if (status == TextToSpeech.SUCCESS)	tts.setLanguage(Locale.US);
+			}
+		});
         /** Getting a reference to FragmentManager */
 		FragmentManager fm = getSupportFragmentManager();
         
