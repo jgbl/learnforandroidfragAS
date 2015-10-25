@@ -51,6 +51,7 @@ import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.os.Looper;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -760,7 +761,10 @@ public class MainActivity extends AppCompatActivity  {
 
 	}
 
-	
+	public boolean isUIThread(){
+		return Looper.getMainLooper().getThread() == Thread.currentThread();
+	}
+
 	public UncaughtExceptionHandler ErrorHandler = new UncaughtExceptionHandler() {
 
 		@Override
@@ -770,7 +774,7 @@ public class MainActivity extends AppCompatActivity  {
 			Log.e("uncaught", ex.getMessage(), ex);
 			//lib.ShowException(MainActivity.this, ex);
 
-			Intent crashedIntent = new Intent();
+			final Intent crashedIntent = new Intent();
 			crashedIntent.setAction("org.de.jmg.errorintent");
 			crashedIntent.putExtra("message", ex.getMessage() + "\n"
 					+ (ex.getCause() == null ? "" : ex.getCause().getMessage())
@@ -781,7 +785,18 @@ public class MainActivity extends AppCompatActivity  {
 			//crashedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			crashedIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			//crashedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-			startActivity(crashedIntent);
+
+			if(isUIThread()) {
+				startActivity(crashedIntent);
+			}else{  //handle non UI thread throw uncaught exception
+
+				new Handler(Looper.getMainLooper()).post(new Runnable() {
+					@Override
+					public void run() {
+						startActivity(crashedIntent);
+					}
+				});
+			}
 
 			defaultErrorHandler.uncaughtException(thread, ex);
 		}
