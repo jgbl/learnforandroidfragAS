@@ -37,6 +37,7 @@ import org.de.jmg.learn.MyFragmentPagerAdapter;
 import org.de.jmg.learn.libLearn;
 import org.de.jmg.learn.vok.Vokabel;
 import org.de.jmg.lib.ColorSetting;
+import org.de.jmg.lib.ExceptionActivity;
 import org.de.jmg.lib.Path;
 import org.de.jmg.lib.SoundSetting;
 import org.de.jmg.lib.WindowsBufferedReader;
@@ -538,6 +539,7 @@ public class MainActivity extends AppCompatActivity  {
 		} catch (Exception ex) {
 			lib.ShowException(this, ex);
 		}
+
     }
 
 	
@@ -785,13 +787,17 @@ public class MainActivity extends AppCompatActivity  {
 			ex.printStackTrace();
 			Log.e("uncaught", ex.getMessage(), ex);
 			//lib.ShowException(MainActivity.this, ex);
-			/*
-			Intent crashedIntent = new Intent(MainActivity.this, SplashActivity.class);
-			crashedIntent.putExtra(EXTRA_CRASHED_FLAG,  "Unexpected Error occurred.");
+
+			Intent crashedIntent = new Intent(MainActivity.this, ExceptionActivity.class);
+			crashedIntent.putExtra("message",  ex.getMessage() + "\n"
+					+ (ex.getCause() == null ? "" : ex.getCause().getMessage())
+					+ "\nStatus: " + libLearn.gStatus
+					+ "\n" + Log.getStackTraceString(ex));
+			//noinspection deprecation
 			crashedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 			crashedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(crashedIntent);
-			*/
+
 			defaultErrorHandler.uncaughtException(thread,ex);
 		}
 	};
@@ -1463,7 +1469,8 @@ public class MainActivity extends AppCompatActivity  {
 			{
 				MenuItemCompat.setShowAsAction(menu.findItem(R.id.mnuSaveAs), MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
 			}
-			menu.findItem(R.id.mnuLoginQuizlet).setVisible(false);
+			MenuItem mnuQuizlet = menu.findItem(R.id.mnuLoginQuizlet);
+			mnuQuizlet.setVisible(false);
 			/*
 			if (isSmallDevice)
 			{
@@ -1642,6 +1649,7 @@ public class MainActivity extends AppCompatActivity  {
 		} catch (Throwable ex) {
 			lib.ShowException(this, ex);
 		}
+
 		return super.onOptionsItemSelected(item);
 	}
 
