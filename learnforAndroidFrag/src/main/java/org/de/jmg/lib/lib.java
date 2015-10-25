@@ -22,6 +22,7 @@ package org.de.jmg.lib;
 
 //import android.support.v7.app.ActionBarActivity;
 import java.io.*;
+import java.net.URLDecoder;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -1328,6 +1329,7 @@ public class lib {
                         cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                 Log.i(TAG, "Display Name: " + displayName);
                 String path = uri.getPath();
+                path = URLDecoder.decode(path,"UTF-8");
                 path = path.substring(path.lastIndexOf("/")+1);
                 int found = path.indexOf(displayName);
                 if (found>-1 && (found+displayName.length()<path.length()))

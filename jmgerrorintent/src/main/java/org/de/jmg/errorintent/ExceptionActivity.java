@@ -1,4 +1,4 @@
-package org.de.jmg.lib;
+package org.de.jmg.errorintent;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.de.jmg.learn.R;
+
 
 /**
  * Created by hmnatalie on 25.10.15.

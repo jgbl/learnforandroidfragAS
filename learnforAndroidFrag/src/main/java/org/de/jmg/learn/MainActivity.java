@@ -24,31 +24,22 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-import org.de.jmg.learn.R;
-import org.de.jmg.learn.MyFragmentPagerAdapter;
-import org.de.jmg.learn.libLearn;
 import org.de.jmg.learn.vok.Vokabel;
 import org.de.jmg.lib.ColorSetting;
-import org.de.jmg.lib.ExceptionActivity;
 import org.de.jmg.lib.Path;
 import org.de.jmg.lib.SoundSetting;
-import org.de.jmg.lib.WindowsBufferedReader;
 import org.de.jmg.lib.lib;
 import org.de.jmg.lib.ColorSetting.ColorItems;
 import org.de.jmg.lib.lib.Sounds;
 import org.de.jmg.lib.lib.libString;
 import org.de.jmg.lib.lib.yesnoundefined;
-import org.liberty.android.fantastischmemo.downloader.oauth.OauthAccessCodeRetrievalFragment;
 import org.liberty.android.fantastischmemo.downloader.quizlet.LoginQuizletActivity;
-import org.liberty.android.fantastischmemo.downloader.quizlet.QuizletOAuth2AccessCodeRetrievalFragment;
 
 import br.com.thinkti.android.filechooser.AdvFileChooser;
 import br.com.thinkti.android.filechooser.FileChooser;
@@ -57,32 +48,23 @@ import br.com.thinkti.android.filechooserfrag.fragFileChooserQuizlet;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
-import android.os.Looper;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -788,17 +770,20 @@ public class MainActivity extends AppCompatActivity  {
 			Log.e("uncaught", ex.getMessage(), ex);
 			//lib.ShowException(MainActivity.this, ex);
 
-			Intent crashedIntent = new Intent(MainActivity.this, ExceptionActivity.class);
-			crashedIntent.putExtra("message",  ex.getMessage() + "\n"
+			Intent crashedIntent = new Intent();
+			crashedIntent.setAction("org.de.jmg.errorintent");
+			crashedIntent.putExtra("message", ex.getMessage() + "\n"
 					+ (ex.getCause() == null ? "" : ex.getCause().getMessage())
 					+ "\nStatus: " + libLearn.gStatus
 					+ "\n" + Log.getStackTraceString(ex));
 			//noinspection deprecation
-			crashedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-			crashedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			//crashedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			//crashedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			crashedIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			//crashedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(crashedIntent);
 
-			defaultErrorHandler.uncaughtException(thread,ex);
+			defaultErrorHandler.uncaughtException(thread, ex);
 		}
 	};
 	public void LoadVokabel(String fileSelected, Uri uri, int index, int[] Lernvokabeln,
@@ -1477,7 +1462,14 @@ public class MainActivity extends AppCompatActivity  {
 					//return true;
 				}
 			});
-			//mnuQuizlet.setVisible(false);
+			if (BuildConfig.DEBUG)
+			{
+				mnuQuizlet.setVisible(true);
+			}
+			else
+			{
+				mnuQuizlet.setVisible(false);
+			}
 			/*
 			if (isSmallDevice)
 			{
@@ -2473,7 +2465,7 @@ public class MainActivity extends AppCompatActivity  {
 	public void LoginQuizlet()
 	{
 		Intent login = new Intent(this, LoginQuizletActivity.class);
-		this.startActivityForResult(login,LOGINQUIZLETINTENT);
+		this.startActivityForResult(login, LOGINQUIZLETINTENT);
 	}
 
 

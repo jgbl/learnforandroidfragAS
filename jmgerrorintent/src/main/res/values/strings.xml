@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">jmgErrorIntent</string>
+    <string name="btnOK">OK</string>
+    <string name="hello_world">hello world</string>
+</resources>

@@ -1,16 +1,15 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "org.de.jmg.learn"
         minSdkVersion 7
         targetSdkVersion 23
-        //multiDexEnabled true
+        versionCode 1
+        versionName "1.0"
     }
-
     signingConfigs {
         release {
             keyAlias 'learnforandroid2'
@@ -25,7 +24,6 @@ android {
             storePassword '89374thd'
         }
     }
-
     buildTypes {
         debug {
             debuggable true
@@ -33,7 +31,7 @@ android {
         }
         release {
             debuggable false
-            minifyEnabled true
+            minifyEnabled false
             //proguardFile 'proguard-rules.txt'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
         }
@@ -41,13 +39,7 @@ android {
 }
 
 dependencies {
-    compile project(':fileChooser')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.0'
-    compile files('libs/achartengine-1.1.0.jar')
-    compile project(':library')
-    compile project(':jmgerrorintent')
-    /*compile ('org.roboguice:roboguice:3.0.1') {
-        exclude module: 'aopalliance'
-        exclude module: 'cglib'
-    }*/
 }
