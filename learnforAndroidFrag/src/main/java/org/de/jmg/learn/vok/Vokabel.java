@@ -155,6 +155,8 @@ public class Vokabel {
 	final short ErrWrongfilename = 1001;
 
 	final short ErrNoFileHandle = 1002;
+	private Locale mLangWord = Locale.getDefault();
+	private Locale mLangMeaning = Locale.getDefault();
 	private ArrVok mVok;
 	// enthÃ¤lt die Indexwerte der Lernvokabeln
 	private int[] mLernVokabeln;
@@ -279,6 +281,14 @@ public class Vokabel {
 			this.mVokPath = null;
 		}
 	}
+
+	public Locale getLangWord(){return mLangWord;}
+
+	public Locale getLangMeaning(){return mLangMeaning;}
+
+	public void setLangWord(Locale l) {mLangWord = l;}
+
+	public void setmLangMeaning(Locale l) {mLangMeaning = l;}
 
 	public String[] getOldBed() {
 		return (mOldBed);
@@ -1878,6 +1888,7 @@ public class Vokabel {
 				fontfil += "," + getFontKom().getName();
 
 			}
+			spr = (short) (spr | 256);
 
 			if (!libString.IsNullOrEmpty(tastbel)
 					| !libString.IsNullOrEmpty(fontfil)) {
@@ -1887,6 +1898,9 @@ public class Vokabel {
 			} else {
 				sWriter.write((spr | einst) + "\n");
 			}
+
+			sWriter.write(mLangWord.toLanguageTag()+","+mLangMeaning.toLanguageTag() + "\n");
+
 			for (h = 1; h <= mVok.size() - 1; h++) {
 				if (!libString.IsNullOrEmpty(mVok.get(h).Wort)) {
 					LWort = mVok.get(h).Wort;
@@ -2542,7 +2556,7 @@ public class Vokabel {
 						RefSupport<Object> refVar___4 = new RefSupport<Object>(qf);
 						RefSupport<Object> refVar___5 = new RefSupport<Object>(lad);
 						Getfonts(refVar___0, refVar___1, refVar___2, refVar___3,
-								refVar___4, refVar___5);
+						refVar___4, refVar___5);
 						fontfil = (String) refVar___0.getValue();
 						hh = (Short) refVar___1.getValue();
 						h = (Short) refVar___2.getValue();
@@ -2555,6 +2569,13 @@ public class Vokabel {
 				else 
 				{
 					lad = 0;
+				}
+				if ((sp & 256) != 0)
+				{
+					String x = sr.readLine();
+					String [] Sprachen = x.split(",");
+					mLangWord = Locale.forLanguageTag(Sprachen[0]);
+					mLangMeaning = Locale.forLanguageTag(Sprachen[1]);
 				}
 				libLearn.gStatus = CodeLoc + " Line 829";
 				// Inserted by CodeCompleter

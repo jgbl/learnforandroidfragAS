@@ -11,7 +11,8 @@ import android.widget.TextView;
 /**
  * Created by hmnatalie on 25.10.15.
  */
-public class ExceptionActivity extends Activity {
+public class ExceptionActivity extends Activity
+{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +28,11 @@ public class ExceptionActivity extends Activity {
                 finish();
             }
         });
+
+    }
+
+    public ExceptionActivity()
+    {
 
     }
 }

@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 
+import org.de.jmg.errorintent.ExceptionActivity;
 import org.de.jmg.learn.vok.Vokabel;
 import org.de.jmg.lib.ColorSetting;
 import org.de.jmg.lib.Path;
@@ -783,8 +784,8 @@ public class MainActivity extends AppCompatActivity  {
 			Log.e("uncaught", ex.getMessage(), ex);
 			//lib.ShowException(MainActivity.this, ex);
 
-			final Intent crashedIntent = new Intent();
-			crashedIntent.setAction("org.de.jmg.errorintent");
+			final Intent crashedIntent = new Intent(MainActivity.this, ExceptionActivity.class);
+			//crashedIntent.setAction("org.de.jmg.errorintent");
 			crashedIntent.putExtra("message", ex.getMessage() + "\n"
 					+ (ex.getCause() == null ? "" : ex.getCause().getMessage())
 					+ "\nStatus: " + libLearn.gStatus
