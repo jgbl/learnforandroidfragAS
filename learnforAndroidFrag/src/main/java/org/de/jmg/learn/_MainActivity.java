@@ -1670,9 +1670,26 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				_main.tts.setOnUtteranceCompletedListener(new TextToSpeech.OnUtteranceCompletedListener() {
 					@Override
 					public void onUtteranceCompleted(String utteranceId) {
-						int pos = rFlashs.indexOf(showWordBordersTask.this);
-						handler.removeCallbacks(rFlashs.get(pos+1));
-						handler.postAtFrontOfQueue(rFlashs.get(pos+1));
+						boolean found = false;
+						int count = 0;
+						int delay = 500;
+						for (Runnable r: rFlashs)
+						{
+							if (found)
+							{
+								handler.removeCallbacks(r);
+								handler.postDelayed(r,delay);
+								count += 1;
+								if (count == 1) delay += 100;
+								if (count == 2) delay += _main.DisplayDurationBed * 1000;
+								if (count == 3) break;
+							}
+							if(r==showWordBordersTask.this)
+							{
+								found = true;
+							}
+						}
+
 					}
 				});
 
@@ -1709,15 +1726,39 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					_main.Colors.get(ColorItems.box_meaning).ColorValue);
 			try {
 				lib.playSound(_main, org.de.jmg.lib.lib.Sounds.Beep);
-				speak(Bed.getText().toString(),_vok.getLangMeaning(),"Bed");
+				speak(Bed.getText().toString(), _vok.getLangMeaning(), "Bed");
 				_main.tts.setOnUtteranceCompletedListener(new TextToSpeech.OnUtteranceCompletedListener() {
 					@Override
 					public void onUtteranceCompleted(String utteranceId) {
-						int pos = rFlashs.indexOf(showBedBordersTask.this);
-						handler.removeCallbacks(rFlashs.get(pos+1));
-						handler.postAtFrontOfQueue(rFlashs.get(pos+1));
+						boolean found = false;
+						int count = 0;
+						int delay = 500;
+						for (Runnable r: rFlashs)
+						{
+							if (r instanceof resetLayoutTask)
+							{
+								handler.removeCallbacks(r);
+								handler.postDelayed(r,delay+500);
+								break;
+							}
+							if (found)
+							{
+								handler.removeCallbacks(r);
+								handler.postDelayed(r,delay);
+								count += 1;
+								if (count == 1) delay += 100;
+								if (count == 2) delay += _main.DisplayDurationBed * 1000;
+								if (count == 3) break;
+							}
+							if(r==showBedBordersTask.this)
+							{
+								found = true;
+							}
+						}
+
 					}
 				});
+
 			} catch (Exception e) {
 
 				e.printStackTrace();
