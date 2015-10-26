@@ -288,7 +288,7 @@ public class Vokabel {
 
 	public void setLangWord(Locale l) {mLangWord = l;}
 
-	public void setmLangMeaning(Locale l) {mLangMeaning = l;}
+	public void setLangMeaning(Locale l) {mLangMeaning = l;}
 
 	public String[] getOldBed() {
 		return (mOldBed);
@@ -1899,7 +1899,7 @@ public class Vokabel {
 				sWriter.write((spr | einst) + "\n");
 			}
 
-			sWriter.write(mLangWord.toLanguageTag()+","+mLangMeaning.toLanguageTag() + "\n");
+			sWriter.write(lib.toLanguageTag(mLangWord)+","+lib.toLanguageTag(mLangMeaning) + "\n");
 
 			for (h = 1; h <= mVok.size() - 1; h++) {
 				if (!libString.IsNullOrEmpty(mVok.get(h).Wort)) {
@@ -2574,8 +2574,8 @@ public class Vokabel {
 				{
 					String x = sr.readLine();
 					String [] Sprachen = x.split(",");
-					mLangWord = Locale.forLanguageTag(Sprachen[0]);
-					mLangMeaning = Locale.forLanguageTag(Sprachen[1]);
+					mLangWord = lib.forLanguageTag(Sprachen[0]);
+					mLangMeaning = lib.forLanguageTag(Sprachen[1]);
 				}
 				libLearn.gStatus = CodeLoc + " Line 829";
 				// Inserted by CodeCompleter

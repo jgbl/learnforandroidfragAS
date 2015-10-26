@@ -295,4 +295,8 @@
     <string name="Public">öffentlich</string>
     <string name="Private">privat</string>
     <string name="ListEmpty">die Liste ist leer!</string>
+    <string name="txtLangWord">Sprache Wort</string>
+    <string name="spnLangWord">Sprache Wort</string>
+    <string name="txtLangMeaning">Sprache Bedeutung</string>
+    <string name="spnLangMeaning">Sprache Bedeutung</string>
 </resources>

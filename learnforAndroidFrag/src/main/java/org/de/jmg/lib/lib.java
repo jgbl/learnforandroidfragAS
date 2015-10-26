@@ -24,9 +24,11 @@ package org.de.jmg.lib;
 import java.io.*;
 import java.net.URLDecoder;
 import java.nio.channels.FileChannel;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
+import java.util.StringTokenizer;
 import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1659,6 +1661,26 @@ public class lib {
         {
             return 0;
         }
+    }
+
+    public static String toLanguageTag(Locale l)
+    {
+        String localeId = MessageFormat.format("{0}-{1}",
+                l.getLanguage(),
+                l.getCountry());
+        return localeId;
+    }
+
+    public static Locale forLanguageTag (String s)
+    {
+        StringTokenizer tempStringTokenizer = new StringTokenizer(s,"-");
+        String l = null;
+        String c = null;
+        if(tempStringTokenizer.hasMoreTokens())
+            l = tempStringTokenizer.nextToken();
+        if(tempStringTokenizer.hasMoreTokens())
+            c = tempStringTokenizer.nextToken();
+        return new Locale(l,c);
     }
 
 

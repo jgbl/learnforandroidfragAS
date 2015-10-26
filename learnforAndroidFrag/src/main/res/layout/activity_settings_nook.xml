@@ -236,10 +236,53 @@
 	            android:prompt="@string/spnLanguage" />
 
 			<TextView
-				android:id="@+id/txtDataDir"
+				android:id="@+id/txtLangWord"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/txtLanguage"
+				android:text="@string/txtLangWord"
+				android:textSize="27sp"
+				android:textStyle="bold"
+				android:typeface="normal" />
+
+			<Spinner
+				android:id="@+id/spnLangWord"
+				style="?android:attr/spinnerItemStyle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignBaseline="@+id/txtLangWord"
+				android:layout_alignParentRight="true"
+				android:layout_gravity="right"
+				android:gravity="right"
+				android:prompt="@string/spnLangWord"/>
+
+			<TextView
+				android:id="@+id/txtLangMeaning"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/txtLangWord"
+				android:text="@string/txtLangMeaning"
+				android:textSize="27sp"
+				android:textStyle="bold"
+				android:typeface="normal" />
+
+			<Spinner
+				android:id="@+id/spnLangMeaning"
+				style="?android:attr/spinnerItemStyle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignBaseline="@+id/txtLangMeaning"
+				android:layout_alignParentRight="true"
+				android:layout_gravity="right"
+				android:gravity="right"
+				android:prompt="@string/spnLangMeaning"/>
+
+
+			<TextView
+				android:id="@+id/txtDataDir"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/txtLangMeaning"
 				android:contentDescription="@string/descConentDscription"
 				android:text="@string/txtDataDir"
 				android:textSize="27sp"

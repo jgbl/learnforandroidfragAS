@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
@@ -99,6 +100,8 @@ public class SettingsActivity extends Fragment
 	public Spinner spnProbabilityFactor;
 	public Spinner spnLanguages;
 	public Spinner spnRestartInterval;
+	public Spinner spnLangWord;
+	public Spinner spnLangMeaning;
 	public org.de.jmg.lib.NoClickSpinner spnColors;
 	public org.de.jmg.lib.NoClickSpinner spnSounds;
 	public Button btnColors;
@@ -120,7 +123,8 @@ public class SettingsActivity extends Fragment
 	private boolean blnLayouted = false;
 	MainActivity _main;
 
-	
+
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -569,7 +573,8 @@ public class SettingsActivity extends Fragment
 			spnLanguages = (Spinner) findViewById(R.id.spnLanguages);
 			spnColors = (org.de.jmg.lib.NoClickSpinner) findViewById(R.id.spnColors);
 			spnSounds = (org.de.jmg.lib.NoClickSpinner) findViewById(R.id.spnSounds);
-			
+			spnLangWord = (Spinner) findViewById(R.id.spnLangWord);
+			spnLangMeaning = (Spinner) findViewById(R.id.spnLangMeaning);
 			if (spnAbfragebereich.getAdapter()!= null && spnAbfragebereich.getAdapter().getCount()>0) return; 
 			if (Colors == null || Colors != null)
 			{
@@ -944,18 +949,76 @@ public class SettingsActivity extends Fragment
 
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
-								View view, int position, long id) {
+												   View view, int position, long id) {
 							intent.putExtra("Language", position);
-							intent.putExtra("OK","OK");
+							intent.putExtra("OK", "OK");
 						}
 
 						@Override
 						public void onNothingSelected(AdapterView<?> parent) {
 
-							
+
 						}
 
-						
+
+					});
+
+			final ScaledArrayAdapter<Locale> adapterLangWord = new ScaledArrayAdapter<>(
+					_main, android.R.layout.simple_spinner_item);
+			// Specify the layout to use when the list of choices appears
+			adapterLangWord
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			if (lib.NookSimpleTouch() && mScale==1) adapterLangWord.Scale = 1.8f;
+			for (Locale l : Locale.getAvailableLocales()) {
+				adapterLangWord.add(l);
+			}
+			spnLangWord.setAdapter(adapterLangWord);
+			spnLangWord.setSelection(adapterLangWord.getPosition(_main.vok.getLangWord()));
+			spnLangWord
+					.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+						@Override
+						public void onItemSelected(AdapterView<?> parent,
+												   View view, int position, long id) {
+							_main.vok.setLangWord(adapterLangWord.getItem(position));
+						}
+
+						@Override
+						public void onNothingSelected(AdapterView<?> parent) {
+
+
+						}
+
+
+					});
+
+			final ScaledArrayAdapter<Locale> adapterLangMeaning = new ScaledArrayAdapter<>(
+					_main, android.R.layout.simple_spinner_item);
+			// Specify the layout to use when the list of choices appears
+			adapterLangMeaning
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			if (lib.NookSimpleTouch() && mScale==1) adapterLangMeaning.Scale = 1.8f;
+			for (Locale l : Locale.getAvailableLocales()) {
+				adapterLangMeaning.add(l);
+			}
+			spnLangMeaning.setAdapter(adapterLangMeaning);
+			spnLangMeaning.setSelection(adapterLangMeaning.getPosition(_main.vok.getLangMeaning()));
+			spnLangMeaning
+					.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+						@Override
+						public void onItemSelected(AdapterView<?> parent,
+												   View view, int position, long id) {
+							_main.vok.setLangMeaning(adapterLangMeaning.getItem(position));
+						}
+
+						@Override
+						public void onNothingSelected(AdapterView<?> parent) {
+
+
+						}
+
+
 					});
 
 			if (lib.NookSimpleTouch() && mScale==1) Colors.Scale = 1.8f;

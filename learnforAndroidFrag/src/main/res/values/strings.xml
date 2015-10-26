@@ -295,4 +295,8 @@
 	<string name="Public">public</string>
 	<string name="Private">private</string>
 	<string name="ListEmpty">the list is empty!</string>
+	<string name="txtLangWord">language word</string>
+	<string name="spnLangWord">language word</string>
+	<string name="txtLangMeaning">language meaning</string>
+	<string name="spnLangMeaning">language Meaning</string>
 </resources>

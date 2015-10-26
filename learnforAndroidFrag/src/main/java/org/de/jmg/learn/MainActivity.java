@@ -2476,7 +2476,7 @@ public class MainActivity extends AppCompatActivity  {
 			libLearn.gStatus = "setTextColors";
 			if (fPA.fragMain!=null && fPA.fragMain.mainView!=null) fPA.fragMain.setTextColors();
 			libLearn.gStatus = "getVokabel";
-			if (fPA.fragMain!=null && fPA.fragMain.mainView!=null) fPA.fragMain.getVokabel(false, false);
+			//if (fPA.fragMain!=null && fPA.fragMain.mainView!=null) fPA.fragMain.getVokabel(false, false);
 		}
 
 	}
