@@ -301,4 +301,5 @@
     <string name="spnLangMeaning">Sprache Bedeutung</string>
     <string name="TextToSpeech">Sprachausgabe</string>
     <string name="hintTTS">Sprachausgabe</string>
+    <string name="msgLanguageNotavailable">Diese Sprache ist nicht verfügbar!</string>
 </resources>

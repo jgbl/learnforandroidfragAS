@@ -730,7 +730,7 @@ public class SettingsActivity extends Fragment
 				
 			});
 
-			ScaledArrayAdapter<CharSequence> adapterDDWord = ScaledArrayAdapter
+			final ScaledArrayAdapter<CharSequence> adapterDDWord = ScaledArrayAdapter
 					.createFromResource(_main, R.array.spnDurations,
 							android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
@@ -988,8 +988,17 @@ public class SettingsActivity extends Fragment
 
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
-												   View view, int position, long id) {
-							_main.vok.setLangWord(adapterLangWord.getItem(position));
+												   View view, int position, long id)
+						{
+							int res = _main.tts.setLanguage(adapterLangWord.getItem(position));
+							if (res >= 0)
+							{
+								_main.vok.setLangWord(adapterLangWord.getItem(position));
+							}
+							else
+							{
+								lib.ShowMessage(_main,_main.getString(R.string.msgLanguageNotavailable),"");
+							}
 						}
 
 						@Override
@@ -1018,7 +1027,15 @@ public class SettingsActivity extends Fragment
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
 												   View view, int position, long id) {
-							_main.vok.setLangMeaning(adapterLangMeaning.getItem(position));
+							int res = _main.tts.setLanguage(adapterLangMeaning.getItem(position));
+							if (res >= 0)
+							{
+								_main.vok.setLangMeaning(adapterLangMeaning.getItem(position));
+							}
+							else
+							{
+								lib.ShowMessage(_main,_main.getString(R.string.msgLanguageNotavailable),"");
+							}
 						}
 
 						@Override

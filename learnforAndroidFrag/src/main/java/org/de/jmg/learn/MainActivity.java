@@ -348,7 +348,15 @@ public class MainActivity extends AppCompatActivity  {
 					@Override
 					public void onInit(int status) {
 						if (status == TextToSpeech.SUCCESS)	{
-							tts.setLanguage(Locale.getDefault());
+							int res = tts.setLanguage(Locale.US);
+							if (res < 0)
+							{
+								blnTextToSpeech = false;
+							}
+							else
+							{
+								tts.setSpeechRate(.6f);
+							}
 						}
 						else
 						{

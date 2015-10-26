@@ -768,7 +768,11 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	public void speak(String t, Locale l, String ID)
 	{
 		if (!_main.blnTextToSpeech) return;
-		_main.tts.setLanguage(l);
+		int res = _main.tts.setLanguage(l);
+		if (res < 0)
+		{
+			if (_main.tts.setLanguage(Locale.US)<0) return;
+		}
 		if (Build.VERSION.SDK_INT<21)
 		{
 			HashMap<String, String> h = new HashMap<>();
