@@ -114,7 +114,8 @@ public class SettingsActivity extends Fragment
 	public CheckBox chkNGHS;
 	public CheckBox chkTranslate;
 	public EditText edDataDir;
-	CheckBox chkAlwaysStartExternalProgram;
+	public CheckBox chkAlwaysStartExternalProgram;
+	public CheckBox chkTextToSpeech;
 	public ColorsArrayAdapter Colors;
 	public SoundsArrayAdapter Sounds;
 	public SharedPreferences prefs;
@@ -345,7 +346,7 @@ public class SettingsActivity extends Fragment
 		chkNGHS = (CheckBox) findViewById(R.id.chkNGHS);
 		chkFora = (CheckBox) findViewById(R.id.chkFora);
 		chkTranslate = (CheckBox) findViewById(R.id.chkTranslate);
-		
+		chkTextToSpeech = (CheckBox) findViewById((R.id.chkTextToSpeech));
 		boolean checked = getIntent().getBooleanExtra("nghs", true);
 		chkNGHS.setChecked(checked);
 		intent.putExtra("nghs", checked);
@@ -354,10 +355,10 @@ public class SettingsActivity extends Fragment
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
+										 boolean isChecked) {
 
 				intent.putExtra("nghs", isChecked);
-				intent.putExtra("OK","OK");
+				intent.putExtra("OK", "OK");
 			}
 
 		});
@@ -370,10 +371,10 @@ public class SettingsActivity extends Fragment
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
+										 boolean isChecked) {
 
 				intent.putExtra("fora", isChecked);
-				intent.putExtra("OK","OK");
+				intent.putExtra("OK", "OK");
 			}
 
 		});
@@ -386,10 +387,10 @@ public class SettingsActivity extends Fragment
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
+										 boolean isChecked) {
 
 				intent.putExtra("translate", isChecked);
-				intent.putExtra("OK","OK");
+				intent.putExtra("OK", "OK");
 			}
 
 		});
@@ -398,6 +399,14 @@ public class SettingsActivity extends Fragment
 		checked = getIntent().getBooleanExtra("Random", false);
 		chkRandom.setChecked(checked);
 		intent.putExtra("Random", checked);
+
+		chkTextToSpeech.setChecked(_main.blnTextToSpeech);
+		chkTextToSpeech.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				_main.blnTextToSpeech = isChecked;
+			}
+		});
 
 		chkRandom.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 

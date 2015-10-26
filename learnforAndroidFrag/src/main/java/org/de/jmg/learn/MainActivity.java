@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity  {
 	public boolean isAndroidWear;
 	public boolean isTV;
 	public boolean isWatch;
+	public boolean blnTextToSpeech;
 	public float ActionBarOriginalTextSize;
 	public String QuizletUser = null;
 	public String QuizletAccessToken = null;
@@ -149,13 +150,7 @@ public class MainActivity extends AppCompatActivity  {
         Layout = (ViewGroup) pager;
 		mPager = (ViewPager) pager;
 
-		tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-			@Override
-			public void onInit(int status) {
-				if (status == TextToSpeech.SUCCESS)	tts.setLanguage(Locale.US);
-			}
-		});
-        /** Getting a reference to FragmentManager */
+		/** Getting a reference to FragmentManager */
 		FragmentManager fm = getSupportFragmentManager();
         
         /** Defining a listener for pageChange */
@@ -348,6 +343,20 @@ public class MainActivity extends AppCompatActivity  {
 				SoundDir = prefs.getString("SoundDir", Environment.getExternalStorageDirectory().getPath());
 				Colors = getColorsFromPrefs();
 				colSounds = getSoundsFromPrefs();
+				blnTextToSpeech = prefs.getBoolean("TextToSpeech", true);
+				tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+					@Override
+					public void onInit(int status) {
+						if (status == TextToSpeech.SUCCESS)	{
+							tts.setLanguage(Locale.getDefault());
+						}
+						else
+						{
+							blnTextToSpeech = false;
+						}
+					}
+				});
+
 				boolean blnLicenseAccepted = prefs.getBoolean("LicenseAccepted", false);
 				if (!blnLicenseAccepted)
 				{
@@ -783,7 +792,7 @@ public class MainActivity extends AppCompatActivity  {
 			ex.printStackTrace();
 			Log.e("uncaught", ex.getMessage(), ex);
 			//lib.ShowException(MainActivity.this, ex);
-
+			/*
 			final Intent crashedIntent = new Intent(MainActivity.this, ExceptionActivity.class);
 			//crashedIntent.setAction("org.de.jmg.errorintent");
 			crashedIntent.putExtra("message", ex.getMessage() + "\n"
@@ -807,7 +816,7 @@ public class MainActivity extends AppCompatActivity  {
 					}
 				});
 			}
-
+			*/
 			defaultErrorHandler.uncaughtException(thread, ex);
 		}
 	};

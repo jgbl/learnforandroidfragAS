@@ -767,6 +767,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	public void speak(String t, Locale l, String ID)
 	{
+		if (!_main.blnTextToSpeech) return;
 		_main.tts.setLanguage(l);
 		if (Build.VERSION.SDK_INT<21)
 		{
@@ -1604,7 +1605,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			r = new showWordBordersTask();
 			rFlashs.add(r);
 			handler.postDelayed(r, delay);
-			delay += _main.DisplayDurationWord * 1000;
+			delay += _main.DisplayDurationWord * 1000 * (_main.blnTextToSpeech?20:1);
 			r = new hideWordBordersTask();
 			rFlashs.add(r);
 			handler.postDelayed(r, delay);
@@ -1616,7 +1617,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					r = new showBedBordersTask(Beds[ii]);
 					rFlashs.add(r);
 					handler.postDelayed(r, delay);
-					delay += _main.DisplayDurationBed * 1000;
+					delay += _main.DisplayDurationBed * 1000 * (_main.blnTextToSpeech?20:1);
 					r = new hideBedBordersTask(Beds[ii]);
 					rFlashs.add(r);
 					handler.postDelayed(r, delay);
@@ -1666,10 +1667,11 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		public void run() {
 			try {
 				lib.playSound(_main, org.de.jmg.lib.lib.Sounds.Beep);
-				speak(_txtWord.getText().toString(), _vok.getLangWord(),"word");
+				speak(_txtWord.getText().toString(), _vok.getLangWord(),"wordflash");
 				_main.tts.setOnUtteranceCompletedListener(new TextToSpeech.OnUtteranceCompletedListener() {
 					@Override
 					public void onUtteranceCompleted(String utteranceId) {
+						if (!(utteranceId.equalsIgnoreCase("wordflash"))) return;
 						boolean found = false;
 						int count = 0;
 						int delay = 500;
@@ -1681,7 +1683,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 								handler.postDelayed(r,delay);
 								count += 1;
 								if (count == 1) delay += 100;
-								if (count == 2) delay += _main.DisplayDurationBed * 1000;
+								if (count == 2) delay += _main.DisplayDurationBed * 1000 * (_main.blnTextToSpeech?20:1);
 								if (count == 3) break;
 							}
 							if(r==showWordBordersTask.this)
@@ -1726,10 +1728,12 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					_main.Colors.get(ColorItems.box_meaning).ColorValue);
 			try {
 				lib.playSound(_main, org.de.jmg.lib.lib.Sounds.Beep);
-				speak(Bed.getText().toString(), _vok.getLangMeaning(), "Bed");
+				speak(Bed.getText().toString(), _vok.getLangMeaning(), "Bedflash");
 				_main.tts.setOnUtteranceCompletedListener(new TextToSpeech.OnUtteranceCompletedListener() {
 					@Override
-					public void onUtteranceCompleted(String utteranceId) {
+					public void onUtteranceCompleted(String utteranceId)
+					{
+						if (!(utteranceId.equalsIgnoreCase("Bedflash"))) return;
 						boolean found = false;
 						int count = 0;
 						int delay = 500;
@@ -1747,7 +1751,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 								handler.postDelayed(r,delay);
 								count += 1;
 								if (count == 1) delay += 100;
-								if (count == 2) delay += _main.DisplayDurationBed * 1000;
+								if (count == 2) delay += _main.DisplayDurationBed * 1000  * (_main.blnTextToSpeech?20:1);
 								if (count == 3) break;
 							}
 							if(r==showBedBordersTask.this)

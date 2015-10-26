@@ -299,4 +299,6 @@
     <string name="spnLangWord">Sprache Wort</string>
     <string name="txtLangMeaning">Sprache Bedeutung</string>
     <string name="spnLangMeaning">Sprache Bedeutung</string>
+    <string name="TextToSpeech">Sprachausgabe</string>
+    <string name="hintTTS">Sprachausgabe</string>
 </resources>

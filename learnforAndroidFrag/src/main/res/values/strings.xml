@@ -299,4 +299,6 @@
 	<string name="spnLangWord">language word</string>
 	<string name="txtLangMeaning">language meaning</string>
 	<string name="spnLangMeaning">language Meaning</string>
+	<string name="hintTTS">text to speech</string>
+	<string name="TextToSpeech">text to speech</string>
 </resources>
