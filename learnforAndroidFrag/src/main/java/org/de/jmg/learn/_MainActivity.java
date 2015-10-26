@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
 import org.de.jmg.learn.vok.Vokabel;
@@ -629,7 +630,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			assert t != null;
 			t.setText(lib.getSpanableString(_vok.getWort()), TextView.BufferType.SPANNABLE);
 
-			speak (t.getText().toString(),_vok.getLangWord());
+			speak (t.getText().toString(),_vok.getLangWord(),"word");
 
 			if (_vok.getSprache() == EnumSprachen.Hebrew
 					|| _vok.getSprache() == EnumSprachen.Griechisch
@@ -675,7 +676,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			}
 			t.setText((showBeds ? lib.getSpanableString(_vok.getBedeutung1()) : Vokabel.getComment(_vok
 					.getBedeutung1())));
-			if (showBeds) speak(t.getText().toString(),_vok.getLangMeaning());
+			if (showBeds) speak(t.getText().toString(),_vok.getLangMeaning(),"meaning1");
 			if (_vok.getFontBed().getName() == "Cardo") {
 				t.setTypeface(_vok.TypefaceCardo);
 			} else {
@@ -701,7 +702,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			} else {
 				t.setVisibility(View.VISIBLE);
 				_txtMeaning1.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-				if (showBeds) speak(t.getText().toString(),_vok.getLangMeaning());
+				if (showBeds) speak(t.getText().toString(),_vok.getLangMeaning(),"meaning2");
 			}
 
 			v = findViewById(R.id.txtMeaning3);
@@ -722,7 +723,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				t.setVisibility(View.VISIBLE);
 				_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 				_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_DONE);
-				if (showBeds) speak(t.getText().toString(),_vok.getLangMeaning());
+				if (showBeds) speak(t.getText().toString(),_vok.getLangMeaning(),"meaning3");
 			}
 			lib.setBgEditText(_txtMeaning1, _MeaningBG);
 			lib.setBgEditText(_txtMeaning2, _MeaningBG);
@@ -764,16 +765,20 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	}
 
-	public void speak(String t, Locale l)
+	public void speak(String t, Locale l, String ID)
 	{
 		_main.tts.setLanguage(l);
 		if (Build.VERSION.SDK_INT<21)
 		{
-			_main.tts.speak(t,TextToSpeech.QUEUE_ADD, null);
+			HashMap<String, String> h = new HashMap<>();
+
+			h.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, ID);
+
+			_main.tts.speak(t,TextToSpeech.QUEUE_ADD, h);
 		}
 		else
 		{
-			_main.tts.speak(t,TextToSpeech.QUEUE_ADD, null, null);
+			_main.tts.speak(t,TextToSpeech.QUEUE_ADD, null, ID);
 		}
 	}
 
@@ -1661,11 +1666,17 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		public void run() {
 			try {
 				lib.playSound(_main, org.de.jmg.lib.lib.Sounds.Beep);
-				speak(_txtWord.getText().toString(), _vok.getLangWord());
-				while(_main.tts.isSpeaking())
-				{
-					handler.wait(500);
-				}
+				speak(_txtWord.getText().toString(), _vok.getLangWord(),"word");
+				_main.tts.setOnUtteranceCompletedListener(new TextToSpeech.OnUtteranceCompletedListener() {
+					@Override
+					public void onUtteranceCompleted(String utteranceId) {
+						int pos = rFlashs.indexOf(showWordBordersTask.this);
+						handler.removeCallbacks(rFlashs.get(pos+1));
+						handler.postAtFrontOfQueue(rFlashs.get(pos+1));
+					}
+				});
+
+
 			} catch (Exception e) {
 
 				e.printStackTrace();
@@ -1698,11 +1709,15 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					_main.Colors.get(ColorItems.box_meaning).ColorValue);
 			try {
 				lib.playSound(_main, org.de.jmg.lib.lib.Sounds.Beep);
-				speak(Bed.getText().toString(),_vok.getLangMeaning());
-				while(_main.tts.isSpeaking())
-				{
-					handler.wait(500);
-				}
+				speak(Bed.getText().toString(),_vok.getLangMeaning(),"Bed");
+				_main.tts.setOnUtteranceCompletedListener(new TextToSpeech.OnUtteranceCompletedListener() {
+					@Override
+					public void onUtteranceCompleted(String utteranceId) {
+						int pos = rFlashs.indexOf(showBedBordersTask.this);
+						handler.removeCallbacks(rFlashs.get(pos+1));
+						handler.postAtFrontOfQueue(rFlashs.get(pos+1));
+					}
+				});
 			} catch (Exception e) {
 
 				e.printStackTrace();
