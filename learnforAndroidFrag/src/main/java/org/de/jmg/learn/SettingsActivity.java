@@ -74,6 +74,7 @@ import br.com.thinkti.android.filechooser.FileChooser;
 import org.de.jmg.learn.R;
 import org.de.jmg.lib.AbstractScaledArrayAdapter;
 import org.de.jmg.lib.ColorsArrayAdapter;
+import org.de.jmg.lib.DisplayLocale;
 import org.de.jmg.lib.ScaledArrayAdapter;
 import org.de.jmg.lib.SoundSetting;
 import org.de.jmg.lib.SoundsArrayAdapter;
@@ -972,17 +973,29 @@ public class SettingsActivity extends Fragment
 
 					});
 
-			final ScaledArrayAdapter<Locale> adapterLangWord = new ScaledArrayAdapter<>(
+			final ScaledArrayAdapter<DisplayLocale> adapterLangWord = new ScaledArrayAdapter<>(
 					_main, android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
 			adapterLangWord
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			if (lib.NookSimpleTouch() && mScale==1) adapterLangWord.Scale = 1.8f;
-			for (Locale l : Locale.getAvailableLocales()) {
-				adapterLangWord.add(l);
+
+			DisplayLocale selectedLocale = null;
+			for (Locale l : Locale.getAvailableLocales())
+			{
+				DisplayLocale dl = new DisplayLocale(l);
+				adapterLangWord.add(dl);
+				if (l.getLanguage().equalsIgnoreCase(_main.vok.getLangWord().getLanguage())
+					&& l.getCountry().equalsIgnoreCase(_main.vok.getLangWord().getCountry()))
+				{
+					selectedLocale = dl;
+				}
 			}
 			spnLangWord.setAdapter(adapterLangWord);
-			spnLangWord.setSelection(adapterLangWord.getPosition(_main.vok.getLangWord()));
+			if (selectedLocale != null)
+			{
+				spnLangWord.setSelection(adapterLangWord.getPosition(selectedLocale));
+			}
 			spnLangWord
 					.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -990,10 +1003,11 @@ public class SettingsActivity extends Fragment
 						public void onItemSelected(AdapterView<?> parent,
 												   View view, int position, long id)
 						{
-							int res = _main.tts.setLanguage(adapterLangWord.getItem(position));
+							int res = _main.tts.setLanguage(adapterLangWord.getItem(position).locale);
 							if (res >= 0)
 							{
-								_main.vok.setLangWord(adapterLangWord.getItem(position));
+								_main.vok.setLangWord(adapterLangWord.getItem(position).locale);
+								_main.vok.aend = true;
 							}
 							else
 							{
@@ -1010,27 +1024,38 @@ public class SettingsActivity extends Fragment
 
 					});
 
-			final ScaledArrayAdapter<Locale> adapterLangMeaning = new ScaledArrayAdapter<>(
+			final ScaledArrayAdapter<DisplayLocale> adapterLangMeaning = new ScaledArrayAdapter<>(
 					_main, android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
 			adapterLangMeaning
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			if (lib.NookSimpleTouch() && mScale==1) adapterLangMeaning.Scale = 1.8f;
+			selectedLocale = null;
 			for (Locale l : Locale.getAvailableLocales()) {
-				adapterLangMeaning.add(l);
+				DisplayLocale dl = new DisplayLocale((l));
+				adapterLangMeaning.add(dl);
+				if (l.getLanguage().equalsIgnoreCase(_main.vok.getLangMeaning().getLanguage())
+					&& l.getCountry().equalsIgnoreCase(_main.vok.getLangMeaning().getCountry()))
+				{
+					selectedLocale = dl;
+				}
 			}
 			spnLangMeaning.setAdapter(adapterLangMeaning);
-			spnLangMeaning.setSelection(adapterLangMeaning.getPosition(_main.vok.getLangMeaning()));
+			if (selectedLocale != null)
+			{
+				spnLangMeaning.setSelection(adapterLangMeaning.getPosition(selectedLocale));
+			}
 			spnLangMeaning
 					.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
 												   View view, int position, long id) {
-							int res = _main.tts.setLanguage(adapterLangMeaning.getItem(position));
+							int res = _main.tts.setLanguage(adapterLangMeaning.getItem(position).locale);
 							if (res >= 0)
 							{
-								_main.vok.setLangMeaning(adapterLangMeaning.getItem(position));
+								_main.vok.setLangMeaning(adapterLangMeaning.getItem(position).locale);
+								_main.vok.aend = true;
 							}
 							else
 							{

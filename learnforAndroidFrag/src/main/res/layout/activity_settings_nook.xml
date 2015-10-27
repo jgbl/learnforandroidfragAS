@@ -265,17 +265,14 @@
 				style="?android:attr/spinnerItemStyle"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_alignBaseline="@+id/txtLangWord"
-				android:layout_alignParentRight="true"
-				android:layout_gravity="right"
-				android:gravity="right"
+				android:layout_below="@+id/txtLangWord"
 				android:prompt="@string/spnLangWord"/>
 
 			<TextView
 				android:id="@+id/txtLangMeaning"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_below="@+id/txtLangWord"
+				android:layout_below="@+id/spnLangWord"
 				android:text="@string/txtLangMeaning"
 				android:textSize="27sp"
 				android:textStyle="bold"
@@ -286,10 +283,7 @@
 				style="?android:attr/spinnerItemStyle"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_alignBaseline="@+id/txtLangMeaning"
-				android:layout_alignParentRight="true"
-				android:layout_gravity="right"
-				android:gravity="right"
+				android:layout_below="@+id/txtLangMeaning"
 				android:prompt="@string/spnLangMeaning"/>
 
 
@@ -297,7 +291,7 @@
 				android:id="@+id/txtDataDir"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_below="@+id/txtLangMeaning"
+				android:layout_below="@+id/spnLangMeaning"
 				android:contentDescription="@string/descConentDscription"
 				android:text="@string/txtDataDir"
 				android:textSize="27sp"

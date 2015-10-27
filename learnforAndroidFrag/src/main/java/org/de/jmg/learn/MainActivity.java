@@ -355,7 +355,7 @@ public class MainActivity extends AppCompatActivity  {
 							}
 							else
 							{
-								tts.setSpeechRate(.6f);
+								tts.setSpeechRate(.75f);
 							}
 						}
 						else

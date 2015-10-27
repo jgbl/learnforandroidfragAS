@@ -1680,7 +1680,9 @@ public class lib {
             l = tempStringTokenizer.nextToken();
         if(tempStringTokenizer.hasMoreTokens())
             c = tempStringTokenizer.nextToken();
-        return new Locale(l,c);
+        if (l!=null && c!=null)return new Locale(l,c);
+        if (l!=null) return new Locale(l);
+        return null;
     }
 
 
