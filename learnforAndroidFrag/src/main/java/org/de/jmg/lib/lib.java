@@ -1665,14 +1665,15 @@ public class lib {
 
     public static String toLanguageTag(Locale l)
     {
-        String localeId = MessageFormat.format("{0}-{1}",
-                l.getLanguage(),
-                l.getCountry());
+        String localeId = l.toString();//= MessageFormat.format("{0}-{1}",
+        //        l.getLanguage(),
+        //        l.getCountry());
         return localeId;
     }
 
     public static Locale forLanguageTag (String s)
     {
+        /*
         StringTokenizer tempStringTokenizer = new StringTokenizer(s,"-");
         String l = null;
         String c = null;
@@ -1682,7 +1683,10 @@ public class lib {
             c = tempStringTokenizer.nextToken();
         if (l!=null && c!=null)return new Locale(l,c);
         if (l!=null) return new Locale(l);
-        return null;
+        */
+        s = s.replace("-","_");
+        return new Locale(s);
+        //return null;
     }
 
 

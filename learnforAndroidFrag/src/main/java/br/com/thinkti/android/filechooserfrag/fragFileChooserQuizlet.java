@@ -458,7 +458,7 @@ public class fragFileChooserQuizlet extends ListFragment
 						String lang_terms = reader.nextString();
 						try
 						{
-							_LangWord = new Locale(lang_terms);
+							_LangWord = new Locale(lang_terms.replace("-","_"));
 						}
 						catch (Throwable ex)
 						{
@@ -470,7 +470,7 @@ public class fragFileChooserQuizlet extends ListFragment
 						String lang_definitions = reader.nextString();
 						try
 						{
-							_LangMeaning = (new Locale(lang_definitions));
+							_LangMeaning = (new Locale(lang_definitions.replace("-","_")));
 						}
 						catch (Throwable ex)
 						{

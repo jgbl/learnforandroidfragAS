@@ -126,13 +126,15 @@ public class SettingsActivity extends Fragment
 	private View mainView;
 	private Intent intent;
 	private boolean blnLayouted = false;
-	MainActivity _main;
+	private boolean langinitialized = false;
 
+	MainActivity _main;
 
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		langinitialized = false;
 		_main = (MainActivity) getActivity();	
 		SettingsView = null;
 		_blnInitialized = false;
@@ -164,6 +166,7 @@ public class SettingsActivity extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater,container,savedInstanceState);
+		langinitialized = false;
 		if (lib.NookSimpleTouch())
 		{
 			if (blnLayouted)
@@ -588,6 +591,7 @@ public class SettingsActivity extends Fragment
 			spnSounds = (org.de.jmg.lib.NoClickSpinner) findViewById(R.id.spnSounds);
 			spnLangWord = (Spinner) findViewById(R.id.spnLangWord);
 			spnLangMeaning = (Spinner) findViewById(R.id.spnLangMeaning);
+			langinitialized = false;
 			if (spnAbfragebereich.getAdapter()!= null && spnAbfragebereich.getAdapter().getCount()>0) return; 
 			if (Colors == null || Colors != null)
 			{
@@ -983,28 +987,14 @@ public class SettingsActivity extends Fragment
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			if (lib.NookSimpleTouch() && mScale==1) adapterLangWord.Scale = 1.8f;
 
-			DisplayLocale selectedLocale = null;
+			adapterLangWord.add(new DisplayLocale(new Locale("","")));
 			for (Locale l : Locale.getAvailableLocales())
 			{
 				DisplayLocale dl = new DisplayLocale(l);
 				adapterLangWord.add(dl);
-				if (selectedLocale == null && l.getLanguage().equalsIgnoreCase(_main.vok.getLangWord().getLanguage())
-					&& (libString.IsNullOrEmpty(_main.vok.getLangWord().getCountry())
-					|| l.getCountry().equalsIgnoreCase(_main.vok.getLangWord().getCountry())))
-				{
-					selectedLocale = dl;
-				}
 			}
-			adapterLangWord.sort(new Comparator<DisplayLocale>()
-			{
+			sortLangWord();
 
-				@Override
-				public int compare(DisplayLocale lhs, DisplayLocale rhs)
-				{
-					int res = lhs.compareTo(rhs);
-					return  res;
-				}
-			});
 			spnLangWord.setAdapter(adapterLangWord);
 			/*
 			if (selectedLocale != null)
@@ -1018,17 +1008,19 @@ public class SettingsActivity extends Fragment
 
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
-												   View view, int position, long id)
-						{
-							int res = _main.tts.setLanguage(adapterLangWord.getItem(position).locale);
-							if (res >= 0)
-							{
-								_main.vok.setLangWord(adapterLangWord.getItem(position).locale);
-								_main.vok.aend = true;
-							}
-							else
-							{
-								lib.ShowMessage(_main,_main.getString(R.string.msgLanguageNotavailable),"");
+												   View view, int position, long id) {
+							if (position <= 0 || !langinitialized) return;
+							Locale l = adapterLangWord.getItem(position).locale;
+							int res = _main.tts.setLanguage(l);
+							if (res >= 0) {
+								intent.putExtra("langword", lib.toLanguageTag
+										(l));
+								intent.putExtra("OK", "OK");
+							} else {
+								lib.ShowMessage(_main,
+										String.format(_main.getString
+												(R.string.msgLanguageNotavailable)
+												, l.getDisplayLanguage() + " " + l.getDisplayCountry()), "");
 							}
 						}
 
@@ -1047,27 +1039,12 @@ public class SettingsActivity extends Fragment
 			adapterLangMeaning
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			if (lib.NookSimpleTouch() && mScale==1) adapterLangMeaning.Scale = 1.8f;
-			selectedLocale = null;
+			adapterLangMeaning.add(new DisplayLocale(new Locale("","")));
 			for (Locale l : Locale.getAvailableLocales()) {
 				DisplayLocale dl = new DisplayLocale((l));
 				adapterLangMeaning.add(dl);
-				if (selectedLocale == null && l.getLanguage().equalsIgnoreCase(_main.vok.getLangMeaning().getLanguage())
-						&& (libString.IsNullOrEmpty(_main.vok.getLangWord().getCountry())
-						|| l.getCountry().equalsIgnoreCase(_main.vok.getLangMeaning().getCountry())))
-				{
-					selectedLocale = dl;
-				}
 			}
-			adapterLangMeaning.sort(new Comparator<DisplayLocale>()
-			{
-
-				@Override
-				public int compare(DisplayLocale lhs, DisplayLocale rhs)
-				{
-					int res = lhs.compareTo(rhs);
-					return  res;
-				}
-			});
+			sortLangMeaning();
 
 			spnLangMeaning.setAdapter(adapterLangMeaning);
 			/*
@@ -1084,15 +1061,19 @@ public class SettingsActivity extends Fragment
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
 												   View view, int position, long id) {
-							int res = _main.tts.setLanguage(adapterLangMeaning.getItem(position).locale);
+							if (position <= 0  || !langinitialized) return;
+							Locale l = adapterLangMeaning.getItem(position).locale;
+							int res = _main.tts.setLanguage(l);
 							if (res >= 0)
 							{
-								_main.vok.setLangMeaning(adapterLangMeaning.getItem(position).locale);
-								_main.vok.aend = true;
+								intent.putExtra("langmeaning", lib.toLanguageTag(l));
+								intent.putExtra("OK", "OK");
 							}
 							else
 							{
-								lib.ShowMessage(_main,_main.getString(R.string.msgLanguageNotavailable),"");
+								lib.ShowMessage(_main, String.format
+										(_main.getString(R.string.msgLanguageNotavailable),
+												l.getDisplayLanguage() + " " + l.getDisplayCountry()),"");
 							}
 						}
 
@@ -1189,6 +1170,31 @@ public class SettingsActivity extends Fragment
 		} catch (Exception ex) {
 			lib.ShowException(_main, ex);
 		}
+	}
+
+	void sortLangWord()
+	{
+		adapterLangWord.sort(new Comparator<DisplayLocale>() {
+
+			@Override
+			public int compare(DisplayLocale lhs, DisplayLocale rhs) {
+				int res = lhs.compareTo(rhs);
+				return res;
+			}
+		});
+	}
+
+	void sortLangMeaning()
+	{
+		adapterLangMeaning.sort(new Comparator<DisplayLocale>() {
+
+			@Override
+			public int compare(DisplayLocale lhs, DisplayLocale rhs) {
+				int res = lhs.compareTo(rhs);
+				return res;
+			}
+		});
+
 	}
 
 	public Intent getIntent() {
@@ -1584,36 +1590,51 @@ public class SettingsActivity extends Fragment
 	}
 	public void setSpnWordPosition()
 	{
+		langinitialized = false;
 		DisplayLocale selectedLocale = null;
 		for (int i = 0; i < adapterLangWord.getCount(); i++)
 		{
 			DisplayLocale l = adapterLangWord.getItem(i);
-			if (l.locale.getLanguage().equalsIgnoreCase(_main.vok.getLangWord().getLanguage())
-					&& (libString.IsNullOrEmpty(_main.vok.getLangWord().getCountry())
-					|| l.locale.getCountry().equalsIgnoreCase(_main.vok.getLangWord().getCountry())))
+			if (l.locale.toString().equalsIgnoreCase(_main.vok.getLangWord().toString()))
 			{
 				spnLangWord.setSelection(i);
 				selectedLocale = l;
 				break;
 			}
 		}
+		if (selectedLocale == null)
+		{
+			selectedLocale = new DisplayLocale(_main.vok.getLangWord());
+			adapterLangWord.add(selectedLocale);
+			sortLangWord();
+			spnLangWord.setSelection(adapterLangWord.getPosition(selectedLocale));
+
+		}
+		langinitialized = true;
 	}
 
 	public void setSpnMeaningPosition()
 	{
+		langinitialized = false;
 		DisplayLocale selectedLocale = null;
 		for (int i = 0; i < adapterLangMeaning.getCount(); i++)
 		{
 			DisplayLocale l = adapterLangMeaning.getItem(i);
-			if (l.locale.getLanguage().equalsIgnoreCase(_main.vok.getLangMeaning().getLanguage())
-					&& (libString.IsNullOrEmpty(_main.vok.getLangMeaning().getCountry())
-					|| l.locale.getCountry().equalsIgnoreCase(_main.vok.getLangMeaning().getCountry())))
+			if (l.locale.toString().equalsIgnoreCase(_main.vok.getLangMeaning().toString()))
 			{
 				spnLangMeaning.setSelection(i);
 				selectedLocale = l;
 				break;
 			}
 		}
+		if (selectedLocale == null)
+		{
+			selectedLocale = new DisplayLocale(_main.vok.getLangMeaning());
+			adapterLangMeaning.add(selectedLocale);
+			sortLangMeaning();
+			spnLangMeaning.setSelection(adapterLangMeaning.getPosition(selectedLocale));
+		}
+		langinitialized = true;
 	}
 
 

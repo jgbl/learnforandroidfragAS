@@ -1857,6 +1857,8 @@ public class MainActivity extends AppCompatActivity  {
 		intent.putExtra("nghs", prefs.getBoolean("nghs", true));
 		intent.putExtra("fora", prefs.getBoolean("fora", true));
 		intent.putExtra("translate", prefs.getBoolean("translate", true));
+		intent.putExtra("langword",lib.toLanguageTag(vok.getLangWord()));
+		intent.putExtra("langmeaning",lib.toLanguageTag(vok.getLangMeaning()));
 		//fPA.fragSettings.init(intent, Settings_Activity);
 		return intent;
 	}
@@ -2436,6 +2438,22 @@ public class MainActivity extends AppCompatActivity  {
 				vok.InitAbfrage();
 			}
 			vok.CharsetASCII = (data.getExtras().getString("CharsetASCII"));
+
+			String langword = data.getExtras().getString("langword");
+			String langmeaning = data.getExtras().getString("langmeaning");
+			if (!libString.IsNullOrEmpty(langword)
+					&& !langword.equalsIgnoreCase(lib.toLanguageTag(vok.getLangWord())))
+			{
+				vok.aend = true;
+				vok.setLangWord(lib.forLanguageTag(langword));
+			}
+			if (!libString.IsNullOrEmpty(langmeaning)
+					&& !langmeaning.equalsIgnoreCase(lib.toLanguageTag(vok.getLangMeaning())))
+			{
+				vok.setLangMeaning(lib.forLanguageTag(langmeaning));
+				vok.aend = true;
+			}
+
 			DisplayDurationWord = data.getExtras().getFloat(
 					"DisplayDurationWord");
 			DisplayDurationBed = data.getExtras().getFloat(

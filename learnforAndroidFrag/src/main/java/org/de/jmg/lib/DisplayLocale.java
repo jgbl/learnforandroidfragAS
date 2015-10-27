@@ -13,7 +13,10 @@ public class DisplayLocale implements Comparable<DisplayLocale>
     public String toString() {
         if(locale!=null)
         {
-            return locale.getDisplayLanguage() + " " + locale.getDisplayCountry();
+            return locale.getDisplayLanguage() + " "
+                    + locale.getDisplayCountry() + " "
+                    + locale.getDisplayVariant() + "("
+                    + locale.toString() + ")";
         }
         else {
             return super.toString();
@@ -24,6 +27,7 @@ public class DisplayLocale implements Comparable<DisplayLocale>
     public int compareTo(DisplayLocale another) {
         int res = this.locale.getDisplayLanguage().compareTo(another.locale.getDisplayLanguage());
         if (res == 0) res = this.locale.getDisplayCountry().compareTo(another.locale.getDisplayCountry());
+        if (res == 0) res = this.locale.toString().compareTo(another.locale.toString());
         return res;
     }
 }
