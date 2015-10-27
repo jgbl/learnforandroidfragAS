@@ -1685,6 +1685,7 @@ public class lib {
         if (l!=null) return new Locale(l);
         */
         s = s.replace("-","_");
+        if (s.endsWith("_")) s = s.substring(0,s.length()-2);
         return new Locale(s);
         //return null;
     }
