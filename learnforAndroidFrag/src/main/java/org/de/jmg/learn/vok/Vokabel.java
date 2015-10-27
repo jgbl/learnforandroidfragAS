@@ -2319,6 +2319,8 @@ public class Vokabel {
 		mSprache=EnumSprachen.Normal;
 		AnzRichtig = 0;
 		AnzFalsch = 0;
+		mLangMeaning = Locale.getDefault();
+		mLangWord = Locale.getDefault();
 	}
 
 	public void LoadFile(String strFileName) throws Exception {

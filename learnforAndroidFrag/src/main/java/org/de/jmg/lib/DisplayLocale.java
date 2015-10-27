@@ -2,7 +2,7 @@ package org.de.jmg.lib;
 
 import java.util.Locale;
 
-public class DisplayLocale
+public class DisplayLocale implements Comparable<DisplayLocale>
 {
     public Locale locale;
     public DisplayLocale(Locale locale)
@@ -20,4 +20,10 @@ public class DisplayLocale
         }
     }
 
+    @Override
+    public int compareTo(DisplayLocale another) {
+        int res = this.locale.getDisplayLanguage().compareTo(another.locale.getDisplayLanguage());
+        if (res == 0) res = this.locale.getDisplayCountry().compareTo(another.locale.getDisplayCountry());
+        return res;
+    }
 }

@@ -242,6 +242,8 @@ public class MainActivity extends AppCompatActivity  {
 									int Language = fPA.fragSettings.getIntent().getIntExtra(
 											"Language", org.de.jmg.learn.vok.Vokabel.EnumSprachen.undefiniert.ordinal());
 									fPA.fragSettings.spnLanguages.setSelection(Language);
+									fPA.fragSettings.setSpnMeaningPosition();
+									fPA.fragSettings.setSpnWordPosition();
 								}
 								catch (Exception ex)
 								{

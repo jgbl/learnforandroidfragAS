@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -120,6 +121,8 @@ public class SettingsActivity extends Fragment
 	public ColorsArrayAdapter Colors;
 	public SoundsArrayAdapter Sounds;
 	public SharedPreferences prefs;
+	public ScaledArrayAdapter<DisplayLocale> adapterLangMeaning;
+	public ScaledArrayAdapter<DisplayLocale> adapterLangWord;
 	private View mainView;
 	private Intent intent;
 	private boolean blnLayouted = false;
@@ -160,6 +163,7 @@ public class SettingsActivity extends Fragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		super.onCreateView(inflater,container,savedInstanceState);
 		if (lib.NookSimpleTouch())
 		{
 			if (blnLayouted)
@@ -181,8 +185,7 @@ public class SettingsActivity extends Fragment
 		else
 		{
 			SettingsView = inflater.inflate(R.layout.activity_settings, container,false);
-			
-		}		
+		}
 		_blnInitialized=false;
 		mainView = SettingsView;
 		if (_main == null) _main=(MainActivity)getActivity();
@@ -973,7 +976,7 @@ public class SettingsActivity extends Fragment
 
 					});
 
-			final ScaledArrayAdapter<DisplayLocale> adapterLangWord = new ScaledArrayAdapter<>(
+			adapterLangWord = new ScaledArrayAdapter<>(
 					_main, android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
 			adapterLangWord
@@ -985,17 +988,31 @@ public class SettingsActivity extends Fragment
 			{
 				DisplayLocale dl = new DisplayLocale(l);
 				adapterLangWord.add(dl);
-				if (l.getLanguage().equalsIgnoreCase(_main.vok.getLangWord().getLanguage())
-					&& l.getCountry().equalsIgnoreCase(_main.vok.getLangWord().getCountry()))
+				if (selectedLocale == null && l.getLanguage().equalsIgnoreCase(_main.vok.getLangWord().getLanguage())
+					&& (libString.IsNullOrEmpty(_main.vok.getLangWord().getCountry())
+					|| l.getCountry().equalsIgnoreCase(_main.vok.getLangWord().getCountry())))
 				{
 					selectedLocale = dl;
 				}
 			}
+			adapterLangWord.sort(new Comparator<DisplayLocale>()
+			{
+
+				@Override
+				public int compare(DisplayLocale lhs, DisplayLocale rhs)
+				{
+					int res = lhs.compareTo(rhs);
+					return  res;
+				}
+			});
 			spnLangWord.setAdapter(adapterLangWord);
+			/*
 			if (selectedLocale != null)
 			{
-				spnLangWord.setSelection(adapterLangWord.getPosition(selectedLocale));
-			}
+				int pos = adapterLangWord.getPosition(selectedLocale);
+				spnLangWord.setSelection (-1);
+				spnLangWord.setSelection(pos);
+			}*/
 			spnLangWord
 					.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -1024,7 +1041,7 @@ public class SettingsActivity extends Fragment
 
 					});
 
-			final ScaledArrayAdapter<DisplayLocale> adapterLangMeaning = new ScaledArrayAdapter<>(
+			adapterLangMeaning = new ScaledArrayAdapter<>(
 					_main, android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
 			adapterLangMeaning
@@ -1034,17 +1051,33 @@ public class SettingsActivity extends Fragment
 			for (Locale l : Locale.getAvailableLocales()) {
 				DisplayLocale dl = new DisplayLocale((l));
 				adapterLangMeaning.add(dl);
-				if (l.getLanguage().equalsIgnoreCase(_main.vok.getLangMeaning().getLanguage())
-					&& l.getCountry().equalsIgnoreCase(_main.vok.getLangMeaning().getCountry()))
+				if (selectedLocale == null && l.getLanguage().equalsIgnoreCase(_main.vok.getLangMeaning().getLanguage())
+						&& (libString.IsNullOrEmpty(_main.vok.getLangWord().getCountry())
+						|| l.getCountry().equalsIgnoreCase(_main.vok.getLangMeaning().getCountry())))
 				{
 					selectedLocale = dl;
 				}
 			}
+			adapterLangMeaning.sort(new Comparator<DisplayLocale>()
+			{
+
+				@Override
+				public int compare(DisplayLocale lhs, DisplayLocale rhs)
+				{
+					int res = lhs.compareTo(rhs);
+					return  res;
+				}
+			});
+
 			spnLangMeaning.setAdapter(adapterLangMeaning);
+			/*
 			if (selectedLocale != null)
 			{
-				spnLangMeaning.setSelection(adapterLangMeaning.getPosition(selectedLocale));
+				int pos = adapterLangMeaning.getPosition(selectedLocale);
+				spnLangMeaning.setSelection(-1);
+				spnLangMeaning.setSelection(pos);
 			}
+			*/
 			spnLangMeaning
 					.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -1549,7 +1582,39 @@ public class SettingsActivity extends Fragment
 			lib.ShowException(_main, ex);
 		}
 	}
-	
+	public void setSpnWordPosition()
+	{
+		DisplayLocale selectedLocale = null;
+		for (int i = 0; i < adapterLangWord.getCount(); i++)
+		{
+			DisplayLocale l = adapterLangWord.getItem(i);
+			if (l.locale.getLanguage().equalsIgnoreCase(_main.vok.getLangWord().getLanguage())
+					&& (libString.IsNullOrEmpty(_main.vok.getLangWord().getCountry())
+					|| l.locale.getCountry().equalsIgnoreCase(_main.vok.getLangWord().getCountry())))
+			{
+				spnLangWord.setSelection(i);
+				selectedLocale = l;
+				break;
+			}
+		}
+	}
+
+	public void setSpnMeaningPosition()
+	{
+		DisplayLocale selectedLocale = null;
+		for (int i = 0; i < adapterLangMeaning.getCount(); i++)
+		{
+			DisplayLocale l = adapterLangMeaning.getItem(i);
+			if (l.locale.getLanguage().equalsIgnoreCase(_main.vok.getLangMeaning().getLanguage())
+					&& (libString.IsNullOrEmpty(_main.vok.getLangMeaning().getCountry())
+					|| l.locale.getCountry().equalsIgnoreCase(_main.vok.getLangMeaning().getCountry())))
+			{
+				spnLangMeaning.setSelection(i);
+				selectedLocale = l;
+				break;
+			}
+		}
+	}
 
 
 	

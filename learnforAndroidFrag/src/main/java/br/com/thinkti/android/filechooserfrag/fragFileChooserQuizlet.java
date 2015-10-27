@@ -75,6 +75,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
+import java.util.Locale;
 
 import android.content.Context;
 
@@ -112,6 +113,8 @@ public class fragFileChooserQuizlet extends ListFragment
 	private String errorDescription ;
 	private String errorTitle ;
 	private boolean blnAdapterInvalid;
+	private Locale _LangWord;
+	private Locale _LangMeaning;
 
 	public fragFileChooserQuizlet()
 	{
@@ -258,6 +261,8 @@ public class fragFileChooserQuizlet extends ListFragment
 				{
 					_main.vok.NewFile();
 					_main.vok.getVokabeln().addAll(list);
+					_main.vok.setLangMeaning(_LangMeaning);
+					_main.vok.setLangWord(_LangWord);
 
 					if (_main.vok.getGesamtzahl()>1)
 					{
@@ -443,9 +448,37 @@ public class fragFileChooserQuizlet extends ListFragment
 						Kom = _main.getString(R.string.created_by) + " " + created_by
 								+ " " + _main.getString((R.string.at))
 								+ " <link://https://quizlet.com/ Quizlet/>";
-					} else if ("term_count".equals(name)) {
+					}
+					else if ("term_count".equals(name))
+					{
 						int term_count = reader.nextInt();
-					} else if ("terms".equals(name)) {
+					}
+					else if ("lang_terms".equals(name))
+					{
+						String lang_terms = reader.nextString();
+						try
+						{
+							_LangWord = new Locale(lang_terms);
+						}
+						catch (Throwable ex)
+						{
+
+						}
+					}
+					else if ("lang_definitions".equals(name))
+					{
+						String lang_definitions = reader.nextString();
+						try
+						{
+							_LangMeaning = (new Locale(lang_definitions));
+						}
+						catch (Throwable ex)
+						{
+
+						}
+					}
+					else if ("terms".equals(name))
+					{
 						reader.beginArray();
 						while (reader.hasNext()) {
 							typVok v = parseSetDataJson(reader);
