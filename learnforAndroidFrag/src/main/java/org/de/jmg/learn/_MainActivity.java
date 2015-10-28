@@ -767,7 +767,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	public void speak(String t, Locale l, String ID)
 	{
-		if (!_main.blnTextToSpeech) return;
+		if (!_main.blnTextToSpeech || l.toString().equalsIgnoreCase("_off")) return;
 		int res = _main.tts.setLanguage(l);
 		if (res < 0)
 		{

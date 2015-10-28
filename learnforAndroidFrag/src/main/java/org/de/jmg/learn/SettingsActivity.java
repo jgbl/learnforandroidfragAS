@@ -989,6 +989,7 @@ public class SettingsActivity extends Fragment
 			if (lib.NookSimpleTouch() && mScale==1) adapterLangWord.Scale = 1.8f;
 
 			adapterLangWord.add(new DisplayLocale(new Locale("","")));
+			adapterLangWord.add(new DisplayLocale(new Locale("_off")));
 			for (Locale l : Locale.getAvailableLocales())
 			{
 				DisplayLocale dl = new DisplayLocale(l);
@@ -1013,7 +1014,7 @@ public class SettingsActivity extends Fragment
 							if (position <= 0 || !langinitialized) return;
 							Locale l = adapterLangWord.getItem(position).locale;
 							int res = _main.tts.setLanguage(l);
-							if (res >= 0) {
+							if (res >= 0 || l.toString().equalsIgnoreCase("_off")) {
 								intent.putExtra("langword", lib.toLanguageTag
 										(l));
 								intent.putExtra("OK", "OK");
@@ -1041,6 +1042,7 @@ public class SettingsActivity extends Fragment
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			if (lib.NookSimpleTouch() && mScale==1) adapterLangMeaning.Scale = 1.8f;
 			adapterLangMeaning.add(new DisplayLocale(new Locale("","")));
+			adapterLangMeaning.add(new DisplayLocale(new Locale("_off")));
 			for (Locale l : Locale.getAvailableLocales()) {
 				DisplayLocale dl = new DisplayLocale((l));
 				adapterLangMeaning.add(dl);
@@ -1065,7 +1067,7 @@ public class SettingsActivity extends Fragment
 							if (position <= 0  || !langinitialized) return;
 							Locale l = adapterLangMeaning.getItem(position).locale;
 							int res = _main.tts.setLanguage(l);
-							if (res >= 0)
+							if (res >= 0 || l.toString().equalsIgnoreCase("_off"))
 							{
 								intent.putExtra("langmeaning", lib.toLanguageTag(l));
 								intent.putExtra("OK", "OK");

@@ -1,91 +1,92 @@
-﻿144
+400
 
- 1,Normal, 36,DejaVu Sans, 22,DejaVu Sans, 24,DejaVu Sans
+1,Normal,36,DejaVu Sans,22,DejaVu Sans,24,DejaVu Sans
+de,es
 das Alter
 la edad
 
 
-5
+7
 Le debo algo
 schulde ich Ihnen etwas
 
 
-4
+5
 Unterschrift
 firma
 
 
-3
+7
 ein Zimmer
 una habitación
 
 
-4
+8
 drei Kugelschreiber
 tres bolígrafos
 
 
-6
+9
 fünf Taxis
 cinco Taxis
 
 
-7
+9
 neun Unterschriften{\rtf1\ansi\ansicpg1252\deff0\deflang1031{\fonttbl{\f0\fnil\fcharset0 Arial;}}{CR}{LF}{\colortbl ;\red255\green0\blue0;}{CR}{LF}\viewkind4\uc1\pard\cf1\b\i\fs24 Test\cf0\b0\i0\par{CR}{LF}}{CR}{LF}
 nueve firmas
 
 
-9
+11
 zwei Nachrichten
 dos recados
 
 
-2
+6
 vier Packete
 cuatro paquetes
 
 
-3
+6
 acht Bücher
 ocho libros
 
 
-6
+8
 ein Wein
 un vino
 
 
-12
+13
 zehn Briefe
 diez cartas
 
 
-8
+9
 sechs junge Damen
 seis señoritas
 
 
-6
+8
 sieben Freunde
 siete amigos
 
 
-9
+10
 Wer sind Sie
 Quién es usted
 
 
-6
+9
 Wie heißen Sie
 Como se llama usted
 
 
-6
+3
 Sind Sie Fräulein Pérez
 Es usted la señorita Pérez
 
 
-3
+5
 {\rtf1\ansi\ansicpg1252\deff0\deflang1031{\fonttbl{\f0\fnil\fcharset0 Arial;}}{CR}{LF}\viewkind4\uc1\pard\fs48 Ich bin \ul nicht\ulnone  Fr\'e4ulein P\'e9rez\par{CR}{LF}}{CR}{LF}
 No soy la señorita Pérez
 
@@ -95,157 +96,157 @@ Hier haben Sie die Post
 Aquí tiene (usted) el correo
 
 
-3
-Die ist ein Brief und dies ist ein Bleistift{\rtf1\ansi\ansicpg1252\deff0\deflang1031{\fonttbl{\f0\fnil\fcharset0 Lucida Sans Unicode;}{\f1\fnil\fcharset0 Arial;}}{CR}{LF}{\colortbl ;\red128\green255\blue0;}{CR}{LF}\viewkind4\uc1\pard\b\f0\fs29 testin\cf1 g\cf0  1234\b0\f1\fs24\par{CR}{LF}}{CR}{LF}
+7
+Die ist ein Brief und dies ist ein Bleistift{LF}
 Esto es una carta y esto es un lápiz
 
 
-3
+0
 ... señor de ... habitación diez es ... padre Pérez{\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Lucida Sans Unicode;}{\f1\fnil\fcharset0 Arial;}}{CR}{LF}\viewkind4\uc1\pard\lang1031\b\f0\fs20 fehlende worte erg\'e4nzen und mit Kommas trennen\b0\f1\fs24\par{CR}{LF}}{CR}{LF}
 el,la,el
 
 
-5
+4
 ... carta de ... señor Aguilar es de México
 la,del
 
 
-4
+9
 das Gespräch
 la conversación
 
 
-5
+9
 der Taxifahrer
 el taxista
 
 
-4
+5
 der Journalist
 el periodista
 
 
-5
+6
 der Ehemann
 el marido
 
 
-6
+7
 die Frau; die Ehefrau
 la mujer
 
 
-5
+9
 der Sohn; das Kind
 el hijo
 
 
-2
+1
 immer
 siempre
 
 
-3
+7
 die Eile
 la prisa
 
 
-4
+5
 es eilig haben
 tener prisa
 
 
-5
+6
 niemals
 nunca
 
 
-5
+8
 die Zeit
 el tiempo
 
 
-5
+8
 reisen
 viajar
 
 
-4
+7
 nach, zu, in
 a
 
 
-2
+6
 der Flug
 el vuelo
 
 
-7
+9
 warum
 por qué
 
 
-6
+7
 fragen
 preguntar
 
 
-5
+7
 Sie fragen es
 lo pregunta
 
 
-7
+9
 weil
 porque
 
 
-4
+6
 so ist es
 eso es
 
 
-4
+5
 alle
 todos
 
 
-7
+9
 es gibt; es ist, es sind
 hay
 
 
-2
+8
 die Ausnahme
 la excepción
 
 
-5
+7
 sich widmen
 dedicarse a
 
 
-4
+6
 der Lastwagen
 el camión
 
 
-9
+10
 er lebt, er wohnt
 vive
 
 
-4
+6
 seit zwanzig Jahren
 desde hace veinte años
 
 
-3
+7
 gefallen; Spaß machen
 gustar
 
 
-5
+8
 dort
 allí
 
@@ -260,89 +261,89 @@ es ist ein Gebirgsdorf
 es un pueblo serano
 
 
-3
+6
 haben Sie Familie
 tiene familia
 
 
-5
+2
 der Junge
 el chico
 
 
-2
+5
 das Mädchen
 la chica
 
 
-3
+8
 auch
 también
 
 
-5
+7
 wir 
 nosotros
 
 
-5
+7
 die Stadt
 la ciudad
 
 
-5
+10
 vermissen, sich sehnen nach
 echar de menos
 
 
-2
+4
 wir werden vermissen
 vamos a echar de menos
 
 
-3
+6
 der Himmel
 el cielo
 
 
-5
+6
 blau
 azul
 
 
-7
+9
 das Essen
 la comida
 
 
-6
+8
 die Blume
 la flor
 
 
-5
+7
 wissen; können
 saber
 
 
-2
-sie sind Lebenskünstler
+6
+sie sind Lebenskünstlerpl
 saben vivir
 
 
-3
+6
 der junge Mann
 el joven
 
 
-4
+9
 die Staße
 la calle
 
 
-2
+6
 das Alter
 la edad
 
 
-2
+6

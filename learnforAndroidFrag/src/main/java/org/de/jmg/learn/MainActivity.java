@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity  {
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		lib.main = this;
 		int UIMode = lib.getUIMode(this);
 
 		switch (UIMode)

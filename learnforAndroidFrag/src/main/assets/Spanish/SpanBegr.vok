@@ -1,173 +1,174 @@
-144
+400
 
- 1,Normal, 20,Arial, 8,Arial, 12,Arial
-Hola y adiós
+1,Normal,20,Arial,8,Arial,12,Arial
+es,de
+Hola y adiÃ³s
 Guten Tag und Auf Wiedersehen:
 
 
-5
+10
 el saludo
-der Gruß
-
-
-6
-saludar
-grüßen
-
-
-7
-¡Hola!
-Hallo!
-
-
-4
-¡Dígame!
-Hallo! [am Telefon]
-
-
-4
-Hola, ¿qué tal?
-Hallo, wie geht´s?
-
-
-5
-Bien, ¿y tú?
-Gut, und Dir?
-
-
-7
-¿Cómo te llamas?
-Wie heißt Du?
-
-
-6
-Me llamo María.
-Ich heiße Maria.
-
-
-5
-¡Encantado de conocerte!
-Freut mich, Dich kennen zu lernen! [männl. Sprecher]
-
-
-5
-¡Encantada de conocerte!
-Freut mich, Dich kennen zu lernen! [weibl. Sprecher]
-
-
-7
-¡Mucho gusto!
-Sehr erfreut!
-
-
-4
-¿Cómo estás?
-Wie geht es Dir?
+der GruÃŸ
 
 
 10
-¿Cómo está?
+saludar
+grÃ¼ÃŸen
+
+
+10
+Â¡Hola!
+Hallo!
+
+
+7
+Â¡DÃ­game!
+Hallo! [am Telefon]
+
+
+7
+Hola, Â¿quÃ© tal?
+Hallo, wie gehtÂ´s?
+
+
+8
+Bien, Â¿y tÃº?
+Gut, und Dir?
+
+
+8
+Â¿CÃ³mo te llamas?
+Wie heiÃŸt Du?
+
+
+9
+Me llamo MarÃ­a.
+Ich heiÃŸe Maria.
+
+
+8
+Â¡Encantado de conocerte!
+Freut mich, Dich kennen zu lernen! [mÃ¤nnl. Sprecher]
+
+
+7
+Â¡Encantada de conocerte!
+Freut mich, Dich kennen zu lernen! [weibl. Sprecher]
+
+
+11
+Â¡Mucho gusto!
+Sehr erfreut!
+
+
+5
+Â¿CÃ³mo estÃ¡s?
+Wie geht es Dir?
+
+
+11
+Â¿CÃ³mo estÃ¡?
 Wie geht es Ihnen?
 
 
-6
-¿Qué tal?
-Wie geht´s?
+8
+Â¿QuÃ© tal?
+Wie gehtÂ´s?
 
 
-5
-¡Bienvenidos!
+10
+Â¡Bienvenidos!
 Herzlich Willkommen!
 
 
-2
-¡Buenos días!
+5
+Â¡Buenos dÃ­as!
 Guten Tag!
 Guten Morgen!
 
-6
-¡Buenas tardes!
+7
+Â¡Buenas tardes!
 Guten Tag! [nachmittags]
 
 
-7
-¡Buenas noches!
+9
+Â¡Buenas noches!
 Gute Nacht!
 
 
-6
-¡Por favor!
+9
+Â¡Por favor!
 Bitte!
 
 
-5
-¡Gracias!
+8
+Â¡Gracias!
 Danke!
 
 
-5
-¡De nada!
+6
+Â¡De nada!
 Gern geschehen!
 
 
-4
-¡Muchas gracias!
+1
+Â¡Muchas gracias!
 Vielen Dank!
 
 
-4
-¡Muchas gracias por su hospitalidad!
-Vielen Dank für Ihre Gastfreundschaft!
+8
+Â¡Muchas gracias por su hospitalidad!
+Vielen Dank fÃ¼r Ihre Gastfreundschaft!
 
 
-7
-¡Adiós!
+8
+Â¡AdiÃ³s!
 Auf Wiedersehen!
 
 
+8
+Â¡Hasta luego!
+Bis spÃ¤ter!
+
+
 4
-¡Hasta luego!
-Bis später!
-
-
-5
-¡Hasta mañana!
+Â¡Hasta maÃ±ana!
 Bis morgen!
 
 
-6
-¡Que duermas bien!
+9
+Â¡Que duermas bien!
 Schlaf gut!
 
 
 5
-¡Cuídate!
+Â¡CuÃ­date!
 Pass auf Dich auf!
 
 
-4
-¡Mucha suerte!
-Viel Glück!
+3
+Â¡Mucha suerte!
+Viel GlÃ¼ck!
 
 
-5
-¡Llámame!
+2
+Â¡LlÃ¡mame!
 Ruf mich an!
 
 
-6
-¡Pásalo bien!
-Viel Spaß!
+8
+Â¡PÃ¡salo bien!
+Viel SpaÃŸ!
 
 
-4
-¡Hasta la próxima!
-Bis zum nächsten Mal!
+-1
+Â¡Hasta la prÃ³xima!
+Bis zum nÃ¤chsten Mal!
 
 
-6
-¡Hasta pronto!
+7
+Â¡Hasta pronto!
 Bis bald!
 
 
-6
+4

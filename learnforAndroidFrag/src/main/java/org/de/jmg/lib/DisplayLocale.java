@@ -1,5 +1,8 @@
 package org.de.jmg.lib;
 
+import org.de.jmg.learn.MainActivity;
+import org.de.jmg.learn.R;
+
 import java.util.Locale;
 
 public class DisplayLocale implements Comparable<DisplayLocale>
@@ -13,10 +16,24 @@ public class DisplayLocale implements Comparable<DisplayLocale>
     public String toString() {
         if(locale!=null)
         {
-            return locale.getDisplayLanguage() + " "
-                    + locale.getDisplayCountry() + " "
-                    + locale.getDisplayVariant() + "("
-                    + locale.toString() + ")";
+            if (locale.toString().equalsIgnoreCase("_off"))
+            {
+                if (lib.main != null)
+                {
+                    return lib.main.getString(R.string.off);
+                }
+                else
+                {
+                    return "off";
+                }
+            }
+            else
+            {
+                return locale.getDisplayLanguage() + " "
+                        + locale.getDisplayCountry() + " "
+                        + locale.getDisplayVariant() + "("
+                        + locale.toString() + ")";
+            }
         }
         else {
             return super.toString();

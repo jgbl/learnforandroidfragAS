@@ -94,6 +94,7 @@ public class lib {
 
         public yesnoundefined res;
         public boolean checked;
+
         public YesNoCheckResult(yesnoundefined res, boolean checked)
         {
             this.res=res;
@@ -126,7 +127,7 @@ public class lib {
         return _status;
     }
     public static ArrayList<DialogInterface> OpenDialogs = new ArrayList<>();
-
+    public static MainActivity main;
 
     public static void removeDlg(DialogInterface dlg)
     {

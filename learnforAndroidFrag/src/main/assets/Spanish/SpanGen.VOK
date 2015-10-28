@@ -1,6 +1,7 @@
-﻿144
+400
 
- 1,Normal, 28,Liberation Sans, 12,Liberation Sans, 8,DejaVu Sans
+1,Normal,28,Liberation Sans,12,Liberation Sans,8,DejaVu Sans
+es,de
 la presentación
 die Vorstellung
 
@@ -15,7 +16,7 @@ la calle
 die Straße
 
 
-3
+4
 en
 in
 
@@ -45,12 +46,12 @@ al
 an dem
 
 
--2
+-3
 el final
 das Ende
 
 
-1
+0
 de
 von
 
@@ -75,7 +76,7 @@ llamar(se)
 heißen, sich nennen
 
 
-3
+4
 me
 mich
 
@@ -85,7 +86,7 @@ ser
 sein
 
 
-2
+3
 español
 spanisch
 
@@ -95,7 +96,7 @@ no
 nein, nicht
 
 
-0
+1
 colombiano
 kolumbianisch
 
@@ -110,7 +111,7 @@ mi
 mein(e)
 
 
-2
+0
 la madre
 die Mutter
 
@@ -307,7 +308,4 @@ Pepe
 
 3
 Manolo
-Manolo
-
-
-3
+Manol
