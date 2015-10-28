@@ -244,6 +244,7 @@ public class MainActivity extends AppCompatActivity  {
 									fPA.fragSettings.spnLanguages.setSelection(Language);
 									fPA.fragSettings.setSpnMeaningPosition();
 									fPA.fragSettings.setSpnWordPosition();
+									fPA.fragSettings.setChkTSS();
 								}
 								catch (Exception ex)
 								{
@@ -2464,6 +2465,7 @@ public class MainActivity extends AppCompatActivity  {
 					"ProbabilityFactor");
 			vok.setAbfrageZufaellig(data.getExtras().getBoolean("Random"));
 			vok.setAskAll(data.getExtras().getBoolean("AskAll"));
+			blnTextToSpeech = (data.getExtras().getBoolean("tts"));
 			int Language = data.getExtras().getInt("Language",Vokabel.EnumSprachen.undefiniert.ordinal());
 			for (int i = 0; i < Vokabel.EnumSprachen.values().length; i++)
 			{
@@ -2494,6 +2496,7 @@ public class MainActivity extends AppCompatActivity  {
 			editor.putBoolean("Random", vok.getAbfrageZufaellig());
 			editor.putBoolean("AskAll", vok.getAskAll());
 			editor.putBoolean("Sound", lib.sndEnabled);
+			editor.putBoolean("TextToSpeech", blnTextToSpeech);
 			editor.putInt(keyProvider, ShowAlwaysDocumentProvider);
 			editor.putInt(keyURIMessage, DontShowPersistableURIMessage);
 			editor.putInt(key, AlwaysStartExternalProgram);

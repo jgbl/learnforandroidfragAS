@@ -407,11 +407,12 @@ public class SettingsActivity extends Fragment
 		chkRandom.setChecked(checked);
 		intent.putExtra("Random", checked);
 
-		chkTextToSpeech.setChecked(_main.blnTextToSpeech);
+		//chkTextToSpeech.setChecked(_main.blnTextToSpeech);
 		chkTextToSpeech.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				_main.blnTextToSpeech = isChecked;
+				intent.putExtra("tts", isChecked);
+				intent.putExtra("OK","OK");
 			}
 		});
 
@@ -1588,6 +1589,12 @@ public class SettingsActivity extends Fragment
 			lib.ShowException(_main, ex);
 		}
 	}
+
+	public void setChkTSS()
+	{
+		chkTextToSpeech.setChecked(_main.blnTextToSpeech);
+	}
+
 	public void setSpnWordPosition()
 	{
 		langinitialized = false;
