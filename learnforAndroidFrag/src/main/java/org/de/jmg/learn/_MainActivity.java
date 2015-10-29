@@ -630,7 +630,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			assert t != null;
 			t.setText(lib.getSpanableString(_vok.getWort()), TextView.BufferType.SPANNABLE);
 
-			speak (t.getText().toString(),_vok.getLangWord(),"word");
+			speak (t.getText().toString(),_vok.getLangWord(),"word",true);
 
 			if (_vok.getSprache() == EnumSprachen.Hebrew
 					|| _vok.getSprache() == EnumSprachen.Griechisch
@@ -764,8 +764,11 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		}
 
 	}
-
 	public void speak(String t, Locale l, String ID)
+	{
+		speak(t,l,ID,false);
+	}
+	public void speak(String t, Locale l, String ID, boolean blnFlush)
 	{
 		if (!_main.blnTextToSpeech || l.toString().equalsIgnoreCase("_off")) return;
 		int res = _main.tts.setLanguage(l);
@@ -773,17 +776,26 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		{
 			if (_main.tts.setLanguage(Locale.US)<0) return;
 		}
+		int flags;
+		if (blnFlush)
+		{
+			flags = TextToSpeech.QUEUE_FLUSH;
+		}
+		else
+		{
+			flags = TextToSpeech.QUEUE_ADD;
+		}
 		if (Build.VERSION.SDK_INT<21)
 		{
 			HashMap<String, String> h = new HashMap<>();
 
 			h.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, ID);
 
-			_main.tts.speak(t,TextToSpeech.QUEUE_ADD, h);
+			_main.tts.speak(t,flags, h);
 		}
 		else
 		{
-			_main.tts.speak(t,TextToSpeech.QUEUE_ADD, null, ID);
+			_main.tts.speak(t,flags, null, ID);
 		}
 	}
 
@@ -1671,7 +1683,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		public void run() {
 			try {
 				lib.playSound(_main, org.de.jmg.lib.lib.Sounds.Beep);
-				speak(_txtWord.getText().toString(), _vok.getLangWord(),"wordflash");
+				speak(_txtWord.getText().toString(), _vok.getLangWord(),"wordflash",true);
 				_main.tts.setOnUtteranceCompletedListener(new TextToSpeech.OnUtteranceCompletedListener() {
 					@Override
 					public void onUtteranceCompleted(String utteranceId) {

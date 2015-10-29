@@ -302,4 +302,5 @@
     <string name="TextToSpeech">Sprachausgabe</string>
     <string name="hintTTS">Sprachausgabe</string>
     <string name="msgLanguageNotavailable">Diese Sprache (%s) ist nicht verfügbar!</string>
+    <string name="copyfiles">Möchten Sie die Vokabeln in ihr Vokabel-Verzeichnis kopieren?</string>
 </resources>

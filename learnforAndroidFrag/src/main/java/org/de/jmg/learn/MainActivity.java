@@ -1109,6 +1109,24 @@ public class MainActivity extends AppCompatActivity  {
 				{
 					System.out.println(F1.mkdirs());
 				}
+				else
+				{
+					boolean dontcopy = prefs.getBoolean("dontcopy",false);
+					yesnoundefined res;
+					if (dontcopy)
+					{
+						res = yesnoundefined.no;
+					}
+					else
+					{
+						res = lib.ShowMessageYesNo(this,this.getString(R.string.copyfiles),"");
+					}
+					if (res == yesnoundefined.no)
+					{
+						prefs.edit().putBoolean("dontcopy",true).commit();
+						return;
+					}
+				}
 				AssetManager A = this.getAssets();
 				try {
 					final String languages[] = new String[] { "Greek", "Hebrew",

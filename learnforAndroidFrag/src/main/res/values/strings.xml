@@ -302,4 +302,5 @@
 	<string name="hintTTS">text to speech</string>
 	<string name="TextToSpeech">text to speech</string>
 	<string name="msgLanguageNotavailable">This language (%s) is not available!</string>
+	<string name="copyfiles">Do you want to copy the vocabulary files into your vocabulary directory?</string>
 </resources>
