@@ -1602,42 +1602,40 @@ public class MainActivity extends AppCompatActivity  {
 					}
 				}
 			}
-			else if (id == R.id.mnuOpenUri) 
+			else if (id == R.id.mnuUploadToQuizlet)
 			{
-				if (saveVok(false))
-				{
+				uploadtoQuizlet();
+
+			}
+			else if (id == R.id.mnuOpenUri) {
+				if (saveVok(false)) {
 					String defaultURI = prefs.getString("defaultURI", "");
 					Uri def;
-					if (libString.IsNullOrEmpty(defaultURI))
-					{
+					if (libString.IsNullOrEmpty(defaultURI)) {
 						File F = new File(JMGDataDirectory);
 						def = Uri.fromFile(F);
+					} else {
+						def = Uri.parse(defaultURI);
 					}
-					else
-					{
-						def = Uri.parse(defaultURI);								
-					}
-					lib.SelectFile(this,def);
+					lib.SelectFile(this, def);
 				}
 			} else if (id == R.id.mnuNew) {
 				newVok();
-				
+
 			} else if (id == R.id.mnuAddWord) {
 				mPager.setCurrentItem(_MainActivity.fragID);
-				if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
-				{
+				if (fPA.fragMain != null && fPA.fragMain.mainView != null) {
 					if (fPA.fragMain.EndEdit(false)) {
 						vok.AddVokabel();
 						fPA.fragMain.getVokabel(true, false, true);
 						fPA.fragMain.StartEdit();
 					}
 				}
-				
+
 			} else if (id == R.id.mnuFileOpenASCII) {
 				LoadFile(false);
 			} else if (id == R.id.mnuConvMulti) {
-				if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
-				{
+				if (fPA.fragMain != null && fPA.fragMain.mainView != null) {
 					vok.ConvertMulti();
 					fPA.fragMain.getVokabel(false, false);
 				}
@@ -1647,31 +1645,23 @@ public class MainActivity extends AppCompatActivity  {
 				SaveVokAs(true, false);
 			} else if (id == R.id.mnuRestart) {
 				vok.restart();
-			} 
-			else if (id == R.id.mnuDelete) 
-			{
-				if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
-				{
+			} else if (id == R.id.mnuDelete) {
+				if (fPA.fragMain != null && fPA.fragMain.mainView != null) {
 					vok.DeleteVokabel();
 					fPA.fragMain.EndEdit2();
 				}
-			} 
-			else if (id == R.id.mnuReverse) 
-			{
-				if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
-				{
+			} else if (id == R.id.mnuReverse) {
+				if (fPA.fragMain != null && fPA.fragMain.mainView != null) {
 					vok.revert();
 					fPA.fragMain.getVokabel(false, false);
 				}
-			}
-			else if (id == R.id.mnuReset) {
+			} else if (id == R.id.mnuReset) {
 				if (lib.ShowMessageYesNo(this,
-						this.getString(R.string.ResetVocabulary), "")==yesnoundefined.yes) {
+						this.getString(R.string.ResetVocabulary), "") == yesnoundefined.yes) {
 					vok.reset();
 				}
 
-			}
-			else if (id == R.id.mnuStatistics) {
+			} else if (id == R.id.mnuStatistics) {
 				if (vok.getGesamtzahl() > 5) {
 					try {
 						/*
@@ -1696,17 +1686,12 @@ public class MainActivity extends AppCompatActivity  {
 					}
 
 				}
-			}
-			else if (id == R.id.mnuEdit)
-			{
-				if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
-				{
-						fPA.fragMain.edit();
+			} else if (id == R.id.mnuEdit) {
+				if (fPA.fragMain != null && fPA.fragMain.mainView != null) {
+					fPA.fragMain.edit();
 				}
-			}
-			else if (id == R.id.mnuLoginQuizlet)
-			{
-				LoginQuizlet();
+			} else if (id == R.id.mnuLoginQuizlet) {
+				LoginQuizlet(false);
 			}
 
 		} catch (Throwable ex) {
@@ -1727,7 +1712,7 @@ public class MainActivity extends AppCompatActivity  {
 	}
 	private boolean _blnPrivate = false;
 	private boolean _blnVerifyToken = false;
-	private void searchQuizlet()
+	private void uploadtoQuizlet()
 	{
 		try
 		{
@@ -1761,7 +1746,7 @@ public class MainActivity extends AppCompatActivity  {
 			}
 			if (this.QuizletAccessToken == null)
 			{
-				this.LoginQuizlet();
+				this.LoginQuizlet(true);
 			}
 			else
 			{
@@ -1784,6 +1769,187 @@ public class MainActivity extends AppCompatActivity  {
 
 							}
 						});
+
+				final EditText input = new EditText(context);
+				//final LinearLayout ll = new LinearLayout(context);
+				//ll.addView(input);
+				A.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						String userId = MainActivity.this.QuizletUser;
+						if (!_blnPrivate) {
+							userId = "";
+						}
+						else
+						{
+							if (lib.ShowMessageOKCancel
+									(MainActivity.this
+											,MainActivity.this.getString(R.string.msgPrivateNotSupported)
+											,""
+											,false)
+									== yesnoundefined.no) return;
+						}
+						new UploadToQuzletTask().execute(new String[]{input.getText().toString(),userId});
+						lib.removeDlg(dlg);
+
+					}
+				});
+				A.setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						lib.removeDlg(dlg);
+					}
+				});
+
+				A.setTitle(String.format(getString(R.string.UploadToQuizlet), new File(vok.getFileName()).getName()));
+				//A.setTitle(getString(R.string.Search));
+				// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+				input.setInputType(InputType.TYPE_CLASS_TEXT);
+				input.setText("");
+				/*
+				android.widget.LinearLayout.LayoutParams params
+						= (android.widget.LinearLayout.LayoutParams) input.getLayoutParams();
+				params.topMargin = lib.dpToPx(20);
+				input.setLayoutParams(params);
+				*/
+				A.setView(input);
+				/*
+				int PT =  input.getPaddingTop();
+				int PL = input.getPaddingLeft();
+				int PR = input.getPaddingRight();
+				int PB = input.getPaddingBottom();
+				//int PE = input.getPaddingEnd();
+				//int PS = input.getPaddingStart();
+				input.setPadding(PL,PT*3,PR,PB);
+				*/
+				dlg = A.create();
+				dlg.show();
+
+				dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+					@Override
+					public void onDismiss(DialogInterface dialog) {
+						lib.removeDlg(dlg);
+					}
+				});
+				lib.OpenDialogs.add(dlg);
+			}
+
+		}
+		catch (Exception ex)
+		{
+			lib.ShowException(this,ex);
+		}
+
+	}
+
+	class UploadToQuzletTask extends  AsyncTask <String,Void,Exception>
+	{
+
+		ProgressDialog p;
+		String res;
+		@Override
+		protected Exception doInBackground(String... params)
+		{
+			try
+			{
+				String userId = params[1];
+
+				res = org.liberty.android.fantastischmemo.downloader
+                        .quizlet.lib.uploadToQuizlet
+						(MainActivity.this
+                        .vok,MainActivity.this.QuizletAccessToken
+                        , userId, params [0]);
+			} catch (Exception e) {
+				return e;
+			}
+
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Exception ex) {
+
+			if (ex != null)
+			{
+				lib.ShowException(MainActivity.this,ex);
+			}
+			if(p.isShowing())p.dismiss();
+			lib.ShowMessage(MainActivity.this,res,"");
+
+		}
+
+		@Override
+		protected void onPreExecute() {
+			p = new ProgressDialog(MainActivity.this);
+			p.setMessage(MainActivity.this.getString(R.string.loading));
+			p.show();
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values) {
+		}
+
+
+
+	}
+
+	private void searchQuizlet()
+	{
+		try
+		{
+			if (this.QuizletAccessToken == null)
+			{
+				this.QuizletAccessToken = prefs.getString("QuizletAccessToken",null);
+				this.QuizletUser = prefs.getString("QuizletUser",null);
+				if(QuizletAccessToken!=null)
+				{
+					final CountDownLatch l = new CountDownLatch(1);
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							try {
+								_blnVerifyToken = org.liberty.android.fantastischmemo.downloader.quizlet.lib
+										.verifyAccessToken(new String[]{QuizletAccessToken, QuizletUser});
+							} catch (Exception e) {
+								e.printStackTrace();
+								_blnVerifyToken = false;
+							}
+							l.countDown();
+						}
+					}).start();
+					l.await();
+					if (!_blnVerifyToken)
+					{
+						QuizletAccessToken = null;
+						QuizletUser = null;
+					}
+				}
+			}
+			if (this.QuizletAccessToken == null)
+			{
+				this.LoginQuizlet(false);
+			}
+			else
+			{
+
+				final AlertDialog.Builder A = new AlertDialog.Builder(context);
+				final CharSequence[] items = {MainActivity.this.getString(R.string.Private),MainActivity.this.getString(R.string.Public)};
+				A.setSingleChoiceItems(items,_blnPrivate?0:1, new DialogInterface.OnClickListener(){
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+
+						if (which == 0)
+						{
+							_blnPrivate = true;
+						}
+						else
+						{
+							_blnPrivate = false;
+						}
+
+					}
+				});
 
 				final EditText input = new EditText(context);
 				//final LinearLayout ll = new LinearLayout(context);
@@ -2156,12 +2322,19 @@ public class MainActivity extends AppCompatActivity  {
 				String AuthCode = data.getStringExtra("AuthCode");
 				String user = data.getStringExtra("user");
 				String accessToken = data.getStringExtra("accessToken");
+				boolean upload = data.getBooleanExtra("upload",false);
 				QuizletUser = user;
 				QuizletAccessToken = accessToken;
 				prefs.edit().putString("QuizletAccessToken",QuizletAccessToken).commit();
 				prefs.edit().putString("QuizletUser",QuizletUser).commit();
-
-				searchQuizlet();
+				if (upload)
+				{
+					uploadtoQuizlet();
+				}
+				else
+				{
+					searchQuizlet();
+				}
 				//lib.ShowMessage(this,"Code: " + AuthCode + " User: " + user + "accessToken: "+ accessToken,"");
 			}
 			else if (resultCode == RESULT_OK && requestCode == lib.SELECT_FILE && data!=null) 
@@ -2546,9 +2719,10 @@ public class MainActivity extends AppCompatActivity  {
 		prefs.edit().putString("SoundDir", dir).commit();
 	}
 
-	public void LoginQuizlet()
+	public void LoginQuizlet(boolean blnUpload)
 	{
 		Intent login = new Intent(this, LoginQuizletActivity.class);
+		login.putExtra("upload",blnUpload);
 		this.startActivityForResult(login, LOGINQUIZLETINTENT);
 	}
 

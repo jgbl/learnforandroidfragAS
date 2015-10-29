@@ -28,6 +28,8 @@ import android.util.Log;
 
 import org.de.jmg.learn.vok.Vokabel;
 import org.de.jmg.learn.vok.typVok;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -222,22 +224,24 @@ public class lib
 
 
 
-    public void uploadToQuizlet(Vokabel vok, String authToken) throws IOException {
+    public static String uploadToQuizlet(Vokabel vok, String authToken, String userId, String description) throws IOException {
         // First read card because if it failed we don't even bother uploading.
-
 
         // Following doing upload
         StringBuilder data = new StringBuilder();
         data.append(String.format("whitespace=%s",
                 URLEncoder.encode("1", "UTF-8")));
         data.append(String.format("&title=%s",
-                URLEncoder.encode(org.de.jmg.lib.lib.getFilenameWithoutExtension(vok.getFileName()), "UTF-8")));
-
+                URLEncoder.encode(org.de.jmg.lib.lib.
+                        getFilenameWithoutExtension(new File(vok.getFileName()).getName()), "UTF-8")));
+        data.append(String.format("&description=%s",
+                URLEncoder.encode(description, "UTF-8"), "UTF-8"));
         // Get cards from cardList
         for (int i = 1; i < vok.getVokabeln().size(); i++) {
             typVok c = vok.getVokabeln().get(i);
             data.append(String.format("&terms[]=%s",
-                    URLEncoder.encode(c.Wort, "UTF-8")));
+                    URLEncoder.encode(c.Wort
+                            + (org.de.jmg.lib.lib.libString.IsNullOrEmpty(c.Kom)?"":"\n" + c.Kom), "UTF-8")));
             String Meaning;
             if (org.de.jmg.lib.lib.libString.IsNullOrEmpty(c.Bed2))
             {
@@ -245,34 +249,45 @@ public class lib
             }
             else
             {
-                Meaning = "1. " + c.Bed1 + "\n" + c.Bed2;
+                Meaning = "1. " + c.Bed1 + "\n2. " + c.Bed2;
             }
             if (!org.de.jmg.lib.lib.libString.IsNullOrEmpty(c.Bed3))
             {
-                Meaning += "3. " + c.Bed3;
+                Meaning += "\n3. " + c.Bed3;
             }
             data.append(String.format("&definitions[]=%s",
                     URLEncoder.encode(Meaning, "UTF-8")));
         }
 
         data.append(String.format("&lang_terms=%s",
-                URLEncoder.encode(vok.getLangWord().toString(), "UTF-8")));
+                URLEncoder.encode(vok.getLangWord().getLanguage(), "UTF-8")));
         data.append(String.format("&lang_definitions=%s",
-                URLEncoder.encode(vok.getLangMeaning().toString(), "UTF-8")));
+                URLEncoder.encode(vok.getLangMeaning().getLanguage(), "UTF-8")));
         data.append(String.format("&allow_discussion=%s",
                 URLEncoder.encode("true", "UTF-8")));
 
-        URL url = new URL("https://api.quizlet.com/2.0/sets");
-        makePostApiCall(url, data.toString(), authToken);
+        URL url;
+        if (!org.de.jmg.lib.lib.libString.IsNullOrEmpty(userId))
+        {
+            //url = new URL(QUIZLET_API_ENDPOINT + "/users/" + userId
+                    //+ "/sets");
+            url = new URL(QUIZLET_API_ENDPOINT + "/sets");
+        }
+        else
+        {
+            url = new URL(QUIZLET_API_ENDPOINT + "/sets");
+        }
+
+        return makePostApiCall(url, data.toString(), authToken);
     }
 
-    private void makePostApiCall(URL url, String content, String authToken)
+    private static String makePostApiCall(URL url, String content, String authToken)
             throws IOException {
         HttpsURLConnection conn = null;
         OutputStreamWriter writer = null;
         try {
             conn = (HttpsURLConnection) url.openConnection();
-            conn.setDoInput(false);
+            conn.setDoInput(true);
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");
             conn.addRequestProperty("Authorization", "Bearer " + authToken);
@@ -285,19 +300,42 @@ public class lib
 
             if (conn.getResponseCode() / 100 >= 3) {
                 Log.v("makePostApiCall","Post content is: " + content);
-                JsonReader r = new JsonReader(new InputStreamReader(conn.getErrorStream(),"UTF-8"));
                 String error = "";
-                r.beginObject();
-                while (r.hasNext())
-                {
-                    error += r.nextName() + r.nextString() + "\r\n";
+                try {
+                    JsonReader r = new JsonReader(new InputStreamReader(conn.getErrorStream(), "UTF-8"));
+                    r.beginObject();
+                    while (r.hasNext()) {
+                        error += r.nextName() + r.nextString() + "\r\n";
+                    }
+                    r.endObject();
+                    r.close();
                 }
-                r.endObject();
-                r.close();
+                catch (Throwable eex)
+                {
+
+                }
                 Log.v("makePostApiCall", "Error string is: "
                         + error );
                 throw new IOException("Response code: "
-                        + conn.getResponseCode() + " URL is: " + url);
+                        + conn.getResponseCode() + " URL is: " + url + " Error: " + error);
+            }
+            else
+            {
+                JsonReader r = new JsonReader(new InputStreamReader(conn.getInputStream()));
+                r.beginObject();
+                String res = "";
+                while (r.hasNext())
+                {
+                    try
+                    {
+                        res += r.nextName() + ": " + r.nextString() + "\n";
+                    }
+                    catch (Exception ex)
+                    {
+                        r.skipValue();
+                    }
+                }
+                return res;
             }
         } finally {
             conn.disconnect();

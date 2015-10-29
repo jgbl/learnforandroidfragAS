@@ -434,7 +434,7 @@ public class lib {
         return NewArr;
     }
 
-    public static synchronized void ShowMessage(Context context, String msg, String title) {
+    public static void ShowMessage(Context context, String msg, String title) {
         // System.Threading.SynchronizationContext.Current.Post(new
         // System.Threading.SendOrPostCallback(DelShowException),new
         // ExStateInfo(context, ex));
@@ -454,7 +454,7 @@ public class lib {
 
     }
 
-    public static synchronized boolean ShowMessageWithCheckbox(Context context,String title, String msg, String CheckboxTitle) throws Exception
+    public static boolean ShowMessageWithCheckbox(Context context,String title, String msg, String CheckboxTitle) throws Exception
     {
         // System.Threading.SynchronizationContext.Current.Post(new
         // System.Threading.SendOrPostCallback(DelShowException),new
@@ -543,13 +543,13 @@ public class lib {
 
     public static Handler YesNoHandler;
 
-    public static synchronized yesnoundefined ShowMessageYesNo(Context context,
+    public static yesnoundefined ShowMessageYesNo(Context context,
                                                                String msg, String title)
     {
         return ShowMessageYesNo(context,msg,title,false);
     }
 
-    public static synchronized yesnoundefined ShowMessageYesNo(Context context,
+    public static yesnoundefined ShowMessageYesNo(Context context,
                                                                String msg, String title, boolean center) {
         // System.Threading.SynchronizationContext.Current.Post(new
         // System.Threading.SendOrPostCallback(DelShowException),new
@@ -606,7 +606,65 @@ public class lib {
         return DialogResultYes;
     }
 
-    public static synchronized YesNoCheckResult ShowMessageYesNoWithCheckbox(Context context,
+    public static yesnoundefined ShowMessageOKCancel(Context context,
+                                                  String msg, String title, boolean center) {
+        // System.Threading.SynchronizationContext.Current.Post(new
+        // System.Threading.SendOrPostCallback(DelShowException),new
+        // ExStateInfo(context, ex));
+        if (libString.IsNullOrEmpty(title)) title = context.getString(R.string.question);
+        try {
+            if (YesNoHandler == null)
+                YesNoHandler = new Handler() {
+                    @Override
+                    public void handleMessage(Message mesg) {
+                        //throw new MessageException();
+                    }
+                };
+
+            DialogResultYes = yesnoundefined.undefined;
+            AlertDialog.Builder A = new AlertDialog.Builder(context);
+            A.setPositiveButton(context.getString(R.string.ok), listenerYesNo);
+            A.setNegativeButton(context.getString(R.string.cancel), listenerYesNo);
+            A.setMessage(msg);
+            A.setTitle(title);
+            AlertDialog dlg = A.create();
+            dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    throw new MessageException();
+                }
+            });
+
+            dlg.show();
+            OpenDialogs.add(dlg);
+            if (center)
+            {
+                TextView messageView = (TextView)dlg.findViewById(android.R.id.message);
+                messageView.setGravity(Gravity.CENTER);
+            }
+            try
+
+            {
+                Looper.loop();
+            } catch (Exception e2) {
+                // Looper.myLooper().quit();
+                YesNoHandler = null;
+                if (dlg.isShowing()) {
+                    dlg.setOnDismissListener(null);
+                    dlg.dismiss();
+                }
+                removeDlg(dlg);
+                dlg = null;
+                if (!(e2 instanceof  MessageException)) throw e2;
+            }
+        } catch (Exception ex) {
+            ShowException(context, ex);
+        }
+        return DialogResultYes;
+    }
+
+
+    public static YesNoCheckResult ShowMessageYesNoWithCheckbox(Context context,
                                                                              String title,
                                                                              String msg,
                                                                              String CheckBoxTitle,
@@ -674,7 +732,7 @@ public class lib {
         return null;
     }
 
-    public static synchronized OkCancelStringResult InputBox(Context context,
+    public static OkCancelStringResult InputBox(Context context,
                                                                              String title,
                                                                              String msg,
                                                                              String prompt,
@@ -757,7 +815,7 @@ public class lib {
 
 
 
-    public static synchronized yesnoundefined ShowMessageYesNoWithCheckboxes(Context context,
+    public static yesnoundefined ShowMessageYesNoWithCheckboxes(Context context,
                                                                              String msg,
                                                                              CharSequence[] items,
                                                                              boolean[]checkedItems,
@@ -816,7 +874,7 @@ public class lib {
     }
 
 
-    public static synchronized void ShowToast(Context context, String msg) {
+    public static void ShowToast(Context context, String msg) {
 		/* Looper.prepare(); */
         Toast T = Toast.makeText(context, msg, Toast.LENGTH_LONG);
         T.show();

@@ -43,6 +43,7 @@ public class LoginQuizletActivity extends AppCompatActivity {
         //RoboGuice.setUseAnnotationDatabases(false);
     }
     public String AccessToken;
+    public boolean blnUpload;
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
         return super.onCreateView(name, context, attrs);
@@ -51,6 +52,7 @@ public class LoginQuizletActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        blnUpload = getIntent().getBooleanExtra("upload",false);
         QuizletOAuth2AccessCodeRetrievalFragment dlg = new QuizletOAuth2AccessCodeRetrievalFragment();
         dlg.setAuthCodeReceiveListener(new OauthAccessCodeRetrievalFragment.AuthCodeReceiveListener() {
             @Override
@@ -127,6 +129,7 @@ public class LoginQuizletActivity extends AppCompatActivity {
                 intent.putExtra("AuthCode", AccessToken);
                 intent.putExtra("user", accessTokens[1]);
                 intent.putExtra("accessToken", accessTokens[0]);
+                intent.putExtra("upload",blnUpload);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }

@@ -13,6 +13,7 @@
         compat:showAsAction="always" 
         android:icon="@drawable/ic_menu_archive">
     </item>
+    <item android:id="@+id/mnuUploadToQuizlet" android:title="@string/mnuUploadToQuizlet"/>
     <item android:id="@+id/mnuOpenUri" android:title="@string/mnuOpenUri"/>
     <item android:id="@+id/mnuOpenQuizlet"
         android:title="@string/mnuOpenQuizlet"
