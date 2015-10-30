@@ -1913,7 +1913,7 @@ public class MainActivity extends AppCompatActivity  {
 									break;
 							}
                         }
-					} catch (IOException e) {
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 					lib.ShowMessage(MainActivity.this,resout,MainActivity.this.getString(R.string.Error));
@@ -1996,7 +1996,7 @@ public class MainActivity extends AppCompatActivity  {
 								set_id: 102155109*/
 							}
 						}
-					} catch (IOException e) {
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 					lib.ShowMessage(MainActivity.this,resout,MainActivity.this.getString(R.string.upload_successful));

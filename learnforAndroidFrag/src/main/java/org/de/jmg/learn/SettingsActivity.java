@@ -202,6 +202,7 @@ public class SettingsActivity extends Fragment
 		} catch (Exception e) {
 			lib.ShowException(_main,e);
 		}
+		//langinitialized = true;
 		return SettingsView;
 	}
 	
@@ -1011,7 +1012,11 @@ public class SettingsActivity extends Fragment
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
 												   View view, int position, long id) {
-							if (position <= 0 || !langinitialized) return;
+							if (position <= 0 || !langinitialized)
+							{
+								langinitialized = true;
+								return;
+							}
 							Locale l = adapterLangWord.getItem(position).locale;
 							int res = _main.tts.setLanguage(l);
 							if (res >= 0 || l.toString().equalsIgnoreCase("_off")
@@ -1065,7 +1070,11 @@ public class SettingsActivity extends Fragment
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
 												   View view, int position, long id) {
-							if (position <= 0  || !langinitialized) return;
+							if (position <= 0  || !langinitialized)
+							{
+								langinitialized = true;
+								return;
+							}
 							Locale l = adapterLangMeaning.getItem(position).locale;
 							int res = _main.tts.setLanguage(l);
 							if (res >= 0 || l.toString().equalsIgnoreCase("_off")
@@ -1619,7 +1628,7 @@ public class SettingsActivity extends Fragment
 			spnLangWord.setSelection(adapterLangWord.getPosition(selectedLocale));
 
 		}
-		langinitialized = true;
+		//langinitialized = true;
 	}
 
 	public void setSpnMeaningPosition()
@@ -1643,7 +1652,7 @@ public class SettingsActivity extends Fragment
 			sortLangMeaning();
 			spnLangMeaning.setSelection(adapterLangMeaning.getPosition(selectedLocale));
 		}
-		langinitialized = true;
+		//langinitialized = true;
 	}
 
 
