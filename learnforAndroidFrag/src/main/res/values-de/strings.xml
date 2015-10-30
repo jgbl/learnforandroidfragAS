@@ -286,7 +286,7 @@
     <string name="SearchQuizlet">Suche bei Quizlet</string>
     <string name="mnuOpenQuizlet">öffne Quizlet</string>
     <string name="loading">Lade...</string>
-    <string name="created_by">erstellt von</string>
+    <string name="created_by">Erstellt von</string>
     <string name="at">bei</string>
     <string name="saving">speichere</string>
     <string name="fileCouldNotBeCreated">Konnte Datei nicht erstellen</string>
@@ -308,4 +308,13 @@
     <string name="msgPrivateNotSupported">Private Sets werden von der Quizlet Api bisher nicht unterstützt!</string>
     <string name="error_description">Fehlerbeschreibung</string>
     <string name="upload_successful">Der Upload war erfolgreich!</string>
+    <string name="term_count">Anzahl der Worte</string>
+    <string name="created_date">Erstellungsdatum</string>
+    <string name="modified_date">Änderungsdatum</string>
+    <string name="published_date">Datum der Veröffentlichung</string>
+    <string name="visibility">Sichtbarkeit</string>
+    <string name="editable">Änderbar</string>
+    <string name="description">Beschreibung</string>
+    <string name="lang_terms">Sprache Word</string>
+    <string name="lang_definitions">Sprache Bedeutung</string>
 </resources>

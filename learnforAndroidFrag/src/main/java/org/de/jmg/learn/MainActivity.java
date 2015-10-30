@@ -33,6 +33,7 @@ import java.io.StringReader;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
@@ -51,6 +52,7 @@ import org.liberty.android.fantastischmemo.downloader.quizlet.LoginQuizletActivi
 
 import br.com.thinkti.android.filechooser.AdvFileChooser;
 import br.com.thinkti.android.filechooser.FileChooser;
+import br.com.thinkti.android.filechooserfrag.Data;
 import br.com.thinkti.android.filechooserfrag.fragFileChooser;
 import br.com.thinkti.android.filechooserfrag.fragFileChooserQuizlet;
 
@@ -1894,7 +1896,7 @@ public class MainActivity extends AppCompatActivity  {
 					InputStreamReader isr = new InputStreamReader(is);
 					BufferedReader r = new BufferedReader(isr);
 					String x = null;
-					String resout = null;
+					String resout = "";
 					try {
 						while ((x = r.readLine()) != null)
                         {
@@ -1929,39 +1931,69 @@ public class MainActivity extends AppCompatActivity  {
 					InputStreamReader isr = new InputStreamReader(is);
 					BufferedReader r = new BufferedReader(isr);
 					String x = null;
-					String resout = null;
+					String resout = "";
 					try {
 						while ((x = r.readLine()) != null)
 						{
 							String[] Tokens = x.split(": ");
 							switch(Tokens[0])
 							{
-								case "error_title" :
+								case "id" :
 									//resout += MainActivity.this.getString(R.string.Error);
-									resout += Tokens[1] + "\n";
+									resout += "ID: " + Tokens[1] + "\n";
 									break;
-								case "error_description" :
-									resout += MainActivity.this.getString(R.string.error_description);
+								case "url" :
+									//resout += MainActivity.this.getString(R.string.error_description);
+									resout += "URL: " + Tokens[1] + "\n";
+									break;
+								case "created_by" :
+									resout += MainActivity.this.getString(R.string.created_by);
 									resout += ": " + Tokens[1] + "\n";
 									break;
-								id: 102155109
-								url: /102155109/allneu2011-flash-cards/
-									title: ALLNEU2011
-								created_by: Hans-Martin_Goebel
-								term_count: 250
-								created_date: 1446223978
-								modified_date: 1446223978
-								published_date: 1446223978
-								visibility: public
-								editable: only_me
-								description:
-								lang_terms: iw
-								lang_definitions: de
-								password_use: 0
+								case "term_count" :
+									resout += MainActivity.this.getString(R.string.term_count);
+									resout += ": " + Tokens[1] + "\n";
+									break;
+								case "created_date" :
+									resout += MainActivity.this.getString(R.string.created_date);
+									Date dtCreated = new Date(Long.parseLong(Tokens[1]) * 1000 );
+									resout += ": " + Data.SHORT_DATE_FORMAT.format(dtCreated) + "\n";
+									break;
+								case "modified_date" :
+									resout += MainActivity.this.getString(R.string.modified_date);
+									Date dtModified = new Date(Long.parseLong(Tokens[1]) * 1000 );
+									resout += ": " + Data.SHORT_DATE_FORMAT.format(dtModified) + "\n";
+									break;
+								case "published_date" :
+									resout += MainActivity.this.getString(R.string.published_date);
+									Date dtPublished = new Date(Long.parseLong(Tokens[1]) * 1000 );
+									resout += ": " + Data.SHORT_DATE_FORMAT.format(dtPublished) + "\n";
+									break;
+								case "visibility" :
+									resout += MainActivity.this.getString(R.string.visibility);
+									resout += ": " + Tokens[1] + "\n";
+									break;
+								case "editable" :
+									resout += MainActivity.this.getString(R.string.editable);
+									resout += ": " + Tokens[1] + "\n";
+									break;
+								case "description" :
+									resout += MainActivity.this.getString(R.string.description);
+									resout += ": " + Tokens[1] + "\n";
+									break;
+								case "lang_terms" :
+									resout += MainActivity.this.getString(R.string.lang_terms);
+									resout += ": " + Tokens[1] + "\n";
+									break;
+								case "lang_definitions" :
+									resout += MainActivity.this.getString(R.string.lang_definitions);
+									resout += ": " + Tokens[1] + "\n";
+									break;
+								/*password_use: 0
 								password_edit: 0
 								access_type: 2
 								creator_id: 30990258
-								set_id: 102155109
+								set_id: 102155109*/
 							}
 						}
 					} catch (IOException e) {

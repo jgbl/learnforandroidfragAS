@@ -308,4 +308,13 @@
 	<string name="msgPrivateNotSupported">Making sets private is not supoorted by the Quizlet api yet!</string>
 	<string name="error_description">error description</string>
 	<string name="upload_successful">The upload was successful!</string>
+	<string name="term_count">number of words</string>
+	<string name="created_date">created date</string>
+	<string name="modified_date">modified date</string>
+	<string name="published_date">published date</string>
+	<string name="visibility">visibility</string>
+	<string name="editable">editable</string>
+	<string name="description">description</string>
+	<string name="lang_terms">language word</string>
+	<string name="lang_definitions">language meaning</string>
 </resources>
