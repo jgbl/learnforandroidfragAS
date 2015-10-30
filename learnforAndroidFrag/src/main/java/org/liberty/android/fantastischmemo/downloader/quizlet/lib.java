@@ -306,7 +306,7 @@ public class lib
                     JsonReader r = new JsonReader(new InputStreamReader(conn.getErrorStream(), "UTF-8"));
                     r.beginObject();
                     while (r.hasNext()) {
-                        error += r.nextName() + r.nextString() + "\r\n";
+                        error += r.nextName() + ": " + r.nextString() + "\r\n";
                     }
                     r.endObject();
                     r.close();
@@ -319,7 +319,7 @@ public class lib
                         + error );
                 res = error;
                 throw new IOException("Response code: "
-                        + conn.getResponseCode() + " URL is: " + url + " Error: " + error);
+                        + conn.getResponseCode() + " URL is: " + url + " \nError: " + error);
             }
             else
             {
@@ -340,7 +340,7 @@ public class lib
             }
         } finally {
             conn.disconnect();
-            return res;
+            //return res;
         }
     }
 

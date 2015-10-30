@@ -306,4 +306,6 @@
     <string name="UploadToQuizlet">Bitte geben Sie die Beschreibung für %s ein!</string>
     <string name="mnuUploadToQuizlet">Upload Quizlet</string>
     <string name="msgPrivateNotSupported">Private Sets werden von der Quizlet Api bisher nicht unterstützt!</string>
+    <string name="error_description">Fehlerbeschreibung</string>
+    <string name="upload_successful">Der Upload war erfolgreich!</string>
 </resources>

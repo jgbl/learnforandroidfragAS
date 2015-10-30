@@ -20,12 +20,18 @@
  */
 package org.de.jmg.learn;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PipedInputStream;
+import java.io.StringReader;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -48,6 +54,7 @@ import br.com.thinkti.android.filechooser.FileChooser;
 import br.com.thinkti.android.filechooserfrag.fragFileChooser;
 import br.com.thinkti.android.filechooserfrag.fragFileChooserQuizlet;
 
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
@@ -1871,6 +1878,7 @@ public class MainActivity extends AppCompatActivity  {
 			return null;
 		}
 
+		@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 		@Override
 		protected void onPostExecute(Exception ex) {
 
@@ -1878,9 +1886,35 @@ public class MainActivity extends AppCompatActivity  {
 			if (ex != null)
 			{
 				Log.d("UploadToQuizlet",ex.getMessage(),ex);
+				res = ex.getMessage().substring(ex.getMessage().lastIndexOf(" \n" +
+						"Error: ")) + 9;
 				if (!libString.IsNullOrEmpty(res))
 				{
-					lib.ShowMessage(MainActivity.this,res,"");
+					InputStream is = new ByteArrayInputStream( res.getBytes(Charset.forName("UTF-8")));
+					InputStreamReader isr = new InputStreamReader(is);
+					BufferedReader r = new BufferedReader(isr);
+					String x = null;
+					String resout = null;
+					try {
+						while ((x = r.readLine()) != null)
+                        {
+    						String[] Tokens = x.split(": ");
+							switch(Tokens[0])
+							{
+								case "error_title" :
+									//resout += MainActivity.this.getString(R.string.Error);
+									resout += Tokens[1] + "\n";
+									break;
+								case "error_description" :
+									resout += MainActivity.this.getString(R.string.error_description);
+									resout += ": " + Tokens[1] + "\n";
+									break;
+							}
+                        }
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					lib.ShowMessage(MainActivity.this,resout,MainActivity.this.getString(R.string.Error));
 				}
 				else
 				{
@@ -1889,7 +1923,52 @@ public class MainActivity extends AppCompatActivity  {
 			}
 			else
 			{
-				if (!libString.IsNullOrEmpty(res))lib.ShowMessage(MainActivity.this,res,"");
+				if (!libString.IsNullOrEmpty(res))
+				{
+					InputStream is = new ByteArrayInputStream( res.getBytes(Charset.forName("UTF-8")));
+					InputStreamReader isr = new InputStreamReader(is);
+					BufferedReader r = new BufferedReader(isr);
+					String x = null;
+					String resout = null;
+					try {
+						while ((x = r.readLine()) != null)
+						{
+							String[] Tokens = x.split(": ");
+							switch(Tokens[0])
+							{
+								case "error_title" :
+									//resout += MainActivity.this.getString(R.string.Error);
+									resout += Tokens[1] + "\n";
+									break;
+								case "error_description" :
+									resout += MainActivity.this.getString(R.string.error_description);
+									resout += ": " + Tokens[1] + "\n";
+									break;
+								id: 102155109
+								url: /102155109/allneu2011-flash-cards/
+									title: ALLNEU2011
+								created_by: Hans-Martin_Goebel
+								term_count: 250
+								created_date: 1446223978
+								modified_date: 1446223978
+								published_date: 1446223978
+								visibility: public
+								editable: only_me
+								description:
+								lang_terms: iw
+								lang_definitions: de
+								password_use: 0
+								password_edit: 0
+								access_type: 2
+								creator_id: 30990258
+								set_id: 102155109
+							}
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					lib.ShowMessage(MainActivity.this,resout,MainActivity.this.getString(R.string.upload_successful));
+				}
 			}
 		}
 
@@ -2337,7 +2416,7 @@ public class MainActivity extends AppCompatActivity  {
 				String AuthCode = data.getStringExtra("AuthCode");
 				String user = data.getStringExtra("user");
 				String accessToken = data.getStringExtra("accessToken");
-				boolean upload = data.getBooleanExtra("upload",false);
+				boolean upload = data.getBooleanExtra("upload", false);
 				QuizletUser = user;
 				QuizletAccessToken = accessToken;
 				prefs.edit().putString("QuizletAccessToken",QuizletAccessToken).commit();
