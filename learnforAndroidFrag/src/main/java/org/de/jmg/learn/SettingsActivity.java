@@ -1014,15 +1014,16 @@ public class SettingsActivity extends Fragment
 							if (position <= 0 || !langinitialized) return;
 							Locale l = adapterLangWord.getItem(position).locale;
 							int res = _main.tts.setLanguage(l);
-							if (res >= 0 || l.toString().equalsIgnoreCase("_off")) {
+							if (res >= 0 || l.toString().equalsIgnoreCase("_off")
+									|| lib.ShowMessageYesNo(_main,
+									String.format(_main.getString
+											(R.string.msgLanguageNotavailable)
+											, l.getDisplayLanguage() + " " + l.getDisplayCountry()), "")
+									== yesnoundefined.yes)
+							{
 								intent.putExtra("langword", lib.toLanguageTag
 										(l));
 								intent.putExtra("OK", "OK");
-							} else {
-								lib.ShowMessage(_main,
-										String.format(_main.getString
-												(R.string.msgLanguageNotavailable)
-												, l.getDisplayLanguage() + " " + l.getDisplayCountry()), "");
 							}
 						}
 
@@ -1067,16 +1068,15 @@ public class SettingsActivity extends Fragment
 							if (position <= 0  || !langinitialized) return;
 							Locale l = adapterLangMeaning.getItem(position).locale;
 							int res = _main.tts.setLanguage(l);
-							if (res >= 0 || l.toString().equalsIgnoreCase("_off"))
+							if (res >= 0 || l.toString().equalsIgnoreCase("_off")
+									|| lib.ShowMessageYesNo(_main, String.format
+									(_main.getString(R.string.msgLanguageNotavailable),
+											l.getDisplayLanguage() + " "
+													+ l.getDisplayCountry()),"")
+									== yesnoundefined.yes)
 							{
 								intent.putExtra("langmeaning", lib.toLanguageTag(l));
 								intent.putExtra("OK", "OK");
-							}
-							else
-							{
-								lib.ShowMessage(_main, String.format
-										(_main.getString(R.string.msgLanguageNotavailable),
-												l.getDisplayLanguage() + " " + l.getDisplayCountry()),"");
 							}
 						}
 

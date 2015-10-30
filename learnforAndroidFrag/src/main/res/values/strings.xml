@@ -301,7 +301,7 @@
 	<string name="spnLangMeaning">language Meaning</string>
 	<string name="hintTTS">text to speech</string>
 	<string name="TextToSpeech">text to speech</string>
-	<string name="msgLanguageNotavailable">This language (%s) is not available!</string>
+	<string name="msgLanguageNotavailable">This language (%s) is not available! Do you want to set the language nevertheless?</string>
 	<string name="copyfiles">Do you want to copy the vocabulary files into your vocabulary directory?</string>
 	<string name="UploadToQuizlet">Please enter description for %s!</string>
 	<string name="mnuUploadToQuizlet">upload quizlet</string>

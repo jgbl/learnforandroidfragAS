@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity  {
 
                     				lib.ShowException(MainActivity.this, e);
                     			}
+							mnuUploadToQuizlet.setEnabled(true);
                     	}
                         else if (LastPosition == _MainActivity.fragID)
                         {
@@ -217,6 +218,7 @@ public class MainActivity extends AppCompatActivity  {
                         else if (position == _MainActivity.fragID)
                         {
                         	mnuAddNew.setEnabled(true);
+							mnuUploadToQuizlet.setEnabled(true);
 							if (fPA!=null && fPA.fragMain!=null)
 							{
 								fPA.fragMain._txtMeaning1.setOnFocusChangeListener(new View.OnFocusChangeListener()
@@ -236,6 +238,7 @@ public class MainActivity extends AppCompatActivity  {
                         else if (position == SettingsActivity.fragID)
 						{
 							mnuAddNew.setEnabled(false);
+							mnuUploadToQuizlet.setEnabled(false);
 							if(fPA!=null && fPA.fragSettings!=null)
 							{
 								try
@@ -1490,6 +1493,7 @@ public class MainActivity extends AppCompatActivity  {
 	}
 	public Menu OptionsMenu;
 	public MenuItem mnuAddNew;
+	public MenuItem mnuUploadToQuizlet;
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -1500,6 +1504,7 @@ public class MainActivity extends AppCompatActivity  {
 			//resize();
 			OptionsMenu = menu;
 			mnuAddNew = menu.findItem(R.id.mnuAddWord);
+			mnuUploadToQuizlet = menu.findItem(R.id.mnuUploadToQuizlet);
 			Resources resources = context.getResources();
 			DisplayMetrics metrics = resources.getDisplayMetrics();
 			int height = metrics.heightPixels;
@@ -1869,19 +1874,29 @@ public class MainActivity extends AppCompatActivity  {
 		@Override
 		protected void onPostExecute(Exception ex) {
 
+			if(p.isShowing())p.dismiss();
 			if (ex != null)
 			{
-				lib.ShowException(MainActivity.this,ex);
+				Log.d("UploadToQuizlet",ex.getMessage(),ex);
+				if (!libString.IsNullOrEmpty(res))
+				{
+					lib.ShowMessage(MainActivity.this,res,"");
+				}
+				else
+				{
+					lib.ShowException(MainActivity.this,ex);
+				}
 			}
-			if(p.isShowing())p.dismiss();
-			lib.ShowMessage(MainActivity.this,res,"");
-
+			else
+			{
+				if (!libString.IsNullOrEmpty(res))lib.ShowMessage(MainActivity.this,res,"");
+			}
 		}
 
 		@Override
 		protected void onPreExecute() {
 			p = new ProgressDialog(MainActivity.this);
-			p.setMessage(MainActivity.this.getString(R.string.loading));
+			p.setMessage(MainActivity.this.getString(R.string.saving));
 			p.show();
 		}
 

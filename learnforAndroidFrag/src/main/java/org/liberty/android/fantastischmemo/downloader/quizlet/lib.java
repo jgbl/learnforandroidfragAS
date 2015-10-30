@@ -285,6 +285,7 @@ public class lib
             throws IOException {
         HttpsURLConnection conn = null;
         OutputStreamWriter writer = null;
+        String res = "";
         try {
             conn = (HttpsURLConnection) url.openConnection();
             conn.setDoInput(true);
@@ -316,6 +317,7 @@ public class lib
                 }
                 Log.v("makePostApiCall", "Error string is: "
                         + error );
+                res = error;
                 throw new IOException("Response code: "
                         + conn.getResponseCode() + " URL is: " + url + " Error: " + error);
             }
@@ -323,7 +325,6 @@ public class lib
             {
                 JsonReader r = new JsonReader(new InputStreamReader(conn.getInputStream()));
                 r.beginObject();
-                String res = "";
                 while (r.hasNext())
                 {
                     try
@@ -339,6 +340,7 @@ public class lib
             }
         } finally {
             conn.disconnect();
+            return res;
         }
     }
 
