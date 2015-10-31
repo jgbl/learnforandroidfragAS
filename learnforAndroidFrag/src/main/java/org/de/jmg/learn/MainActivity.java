@@ -162,132 +162,9 @@ public class MainActivity extends AppCompatActivity  {
 
 		/** Getting a reference to FragmentManager */
 		FragmentManager fm = getSupportFragmentManager();
-        
-        /** Defining a listener for pageChange */
-        ViewPager.SimpleOnPageChangeListener pageChangeListener = new ViewPager.SimpleOnPageChangeListener()
-        {
-            int LastPosition = -1;    
-        	@Override
-                public void onPageSelected(int position)
-                {
-                        super.onPageSelected(position);
-                        if (LastPosition == SettingsActivity.fragID)
-                        {
-                        		try 
-                        		{
-                    				if(fPA!=null && fPA.fragSettings!=null)
-                    				{
-                    					try
-                    					{
-                    						fPA.fragSettings.saveResultsAndFinish(true);
-                    					}
-                    					catch (Exception ex)
-                    					{
-                    						Log.e(".saveResultsAndFinish",ex.getMessage(),ex);
-                    					}
-                    					/*
-                    					if (lib.NookSimpleTouch()) 
-                    					{
-                    						RemoveFragSettings();
-                    					}
-                    					*/
-                    				}
-                    				
-                    			} 
-                        		catch (Exception e) 
-                        		{
 
-                    				lib.ShowException(MainActivity.this, e);
-                    			}
-							mnuUploadToQuizlet.setEnabled(true);
-                    	}
-                        else if (LastPosition == _MainActivity.fragID)
-                        {
-                        	if (fPA!=null && fPA.fragMain!=null)
-                        	{
-                        		fPA.fragMain.removeCallbacks();
-                        	}
-                        }
+		setPageChangedListener();
 
-                        if (position == fragFileChooser.fragID)
-                    	{
-                        	mnuAddNew.setEnabled(false);
-                        	/*
-							try {
-								if (!checkLoadFile())
-								{
-									mPager.setCurrentItem(_MainActivity.fragID);
-								}
-							} catch (Exception e) {
-
-								lib.ShowException(MainActivity.this, e);
-							}
-							*/
-                    	}
-                        else if (position == _MainActivity.fragID)
-                        {
-                        	mnuAddNew.setEnabled(true);
-							mnuUploadToQuizlet.setEnabled(true);
-							if (fPA!=null && fPA.fragMain!=null)
-							{
-								fPA.fragMain._txtMeaning1.setOnFocusChangeListener(new View.OnFocusChangeListener()
-								{
-									@Override
-									public void onFocusChange(View v, boolean hasFocus) {
-										fPA.fragMain._txtMeaning1.setOnFocusChangeListener(fPA.fragMain.FocusListenerMeaning1);
-										if (hasFocus)
-										{
-											fPA.fragMain._scrollView.fullScroll(View.FOCUS_UP);
-										}
-
-									}
-								});
-							}
-						}
-                        else if (position == SettingsActivity.fragID)
-						{
-							mnuAddNew.setEnabled(false);
-							mnuUploadToQuizlet.setEnabled(false);
-							if(fPA!=null && fPA.fragSettings!=null)
-							{
-								try
-								{
-									int Language = fPA.fragSettings.getIntent().getIntExtra(
-											"Language", org.de.jmg.learn.vok.Vokabel.EnumSprachen.undefiniert.ordinal());
-									fPA.fragSettings.spnLanguages.setSelection(Language);
-									fPA.fragSettings.setSpnMeaningPosition();
-									fPA.fragSettings.setSpnWordPosition();
-									fPA.fragSettings.setChkTSS();
-								}
-								catch (Exception ex)
-								{
-									Log.e(".saveResultsAndFinish",ex.getMessage(),ex);
-								}
-							}
-						}
-						else if (position == fragFileChooserQuizlet.fragID)
-						{
-							if (fPA != null & fPA.fragQuizlet != null)
-							{
-								searchQuizlet();
-							}
-
-						}
-						else
-                        {
-                        	mnuAddNew.setEnabled(false);
-                        }
-
-						LastPosition=position;
-
-
-				}
-
-        };
-        
-        /** Setting the pageChange listener to the viewPager */
-        mPager.addOnPageChangeListener(pageChangeListener);
-        
         /** Creating an instance of FragmentPagerAdapter */
         if(fPA==null)fPA = new MyFragmentPagerAdapter(fm, this, savedInstanceState!=null);
                 
@@ -304,95 +181,250 @@ public class MainActivity extends AppCompatActivity  {
 			lib.ShowException(this, ex);
 		}
 
-		try {
+		try
+		{
 			libLearn.gStatus = "onCreate setContentView";
 			mainView = findViewById(Window.ID_ANDROID_CONTENT);
 			defaultErrorHandler = Thread.getDefaultUncaughtExceptionHandler();
 			Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
 
 			// View LayoutMain = findViewById(R.id.layoutMain);
-			libLearn.gStatus = "getting preferences";
-			try {
-				libLearn.gStatus = "onCreate getPrefs";
-				prefs = this.getPreferences(Context.MODE_PRIVATE);
-				String Installer = this.getPackageManager().getInstallerPackageName(this.getPackageName());
-				if (prefs.getBoolean("play",true)
-						&& (Installer == null
-						|| (!Installer.equalsIgnoreCase("com.android.vending")
-						&& Installer.indexOf("com.google.android") == -1)))
-				{
-					lib.YesNoCheckResult res = lib.ShowMessageYesNoWithCheckbox
-							(this,Installer!=null?Installer:"",this.getString(R.string.msgNotGooglePlay)
-									,this.getString(R.string.msgDontShowThisMessageAgain),false);
-					if (res!=null)
+
+			processPreferences();
+
+			libLearn.gStatus = "onCreate Copy Assets";
+			CopyAssets();
+			
+			
+			try
+			{
+				processBundle (savedInstanceState);
+			}
+			catch (Exception e) 
+			{
+
+				e.printStackTrace();
+				lib.ShowException(this, e);
+			}
+			//InitSettings();
+						
+
+		} catch (Exception ex) {
+			lib.ShowException(this, ex);
+		}
+
+    }
+
+	private void processBundle(Bundle savedInstanceState) throws Exception
+	{
+		String tmppath = Path.combine(getApplicationInfo().dataDir,
+				"vok.tmp");
+		// SetActionBarTitle();
+		boolean CardMode;
+		if (savedInstanceState != null)
+		{
+					/*
+					if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
 					{
-						prefs.edit().putBoolean("play",!res.checked).commit();
-						if (res.res==yesnoundefined.yes)
+						fPA.fragMain.onCreateView(LayoutInflater.from(this), Layout, null);
+					}
+					*/
+			libLearn.gStatus = "onCreate Load SavedInstanceState";
+			ActionBarOriginalTextSize= savedInstanceState.getFloat("ActionBarOriginalTextSize");
+			String filename = savedInstanceState.getString("vokpath");
+			Uri uri = null;
+			String strURI = savedInstanceState.getString("URI");
+			if (!libString.IsNullOrEmpty(strURI)) uri = Uri.parse(strURI);
+			int index = savedInstanceState.getInt("vokindex");
+			int[] Lernvokabeln = savedInstanceState
+					.getIntArray("Lernvokabeln");
+			int Lernindex = savedInstanceState.getInt("Lernindex");
+			CardMode = savedInstanceState.getBoolean("Cardmode", false);
+			if (index > 0) {
+				_blnUniCode = savedInstanceState.getBoolean(
+						"Unicode", true);
+				LoadVokabel(tmppath, uri, index, Lernvokabeln, Lernindex,
+						CardMode);
+				vok.setLastIndex(savedInstanceState.getInt(
+						"vokLastIndex", vok.getLastIndex()));
+				vok.setFileName(filename);
+				vok.setURI(uri);
+				vok.setCardMode(CardMode);
+				vok.aend = savedInstanceState.getBoolean("aend", true);
+						/*
+						if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
 						{
-							String url = "https://play.google.com/apps/testing/org.de.jmg.learn";
-							Intent i = new Intent(Intent.ACTION_VIEW);
-							i.setData(Uri.parse(url));
-							startActivity(i);
-							finish();
+							fPA.fragMain.getVokabel(false, false);
 						}
+						*/
+			}
+
+					/*
+					if (fPA.fragSettings!=null)
+					{
+						fPA.fragSettings.onCreateView(LayoutInflater.from(this), Layout, null);
+					}
+					*/
+
+			//mPager.setCurrentItem(savedInstanceState.getInt("SelFragID", 0));
+		}
+		else
+		{
+			libLearn.gStatus = "getting lastfile";
+			String strURI = prefs.getString("URI","");
+			String filename = prefs.getString("LastFile", "");
+			String UriName = prefs.getString("FileName", "");
+			int[] Lernvokabeln = lib.getIntArrayFromPrefs(prefs,
+					"Lernvokabeln");
+			if (!libString.IsNullOrEmpty(strURI)
+					|| !libString.IsNullOrEmpty(filename)
+					|| (vok.checkLernvokabeln(Lernvokabeln)))
+			{
+				libLearn.gStatus = "onCreate Load Lastfile";
+
+				Uri uri = null;
+				if (!libString.IsNullOrEmpty(strURI))
+				{
+					uri = Uri.parse(strURI);
+					lib.CheckPermissions(this, uri,false);
+				}
+
+				int index = prefs.getInt("vokindex", 1);
+				int Lernindex = prefs.getInt("Lernindex", 0);
+				_blnUniCode = prefs.getBoolean("Unicode", true);
+				boolean isTmpFile = prefs
+						.getBoolean("isTmpFile", false);
+				boolean aend = prefs.getBoolean("aend", true);
+				CardMode = prefs.getBoolean("Cardmode", false);
+				if (Lernvokabeln != null) {
+					if (isTmpFile) {
+						libLearn.gStatus = "getting lastfile load tmpfile";
+						LoadVokabel(tmppath, uri, index, Lernvokabeln,
+								Lernindex, CardMode);
+						vok.setFileName(filename);
+						vok.setURI(uri);
+						vok.setURIName(UriName);
+						vok.setCardMode(CardMode);
+						vok.setLastIndex(prefs.getInt("vokLastIndex",
+								vok.getLastIndex()));
+						vok.aend = aend;
+					}
+					else
+					{
+						libLearn.gStatus = "getting lastfile load file";
+						LoadVokabel(filename, uri, index, Lernvokabeln,
+								Lernindex, CardMode);
+						vok.setLastIndex(prefs.getInt("vokLastIndex",
+								vok.getLastIndex()));
 					}
 				}
-				vok = new Vokabel(this,
-						(TextView) this.findViewById(R.id.txtStatus));
-				if (fPA.fragMain != null) fPA.fragMain._vok = vok;
-				vok.setSchrittweite((short) prefs.getInt("Schrittweite", 6));
-				CharsetASCII = prefs.getString("CharsetASCII", "Windows-1252");
-				vok.CharsetASCII = CharsetASCII;
-				vok.setAbfragebereich((short) prefs
-						.getInt("Abfragebereich", -1));
-				DisplayDurationWord = prefs.getFloat("DisplayDurationWord",
-						1.5f);
-				DisplayDurationBed = prefs.getFloat("DisplayDurationBed", 2.5f);
-				PaukRepetitions = prefs.getInt("PaukRepetitions", 3);
-				vok.ProbabilityFactor = prefs
-						.getFloat("ProbabilityFactor", -1f);
-				vok.setAbfrageZufaellig(prefs.getBoolean("Random",
-						vok.getAbfrageZufaellig()));
-				vok.setAskAll(prefs.getBoolean("AskAll", vok.getAskAll()));
-				vok.RestartInterval = prefs.getInt("RestartInterval", 10);
-				lib.sndEnabled = prefs.getBoolean("Sound", lib.sndEnabled);
-				SoundDir = prefs.getString("SoundDir", Environment.getExternalStorageDirectory().getPath());
-				Colors = getColorsFromPrefs();
-				colSounds = getSoundsFromPrefs();
-				blnTextToSpeech = prefs.getBoolean("TextToSpeech", true);
-				tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-					@Override
-					public void onInit(int status) {
-						if (status == TextToSpeech.SUCCESS)	{
-							int res = tts.setLanguage(Locale.US);
-							if (res < 0)
-							{
-								blnTextToSpeech = false;
-							}
-							else
-							{
-								tts.setSpeechRate(.75f);
-							}
-						}
-						else
+				else
+				{
+					if (isTmpFile)
+					{
+						libLearn.gStatus = "getting lastfiletmp no Lernvokablen";
+						LoadVokabel(tmppath, uri, 1, null, 0, CardMode);
+						vok.setFileName(filename);
+						vok.setURI(uri);
+						vok.setCardMode(CardMode);
+						vok.aend = aend;
+					}
+					else
+					{
+						libLearn.gStatus = "getting lastfile no Lernvokablen";
+						LoadVokabel(filename, uri, 1, null, 0, CardMode);
+					}
+				}
+
+			}
+		}
+	}
+
+	private void processPreferences()
+	{
+		libLearn.gStatus = "getting preferences";
+		try
+		{
+			libLearn.gStatus = "onCreate getPrefs";
+			prefs = this.getPreferences(Context.MODE_PRIVATE);
+			String Installer = this.getPackageManager().getInstallerPackageName(this.getPackageName());
+			if (prefs.getBoolean("play",true)
+					&& (Installer == null
+					|| (!Installer.equalsIgnoreCase("com.android.vending")
+					&& Installer.indexOf("com.google.android") == -1)))
+			{
+				lib.YesNoCheckResult res = lib.ShowMessageYesNoWithCheckbox
+						(this,Installer!=null?Installer:"",this.getString(R.string.msgNotGooglePlay)
+								,this.getString(R.string.msgDontShowThisMessageAgain),false);
+				if (res!=null)
+				{
+					prefs.edit().putBoolean("play",!res.checked).commit();
+					if (res.res==yesnoundefined.yes)
+					{
+						String url = "https://play.google.com/apps/testing/org.de.jmg.learn";
+						Intent i = new Intent(Intent.ACTION_VIEW);
+						i.setData(Uri.parse(url));
+						startActivity(i);
+						finish();
+					}
+				}
+			}
+			vok = new Vokabel(this,
+					(TextView) this.findViewById(R.id.txtStatus));
+			if (fPA.fragMain != null) fPA.fragMain._vok = vok;
+			vok.setSchrittweite((short) prefs.getInt("Schrittweite", 6));
+			CharsetASCII = prefs.getString("CharsetASCII", "Windows-1252");
+			vok.CharsetASCII = CharsetASCII;
+			vok.setAbfragebereich((short) prefs
+					.getInt("Abfragebereich", -1));
+			DisplayDurationWord = prefs.getFloat("DisplayDurationWord",
+					1.5f);
+			DisplayDurationBed = prefs.getFloat("DisplayDurationBed", 2.5f);
+			PaukRepetitions = prefs.getInt("PaukRepetitions", 3);
+			vok.ProbabilityFactor = prefs
+					.getFloat("ProbabilityFactor", -1f);
+			vok.setAbfrageZufaellig(prefs.getBoolean("Random",
+					vok.getAbfrageZufaellig()));
+			vok.setAskAll(prefs.getBoolean("AskAll", vok.getAskAll()));
+			vok.RestartInterval = prefs.getInt("RestartInterval", 10);
+			lib.sndEnabled = prefs.getBoolean("Sound", lib.sndEnabled);
+			SoundDir = prefs.getString("SoundDir", Environment.getExternalStorageDirectory().getPath());
+			Colors = getColorsFromPrefs();
+			colSounds = getSoundsFromPrefs();
+			blnTextToSpeech = prefs.getBoolean("TextToSpeech", true);
+			tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+				@Override
+				public void onInit(int status) {
+					if (status == TextToSpeech.SUCCESS)	{
+						int res = tts.setLanguage(Locale.US);
+						if (res < 0)
 						{
 							blnTextToSpeech = false;
 						}
+						else
+						{
+							tts.setSpeechRate(.75f);
+						}
 					}
-				});
+					else
+					{
+						blnTextToSpeech = false;
+					}
+				}
+			});
 
-				boolean blnLicenseAccepted = prefs.getBoolean("LicenseAccepted", false);
-				if (!blnLicenseAccepted)
-				{
-					InputStream is = this.getAssets().open("LICENSE");
-					java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-					String strLicense =  s.hasNext() ? s.next() : "";
-					s.close();
-					is.close();
-					lib.yesnoundefined res = (lib.ShowMessageYesNo(this,
-							strLicense,
-							getString(R.string.license),
-							true) );
+			boolean blnLicenseAccepted = prefs.getBoolean("LicenseAccepted", false);
+			if (!blnLicenseAccepted)
+			{
+				InputStream is = this.getAssets().open("LICENSE");
+				java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+				String strLicense =  s.hasNext() ? s.next() : "";
+				s.close();
+				is.close();
+				lib.yesnoundefined res = (lib.ShowMessageYesNo(this,
+						strLicense,
+						getString(R.string.license),
+						true) );
 					/*
 					java.lang.CharSequence[] cbxs = {getString(R.string.gpl),getString(R.string.gplno)};
 					boolean[] blns = {false,false};
@@ -410,165 +442,150 @@ public class MainActivity extends AppCompatActivity  {
 									})
 					);
 					*/
-					if (res == lib.yesnoundefined.yes)
-					{
-						prefs.edit().putBoolean("LicenseAccepted", true).commit();
-					}
-					else
-					{
-						finish();
-					}
-
+				if (res == lib.yesnoundefined.yes)
+				{
+					prefs.edit().putBoolean("LicenseAccepted", true).commit();
 				}
-			} catch (Exception e) {
-
-				lib.ShowException(this, e);
-			}
-			libLearn.gStatus = "onCreate Copy Assets";
-			CopyAssets();
-			
-			
-			try {
-				
-				String tmppath = Path.combine(getApplicationInfo().dataDir,
-						"vok.tmp");
-				// SetActionBarTitle();
-				boolean CardMode;
-				if (savedInstanceState != null) 
+				else
 				{
-					/*
-					if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
-					{
-						fPA.fragMain.onCreateView(LayoutInflater.from(this), Layout, null);
-					}
-					*/
-					libLearn.gStatus = "onCreate Load SavedInstanceState";
-					ActionBarOriginalTextSize= savedInstanceState.getFloat("ActionBarOriginalTextSize");
-					String filename = savedInstanceState.getString("vokpath");
-					Uri uri = null;
-					String strURI = savedInstanceState.getString("URI");
-					if (!libString.IsNullOrEmpty(strURI)) uri = Uri.parse(strURI);
-					int index = savedInstanceState.getInt("vokindex");
-					int[] Lernvokabeln = savedInstanceState
-							.getIntArray("Lernvokabeln");
-					int Lernindex = savedInstanceState.getInt("Lernindex");
-					CardMode = savedInstanceState.getBoolean("Cardmode", false);
-					if (index > 0) {
-						_blnUniCode = savedInstanceState.getBoolean(
-								"Unicode", true);
-						LoadVokabel(tmppath, uri, index, Lernvokabeln, Lernindex,
-								CardMode);
-						vok.setLastIndex(savedInstanceState.getInt(
-								"vokLastIndex", vok.getLastIndex()));
-						vok.setFileName(filename);
-						vok.setURI(uri);
-						vok.setCardMode(CardMode);
-						vok.aend = savedInstanceState.getBoolean("aend", true);
-						/*
-						if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
-						{
-							fPA.fragMain.getVokabel(false, false);
-						}
-						*/
-					}
-					
-					/*
-					if (fPA.fragSettings!=null)
-					{
-						fPA.fragSettings.onCreateView(LayoutInflater.from(this), Layout, null);
-					}
-					*/
-					
-					//mPager.setCurrentItem(savedInstanceState.getInt("SelFragID", 0));
-				} 
-				else 
-				{
-					libLearn.gStatus = "getting lastfile";
-					String strURI = prefs.getString("URI","");
-					String filename = prefs.getString("LastFile", "");
-					String UriName = prefs.getString("FileName", "");
-					int[] Lernvokabeln = lib.getIntArrayFromPrefs(prefs,
-							"Lernvokabeln");
-					if (!libString.IsNullOrEmpty(strURI)
-							|| !libString.IsNullOrEmpty(filename)
-							|| (vok.checkLernvokabeln(Lernvokabeln))) 
-					{
-						libLearn.gStatus = "onCreate Load Lastfile";
-						
-						Uri uri = null;
-						if (!libString.IsNullOrEmpty(strURI))
-						{
-							uri = Uri.parse(strURI);
-							lib.CheckPermissions(this, uri,false);
-						}
-						
-						int index = prefs.getInt("vokindex", 1);
-						int Lernindex = prefs.getInt("Lernindex", 0);
-						_blnUniCode = prefs.getBoolean("Unicode", true);
-						boolean isTmpFile = prefs
-								.getBoolean("isTmpFile", false);
-						boolean aend = prefs.getBoolean("aend", true);
-						CardMode = prefs.getBoolean("Cardmode", false);
-						if (Lernvokabeln != null) {
-							if (isTmpFile) {
-								libLearn.gStatus = "getting lastfile load tmpfile";
-								LoadVokabel(tmppath, uri, index, Lernvokabeln,
-										Lernindex, CardMode);
-								vok.setFileName(filename);
-								vok.setURI(uri);
-								vok.setURIName(UriName);
-								vok.setCardMode(CardMode);
-								vok.setLastIndex(prefs.getInt("vokLastIndex",
-										vok.getLastIndex()));
-								vok.aend = aend;
-							} 
-							else 
-							{
-								libLearn.gStatus = "getting lastfile load file";
-								LoadVokabel(filename, uri, index, Lernvokabeln,
-										Lernindex, CardMode);
-								vok.setLastIndex(prefs.getInt("vokLastIndex",
-										vok.getLastIndex()));
-							}
-						} 
-						else 
-						{
-							if (isTmpFile) 
-							{
-								libLearn.gStatus = "getting lastfiletmp no Lernvokablen";
-								LoadVokabel(tmppath, uri, 1, null, 0, CardMode);
-								vok.setFileName(filename);
-								vok.setURI(uri);
-								vok.setCardMode(CardMode);
-								vok.aend = aend;
-							} 
-							else 
-							{
-								libLearn.gStatus = "getting lastfile no Lernvokablen";
-								LoadVokabel(filename, uri, 1, null, 0, CardMode);
-							}
-						}
-
-					}
+					finish();
 				}
 
-			} 
-			catch (Exception e) 
-			{
-
-				e.printStackTrace();
-				lib.ShowException(this, e);
 			}
-			//InitSettings();
-						
+		} catch (Exception e) {
 
-		} catch (Exception ex) {
-			lib.ShowException(this, ex);
+			lib.ShowException(this, e);
 		}
+	}
 
-    }
+	private void setPageChangedListener()
+	{
+		/** Defining a listener for pageChange */
+		ViewPager.SimpleOnPageChangeListener pageChangeListener = new ViewPager.SimpleOnPageChangeListener()
+		{
+			int LastPosition = -1;
+			@Override
+			public void onPageSelected(int position)
+			{
+				super.onPageSelected(position);
+				if (LastPosition == SettingsActivity.fragID)
+				{
+					try
+					{
+						if(fPA!=null && fPA.fragSettings!=null)
+						{
+							try
+							{
+								fPA.fragSettings.saveResultsAndFinish(true);
+							}
+							catch (Exception ex)
+							{
+								Log.e(".saveResultsAndFinish",ex.getMessage(),ex);
+							}
+                    					/*
+                    					if (lib.NookSimpleTouch())
+                    					{
+                    						RemoveFragSettings();
+                    					}
+                    					*/
+						}
 
-	
+					}
+					catch (Exception e)
+					{
+
+						lib.ShowException(MainActivity.this, e);
+					}
+					mnuUploadToQuizlet.setEnabled(true);
+				}
+				else if (LastPosition == _MainActivity.fragID)
+				{
+					if (fPA!=null && fPA.fragMain!=null)
+					{
+						fPA.fragMain.removeCallbacks();
+					}
+				}
+
+				if (position == fragFileChooser.fragID)
+				{
+					mnuAddNew.setEnabled(false);
+                        	/*
+							try {
+								if (!checkLoadFile())
+								{
+									mPager.setCurrentItem(_MainActivity.fragID);
+								}
+							} catch (Exception e) {
+
+								lib.ShowException(MainActivity.this, e);
+							}
+							*/
+				}
+				else if (position == _MainActivity.fragID)
+				{
+					mnuAddNew.setEnabled(true);
+					mnuUploadToQuizlet.setEnabled(true);
+					if (fPA!=null && fPA.fragMain!=null)
+					{
+						fPA.fragMain._txtMeaning1.setOnFocusChangeListener(new View.OnFocusChangeListener()
+						{
+							@Override
+							public void onFocusChange(View v, boolean hasFocus) {
+								fPA.fragMain._txtMeaning1.setOnFocusChangeListener(fPA.fragMain.FocusListenerMeaning1);
+								if (hasFocus)
+								{
+									fPA.fragMain._scrollView.fullScroll(View.FOCUS_UP);
+								}
+
+							}
+						});
+					}
+				}
+				else if (position == SettingsActivity.fragID)
+				{
+					mnuAddNew.setEnabled(false);
+					mnuUploadToQuizlet.setEnabled(false);
+					if(fPA!=null && fPA.fragSettings!=null)
+					{
+						try
+						{
+							int Language = fPA.fragSettings.getIntent().getIntExtra(
+									"Language", org.de.jmg.learn.vok.Vokabel.EnumSprachen.undefiniert.ordinal());
+							fPA.fragSettings.spnLanguages.setSelection(Language);
+							fPA.fragSettings.setSpnMeaningPosition();
+							fPA.fragSettings.setSpnWordPosition();
+							fPA.fragSettings.setChkTSS();
+						}
+						catch (Exception ex)
+						{
+							Log.e(".saveResultsAndFinish",ex.getMessage(),ex);
+						}
+					}
+				}
+				else if (position == fragFileChooserQuizlet.fragID)
+				{
+					if (fPA != null & fPA.fragQuizlet != null)
+					{
+						searchQuizlet();
+					}
+
+				}
+				else
+				{
+					mnuAddNew.setEnabled(false);
+				}
+
+				LastPosition=position;
+
+
+			}
+
+		};
+
+		/** Setting the pageChange listener to the viewPager */
+		mPager.addOnPageChangeListener(pageChangeListener);
+
+	}
 	
 	
 	public void RemoveFragSettings()
@@ -1548,6 +1565,7 @@ public class MainActivity extends AppCompatActivity  {
 			{
 				mnuQuizlet.setVisible(false);
 			}
+
 			/*
 			if (isSmallDevice)
 			{
@@ -1566,7 +1584,36 @@ public class MainActivity extends AppCompatActivity  {
 		} catch (Exception ex) {
 			lib.ShowException(this, ex);
 		}
+
 		return false;
+	}
+
+	public void SetShowAsAction()
+	{
+		View tb = this.findViewById(R.id.action_bar);
+		int SizeOther = 0;
+		int width = 0;
+		View SizeOtherView = null;
+		if (tb != null) {
+			if (width == 0)
+				width = tb.getWidth();
+			if (width > 0) {
+				ViewGroup g = (ViewGroup) tb;
+				for (int i = 0; i < g.getChildCount(); i++) {
+					View v = g.getChildAt(i);
+					if (!(v instanceof TextView)) {
+						SizeOther += v.getWidth();
+						SizeOtherView = v;
+					}
+				}
+				if (SizeOther > width * .75 && SizeOtherView != null)
+				{
+					MenuItemCompat.setShowAsAction(mnuUploadToQuizlet, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+					int SizeNew = SizeOtherView.getWidth();
+					Log.v("Test","" + SizeNew);
+				}
+			}
+		}
 	}
 
 	AlertDialog dlg = null;
