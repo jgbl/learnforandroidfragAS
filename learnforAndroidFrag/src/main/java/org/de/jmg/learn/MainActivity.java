@@ -58,6 +58,7 @@ import br.com.thinkti.android.filechooserfrag.fragFileChooserQuizlet;
 
 import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.app.Notification;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -68,6 +69,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.internal.view.menu.ActionMenuItemView;
+import android.support.v7.internal.view.menu.MenuBuilder;
 import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -76,7 +79,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.widget.ActionMenuView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.annotation.SuppressLint;
@@ -1544,11 +1549,14 @@ public class MainActivity extends AppCompatActivity  {
 			if (Build.VERSION.SDK_INT<11)
 			{
 				menu.findItem(R.id.mnuOpenQuizlet).setVisible(false);
+				menu.findItem(R.id.mnuUploadToQuizlet).setVisible(false);
 			}
+			/*
 			if (isSmallDevice)
 			{
 				MenuItemCompat.setShowAsAction(menu.findItem(R.id.mnuSaveAs), MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
 			}
+			*/
 			MenuItem mnuQuizlet = menu.findItem(R.id.mnuLoginQuizlet);
 			mnuQuizlet.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 				@Override
@@ -1587,13 +1595,22 @@ public class MainActivity extends AppCompatActivity  {
 
 		return false;
 	}
-
-	public void SetShowAsAction()
+	private android.support.v7.widget.ActionMenuView ActionMenu = null;
+	private boolean _blnReverse = false;
+	private int _invisibleCount = 0;
+	public void SetShowAsAction(final MenuItem m)
 	{
-		View tb = this.findViewById(R.id.action_bar);
+		_blnReverse = false;
+		_invisibleCount = Build.VERSION.SDK_INT>=11?0:2;
+		_SetShowAsAction(m);
+
+	}
+	private void _SetShowAsAction(final MenuItem m)
+	{
+		final View tb = this.findViewById(R.id.action_bar);
 		int SizeOther = 0;
 		int width = 0;
-		View SizeOtherView = null;
+		ActionMenu = null;
 		if (tb != null) {
 			if (width == 0)
 				width = tb.getWidth();
@@ -1601,16 +1618,62 @@ public class MainActivity extends AppCompatActivity  {
 				ViewGroup g = (ViewGroup) tb;
 				for (int i = 0; i < g.getChildCount(); i++) {
 					View v = g.getChildAt(i);
-					if (!(v instanceof TextView)) {
+					if ((v instanceof android.support.v7.widget.ActionMenuView)) {
 						SizeOther += v.getWidth();
-						SizeOtherView = v;
+						ActionMenu = (android.support.v7.widget.ActionMenuView) v;
 					}
 				}
-				if (SizeOther > width * .75 && SizeOtherView != null)
+				if (SizeOther < width * .7) _blnReverse = true;
+				if (( _blnReverse || SizeOther > width * .7) && ActionMenu != null)
 				{
-					MenuItemCompat.setShowAsAction(mnuUploadToQuizlet, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-					int SizeNew = SizeOtherView.getWidth();
-					Log.v("Test","" + SizeNew);
+					if (_blnReverse)
+					{
+						MenuBuilder mm = (MenuBuilder)ActionMenu.getMenu();
+						int Actions = mm.getActionItems().size();
+						try
+						{
+							MenuItem mmm = ActionMenu.getMenu().getItem(Actions + _invisibleCount);
+							if (mmm.isVisible())
+							{
+								MenuItemCompat.setShowAsAction(mmm,MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
+							}
+							else
+							{
+								_invisibleCount += 1;
+								_SetShowAsAction(mmm);
+							}
+						}
+						catch (IndexOutOfBoundsException ex)
+						{
+							return;
+						}
+					}
+					else
+					{
+						MenuItemCompat.setShowAsAction(m, MenuItemCompat.SHOW_AS_ACTION_NEVER);
+					}
+					ActionMenu.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+						@Override
+						public void onGlobalLayout()
+						{
+							if (ActionMenu!=null)
+							{
+								lib.removeLayoutListener(ActionMenu.getViewTreeObserver(), this);
+								int SizeNew = ActionMenu.getWidth();
+								Log.v("Test", "" + SizeNew);
+								MenuBuilder mm = (MenuBuilder)ActionMenu.getMenu();
+								int count = mm.getActionItems().size();
+								if (count >= 1 && !(_blnReverse && SizeNew > tb.getWidth() * .7))
+								{
+									MenuItem m = mm.getActionItems().get(count -1);
+									_SetShowAsAction(m);
+								}
+
+							}
+
+						}
+					});
+
 				}
 			}
 		}

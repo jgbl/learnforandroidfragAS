@@ -172,7 +172,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 							lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
 							// Here you can get the size :)
 							resize();
-							_main.SetShowAsAction();
+							_main.SetShowAsAction(_main.mnuUploadToQuizlet);
 
 							/*
 							try
