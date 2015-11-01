@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="org.de.jmg.learn"
-    android:versionCode="1953"
-    android:versionName="1.953">
+    android:versionCode="1954"
+    android:versionName="1.954">
     <uses-sdk
         android:minSdkVersion="7"
         android:targetSdkVersion="23"
