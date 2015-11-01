@@ -253,8 +253,8 @@ public class SettingsActivity extends Fragment
 			Settings.setSpan(new UnderlineSpan(), 0, Settings.length(),
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			txtSettings.setText(Settings);
-			initSpinners();
 			initCheckBoxes();
+			initSpinners();
 			initButtons();
 			initHelp();
 			edDataDir = (EditText) findViewById(R.id.edDataDir);
@@ -1019,7 +1019,9 @@ public class SettingsActivity extends Fragment
 							}
 							Locale l = adapterLangWord.getItem(position).locale;
 							int res = _main.tts.setLanguage(l);
-							if (res >= 0 || l.toString().equalsIgnoreCase("_off")
+							if (chkTextToSpeech.isChecked() == false
+									|| res >= 0
+									|| l.toString().equalsIgnoreCase("_off")
 									|| lib.ShowMessageYesNo(_main,
 									String.format(_main.getString
 											(R.string.msgLanguageNotavailable)
@@ -1077,7 +1079,9 @@ public class SettingsActivity extends Fragment
 							}
 							Locale l = adapterLangMeaning.getItem(position).locale;
 							int res = _main.tts.setLanguage(l);
-							if (res >= 0 || l.toString().equalsIgnoreCase("_off")
+							if (chkTextToSpeech.isChecked() == false
+									|| res >= 0
+									|| l.toString().equalsIgnoreCase("_off")
 									|| lib.ShowMessageYesNo(_main, String.format
 									(_main.getString(R.string.msgLanguageNotavailable),
 											l.getDisplayLanguage() + " "
