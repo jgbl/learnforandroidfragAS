@@ -1588,6 +1588,19 @@ public class MainActivity extends AppCompatActivity  {
 				//lib.ShowToast(this,"Menus set to IF_ROOM!");
 			}
 			*/
+			mainView.getViewTreeObserver().addOnGlobalLayoutListener
+					(
+							new ViewTreeObserver.OnGlobalLayoutListener() {
+
+								@Override
+								public void onGlobalLayout() {
+									// Ensure you call it only once :
+									lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
+									MainActivity.this.SetShowAsAction(mnuUploadToQuizlet);
+								}
+							}
+					);
+
 			return true;
 		} catch (Exception ex) {
 			lib.ShowException(this, ex);
@@ -1611,14 +1624,18 @@ public class MainActivity extends AppCompatActivity  {
 		int SizeOther = 0;
 		int width = 0;
 		ActionMenu = null;
-		if (tb != null) {
+		if (tb != null)
+		{
 			if (width == 0)
 				width = tb.getWidth();
-			if (width > 0) {
+			if (width > 0)
+			{
 				ViewGroup g = (ViewGroup) tb;
-				for (int i = 0; i < g.getChildCount(); i++) {
+				for (int i = 0; i < g.getChildCount(); i++)
+				{
 					View v = g.getChildAt(i);
-					if ((v instanceof android.support.v7.widget.ActionMenuView)) {
+					if ((v instanceof android.support.v7.widget.ActionMenuView))
+					{
 						SizeOther += v.getWidth();
 						ActionMenu = (android.support.v7.widget.ActionMenuView) v;
 					}
@@ -1656,16 +1673,16 @@ public class MainActivity extends AppCompatActivity  {
 						@Override
 						public void onGlobalLayout()
 						{
-							if (ActionMenu!=null)
+							if (ActionMenu != null)
 							{
 								lib.removeLayoutListener(ActionMenu.getViewTreeObserver(), this);
 								int SizeNew = ActionMenu.getWidth();
 								Log.v("Test", "" + SizeNew);
-								MenuBuilder mm = (MenuBuilder)ActionMenu.getMenu();
+								MenuBuilder mm = (MenuBuilder) ActionMenu.getMenu();
 								int count = mm.getActionItems().size();
 								if (count >= 1 && !(_blnReverse && SizeNew > tb.getWidth() * .7))
 								{
-									MenuItem m = mm.getActionItems().get(count -1);
+									MenuItem m = mm.getActionItems().get(count - 1);
 									_SetShowAsAction(m);
 								}
 
