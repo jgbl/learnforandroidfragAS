@@ -126,7 +126,7 @@ public class SettingsActivity extends Fragment
 	private View mainView;
 	private Intent intent;
 	private boolean blnLayouted = false;
-	private boolean langinitialized = false;
+	private int langinitialized = 0;
 
 	MainActivity _main;
 
@@ -134,7 +134,7 @@ public class SettingsActivity extends Fragment
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		langinitialized = false;
+		langinitialized = 0;
 		_main = (MainActivity) getActivity();	
 		SettingsView = null;
 		_blnInitialized = false;
@@ -166,7 +166,7 @@ public class SettingsActivity extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater,container,savedInstanceState);
-		langinitialized = false;
+		langinitialized = 0;
 		if (lib.NookSimpleTouch())
 		{
 			if (blnLayouted)
@@ -593,7 +593,7 @@ public class SettingsActivity extends Fragment
 			spnSounds = (org.de.jmg.lib.NoClickSpinner) findViewById(R.id.spnSounds);
 			spnLangWord = (Spinner) findViewById(R.id.spnLangWord);
 			spnLangMeaning = (Spinner) findViewById(R.id.spnLangMeaning);
-			langinitialized = false;
+			langinitialized = 0;
 			if (spnAbfragebereich.getAdapter()!= null && spnAbfragebereich.getAdapter().getCount()>0) return; 
 			if (Colors == null || Colors != null)
 			{
@@ -1012,9 +1012,9 @@ public class SettingsActivity extends Fragment
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
 												   View view, int position, long id) {
-							if (position <= 0 || !langinitialized)
+							if (position <= 0 || langinitialized == 0)
 							{
-								langinitialized = true;
+								langinitialized += 1;
 								return;
 							}
 							Locale l = adapterLangWord.getItem(position).locale;
@@ -1072,9 +1072,9 @@ public class SettingsActivity extends Fragment
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
 												   View view, int position, long id) {
-							if (position <= 0  || !langinitialized)
+							if (position <= 0  || langinitialized < 2)
 							{
-								langinitialized = true;
+								langinitialized += 1;
 								return;
 							}
 							Locale l = adapterLangMeaning.getItem(position).locale;
@@ -1612,7 +1612,7 @@ public class SettingsActivity extends Fragment
 
 	public void setSpnWordPosition()
 	{
-		langinitialized = false;
+		langinitialized = 0;
 		DisplayLocale selectedLocale = null;
 		for (int i = 0; i < adapterLangWord.getCount(); i++)
 		{
@@ -1637,7 +1637,7 @@ public class SettingsActivity extends Fragment
 
 	public void setSpnMeaningPosition()
 	{
-		langinitialized = false;
+		langinitialized = 0;
 		DisplayLocale selectedLocale = null;
 		for (int i = 0; i < adapterLangMeaning.getCount(); i++)
 		{
