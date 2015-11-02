@@ -408,6 +408,18 @@ public class SettingsActivity extends Fragment
 		chkRandom.setChecked(checked);
 		intent.putExtra("Random", checked);
 
+		chkRandom.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+										 boolean isChecked) {
+
+				intent.putExtra("Random", isChecked);
+				intent.putExtra("OK", "OK");
+			}
+
+		});
+
 		//chkTextToSpeech.setChecked(_main.blnTextToSpeech);
 		chkTextToSpeech.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
@@ -417,17 +429,6 @@ public class SettingsActivity extends Fragment
 			}
 		});
 
-		chkRandom.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-
-				intent.putExtra("Random", isChecked);
-				intent.putExtra("OK","OK");
-			}
-
-		});
 
 		checked = getIntent().getBooleanExtra("AskAll", false);
 		chkAskAll.setChecked(checked);
@@ -1608,6 +1609,7 @@ public class SettingsActivity extends Fragment
 	public void setChkTSS()
 	{
 		chkTextToSpeech.setChecked(_main.blnTextToSpeech);
+		//intent.putExtra("tts", _main.blnTextToSpeech);
 	}
 
 	public void setSpnWordPosition()

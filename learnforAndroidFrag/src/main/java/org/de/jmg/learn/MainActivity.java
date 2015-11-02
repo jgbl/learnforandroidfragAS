@@ -397,26 +397,7 @@ public class MainActivity extends AppCompatActivity  {
 			Colors = getColorsFromPrefs();
 			colSounds = getSoundsFromPrefs();
 			blnTextToSpeech = prefs.getBoolean("TextToSpeech", true);
-			tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-				@Override
-				public void onInit(int status) {
-					if (status == TextToSpeech.SUCCESS)	{
-						int res = tts.setLanguage(Locale.US);
-						if (res < 0)
-						{
-							blnTextToSpeech = false;
-						}
-						else
-						{
-							tts.setSpeechRate(.75f);
-						}
-					}
-					else
-					{
-						blnTextToSpeech = false;
-					}
-				}
-			});
+			StartTextToSpeech();
 
 			boolean blnLicenseAccepted = prefs.getBoolean("LicenseAccepted", false);
 			if (!blnLicenseAccepted)
@@ -461,6 +442,30 @@ public class MainActivity extends AppCompatActivity  {
 
 			lib.ShowException(this, e);
 		}
+	}
+
+	private void StartTextToSpeech()
+	{
+		tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+			@Override
+			public void onInit(int status) {
+				if (status == TextToSpeech.SUCCESS)	{
+					int res = tts.setLanguage(Locale.US);
+					if (res < 0)
+					{
+						blnTextToSpeech = false;
+					}
+					else
+					{
+						tts.setSpeechRate(.75f);
+					}
+				}
+				else
+				{
+					blnTextToSpeech = false;
+				}
+			}
+		});
 	}
 
 	private void setPageChangedListener()
@@ -2910,7 +2915,9 @@ public class MainActivity extends AppCompatActivity  {
 					"ProbabilityFactor");
 			vok.setAbfrageZufaellig(data.getExtras().getBoolean("Random"));
 			vok.setAskAll(data.getExtras().getBoolean("AskAll"));
-			blnTextToSpeech = (data.getExtras().getBoolean("tts"));
+			boolean oldTextToSpeech = blnTextToSpeech;
+			if (data.getExtras().containsKey("tts")) blnTextToSpeech = data.getExtras().getBoolean("tts");
+			if (!oldTextToSpeech && blnTextToSpeech) StartTextToSpeech();
 			int Language = data.getExtras().getInt("Language",Vokabel.EnumSprachen.undefiniert.ordinal());
 			for (int i = 0; i < Vokabel.EnumSprachen.values().length; i++)
 			{
