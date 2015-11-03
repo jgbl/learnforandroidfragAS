@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity  {
 
 	private void processBundle(Bundle savedInstanceState) throws Exception
 	{
-		String tmppath = Path.combine(getApplicationInfo().dataDir,
+		final String tmppath = Path.combine(getApplicationInfo().dataDir,
 				"vok.tmp");
 		// SetActionBarTitle();
 		boolean CardMode;
@@ -2915,9 +2915,8 @@ public class MainActivity extends AppCompatActivity  {
 					"ProbabilityFactor");
 			vok.setAbfrageZufaellig(data.getExtras().getBoolean("Random"));
 			vok.setAskAll(data.getExtras().getBoolean("AskAll"));
-			boolean oldTextToSpeech = blnTextToSpeech;
 			if (data.getExtras().containsKey("tts")) blnTextToSpeech = data.getExtras().getBoolean("tts");
-			if (!oldTextToSpeech && blnTextToSpeech) StartTextToSpeech();
+			if (blnTextToSpeech) StartTextToSpeech();
 			int Language = data.getExtras().getInt("Language",Vokabel.EnumSprachen.undefiniert.ordinal());
 			for (int i = 0; i < Vokabel.EnumSprachen.values().length; i++)
 			{
