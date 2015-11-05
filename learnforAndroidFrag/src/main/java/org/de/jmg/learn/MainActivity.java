@@ -138,12 +138,13 @@ public class MainActivity extends AppCompatActivity  {
 	yesnoundefined _oldUniCode = yesnoundefined.undefined;
 
 
-
+	//Initialisation
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		lib.main = this;
-		int UIMode = lib.getUIMode(this);
 
+		//getting the kind of userinterface: television or watch or else
+		int UIMode = lib.getUIMode(this);
 		switch (UIMode)
 		{
 			case Configuration.UI_MODE_TYPE_TELEVISION:
@@ -222,18 +223,12 @@ public class MainActivity extends AppCompatActivity  {
 
 	private void processBundle(Bundle savedInstanceState) throws Exception
 	{
-		final String tmppath = Path.combine(getApplicationInfo().dataDir,
-				"vok.tmp");
-		// SetActionBarTitle();
+		final String tmppath = Path.combine(getApplicationInfo().dataDir,"vok.tmp");
+
 		boolean CardMode;
+
 		if (savedInstanceState != null)
 		{
-					/*
-					if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
-					{
-						fPA.fragMain.onCreateView(LayoutInflater.from(this), Layout, null);
-					}
-					*/
 			libLearn.gStatus = "onCreate Load SavedInstanceState";
 			ActionBarOriginalTextSize= savedInstanceState.getFloat("ActionBarOriginalTextSize");
 			String filename = savedInstanceState.getString("vokpath");
@@ -356,7 +351,7 @@ public class MainActivity extends AppCompatActivity  {
 			if (prefs.getBoolean("play",true)
 					&& (Installer == null
 					|| (!Installer.equalsIgnoreCase("com.android.vending")
-					&& Installer.indexOf("com.google.android") == -1)))
+					&& Installer.contains("com.google.android"))))
 			{
 				lib.YesNoCheckResult res = lib.ShowMessageYesNoWithCheckbox
 						(this,Installer!=null?Installer:"",this.getString(R.string.msgNotGooglePlay)
@@ -574,7 +569,7 @@ public class MainActivity extends AppCompatActivity  {
 				}
 				else if (position == fragFileChooserQuizlet.fragID)
 				{
-					if (fPA != null & fPA.fragQuizlet != null)
+					if (fPA != null && fPA.fragQuizlet != null)
 					{
 						searchQuizlet();
 					}
@@ -1507,6 +1502,7 @@ public class MainActivity extends AppCompatActivity  {
 				}
 				else
 				{
+					Log.d("empty","empty");
 					//intent.setType("file/*");
 				}
 	
@@ -1627,12 +1623,11 @@ public class MainActivity extends AppCompatActivity  {
 	{
 		final View tb = this.findViewById(R.id.action_bar);
 		int SizeOther = 0;
-		int width = 0;
+		int width;
 		ActionMenu = null;
 		if (tb != null)
 		{
-			if (width == 0)
-				width = tb.getWidth();
+			width = tb.getWidth();
 			if (width > 0)
 			{
 				ViewGroup g = (ViewGroup) tb;
@@ -1904,14 +1899,7 @@ public class MainActivity extends AppCompatActivity  {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 
-								if (which == 0)
-								{
-									_blnPrivate = true;
-								}
-								else
-								{
-									_blnPrivate = false;
-								}
+						_blnPrivate = which == 0;
 
 							}
 						});
@@ -1935,7 +1923,7 @@ public class MainActivity extends AppCompatActivity  {
 											,false)
 									== yesnoundefined.no) return;
 						}
-						new UploadToQuzletTask().execute(new String[]{input.getText().toString(),userId});
+						new UploadToQuzletTask().execute(input.getText().toString(),userId);
 						lib.removeDlg(dlg);
 
 					}
@@ -2027,7 +2015,7 @@ public class MainActivity extends AppCompatActivity  {
 					InputStream is = new ByteArrayInputStream( res.getBytes(Charset.forName("UTF-8")));
 					InputStreamReader isr = new InputStreamReader(is);
 					BufferedReader r = new BufferedReader(isr);
-					String x = null;
+					String x;
 					String resout = "";
 					try {
 						while ((x = r.readLine()) != null)
@@ -2062,7 +2050,7 @@ public class MainActivity extends AppCompatActivity  {
 					InputStream is = new ByteArrayInputStream( res.getBytes(Charset.forName("UTF-8")));
 					InputStreamReader isr = new InputStreamReader(is);
 					BufferedReader r = new BufferedReader(isr);
-					String x = null;
+					String x;
 					String resout = "";
 					try {
 						while ((x = r.readLine()) != null)
@@ -2197,14 +2185,7 @@ public class MainActivity extends AppCompatActivity  {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 
-						if (which == 0)
-						{
-							_blnPrivate = true;
-						}
-						else
-						{
-							_blnPrivate = false;
-						}
+						_blnPrivate = which == 0;
 
 					}
 				});

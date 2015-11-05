@@ -1,4 +1,26 @@
+/*
+ * Copyright (c) 2015 GPL by J.M.Goebel. Distributed under the GNU GPL v3.
+ *
+ * 08.06.2015
+ *
+ * This file is part of learnforandroid.
+ *
+ * learnforandroid is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ *  learnforandroid is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.de.jmg.lib;
+
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -114,13 +136,13 @@ public class RichTextStripper
 			return null;
 		}
 
-		String returnString = null;
+		String returnString;
 
-		Stack<StackEntry> stack = new Stack<StackEntry>();
+		Stack<StackEntry> stack = new Stack<>();
 		boolean ignorable = false;              // Whether this group (and all inside it) are "ignorable".
 		int ucskip = 1;                      // Number of ASCII characters to skip after a unicode character.
 		int curskip = 0;                     // Number of ASCII characters left to skip
-		List<String> outList = new ArrayList<String>();    // Output buffer.
+		List<String> outList = new ArrayList<>();    // Output buffer.
 
 		Matcher matches = _rtfRegex.matcher(inputRtf);
 
@@ -182,6 +204,7 @@ public class RichTextStripper
 					}
 					else if (ignorable)
 					{
+						Log.d("ign", "ign");
 					}
 					else if (specialCharacters.containsKey(word))
 					{
@@ -226,18 +249,20 @@ public class RichTextStripper
 					}
 				}
 			} while(matches.find());
+
+			StringBuilder sb = new StringBuilder();
+			for (String s : outList)
+			{
+				sb.append(s);
+			}
+			returnString = sb.toString();
 		}
 		else
 		{
 			// Didn't match the regex
 			returnString = inputRtf;
 		}
-		StringBuilder sb = new StringBuilder();
-		for (String s : outList)
-		{
-			sb.append(s);
-		}
-		returnString = sb.toString();
+
 		//returnString = Arrays.toString(outList.toArray()); // String.Join("", outList.toArray());
 
 		return returnString;
