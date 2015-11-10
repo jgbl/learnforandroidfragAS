@@ -240,8 +240,8 @@ public class lib
         for (int i = 1; i < vok.getVokabeln().size(); i++) {
             typVok c = vok.getVokabeln().get(i);
             data.append(String.format("&terms[]=%s",
-                    URLEncoder.encode(c.Wort
-                            + (org.de.jmg.lib.lib.libString.IsNullOrEmpty(c.Kom)?"":"\n" + c.Kom), "UTF-8")));
+                    URLEncoder.encode(org.de.jmg.lib.lib.ReplaceLinks(c.Wort)
+                            + (org.de.jmg.lib.lib.libString.IsNullOrEmpty(c.Kom)?"":"\n" + org.de.jmg.lib.lib.ReplaceLinks(c.Kom)), "UTF-8")));
             String Meaning;
             if (org.de.jmg.lib.lib.libString.IsNullOrEmpty(c.Bed2))
             {
@@ -256,7 +256,7 @@ public class lib
                 Meaning += "\n3. " + c.Bed3;
             }
             data.append(String.format("&definitions[]=%s",
-                    URLEncoder.encode(Meaning, "UTF-8")));
+                    URLEncoder.encode(org.de.jmg.lib.lib.ReplaceLinks(Meaning), "UTF-8")));
         }
 
         data.append(String.format("&lang_terms=%s",

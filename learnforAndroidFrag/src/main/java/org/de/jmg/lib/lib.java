@@ -1749,6 +1749,30 @@ public class lib {
         //return null;
     }
 
-
+    public static String ReplaceLinks(String txt)
+    {
+        if (txt.contains("<link://"))
+        {
+            int found = -1;
+            while (txt.indexOf("<link://", found + 1) > -1)
+            {
+                found = txt.indexOf("<link://", found + 1);
+                int Start = found + 8;
+                int End = txt.indexOf("/>", Start);
+                String repl = txt.substring(found, End + 2);
+                if (End > 0)
+                {
+                    String Link = txt.substring(Start, End);
+                    int LinkEnd = Link.indexOf(" ");
+                    if (LinkEnd > -1) {
+                        String url = Link.substring(0, LinkEnd);
+                        String linkText = Link.substring(LinkEnd + 1, Link.length());
+                        txt = txt.replace(repl, "<a href=\"" + url + "\">" + linkText + "</a>");
+                    }
+                }
+            }
+        }
+        return txt;
+    }
 
 }
