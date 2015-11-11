@@ -1,1 +1,1 @@
-include ':fileChooser', ':learnforAndroidFrag', ':library', ':jmgerrorintent'
+include ':jmgerrorintent', ':fileChooser'
