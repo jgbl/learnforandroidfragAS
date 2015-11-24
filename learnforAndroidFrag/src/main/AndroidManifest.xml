@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<manifest
     package="org.de.jmg.learn"
-    android:versionCode="1957"
-    android:versionName="1.957">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="1958"
+    android:versionName="1.958">
     <uses-sdk
         android:minSdkVersion="7"
         android:targetSdkVersion="23"
@@ -19,18 +19,19 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="MainActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
-			    <data android:scheme="file"
+                <data
+                    android:host="*"
 			          android:mimeType="*/*"
 			          android:pathPattern="/.+\\.(((?i)v.{2})|((?i)k.{2}))$"
-			          android:host="*"/>
+                    android:scheme="file"/>
 				<action android:name="android.intent.action.VIEW"/>
 			    <action android:name="android.intent.action.ACTION_OPEN_DOCUMENT"/>
 				<action android:name="android.intent.action.ACTION_CREATE_DOCUMENT" />
@@ -43,8 +44,8 @@
         <activity android:name="org.achartengine.GraphicalActivity"/>
         <activity
             android:name="org.de.jmg.errorintent.ExceptionActivity"
-            android:theme="@android:style/Theme.Dialog"
             android:textAppearance="@android:style/TextAppearance.Large"
+            android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="org.de.jmg.errorintent" />
