@@ -317,4 +317,5 @@
 	<string name="description">description</string>
 	<string name="lang_terms">language word</string>
 	<string name="lang_definitions">language meaning</string>
+	<string name="mnuAskReverse">ask meaning first</string>
 </resources>

@@ -57,7 +57,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
-import android.widget.ActionMenuView;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -1659,8 +1658,9 @@ public class MainActivity extends AppCompatActivity
                 mnuQuizlet.setVisible(false);
             }
 
-			/*
-			if (isSmallDevice)
+            setMnuReverse();
+            /*
+            if (isSmallDevice)
 			{
 				MenuItem m = menu.findItem(R.id.mnuHome);
 				MenuItemCompat.setShowAsAction(m,MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
@@ -1837,6 +1837,12 @@ public class MainActivity extends AppCompatActivity
             {
                 uploadtoQuizlet();
 
+            }
+            else if (id == R.id.mnuAskReverse)
+            {
+                item.setChecked(!item.isChecked());
+                vok.reverse = item.isChecked();
+                setMnuReverse();
             }
             else if (id == R.id.mnuOpenUri)
             {
@@ -2867,6 +2873,23 @@ public class MainActivity extends AppCompatActivity
         Intent login = new Intent(this, LoginQuizletActivity.class);
         login.putExtra("upload", blnUpload);
         this.startActivityForResult(login, LOGINQUIZLETINTENT);
+    }
+
+    public void setMnuReverse()
+    {
+        if (OptionsMenu != null)
+        {
+            MenuItem item = OptionsMenu.findItem(R.id.mnuAskReverse);
+            if (vok.reverse)
+            {
+                item.setIcon(android.R.drawable.ic_menu_revert);
+            }
+            else
+            {
+                item.setIcon(android.R.drawable.ic_menu_rotate);
+            }
+        }
+
     }
 
     class UploadToQuzletTask extends AsyncTask<String, Void, Exception>

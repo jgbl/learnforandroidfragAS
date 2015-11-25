@@ -30,6 +30,13 @@
         android:icon="@drawable/ic_menu_save">
     </item>
     <item
+        android:id="@+id/mnuAskReverse"
+        android:title="@string/mnuAskReverse"
+        compat:showAsAction="always"
+        android:icon="@android:drawable/ic_media_rew"
+        android:checkable="true">
+    </item>
+    <item
         android:id="@+id/mnuAddWord"
         android:title="@string/mnuAddWord"
         compat:showAsAction="always"

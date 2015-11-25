@@ -20,6 +20,26 @@
  */
 package org.de.jmg.learn.vok;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.graphics.Typeface;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Looper;
+import android.os.ParcelFileDescriptor;
+import android.widget.TextView;
+
+import org.de.jmg.learn.MainActivity;
+import org.de.jmg.learn.R;
+import org.de.jmg.learn.libLearn;
+import org.de.jmg.lib.RefSupport;
+import org.de.jmg.lib.RichTextStripper;
+import org.de.jmg.lib.WindowsBufferedReader;
+import org.de.jmg.lib.lib;
+import org.de.jmg.lib.lib.libString;
+import org.de.jmg.lib.lib.yesnoundefined;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,25 +53,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
-
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.graphics.Typeface;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Looper;
-import android.os.ParcelFileDescriptor;
-import android.text.SpannableString;
-import android.widget.TextView;
-
-import org.de.jmg.learn.*;
-import org.de.jmg.lib.RichTextStripper;
-import org.de.jmg.lib.WindowsBufferedReader;
-import org.de.jmg.lib.RefSupport;
-import org.de.jmg.lib.lib;
-import org.de.jmg.lib.lib.libString;
-import org.de.jmg.lib.lib.yesnoundefined;
 
 public class Vokabel {
 
@@ -114,6 +115,7 @@ public class Vokabel {
 	// ********** Public ***********
 	public boolean aend;
 	public boolean varHebr;
+	public boolean reverse;
 	public int AnzRichtig;
 	public float ProbabilityFactor = -1;
 	public int RestartInterval = 10;
@@ -1889,7 +1891,7 @@ public class Vokabel {
 
 			}
 			spr = (short) (spr | 256);
-
+			if (reverse) spr = (short) (spr | 512);
 			if (!libString.IsNullOrEmpty(tastbel)
 					| !libString.IsNullOrEmpty(fontfil)) {
 				sWriter.write((spr | 128 | einst) + "\n");
@@ -2579,6 +2581,8 @@ public class Vokabel {
 					mLangWord = lib.forLanguageTag(Sprachen[0]);
 					mLangMeaning = lib.forLanguageTag(Sprachen[1]);
 				}
+				reverse = (sp & 512) != 0;
+				if (Container != null) ((MainActivity) Container).setMnuReverse();
 				libLearn.gStatus = CodeLoc + " Line 829";
 				// Inserted by CodeCompleter
 				if (blnAppend) 

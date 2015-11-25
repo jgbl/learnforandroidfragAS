@@ -930,9 +930,17 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			 * } else { t.setLines(1); } }
 			 */
 			assert t != null;
-			t.setText(lib.getSpanableString(_vok.getWort()), TextView.BufferType.SPANNABLE);
-			String txtWord = t.getText().toString();
-			speak(txtWord, _vok.getLangWord(), "word", true);
+			String txtWord = null;
+			if (!_vok.reverse || showBeds)
+			{
+				t.setText(lib.getSpanableString(_vok.getWort()), TextView.BufferType.SPANNABLE);
+				txtWord = t.getText().toString();
+				if (!_vok.reverse) speak(txtWord, _vok.getLangWord(), "word", true);
+			}
+			else
+			{
+				t.setText("");
+			}
 
 			if (_vok.getSprache() == EnumSprachen.Hebrew
 					|| _vok.getSprache() == EnumSprachen.Griechisch
@@ -983,13 +991,13 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			{
 				t.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 			}
-			t.setText((showBeds ? lib.getSpanableString(_vok.getBedeutung1()) : Vokabel.getComment(_vok
+			t.setText((_vok.reverse || showBeds ? lib.getSpanableString(_vok.getBedeutung1()) : Vokabel.getComment(_vok
 					.getBedeutung1())));
-			if (showBeds)
+			if (_vok.reverse || showBeds)
 			{
 				String txt = t.getText().toString();
-				txt = txt.replaceAll("_{2,}", txtWord);
-				speak(txt, _vok.getLangMeaning(), "meaning1");
+				if (txtWord != null) txt = txt.replaceAll("_{2,}", txtWord);
+				speak(txt, _vok.getLangMeaning(), "meaning1", (_vok.reverse) ? true : false);
 			}
 			if (_vok.getFontBed().getName() == "Cardo")
 			{
@@ -1005,7 +1013,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			v = findViewById(R.id.txtMeaning2);
 			t = (TextView) v;
 			assert t != null;
-			t.setText((showBeds ? _vok.getBedeutung2() : Vokabel.getComment(_vok
+			t.setText((_vok.reverse || showBeds ? _vok.getBedeutung2() : Vokabel.getComment(_vok
 					.getBedeutung2())));
 			if (_vok.getFontBed().getName() == "Cardo")
 			{
@@ -1025,10 +1033,10 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			{
 				t.setVisibility(View.VISIBLE);
 				_txtMeaning1.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-				if (showBeds)
+				if (_vok.reverse || showBeds)
 				{
 					String txt = t.getText().toString();
-					txt = txt.replaceAll("_{2,}", txtWord);
+					if (txtWord != null) txt = txt.replaceAll("_{2,}", txtWord);
 					speak(txt, _vok.getLangMeaning(), "meaning2");
 				}
 			}
@@ -1036,7 +1044,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			v = findViewById(R.id.txtMeaning3);
 			t = (TextView) v;
 			assert t != null;
-			t.setText((showBeds ? _vok.getBedeutung3() : Vokabel.getComment(_vok
+			t.setText((_vok.reverse || showBeds ? _vok.getBedeutung3() : Vokabel.getComment(_vok
 					.getBedeutung3())));
 			if (_vok.getFontBed().getName() == "Cardo")
 			{
@@ -1057,13 +1065,16 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				t.setVisibility(View.VISIBLE);
 				_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 				_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_DONE);
-				if (showBeds)
+				if (_vok.reverse || showBeds)
 				{
 					String txt = t.getText().toString();
-					txt = txt.replaceAll("_{2,}", txtWord);
+					if (txtWord != null) txt = txt.replaceAll("_{2,}", txtWord);
 					speak(txt, _vok.getLangMeaning(), "meaning3");
 				}
 			}
+
+			if (_vok.reverse && showBeds) speak(txtWord, _vok.getLangWord(), "word");
+
 			lib.setBgEditText(_txtMeaning1, _MeaningBG);
 			lib.setBgEditText(_txtMeaning2, _MeaningBG);
 			lib.setBgEditText(_txtMeaning3, _MeaningBG);
@@ -1858,6 +1869,11 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		resizeActionbar(0);
 	}
 
+	public MainActivity get_main()
+	{
+		return _main;
+	}
+
 	public void resizeActionbar(final int width)
 	{
 		/*
@@ -2154,9 +2170,6 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		}
 
 	}
-	
-	
-
 
 
 }
