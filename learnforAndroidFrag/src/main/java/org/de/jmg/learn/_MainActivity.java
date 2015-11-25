@@ -92,6 +92,13 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	public final static int fragID = 0;
 	public View mainView;
 	public BorderedEditText _txtMeaning1;
+	private BorderedTextView _txtWord;
+	private BorderedEditText _txtedKom;
+	private BorderedTextView _txtStatus;
+	private BorderedEditText _txtMeaning2;
+	private BorderedEditText _txtMeaning3;
+	private BorderedTextView _txtKom;
+	private BorderedEditText _txtedWord;
 	public ScrollView _scrollView; //= (ScrollView) findViewById(R.id.layoutMain);
 	Handler handler = new Handler();
 	Vokabel _vok;
@@ -108,6 +115,10 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	OnTouchListenerScroll OnTouchListenerScrollKom;
 	OnTouchListenerScroll OnTouchListenerScrolledKom;
 	OnTouchListenerScroll OnTouchListenerScrollMeaning1;
+	ScrollGestureListener ListeneredKom = new ScrollGestureListener(_txtedKom, OnTouchListenerScrolledKom);
+	ScrollGestureListener ListenerWord = new ScrollGestureListener(_txtWord, OnTouchListenerScrollWord);
+	ScrollGestureListener ListenerKom = new ScrollGestureListener(_txtKom, OnTouchListenerScrollKom);
+	ScrollGestureListener ListeneredWord = new ScrollGestureListener(_txtedWord, OnTouchListenerScrolledWord);
 	GestureDetector detectorWord = new GestureDetector(_main, ListenerWord);
 	GestureDetector detectoredWord = new GestureDetector(_main, ListeneredWord);
 	ScrollGestureListener ListenerMeaning1 = new ScrollGestureListener(_txtMeaning1, OnTouchListenerScrollMeaning1);
@@ -116,18 +127,12 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	GestureDetector detectoredKom = new GestureDetector(_main, ListeneredKom);
 	MovementMethod _originalMovementmethod = null;
 	int _OriginalWidth = 0;
-	private BorderedTextView _txtWord;
-	ScrollGestureListener ListenerWord = new ScrollGestureListener(_txtWord, OnTouchListenerScrollWord);
-	private BorderedEditText _txtedKom;
-	ScrollGestureListener ListeneredKom = new ScrollGestureListener(_txtedKom, OnTouchListenerScrolledKom);
-	private BorderedTextView _txtStatus;
-	private BorderedEditText _txtMeaning2;
-	private BorderedEditText _txtMeaning3;
-	private BorderedTextView _txtKom;
-	ScrollGestureListener ListenerKom = new ScrollGestureListener(_txtKom, OnTouchListenerScrollKom);
-	private BorderedEditText _txtedWord;
-	ScrollGestureListener ListeneredWord = new ScrollGestureListener(_txtedWord, OnTouchListenerScrolledWord);
 	private Context context;
+	private Button _btnRight;
+	private Button _btnWrong;
+	private Button _btnSkip;
+	private Button _btnView;
+	private Button _btnEdit;
 	OnLongClickListener textlongclicklistener = new OnLongClickListener()
 	{
 
@@ -201,11 +206,6 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			return false;
 		}
 	};
-	private Button _btnRight;
-	private Button _btnWrong;
-	private Button _btnSkip;
-	private Button _btnView;
-	private Button _btnEdit;
 	private double scale = 1;
 	private Drawable _MeaningBG;
 	private boolean _firstFocus = true;
