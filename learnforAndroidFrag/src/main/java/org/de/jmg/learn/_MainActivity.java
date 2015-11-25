@@ -116,18 +116,18 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	GestureDetector detectoredKom = new GestureDetector(_main, ListeneredKom);
 	MovementMethod _originalMovementmethod = null;
 	int _OriginalWidth = 0;
-	private Context context;
-	private Button _btnRight;
-	private Button _btnWrong;
-	private Button _btnSkip;
-	private Button _btnView;
-	private Button _btnEdit;
 	private BorderedTextView _txtWord;
 	ScrollGestureListener ListenerWord = new ScrollGestureListener(_txtWord, OnTouchListenerScrollWord);
+	private BorderedEditText _txtedKom;
+	ScrollGestureListener ListeneredKom = new ScrollGestureListener(_txtedKom, OnTouchListenerScrolledKom);
+	private BorderedTextView _txtStatus;
+	private BorderedEditText _txtMeaning2;
+	private BorderedEditText _txtMeaning3;
 	private BorderedTextView _txtKom;
 	ScrollGestureListener ListenerKom = new ScrollGestureListener(_txtKom, OnTouchListenerScrollKom);
 	private BorderedEditText _txtedWord;
 	ScrollGestureListener ListeneredWord = new ScrollGestureListener(_txtedWord, OnTouchListenerScrolledWord);
+	private Context context;
 	OnLongClickListener textlongclicklistener = new OnLongClickListener()
 	{
 
@@ -201,11 +201,11 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			return false;
 		}
 	};
-	private BorderedEditText _txtedKom;
-	ScrollGestureListener ListeneredKom = new ScrollGestureListener(_txtedKom, OnTouchListenerScrolledKom);
-	private BorderedTextView _txtStatus;
-	private BorderedEditText _txtMeaning2;
-	private BorderedEditText _txtMeaning3;
+	private Button _btnRight;
+	private Button _btnWrong;
+	private Button _btnSkip;
+	private Button _btnView;
+	private Button _btnEdit;
 	private double scale = 1;
 	private Drawable _MeaningBG;
 	private boolean _firstFocus = true;
@@ -988,7 +988,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			if (showBeds)
 			{
 				String txt = t.getText().toString();
-				txt.replaceAll("_{2,}", txtWord);
+				txt = txt.replaceAll("_{2,}", txtWord);
 				speak(txt, _vok.getLangMeaning(), "meaning1");
 			}
 			if (_vok.getFontBed().getName() == "Cardo")
@@ -1028,7 +1028,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				if (showBeds)
 				{
 					String txt = t.getText().toString();
-					txt.replaceAll("_{2,}", txtWord);
+					txt = txt.replaceAll("_{2,}", txtWord);
 					speak(txt, _vok.getLangMeaning(), "meaning2");
 				}
 			}
@@ -1060,7 +1060,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				if (showBeds)
 				{
 					String txt = t.getText().toString();
-					txt.replaceAll("_{2,}", txtWord);
+					txt = txt.replaceAll("_{2,}", txtWord);
 					speak(txt, _vok.getLangMeaning(), "meaning3");
 				}
 			}
