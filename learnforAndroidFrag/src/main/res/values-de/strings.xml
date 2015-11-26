@@ -318,4 +318,5 @@
     <string name="lang_terms">Sprache Word</string>
     <string name="lang_definitions">Sprache Bedeutung</string>
     <string name="mnuAskReverse">Bedeutung zuerst abfragen</string>
+    <string name="cloze">Lückentext</string>
 </resources>
