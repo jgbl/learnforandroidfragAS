@@ -268,7 +268,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	 * flashwords(); } catch (Exception e) {
 	 * e.printStackTrace(); } } }).start(); }
 	 */
-	private ArrayList<Runnable> rFlashs = new ArrayList<Runnable>();
+	private ArrayList<Runnable> rFlashs = new ArrayList<>();
 	@SuppressLint("ClickableViewAccessibility")
 	OnTouchListener OnTouchListenerRemoveCallbacks = new OnTouchListener()
 	{
@@ -1129,48 +1129,56 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	public void speak(String t, Locale l, String ID, boolean blnFlush)
 	{
-		if (!_main.blnTextToSpeech || l.toString().equalsIgnoreCase("_off")) return;
-		String ts[] = (t + " ").split(getString(R.string.cloze));
-		if (ts.length > 1)
+		try
 		{
-			for (int i = 0; i < ts.length; i++)
+			if (!_main.blnTextToSpeech || l.toString().equalsIgnoreCase("_off")) return;
+			String ts[] = (t + " ").split(getString(R.string.cloze));
+			if (!t.equalsIgnoreCase(getString(R.string.cloze)) && ts.length > 1)
 			{
-				String s = ts[i];
-				speak(s, l, ID, (i == 0) ? blnFlush : false);
-				if (i < ts.length - 1)
+				for (int i = 0; i < ts.length; i++)
 				{
-					speak(getString(R.string.cloze), Locale.getDefault(), ID, false);
+					String s = ts[i];
+					speak(s, l, ID, (i == 0) ? blnFlush : false);
+					if (i < ts.length - 1)
+					{
+						speak(getString(R.string.cloze), Locale.getDefault(), ID, false);
+					}
+				}
+			}
+			else
+			{
+				int res = _main.tts.setLanguage(l);
+				if (res < 0)
+				{
+					if (_main.tts.setLanguage(Locale.US) < 0) return;
+				}
+				int flags;
+				if (blnFlush)
+				{
+					flags = TextToSpeech.QUEUE_FLUSH;
+				}
+				else
+				{
+					flags = TextToSpeech.QUEUE_ADD;
+				}
+				if (Build.VERSION.SDK_INT < 21)
+				{
+					HashMap<String, String> h = new HashMap<>();
+
+					h.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, ID);
+
+					_main.tts.speak(t, flags, h);
+				}
+				else
+				{
+					_main.tts.speak(t, flags, null, ID);
 				}
 			}
 		}
-		else
+		catch (Exception ex)
 		{
-			int res = _main.tts.setLanguage(l);
-			if (res < 0)
-			{
-				if (_main.tts.setLanguage(Locale.US) < 0) return;
-			}
-			int flags;
-			if (blnFlush)
-			{
-				flags = TextToSpeech.QUEUE_FLUSH;
-			}
-			else
-			{
-				flags = TextToSpeech.QUEUE_ADD;
-			}
-			if (Build.VERSION.SDK_INT < 21)
-			{
-				HashMap<String, String> h = new HashMap<>();
-
-				h.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, ID);
-
-				_main.tts.speak(t, flags, h);
-			}
-			else
-			{
-				_main.tts.speak(t, flags, null, ID);
-			}
+			lib.setgstatus("speak: " + t + " " + l.toString());
+			lib.ShowException(_main, ex);
 		}
 	}
 
