@@ -149,7 +149,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			}
 			try
 			{
-				if (_main.prefs.getBoolean("translate", true) == true)
+				if (_main.prefs.getBoolean("translate", true))
 				{
 					intent = new Intent();
 					intent.setAction(Intent.ACTION_SEND);
@@ -161,7 +161,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					intent.putExtra(Intent.EXTRA_TEXT, txt.getText().toString());
 					_main.startActivity(intent);
 				}
-				else if (_main.prefs.getBoolean("fora", true) == true)
+				else if (_main.prefs.getBoolean("fora", true))
 				{
 					intent = new Intent("com.ngc.fora.action.LOOKUP");
 				}
@@ -944,7 +944,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 			if (_vok.getSprache() == EnumSprachen.Hebrew
 					|| _vok.getSprache() == EnumSprachen.Griechisch
-					|| (_vok.getFontWort().getName() == "Cardo"))
+					|| (_vok.getFontWort().getName().equalsIgnoreCase("Cardo")))
 			{
 				t.setTypeface(_vok.TypefaceCardo);
 				_txtedWord.setTypeface(_vok.TypefaceCardo);
@@ -963,7 +963,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					TextView.BufferType.SPANNABLE);
 			if (_vok.getSprache() == EnumSprachen.Hebrew
 					|| _vok.getSprache() == EnumSprachen.Griechisch
-					|| (_vok.getFontKom().getName() == "Cardo"))
+					|| (_vok.getFontKom().getName().equalsIgnoreCase("Cardo")))
 			{
 				t.setTypeface(_vok.TypefaceCardo);
 				_txtedKom.setTypeface(_vok.TypefaceCardo);
@@ -998,9 +998,9 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				String txt = t.getText().toString();
 				if (txtWord != null)
 					txt = txt.replaceAll("_{2,}", txtWord).replaceAll("\\.{4,}", txtWord);
-				speak(txt, _vok.getLangMeaning(), "meaning1", (_vok.reverse) ? true : false);
+				speak(txt, _vok.getLangMeaning(), "meaning1", _vok.reverse);
 			}
-			if (_vok.getFontBed().getName() == "Cardo")
+			if (_vok.getFontBed().getName().equalsIgnoreCase("Cardo"))
 			{
 				t.setTypeface(_vok.TypefaceCardo);
 			}
@@ -1016,7 +1016,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			assert t != null;
 			t.setText((_vok.reverse || showBeds ? _vok.getBedeutung2() : Vokabel.getComment(_vok
 					.getBedeutung2())));
-			if (_vok.getFontBed().getName() == "Cardo")
+			if (_vok.getFontBed().getName().equalsIgnoreCase("Cardo"))
 			{
 				t.setTypeface(_vok.TypefaceCardo);
 			}
@@ -1048,7 +1048,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			assert t != null;
 			t.setText((_vok.reverse || showBeds ? _vok.getBedeutung3() : Vokabel.getComment(_vok
 					.getBedeutung3())));
-			if (_vok.getFontBed().getName() == "Cardo")
+			if (_vok.getFontBed().getName().equalsIgnoreCase("Cardo"))
 			{
 				t.setTypeface(_vok.TypefaceCardo);
 			}
@@ -1130,31 +1130,47 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	public void speak(String t, Locale l, String ID, boolean blnFlush)
 	{
 		if (!_main.blnTextToSpeech || l.toString().equalsIgnoreCase("_off")) return;
-		int res = _main.tts.setLanguage(l);
-		if (res < 0)
+		String ts[] = t.split(getString(R.string.cloze));
+		if (ts.length > 1)
 		{
-			if (_main.tts.setLanguage(Locale.US) < 0) return;
-		}
-		int flags;
-		if (blnFlush)
-		{
-			flags = TextToSpeech.QUEUE_FLUSH;
-		}
-		else
-		{
-			flags = TextToSpeech.QUEUE_ADD;
-		}
-		if (Build.VERSION.SDK_INT < 21)
-		{
-			HashMap<String, String> h = new HashMap<>();
-
-			h.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, ID);
-
-			_main.tts.speak(t, flags, h);
+			for (int i = 0; i < ts.length; i++)
+			{
+				String s = ts[i];
+				speak(s, l, ID, (i == 0) ? blnFlush : false);
+				if (i < ts.length - 1)
+				{
+					speak(getString(R.string.cloze), Locale.getDefault(), ID, false);
+				}
+			}
 		}
 		else
 		{
-			_main.tts.speak(t, flags, null, ID);
+			int res = _main.tts.setLanguage(l);
+			if (res < 0)
+			{
+				if (_main.tts.setLanguage(Locale.US) < 0) return;
+			}
+			int flags;
+			if (blnFlush)
+			{
+				flags = TextToSpeech.QUEUE_FLUSH;
+			}
+			else
+			{
+				flags = TextToSpeech.QUEUE_ADD;
+			}
+			if (Build.VERSION.SDK_INT < 21)
+			{
+				HashMap<String, String> h = new HashMap<>();
+
+				h.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, ID);
+
+				_main.tts.speak(t, flags, h);
+			}
+			else
+			{
+				_main.tts.speak(t, flags, null, ID);
+			}
 		}
 	}
 
