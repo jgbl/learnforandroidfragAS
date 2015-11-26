@@ -2886,7 +2886,7 @@ public class MainActivity extends AppCompatActivity
             }
             else
             {
-                item.setIcon(android.R.drawable.ic_menu_rotate);
+                item.setIcon(android.R.drawable.ic_media_rew);
             }
         }
 

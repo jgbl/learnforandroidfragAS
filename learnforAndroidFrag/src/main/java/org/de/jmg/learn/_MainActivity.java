@@ -930,7 +930,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			 * } else { t.setLines(1); } }
 			 */
 			assert t != null;
-			String txtWord = null;
+			String txtWord = "_";
 			if (!_vok.reverse || showBeds)
 			{
 				t.setText(lib.getSpanableString(_vok.getWort()), TextView.BufferType.SPANNABLE);
