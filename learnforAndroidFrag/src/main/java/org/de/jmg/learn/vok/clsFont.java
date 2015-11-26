@@ -77,23 +77,15 @@ public class clsFont {
 		// UPGRADE_ISSUE: Screen Eigenschaft Screen.FontCount wurde nicht
 		// aktualisiert. Klicken Sie hier für weitere Informationen:
 		// 'ms-help://MS.VSExpressCC.v80/dv_commoner/local/redirect.htm?keyword="CC4C7EC0-C903-48FC-ACCC-81861D12DA4A"'
-		if (Typeface.create(vData, Typeface.NORMAL) != null) {
-			return true;
-		} else {
-			return false;
-		}
+		return Typeface.create(vData, Typeface.NORMAL) != null;
 	}
 
 	public static boolean Exists(Typeface f) {
-		if (mFontName.contains(f.toString())) {
-			return true;
-		} else {
-			return false;
-		}
+		return mFontName.contains(f.toString());
 	}
 
 	public boolean getItalic() {
-		boolean functionReturnValue = false;
+		boolean functionReturnValue;
 		// ERROR: Not supported in C#: OnErrorStatement
 
 		libLearn.gStatus = "clsFont.Italic Start";
@@ -113,7 +105,6 @@ public class clsFont {
 		// Seite der Gleichung, verwendet.
 		// Syntax: X.Italic = 5
 		mvarItalic = value;
-		return;
 
 	}
 
@@ -125,7 +116,6 @@ public class clsFont {
 	public void setCharset(int value) {
 		libLearn.gStatus = "clsFont.Charset Start";
 		mvarStyle = value;
-		return;
 	}
 
 	public short getWeight() {
@@ -141,7 +131,6 @@ public class clsFont {
 		// Seite der Gleichung, verwendet.
 		// Syntax: X.Weight = 5
 		mvarWeight = value;
-		return;
 	}
 
 	public boolean getstrikethrough() {
@@ -152,7 +141,6 @@ public class clsFont {
 	public void setstrikethrough(boolean value) {
 		libLearn.gStatus = "clsFont.strikethrough Start";
 		mvarstrikethrough = value;
-		return;
 	}
 
 	public boolean getunderline() {
@@ -165,7 +153,6 @@ public class clsFont {
 	public void setunderline(boolean value) {
 		libLearn.gStatus = "clsFont.underline Start";
 		mvarunderline = value;
-		return;
 	}
 
 	public boolean getBold() {
@@ -178,7 +165,6 @@ public class clsFont {
 	public void setBold(boolean value) {
 		libLearn.gStatus = "clsFont.Bold Start";
 		mvarBold = value;
-		return;
 	}
 
 	public int getSize() {
@@ -197,11 +183,11 @@ public class clsFont {
 		} else {
 			mvarSize = 5;
 		}
-		return;
 	}
 
 	public String getName() throws Exception {
 		String functionReturnValue = null;
+		if (libString.IsNullOrEmpty(mvarName)) mvarName = "SANS_SERIF";
 		functionReturnValue = mvarName;
 		return functionReturnValue;
 	}
@@ -215,7 +201,6 @@ public class clsFont {
 		}
 
 		mvarName = "SANS_SERIF";
-		return;
 	}
 
 	public void Fontset(Typeface vData, int Size, boolean Underline) {
@@ -246,7 +231,6 @@ public class clsFont {
 			mvarItalic = mvarFontset.isItalic();
 		}
 
-		return;
 	}
 
 	public void FontNameGet(TextView vData) throws Exception {
@@ -276,7 +260,6 @@ public class clsFont {
 			vData.setTextSize(TypedValue.COMPLEX_UNIT_PX, (Size > 0 ? Size
 					: this.getSize()));
 		}
-		return;
 	}
 
 	public void setFont(RefSupport<Typeface> vdata) throws Exception {
@@ -291,7 +274,8 @@ public class clsFont {
 			mvarSize = 5;
 		}
 
-		if (FontNameExists(mvarName) == true) {
+		if (FontNameExists(mvarName))
+		{
 			vdata.setValue(Typeface.create(
 					mvarName,
 					(this.getBold() ? Typeface.BOLD : Typeface.NORMAL)
@@ -303,7 +287,6 @@ public class clsFont {
 									: Typeface.NORMAL)));
 		}
 
-		return;
 	}
 
 	public clsFont(Activity container2) {

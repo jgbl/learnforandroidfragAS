@@ -1130,7 +1130,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	public void speak(String t, Locale l, String ID, boolean blnFlush)
 	{
 		if (!_main.blnTextToSpeech || l.toString().equalsIgnoreCase("_off")) return;
-		String ts[] = t.split(getString(R.string.cloze));
+		String ts[] = (t + " ").split(getString(R.string.cloze));
 		if (ts.length > 1)
 		{
 			for (int i = 0; i < ts.length; i++)

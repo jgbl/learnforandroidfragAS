@@ -1616,79 +1616,83 @@ public class MainActivity extends AppCompatActivity
             //.setBackgroundColor(Color.BLACK);
             //resize();
             OptionsMenu = menu;
-            mnuAddNew = menu.findItem(R.id.mnuAddWord);
-            mnuUploadToQuizlet = menu.findItem(R.id.mnuUploadToQuizlet);
-            Resources resources = context.getResources();
-            DisplayMetrics metrics = resources.getDisplayMetrics();
-            int height = metrics.heightPixels;
-            int viewTop = this.findViewById(Window.ID_ANDROID_CONTENT).getTop();
-            height = height - viewTop;
-            double scale = (double) height / (double) 950;
-            if (scale < .5f)
+            if (OptionsMenu != null)
             {
-                isSmallDevice = true;
-            }
-            if (Build.VERSION.SDK_INT < 11)
-            {
-                menu.findItem(R.id.mnuOpenQuizlet).setVisible(false);
-                menu.findItem(R.id.mnuUploadToQuizlet).setVisible(false);
-            }
-			/*
-			if (isSmallDevice)
-			{
-				MenuItemCompat.setShowAsAction(menu.findItem(R.id.mnuSaveAs), MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-			}
-			*/
-            MenuItem mnuQuizlet = menu.findItem(R.id.mnuLoginQuizlet);
-            mnuQuizlet.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener()
-            {
-                @Override
-                public boolean onMenuItemClick(MenuItem item)
+                mnuAddNew = menu.findItem(R.id.mnuAddWord);
+                mnuUploadToQuizlet = menu.findItem(R.id.mnuUploadToQuizlet);
+                Resources resources = context.getResources();
+                DisplayMetrics metrics = resources.getDisplayMetrics();
+                int height = metrics.heightPixels;
+                int viewTop = this.findViewById(Window.ID_ANDROID_CONTENT).getTop();
+                height = height - viewTop;
+                double scale = (double) height / (double) 950;
+                if (scale < .5f)
                 {
-                    throw new RuntimeException("Test");
-                    //return true;
+                    isSmallDevice = true;
                 }
-            });
-            if (BuildConfig.DEBUG)
-            {
-                mnuQuizlet.setVisible(true);
-            }
-            else
-            {
-                mnuQuizlet.setVisible(false);
-            }
+                if (Build.VERSION.SDK_INT < 11)
+                {
+                    menu.findItem(R.id.mnuOpenQuizlet).setVisible(false);
+                    menu.findItem(R.id.mnuUploadToQuizlet).setVisible(false);
+                }
+                /*
+                if (isSmallDevice)
+                {
+                    MenuItemCompat.setShowAsAction(menu.findItem(R.id.mnuSaveAs), MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+                }
+                */
+                MenuItem mnuQuizlet = menu.findItem(R.id.mnuLoginQuizlet);
+                mnuQuizlet.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener()
+                {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item)
+                    {
+                        throw new RuntimeException("Test");
+                        //return true;
+                    }
+                });
+                if (BuildConfig.DEBUG)
+                {
+                    mnuQuizlet.setVisible(true);
+                }
+                else
+                {
+                    mnuQuizlet.setVisible(false);
+                }
 
-            setMnuReverse();
-            /*
-            if (isSmallDevice)
-			{
-				MenuItem m = menu.findItem(R.id.mnuHome);
-				MenuItemCompat.setShowAsAction(m,MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-				m = menu.findItem(R.id.mnuFileOpen);
-				MenuItemCompat.setShowAsAction(m,MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-				m = menu.findItem(R.id.mnuSaveAs);
-				MenuItemCompat.setShowAsAction(m,MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-				m = menu.findItem(R.id.mnuAddWord);
-				MenuItemCompat.setShowAsAction(m,MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-				//lib.ShowToast(this,"Menus set to IF_ROOM!");
-			}
-			*/
-            mainView.getViewTreeObserver().addOnGlobalLayoutListener
-                    (
-                            new ViewTreeObserver.OnGlobalLayoutListener()
-                            {
-
-                                @Override
-                                public void onGlobalLayout()
+                setMnuReverse();
+                /*
+                if (isSmallDevice)
+                {
+                    MenuItem m = menu.findItem(R.id.mnuHome);
+                    MenuItemCompat.setShowAsAction(m,MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+                    m = menu.findItem(R.id.mnuFileOpen);
+                    MenuItemCompat.setShowAsAction(m,MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+                    m = menu.findItem(R.id.mnuSaveAs);
+                    MenuItemCompat.setShowAsAction(m,MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+                    m = menu.findItem(R.id.mnuAddWord);
+                    MenuItemCompat.setShowAsAction(m,MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+                    //lib.ShowToast(this,"Menus set to IF_ROOM!");
+                }
+                */
+                mainView.getViewTreeObserver().addOnGlobalLayoutListener
+                        (
+                                new ViewTreeObserver.OnGlobalLayoutListener()
                                 {
-                                    // Ensure you call it only once :
-                                    lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
-                                    MainActivity.this.SetShowAsAction(mnuUploadToQuizlet);
-                                }
-                            }
-                    );
 
-            return true;
+                                    @Override
+                                    public void onGlobalLayout()
+                                    {
+                                        // Ensure you call it only once :
+                                        lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
+                                        MainActivity.this.SetShowAsAction(mnuUploadToQuizlet);
+                                    }
+                                }
+                        );
+
+                return true;
+            }
+            throw new RuntimeException("menu is null!");
         }
         catch (Exception ex)
         {
@@ -2880,7 +2884,7 @@ public class MainActivity extends AppCompatActivity
         if (OptionsMenu != null)
         {
             MenuItem item = OptionsMenu.findItem(R.id.mnuAskReverse);
-            if (vok.reverse)
+            if (vok != null && vok.reverse)
             {
                 item.setIcon(android.R.drawable.ic_menu_revert);
             }
