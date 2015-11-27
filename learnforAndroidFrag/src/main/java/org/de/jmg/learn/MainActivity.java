@@ -2884,9 +2884,17 @@ public class MainActivity extends AppCompatActivity
         if (OptionsMenu != null)
         {
             MenuItem item = OptionsMenu.findItem(R.id.mnuAskReverse);
-            if (vok != null && vok.reverse)
+            if (vok != null)
             {
-                item.setIcon(android.R.drawable.ic_menu_revert);
+                item.setChecked(vok.reverse);
+                if (vok.reverse)
+                {
+                    item.setIcon(android.R.drawable.ic_menu_revert);
+                }
+                else
+                {
+                    item.setIcon(android.R.drawable.ic_media_rew);
+                }
             }
             else
             {
