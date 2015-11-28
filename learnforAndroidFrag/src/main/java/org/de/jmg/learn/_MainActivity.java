@@ -1132,7 +1132,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 			txtClozes = txtClozes.trim();
 			String clozes[] = (txt).split(regexCloze);
-			String repl[] = txtClozes.split(", *|; *|\\s");
+			String repl[] = txtClozes.split(", *|; *"); //|\\s");
 
 			if (clozes.length > 1 && clozes.length - 1 == repl.length)
 			{
