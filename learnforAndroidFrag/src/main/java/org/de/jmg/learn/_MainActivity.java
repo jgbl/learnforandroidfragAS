@@ -924,8 +924,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				v = findViewById(R.id.txtMeaning1);
 				t = (TextView) v;
 				assert t != null;
-				t.setText((_vok.reverse || showBeds ? lib.getSpanableString(_vok.getBedeutung1()) : Vokabel.getComment(_vok
-						.getBedeutung1())));
+				t.setText(lib.getSpanableString(_vok.getBedeutung1());
 				txtBed = t.getText().toString();
 			}
 
@@ -1126,11 +1125,14 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	private String replaceClozes(String txt, String txtClozes)
 	{
+		final String regexCloze = "_{2,}|\\.{4,}|(_ ){2,}|(\\. ){4,}";
+		txt = " " + txt + "  ";
 		if (txtClozes != null)
 		{
 
-			String clozes[] = (" " + txt + " ").split("_{2,}|\\.{4,}");
-			String repl[] = txtClozes.split("[,;\\s]");
+			txtClozes = txtClozes.trim();
+			String clozes[] = (txt).split(regexCloze);
+			String repl[] = txtClozes.split(", *|; *|\\s");
 
 			if (clozes.length > 1 && clozes.length - 1 == repl.length)
 			{
@@ -1143,13 +1145,14 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			}
 			else
 			{
-				txt = txt.replaceAll("_{2,}", txtClozes).replaceAll("\\.{4,}", txtClozes);
+				txt = txt.replaceAll(regexCloze, txtClozes);
 			}
 		}
 		else
 		{
-			txt = txt.replaceAll("_{2,}", getString(R.string.cloze)).replaceAll("\\.{4,}", getString(R.string.cloze));
+			txt = txt.replaceAll(regexCloze, getString(R.string.cloze));
 		}
+		txt = txt.trim();
 		return txt;
 	}
 
@@ -1172,7 +1175,17 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					speak(s, l, ID, (i == 0) ? blnFlush : false);
 					if (i < ts.length - 1)
 					{
-						speak(getString(R.string.cloze), Locale.getDefault(), ID, false);
+						if (Build.VERSION.SDK_INT < 21)
+						{
+							HashMap<String, String> h = new HashMap<>();
+							h.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "cloze");
+							_main.tts.playSilence(2500, TextToSpeech.QUEUE_ADD, h);
+						}
+						else
+						{
+							_main.tts.playSilentUtterance(2500, TextToSpeech.QUEUE_ADD, "cloze");
+						}
+						//speak(getString(R.string.cloze), Locale.getDefault(), ID, false);
 					}
 				}
 			}
@@ -1195,7 +1208,6 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				if (Build.VERSION.SDK_INT < 21)
 				{
 					HashMap<String, String> h = new HashMap<>();
-
 					h.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, ID);
 
 					_main.tts.speak(t, flags, h);
@@ -1225,6 +1237,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		View v = findViewById(R.id.btnRight);
 		Button b = (Button) v;
 		_btnRight = b;
+		assert b != null;
 		b.setOnClickListener(new OnClickListener()
 		{
 
@@ -1261,6 +1274,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		v = findViewById(R.id.btnWrong);
 		b = (Button) v;
 		_btnWrong = b;
+		assert b != null;
 		b.setOnClickListener(new OnClickListener()
 		{
 
@@ -1295,6 +1309,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		v = findViewById(R.id.btnSkip);
 		b = (Button) v;
 		_btnSkip = b;
+		assert b != null;
 		b.setOnClickListener(new OnClickListener()
 		{
 
@@ -1317,6 +1332,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		v = findViewById(R.id.btnView);
 		b = (Button) v;
 		_btnView = b;
+		assert b != null;
 		b.setOnClickListener(new OnClickListener()
 		{
 
@@ -1340,6 +1356,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		v = findViewById(R.id.btnEdit);
 		b = (Button) v;
 		_btnEdit = b;
+		assert b != null;
 		b.setOnClickListener(new OnClickListener()
 		{
 
@@ -1377,16 +1394,19 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		//_txtMeaning1.setOnTouchListener(OnTouchListenerRemoveCallbacks);
 
 		_txtMeaning2 = (BorderedEditText) findViewById(R.id.txtMeaning2);
+		assert _txtMeaning2 != null;
 		_txtMeaning2.setOnLongClickListener(textlongclicklistener);
 		//_txtMeaning2.setBackgroundResource(0);
 		_txtMeaning2.setOnTouchListener(OnTouchListenerRemoveCallbacks);
 
 		_txtMeaning3 = (BorderedEditText) findViewById(R.id.txtMeaning3);
+		assert _txtMeaning3 != null;
 		_txtMeaning3.setOnLongClickListener(textlongclicklistener);
 		//_txtMeaning3.setBackgroundResource(0);
 		_txtMeaning3.setOnTouchListener(OnTouchListenerRemoveCallbacks);
 
 		_txtWord = (BorderedTextView) findViewById(R.id.word);
+		assert _txtWord != null;
 		_txtWord.setOnLongClickListener(textlongclicklistener);
 		//_txtWord.setOnTouchListener(OnTouchListenerRemoveCallbacks);
 		OnTouchListenerScrollWord = new OnTouchListenerScroll(detectorWord, this);
@@ -1396,6 +1416,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 
 		_txtedWord = (BorderedEditText) findViewById(R.id.edword);
+		assert _txtedWord != null;
 		_txtedWord.setOnLongClickListener(textlongclicklistener);
 		OnTouchListenerScrolledWord = new OnTouchListenerScroll(detectoredWord, this);
 		ListeneredWord.l = OnTouchListenerScrolledWord;
@@ -1403,6 +1424,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		_txtedWord.setOnTouchListener(OnTouchListenerScrolledWord);
 
 		_txtedKom = (BorderedEditText) findViewById(R.id.edComment);
+		assert _txtedKom != null;
 		_txtedKom.setOnLongClickListener(textlongclicklistener);
 		OnTouchListenerScrolledKom = new OnTouchListenerScroll(detectoredKom, this);
 		ListeneredKom.l = OnTouchListenerScrolledKom;
@@ -1411,6 +1433,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 
 		_txtKom = (BorderedTextView) findViewById(R.id.Comment);
+		assert _txtKom != null;
 		_txtKom.setOnLongClickListener(textlongclicklistener);
 		OnTouchListenerScrollKom = new OnTouchListenerScroll(detectorKom, this);
 		ListenerKom.l = OnTouchListenerScrollKom;
@@ -1421,6 +1444,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		_txtStatus = (BorderedTextView) findViewById(R.id.txtStatus);
 
 		_scrollView = (ScrollView) findViewById(R.id.layoutMain);
+		assert _scrollView != null;
 		_scrollView.setOnTouchListener(OnTouchListenerRemoveCallbacks);
 
 		setBtnsEnabled(false);
@@ -1440,6 +1464,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	void StartEdit() throws Exception
 	{
+		_txtWord.setText(lib.getSpanableString(_vok.getWort()), TextView.BufferType.SPANNABLE);
 		_txtWord.setVisibility(View.GONE);
 		_txtKom.setVisibility(View.GONE);
 		_txtedWord.setVisibility(View.VISIBLE);
