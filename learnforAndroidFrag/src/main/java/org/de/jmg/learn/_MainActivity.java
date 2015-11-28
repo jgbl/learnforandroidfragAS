@@ -924,7 +924,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				v = findViewById(R.id.txtMeaning1);
 				t = (TextView) v;
 				assert t != null;
-				t.setText(lib.getSpanableString(_vok.getBedeutung1());
+				t.setText(lib.getSpanableString(_vok.getBedeutung1()));
 				txtBed = t.getText().toString();
 			}
 
