@@ -915,27 +915,29 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			if (LoadNext)
 				_vok.setLernIndex((short) (_vok.getLernIndex() + 1));
 
-			View v = findViewById(R.id.word);
-			TextView t = (TextView) v;
-			/*
-			 * if (!_vok.getCardMode()) { Rect bounds = new Rect(); Paint
-			 * textPaint = t.getPaint();
-			 * textPaint.getTextBounds(_vok.getWort(),0,
-			 * _vok.getWort().length(),bounds); if (t.getWidth() <
-			 * bounds.width()){ //int lines = t.getLineCount(); t.setLines((2));
-			 *
-			 * if (((float)bounds.width() / (float)t.getWidth()) > 2) {
-			 * t.setLines(3); } else { t.setLines((2)); }
-			 *
-			 * } else { t.setLines(1); } }
-			 */
+			View v;
+			TextView t;
+			String txtBed = getString(R.string.cloze);
+
+			if (showBeds)
+			{
+				v = findViewById(R.id.txtMeaning1);
+				t = (TextView) v;
+				assert t != null;
+				t.setText((_vok.reverse || showBeds ? lib.getSpanableString(_vok.getBedeutung1()) : Vokabel.getComment(_vok
+						.getBedeutung1())));
+				txtBed = t.getText().toString();
+			}
+
+			v = findViewById(R.id.word);
+			t = (TextView) v;
 			assert t != null;
 			String txtWord = getString(R.string.cloze);
 			if (!_vok.reverse || showBeds)
 			{
 				t.setText(lib.getSpanableString(_vok.getWort()), TextView.BufferType.SPANNABLE);
 				txtWord = t.getText().toString();
-				txtWord = txtWord.replaceAll("_{2,}", getString(R.string.cloze)).replaceAll("\\.{4,}", getString(R.string.cloze));
+				txtWord = replaceClozes(txtWord, txtBed);
 				if (!_vok.reverse) speak(txtWord, _vok.getLangWord(), "word", true);
 			}
 			else
@@ -997,24 +999,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			if (_vok.reverse || showBeds)
 			{
 				String txt = t.getText().toString();
-				if (txtWord != null)
-				{
-
-					String clozes[] = (" " + txt + " ".split("_{2,}|\\,{4,}");
-					String repl[] = txtWord.split("[,;\\s]");
-
-					if (clozes.length > 1 && clozes.length == repl.length)
-					{
-						for (int i = 0; i < clozes.length; i++)
-						{
-							txt += clozes[i] + repl[i])
-						}
-					}
-					else
-					{
-						txt = txt.replaceAll("_{2,}", txtWord).replaceAll("\\.{4,}", txtWord);
-					}
-				}
+				txt = replaceClozes(txt,txtWord);
 				speak(txt, _vok.getLangMeaning(), "meaning1", _vok.reverse);
 			}
 			if (_vok.getFontBed().getName().equalsIgnoreCase("Cardo"))
@@ -1139,6 +1124,35 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	}
 
+	private String replaceClozes(String txt, String txtClozes)
+	{
+		if (txtClozes != null)
+		{
+
+			String clozes[] = (" " + txt + " ").split("_{2,}|\\.{4,}");
+			String repl[] = txtClozes.split("[,;\\s]");
+
+			if (clozes.length > 1 && clozes.length - 1 == repl.length)
+			{
+				txt = "";
+				for (int i = 0; i < clozes.length - 1; i++)
+				{
+					txt += clozes[i] + repl[i];
+				}
+				txt += clozes[clozes.length -1];
+			}
+			else
+			{
+				txt = txt.replaceAll("_{2,}", txtClozes).replaceAll("\\.{4,}", txtClozes);
+			}
+		}
+		else
+		{
+			txt = txt.replaceAll("_{2,}", getString(R.string.cloze)).replaceAll("\\.{4,}", getString(R.string.cloze));
+		}
+		return txt;
+	}
+
 	public void speak(String t, Locale l, String ID)
 	{
 		speak(t, l, ID, false);
@@ -1149,7 +1163,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		try
 		{
 			if (!_main.blnTextToSpeech || l.toString().equalsIgnoreCase("_off")) return;
-			String ts[] = (t + " ").split(getString(R.string.cloze));
+			String ts[] = (" " + t + " ").split(getString(R.string.cloze));
 			if (!t.equalsIgnoreCase(getString(R.string.cloze)) && ts.length > 1)
 			{
 				for (int i = 0; i < ts.length; i++)
