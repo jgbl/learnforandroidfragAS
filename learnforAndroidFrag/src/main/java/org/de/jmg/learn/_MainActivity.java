@@ -998,7 +998,23 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			{
 				String txt = t.getText().toString();
 				if (txtWord != null)
-					txt = txt.replaceAll("_{2,}", txtWord).replaceAll("\\.{4,}", txtWord);
+				{
+
+					String clozes[] = (" " + txt + " ".split("_{2,}|\\,{4,}");
+					String repl[] = txtWord.split("[,;\\s]");
+
+					if (clozes.length > 1 && clozes.length == repl.length)
+					{
+						for (int i = 0; i < clozes.length; i++)
+						{
+							txt += clozes[i] + repl[i])
+						}
+					}
+					else
+					{
+						txt = txt.replaceAll("_{2,}", txtWord).replaceAll("\\.{4,}", txtWord);
+					}
+				}
 				speak(txt, _vok.getLangMeaning(), "meaning1", _vok.reverse);
 			}
 			if (_vok.getFontBed().getName().equalsIgnoreCase("Cardo"))
@@ -1038,8 +1054,8 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				if (_vok.reverse || showBeds)
 				{
 					String txt = t.getText().toString();
-					if (txtWord != null)
-						txt = txt.replaceAll("_{2,}", txtWord).replaceAll("\\.{4,}", txtWord);
+					//if (txtWord != null)
+					//	txt = txt.replaceAll("_{2,}", txtWord).replaceAll("\\.{4,}", txtWord);
 					speak(txt, _vok.getLangMeaning(), "meaning2");
 				}
 			}
@@ -1071,8 +1087,8 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				if (_vok.reverse || showBeds)
 				{
 					String txt = t.getText().toString();
-					if (txtWord != null)
-						txt = txt.replaceAll("_{2,}", txtWord).replaceAll("\\.{4,}", txtWord);
+					//if (txtWord != null)
+					//	txt = txt.replaceAll("_{2,}", txtWord).replaceAll("\\.{4,}", txtWord);
 					speak(txt, _vok.getLangMeaning(), "meaning3");
 				}
 			}
