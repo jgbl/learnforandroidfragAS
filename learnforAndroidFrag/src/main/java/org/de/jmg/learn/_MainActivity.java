@@ -937,7 +937,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				t.setText(lib.getSpanableString(_vok.getWort()), TextView.BufferType.SPANNABLE);
 				txtWord = t.getText().toString();
 				txtWord = replaceClozes(txtWord, txtBed);
-				if (!_vok.reverse) speak(txtWord, _vok.getLangWord(), "word", true);
+				speak(txtWord, _vok.getLangWord(), "word", true);
 			}
 			else
 			{
