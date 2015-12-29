@@ -412,7 +412,7 @@ public class MainActivity extends AppCompatActivity
             if (prefs.getBoolean("play", true)
                     && (Installer == null
                     || (!Installer.equalsIgnoreCase("com.android.vending")
-                    && Installer.contains("com.google.android"))))
+                    && !Installer.contains("com.google.android"))))
             {
                 lib.YesNoCheckResult res = lib.ShowMessageYesNoWithCheckbox
                         (this, Installer != null ? Installer : "", this.getString(R.string.msgNotGooglePlay)
