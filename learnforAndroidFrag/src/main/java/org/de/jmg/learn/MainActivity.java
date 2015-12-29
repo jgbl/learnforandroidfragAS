@@ -1204,21 +1204,30 @@ public class MainActivity extends AppCompatActivity
                 }
                 else
                 {
-                    boolean dontcopy = prefs.getBoolean("dontcopy", false);
-                    yesnoundefined res;
-                    if (dontcopy)
+                    int dontcopy = prefs.getInt("dontcopyorchoose", -2);
+                    yesnoundefined rres;
+                    if (dontcopy == -2)
                     {
-                        res = yesnoundefined.no;
+                        rres = yesnoundefined.undefined;
+                    }
+                    else if (dontcopy == 0)
+                    {
+                        rres = yesnoundefined.yes;
                     }
                     else
                     {
-                        res = lib.ShowMessageYesNo(this, this.getString(R.string.copyfiles), "");
+                        rres = yesnoundefined.no;
                     }
-                    if (res == yesnoundefined.no)
+                    lib.YesNoCheckResult res = new lib.YesNoCheckResult(rres, false);
+                    if (rres == yesnoundefined.undefined)
                     {
-                        prefs.edit().putBoolean("dontcopy", true).commit();
-                        return;
+                        res = lib.ShowMessageYesNoWithCheckbox(this, this.getString(R.string.copy),this.getString(R.string.copyfiles), this.getString(R.string.msgRememberChoice),false);
                     }
+                    if (res.checked)
+                    {
+                        prefs.edit().putInt("dontcopyorchoose", (res.res == yesnoundefined.no?-1:0)).commit();
+                    }
+                    if (res.res == yesnoundefined.no) return;
                 }
                 AssetManager A = this.getAssets();
                 try

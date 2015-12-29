@@ -319,4 +319,7 @@
     <string name="lang_definitions">Sprache Bedeutung</string>
     <string name="mnuAskReverse">Bedeutung zuerst abfragen</string>
     <string name="cloze">Lückentext</string>
+    <string name="copy">Kopieren</string>
+    <string name="btnResetCopyVok">Wert für das Kopieren der Vokabeln zurücksetzen</string>
+    <string name="hintResetCopyVok">Zürücksetzen der Einstellung für das Kopieren der Werksseitig geliferten Vokabeln</string>
 </resources>

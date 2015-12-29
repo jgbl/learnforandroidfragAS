@@ -107,6 +107,7 @@ public class SettingsActivity extends Fragment
 	public org.de.jmg.lib.NoClickSpinner spnColors;
 	public org.de.jmg.lib.NoClickSpinner spnSounds;
 	public Button btnColors;
+	public Button btnResetDefaultVok;
 	public CheckBox chkRandom;
 	public CheckBox chkAskAll;
 	public CheckBox chkSound;
@@ -1223,6 +1224,16 @@ public class SettingsActivity extends Fragment
 
 
 	private void initButtons() {
+		btnResetDefaultVok = (Button) findViewById(R.id.btnResetCopyVok);
+		btnResetDefaultVok.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				prefs.edit().putInt("dontcopyorchoose", -2).commit();
+
+			}
+		});
 		/*
 		Button b = (Button) findViewById(R.id.btnOK);
 		b.setOnClickListener(new OnClickListener() {

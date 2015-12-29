@@ -319,4 +319,7 @@
 	<string name="lang_definitions">language meaning</string>
 	<string name="mnuAskReverse">ask meaning first</string>
 	<string name="cloze">cloze</string>
+	<string name="copy">copy</string>
+	<string name="hintResetCopyVok">reset setting for copying default vocabulary</string>
+	<string name="btnResetCopyVok">reset copying default vocabulary</string>
 </resources>

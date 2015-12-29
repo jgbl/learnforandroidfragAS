@@ -486,8 +486,24 @@
 		             android:textSize="16sp"
 		             android:textStyle="bold"
 		             android:typeface="normal" />
-		    
-	    </RelativeLayout>
+
+			<Button
+				android:id="@+id/btnResetCopyVok"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/chkTranslate"
+				android:layout_marginBottom="0dp"
+				android:layout_marginTop="0dp"
+				android:contentDescription="@string/hintResetCopyVok"
+				android:gravity="center_vertical|center_horizontal"
+				android:text="@string/btnResetCopyVok"
+				android:textSize="16sp"
+				android:typeface="normal"
+				android:textAllCaps="false"
+				android:layout_centerHorizontal="true"/>
+
+
+		</RelativeLayout>
 
 
 </ScrollView>
