@@ -58,6 +58,8 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.de.jmg.learn.vok.Vokabel;
@@ -80,6 +82,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1651,11 +1654,9 @@ public class MainActivity extends AppCompatActivity
                 }
                 */
                 MenuItem mnuQuizlet = menu.findItem(R.id.mnuLoginQuizlet);
-                mnuQuizlet.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener()
-                {
+                mnuQuizlet.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
-                    public boolean onMenuItemClick(MenuItem item)
-                    {
+                    public boolean onMenuItemClick(MenuItem item) {
                         throw new RuntimeException("Test");
                         //return true;
                     }
@@ -1686,12 +1687,10 @@ public class MainActivity extends AppCompatActivity
                 */
                 mainView.getViewTreeObserver().addOnGlobalLayoutListener
                         (
-                                new ViewTreeObserver.OnGlobalLayoutListener()
-                                {
+                                new ViewTreeObserver.OnGlobalLayoutListener() {
 
                                     @Override
-                                    public void onGlobalLayout()
-                                    {
+                                    public void onGlobalLayout() {
                                         // Ensure you call it only once :
                                         lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
                                         MainActivity.this.SetShowAsAction(mnuUploadToQuizlet);
@@ -1728,6 +1727,33 @@ public class MainActivity extends AppCompatActivity
         if (tb != null)
         {
             width = tb.getWidth();
+            Resources resources = context.getResources();
+            DisplayMetrics metrics = resources.getDisplayMetrics();
+            double height = metrics.heightPixels;
+            int viewTop = this.findViewById(Window.ID_ANDROID_CONTENT).getTop();
+            double scale = (double) (height - viewTop) / (double) 950;
+
+            if (scale < .5f)
+            {
+                isSmallDevice = true;
+            }
+            double ActionBarHeight = tb.getHeight();
+            if (isSmallDevice && ActionBarHeight / height > .15f)
+            {
+                try
+                {
+                    FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) tb.getLayoutParams();
+                    layoutParams.height = (int)(height  * .15f);
+
+                    tb.setMinimumHeight((int)(height * .15f));
+                    tb.setLayoutParams(layoutParams);
+                    tb.requestLayout();
+                }
+                catch (Exception ex)
+                {
+                    Log.e("SetToolbarHeight", ex.getMessage(),ex);
+                }
+            }
             if (width > 0)
             {
                 ViewGroup g = (ViewGroup) tb;
