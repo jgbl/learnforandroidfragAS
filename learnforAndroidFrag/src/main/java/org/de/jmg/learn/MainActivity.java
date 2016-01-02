@@ -1709,10 +1709,11 @@ public class MainActivity extends AppCompatActivity
 
         return false;
     }
-
+    private boolean _hasBeenDownsized = false;
     public void SetShowAsAction(final MenuItem m)
     {
         _blnReverse = false;
+        _hasBeenDownsized = false;
         _invisibleCount = Build.VERSION.SDK_INT >= 11 ? 0 : 2;
         _SetShowAsAction(m);
 
@@ -1771,29 +1772,34 @@ public class MainActivity extends AppCompatActivity
                 {
                     if (_blnReverse)
                     {
-                        MenuBuilder mm = (MenuBuilder) ActionMenu.getMenu();
-                        int Actions = mm.getActionItems().size();
-                        try
+                        if (!_hasBeenDownsized || _hasBeenDownsized)
                         {
-                            MenuItem mmm = ActionMenu.getMenu().getItem(Actions + _invisibleCount);
-                            if (mmm.isVisible())
+                            MenuBuilder mm = (MenuBuilder) ActionMenu.getMenu();
+                            int Actions = mm.getActionItems().size();
+                            try
                             {
-                                MenuItemCompat.setShowAsAction(mmm, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
+                                MenuItem mmm = ActionMenu.getMenu().getItem(Actions + _invisibleCount);
+                                if (mmm.isVisible())
+                                {
+                                    MenuItemCompat.setShowAsAction(mmm, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
+                                }
+                                else
+                                {
+                                    _invisibleCount += 1;
+                                    _SetShowAsAction(mmm);
+                                }
                             }
-                            else
+                            catch (IndexOutOfBoundsException ex)
                             {
-                                _invisibleCount += 1;
-                                _SetShowAsAction(mmm);
+                                return;
                             }
                         }
-                        catch (IndexOutOfBoundsException ex)
-                        {
-                            return;
-                        }
+
                     }
                     else
                     {
                         MenuItemCompat.setShowAsAction(m, MenuItemCompat.SHOW_AS_ACTION_NEVER);
+                        _hasBeenDownsized = true;
                     }
                     ActionMenu.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()
                     {
