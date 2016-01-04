@@ -21,8 +21,10 @@
 package org.liberty.android.fantastischmemo.downloader.quizlet;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -53,38 +55,57 @@ public class LoginQuizletActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         blnUpload = getIntent().getBooleanExtra("upload",false);
-        QuizletOAuth2AccessCodeRetrievalFragment dlg = new QuizletOAuth2AccessCodeRetrievalFragment();
-        dlg.setAuthCodeReceiveListener(new OauthAccessCodeRetrievalFragment.AuthCodeReceiveListener() {
-            @Override
-            public void onAuthCodeReceived(String... codes) {
-                if(codes != null && codes.length>0)
-                {
-                    AccessToken = codes[0];
-                    new GetAccessTokenTask().execute(codes);
+        try
+        {
+            QuizletOAuth2AccessCodeRetrievalFragment dlg = new QuizletOAuth2AccessCodeRetrievalFragment();
+            dlg.setAuthCodeReceiveListener(new OauthAccessCodeRetrievalFragment.AuthCodeReceiveListener() {
+                @Override
+                public void onAuthCodeReceived(String... codes) {
+                    if(codes != null && codes.length>0)
+                    {
+                        AccessToken = codes[0];
+                        new GetAccessTokenTask().execute(codes);
+                    }
+                    else
+                    {
+                        setResult(Activity.RESULT_CANCELED);
+                        finish();
+                    }
+
                 }
-                else
-                {
+
+                @Override
+                public void onAuthCodeError(String error) {
+                    lib.ShowMessage(LoginQuizletActivity.this,error,"");
                     setResult(Activity.RESULT_CANCELED);
                     finish();
                 }
 
-            }
+                @Override
+                public void onCancelled() {
+                    setResult(Activity.RESULT_CANCELED);
+                    finish();
+                }
+            });
 
-            @Override
-            public void onAuthCodeError(String error) {
-                lib.ShowMessage(LoginQuizletActivity.this,error,"");
-                setResult(Activity.RESULT_CANCELED);
-                finish();
-            }
 
-            @Override
-            public void onCancelled() {
-                setResult(Activity.RESULT_CANCELED);
-                finish();
-            }
-        });
+            dlg.show(this.getSupportFragmentManager(), "OauthAccessCodeRetrievalFragment");
+        }
+        catch (Exception ex)
+        {
+            AlertDialog.Builder A = new AlertDialog.Builder(this);
+            A.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-        dlg.show(this.getSupportFragmentManager(), "OauthAccessCodeRetrievalFragment");
+                }
+            });
+            A.setMessage(ex.getMessage());
+            A.setTitle(this.getString(R.string.Error));
+            AlertDialog dlg = A.create();
+            dlg.show();
+        }
+
     }
     private class GetAccessTokenTask extends AsyncTask<String, Void, String[]> {
 

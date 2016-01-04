@@ -27,11 +27,13 @@ import java.io.IOException;
 //import roboguice.fragment.RoboDialogFragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -61,6 +63,8 @@ public abstract class OauthAccessCodeRetrievalFragment extends DialogFragment
     private View progressDialog;
 
     private LinearLayout rootView;
+
+    public View v;
 
     public OauthAccessCodeRetrievalFragment() { }
 
@@ -98,24 +102,43 @@ public abstract class OauthAccessCodeRetrievalFragment extends DialogFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final View v = inflater.inflate(R.layout.oauth_login_layout, container, false);
-        webview = (WebView)v.findViewById(R.id.login_page);
-        loadingText = v.findViewById(R.id.auth_page_load_text);
-        progressDialog = v.findViewById(R.id.auth_page_load_progress);
-        rootView = (LinearLayout)v.findViewById(R.id.ll);
+        try
+        {
+            v = inflater.inflate(R.layout.oauth_login_layout, container, false);
+            webview = (WebView)v.findViewById(R.id.login_page);
+            loadingText = v.findViewById(R.id.auth_page_load_text);
+            progressDialog = v.findViewById(R.id.auth_page_load_progress);
+            rootView = (LinearLayout)v.findViewById(R.id.ll);
 
-        // We have to set up the dialog's webview size manually or the webview will be zero size.
-        // This should be a bug of Android.
-        Rect displayRectangle = new Rect();
-        Window window = mActivity.getWindow();
-        window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
+            // We have to set up the dialog's webview size manually or the webview will be zero size.
+            // This should be a bug of Android.
+            Rect displayRectangle = new Rect();
+            Window window = mActivity.getWindow();
+            window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
 
-        rootView.setMinimumWidth((int)(displayRectangle.width() * 0.9f));
-        rootView.setMinimumHeight((int)(displayRectangle.height() * 0.8f));
+            rootView.setMinimumWidth((int)(displayRectangle.width() * 0.9f));
+            rootView.setMinimumHeight((int)(displayRectangle.height() * 0.8f));
 
-        RequestTokenTask task = new RequestTokenTask();
-        task.execute((Void)null);
+            RequestTokenTask task = new RequestTokenTask();
+            task.execute((Void)null);
 
+        }
+        catch (Exception ex)
+        {
+            AlertDialog.Builder A = new AlertDialog.Builder(mActivity);
+            A.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            A.setMessage(ex.getMessage());
+            A.setTitle(mActivity.getString(R.string.Error));
+            AlertDialog dlg = A.create();
+            dlg.show();
+            v = super.onCreateView(inflater,container,savedInstanceState);
+            //lib.ShowMessage(mActivity, ex.getMessage(), "Error");
+        }
         return v;
     }
 
