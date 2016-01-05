@@ -2,5 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/mnuRename" android:title="@string/mnuRename"></item>
     <item android:id="@+id/mnuDelete" android:title="@string/cmnuDelete"></item>
+    <item android:id="@+id/mnuCopy" android:title="@string/cmnuCopy"></item>
+    <item android:id="@+id/mnuCut" android:title="@string/cmnuCut"></item>
+    <item android:id="@+id/mnuPaste" android:title="@string/cmnuPaste"></item>
     <item android:id="@+id/mnuCancel" android:title="@string/cmnuCancel"></item>
 </menu>

@@ -322,4 +322,7 @@
 	<string name="copy">copy</string>
 	<string name="hintResetCopyVok">reset setting for copying default vocabulary</string>
 	<string name="btnResetCopyVok">reset copying default vocabulary</string>
+	<string name="cmnuCopy">copy</string>
+	<string name="cmnuCut">cut</string>
+	<string name="cmnuPaste">paste</string>
 </resources>

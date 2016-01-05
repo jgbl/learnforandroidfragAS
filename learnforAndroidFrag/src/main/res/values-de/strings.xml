@@ -322,4 +322,7 @@
     <string name="copy">Kopieren</string>
     <string name="btnResetCopyVok">Wert für das Kopieren der Vokabeln zurücksetzen</string>
     <string name="hintResetCopyVok">Zürücksetzen der Einstellung für das Kopieren der Werksseitig geliferten Vokabeln</string>
+    <string name="cmnuCopy">kopieren</string>
+    <string name="cmnuCut">ausschneiden</string>
+    <string name="cmnuPaste">einfügen</string>
 </resources>

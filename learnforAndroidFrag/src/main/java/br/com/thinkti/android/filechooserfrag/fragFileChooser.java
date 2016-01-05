@@ -51,6 +51,7 @@ import org.de.jmg.lib.lib;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -159,9 +160,19 @@ public class fragFileChooser extends ListFragment
 		{
 			MenuInflater inflater = _main.getMenuInflater();
 			inflater.inflate(R.menu.context, menu);
+			if (_copiedFile == null && _cutFile == null)
+			{
+				menu.findItem(R.id.mnuPaste).setEnabled(false);
+			}
+			else
+			{
+				menu.findItem(R.id.mnuPaste).setEnabled(true);
+			}
 		}
 	}
-
+	private String _copiedFile;
+	private String _cutFile;
+	private Option _cutOption;
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
@@ -216,6 +227,97 @@ public class fragFileChooser extends ListFragment
 					}
 				}
 				//lib.ShowToast(_main, "rename " + t1.getText().toString() + " " + t2.getText().toString() + " " + o.getData() + " "  + o.getPath() + " " + o.getName());
+				return true;
+			case R.id.mnuCopy:
+				_copiedFile = (o.getPath());
+				_cutFile = null;
+				return true;
+			case R.id.mnuCut:
+				_cutFile = (o.getPath());
+				_cutOption = o;
+				_copiedFile = null;
+				return true;
+			case R.id.mnuPaste:
+				if (_cutFile != null && _copiedFile != null) return true;
+				String path;
+				File F = new File(o.getPath());
+				if (F.isDirectory())
+				{
+					path = F.getPath();
+				}
+				else
+				{
+					path = F.getParent();
+				}
+				if (_copiedFile != null)
+				{
+					File source = new File(_copiedFile);
+					File dest = new File(path, source.getName());
+					if (dest.exists()) return true;
+					String [] copyCmd;
+					if (source.isDirectory())
+					{
+						copyCmd = new String[] {"cp", "-r", _copiedFile, path};
+					}
+					else
+					{
+						copyCmd = new String[] {"cp", _copiedFile, path};
+					}
+					Runtime runtime = Runtime.getRuntime();
+					try {
+						runtime.exec(copyCmd);
+						Option newOption;
+						if (dest.isDirectory() && !dest.isHidden())
+							adapter.add(new Option(dest.getName(), getString(R.string.folder), dest
+									.getAbsolutePath(), true, false, false));
+						else {
+							if (!dest.isHidden())
+								adapter.add(new Option(dest.getName(), getString(R.string.fileSize) + ": "
+										+ dest.length(), dest.getAbsolutePath(), false, false, false));
+						}
+					} catch (Exception ex) {
+						lib.ShowMessage(_main, ex.getMessage(), getString((R.string.Error)));
+					}
+
+				}
+				else if (_cutFile != null)
+				{
+					File source = new File(_cutFile);
+					File dest = new File(path, source.getName());
+					if (dest.exists()) return true;
+					String [] copyCmd;
+					if (source.isDirectory())
+					{
+						copyCmd = new String[] {"mv", "-r", _cutFile, path};
+					}
+					else
+					{
+						copyCmd = new String[] {"mv", _cutFile, path};
+					}
+					Runtime runtime = Runtime.getRuntime();
+					try {
+						runtime.exec(copyCmd);
+						Option newOption;
+						try
+						{
+							adapter.remove(_cutOption);
+						}
+						catch (Exception e)
+						{
+
+						}
+						if (dest.isDirectory() && !dest.isHidden())
+							adapter.add(new Option(dest.getName(), getString(R.string.folder), dest
+									.getAbsolutePath(), true, false, false));
+						else {
+							if (!dest.isHidden())
+								adapter.add(new Option(dest.getName(), getString(R.string.fileSize) + ": "
+										+ dest.length(), dest.getAbsolutePath(), false, false, false));
+						}
+					} catch (Exception ex) {
+						lib.ShowMessage(_main, ex.getMessage(), getString((R.string.Error)));
+					}
+				}
 				return true;
 			default:
 				return super.onContextItemSelected(item);
