@@ -253,7 +253,11 @@ public class fragFileChooser extends ListFragment
 				{
 					File source = new File(_copiedFile);
 					File dest = new File(path, source.getName());
-					if (dest.exists()) return true;
+					if (dest.exists())
+					{
+						lib.ShowMessage(_main,getString(R.string.msgFileExists),"");
+						return true;
+					}
 					String [] copyCmd;
 					if (source.isDirectory())
 					{
@@ -284,7 +288,11 @@ public class fragFileChooser extends ListFragment
 				{
 					File source = new File(_cutFile);
 					File dest = new File(path, source.getName());
-					if (dest.exists()) return true;
+					if (dest.exists())
+					{
+						lib.ShowMessage(_main,getString(R.string.msgFileExists),"");
+						return true;
+					}
 					String [] copyCmd;
 					if (source.isDirectory())
 					{
@@ -295,12 +303,14 @@ public class fragFileChooser extends ListFragment
 						copyCmd = new String[] {"mv", _cutFile, path};
 					}
 					Runtime runtime = Runtime.getRuntime();
+					_cutFile = null;
 					try {
 						runtime.exec(copyCmd);
 						Option newOption;
 						try
 						{
 							adapter.remove(_cutOption);
+							_cutOption = null;
 						}
 						catch (Exception e)
 						{
@@ -317,6 +327,39 @@ public class fragFileChooser extends ListFragment
 					} catch (Exception ex) {
 						lib.ShowMessage(_main, ex.getMessage(), getString((R.string.Error)));
 					}
+				}
+				return true;
+			case R.id.mnuNewFolder:
+				lib.OkCancelStringResult resNF = lib.InputBox(_main,getString(R.string.cmnuNewFolder)
+						,getString(R.string.EnterNewFilename)
+						,""
+						,false);
+				if (resNF.res == lib.okcancelundefined.ok)
+				{
+					String name = resNF.input;
+					String NFpath;
+					File NF = new File(o.getPath());
+					if (NF.isDirectory())
+					{
+						NFpath = NF.getPath();
+					}
+					else
+					{
+						NFpath = NF.getParent();
+					}
+					try
+					{
+						File NewFolder = new File(NFpath,name);
+						NewFolder.mkdir();
+						adapter.add(new Option(NewFolder.getName(), getString(R.string.folder), NewFolder
+								.getAbsolutePath(), true, false, false));
+
+					}
+					catch (Exception ex)
+					{
+						lib.ShowException(_main,ex);
+					}
+
 				}
 				return true;
 			default:
@@ -415,8 +458,12 @@ public class fragFileChooser extends ListFragment
 		Collections.sort(dir);
 		Collections.sort(fls);
 		dir.addAll(fls);
+		dir.add(0, new Option(".", getString(R.string.folder), f.getAbsolutePath(), true, false, false));
 		if (!f.getName().equalsIgnoreCase("sdcard")) {
-			if (f.getParentFile() != null) dir.add(0, new Option("..", getString(R.string.parentDirectory), f.getParent(), false, true, false));
+			if (f.getParentFile() != null)
+			{
+				dir.add(0, new Option("..", getString(R.string.parentDirectory), f.getParent(), false, true, false));
+			}
 		}
 		adapter = new FileArrayAdapter(getActivity(), R.layout.file_view,
 				dir);

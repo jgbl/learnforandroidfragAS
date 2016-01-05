@@ -325,4 +325,6 @@
 	<string name="cmnuCopy">copy</string>
 	<string name="cmnuCut">cut</string>
 	<string name="cmnuPaste">paste</string>
+	<string name="msgFileExists">destination exists!</string>
+	<string name="cmnuNewFolder">new folder</string>
 </resources>
