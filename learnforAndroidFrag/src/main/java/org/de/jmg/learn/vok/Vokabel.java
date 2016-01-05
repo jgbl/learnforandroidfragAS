@@ -2574,14 +2574,14 @@ public class Vokabel {
 				{
 					lad = 0;
 				}
-				if ((sp & 256) != 0)
+				if ((sp & 256) != 0 && sp < 1024)
 				{
 					String x = sr.readLine();
 					String [] Sprachen = x.split(",");
 					mLangWord = lib.forLanguageTag(Sprachen[0]);
 					mLangMeaning = lib.forLanguageTag(Sprachen[1]);
 				}
-				reverse = (sp & 512) != 0;
+				if (sp < 1024) reverse = (sp & 512) != 0;
 				if (Container != null) ((MainActivity) Container).setMnuReverse();
 				libLearn.gStatus = CodeLoc + " Line 829";
 				// Inserted by CodeCompleter
