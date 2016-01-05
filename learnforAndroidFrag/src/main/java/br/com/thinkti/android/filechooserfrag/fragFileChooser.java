@@ -331,7 +331,7 @@ public class fragFileChooser extends ListFragment
 				return true;
 			case R.id.mnuNewFolder:
 				lib.OkCancelStringResult resNF = lib.InputBox(_main,getString(R.string.cmnuNewFolder)
-						,getString(R.string.EnterNewFilename)
+						,getString(R.string.msgEnterNewFolderName)
 						,""
 						,false);
 				if (resNF.res == lib.okcancelundefined.ok)

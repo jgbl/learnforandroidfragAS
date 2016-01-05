@@ -327,4 +327,5 @@
     <string name="cmnuCopy">kopieren</string>
     <string name="msgFileExists">Das Ziel ist schon vorhanden!</string>
     <string name="cmnuNewFolder">Neuer Ordner</string>
+    <string name="msgEnterNewFolderName">Bitte geben Sie den Namen des neuen Ordners ein  </string>
 </resources>

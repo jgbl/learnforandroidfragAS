@@ -327,4 +327,5 @@
 	<string name="cmnuPaste">paste</string>
 	<string name="msgFileExists">destination exists!</string>
 	<string name="cmnuNewFolder">new folder</string>
+	<string name="msgEnterNewFolderName">enter the name of the new folder</string>
 </resources>
