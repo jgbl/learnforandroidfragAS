@@ -36,7 +36,6 @@ import android.os.Environment;
 import android.support.v4.app.ListFragment;
 import android.text.InputType;
 import android.view.ContextMenu;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -46,7 +45,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.de.jmg.learn.MainActivity;
@@ -189,7 +187,6 @@ public class fragFileChooser extends ListFragment
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         View v = info.targetView;
         final Option o = adapter.getItem((int) info.id);
-        final EditText input = new EditText(_main);
         switch (item.getItemId())
         {
             case R.id.mnuDelete:
@@ -227,10 +224,20 @@ public class fragFileChooser extends ListFragment
             case R.id.mnuRename:
                 String msg2 = String.format(getString(R.string.txtRenameFile), o.getName());
                 AlertDialog.Builder A = new AlertDialog.Builder(_main);
-                A.setPositiveButton(_main.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                final EditText inputRename = new EditText(_main);
+                A.setMessage(msg2);
+                A.setTitle(getString(R.string.rename));
+
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                inputRename.setInputType(InputType.TYPE_CLASS_TEXT);
+                inputRename.setText(o.getName());
+                A.setView(inputRename);
+                A.setPositiveButton(_main.getString(R.string.ok), new DialogInterface.OnClickListener()
+                {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String name = input.getText().toString();
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        String name = inputRename.getText().toString();
                         if (lib.libString.IsNullOrEmpty(name)) return;
                         try
                         {
@@ -248,19 +255,14 @@ public class fragFileChooser extends ListFragment
                         }
                     }
                 });
-                A.setNegativeButton(_main.getString(R.string.rename), new DialogInterface.OnClickListener() {
+                A.setNegativeButton(_main.getString(R.string.rename), new DialogInterface.OnClickListener()
+                {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(DialogInterface dialog, int which)
+                    {
 
                     }
                 });
-                A.setMessage(msg2);
-                A.setTitle(getString(R.string.rename));
-
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                input.setInputType(InputType.TYPE_CLASS_TEXT);
-                input.setText(o.getName());
-                A.setView(input);
                 AlertDialog dlg = A.create();
                 dlg.show();
                 return true;
@@ -386,42 +388,53 @@ public class fragFileChooser extends ListFragment
             case R.id.mnuNewFolder:
                 A = new AlertDialog.Builder(_main);
                 //final EditText input = new EditText(_main);
-                A.setPositiveButton(_main.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                final EditText inputNF = new EditText(_main);
+                A.setMessage(getString(R.string.msgEnterNewFolderName));
+                A.setTitle(getString(R.string.cmnuNewFolder));
+
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                inputNF.setInputType(InputType.TYPE_CLASS_TEXT);
+                inputNF.setText("");
+                A.setView(inputNF);
+                A.setPositiveButton(_main.getString(R.string.ok), new DialogInterface.OnClickListener()
+                {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String name = input.getText().toString();
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        String name = inputNF.getText().toString();
                         if (lib.libString.IsNullOrEmpty(name)) return;
                         String NFpath;
                         File NF = new File(o.getPath());
-                        if (NF.isDirectory()) {
+                        if (NF.isDirectory())
+                        {
                             NFpath = NF.getPath();
-                        } else {
+                        }
+                        else
+                        {
                             NFpath = NF.getParent();
                         }
-                        try {
+                        try
+                        {
                             File NewFolder = new File(NFpath, name);
                             NewFolder.mkdir();
                             adapter.add(new Option(NewFolder.getName(), getString(R.string.folder), NewFolder
                                     .getAbsolutePath(), true, false, false));
 
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex)
+                        {
                             lib.ShowException(_main, ex);
                         }
                     }
                 });
-                A.setNegativeButton(_main.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                A.setNegativeButton(_main.getString(R.string.cancel), new DialogInterface.OnClickListener()
+                {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(DialogInterface dialog, int which)
+                    {
 
                     }
                 });
-                A.setMessage(getString(R.string.msgEnterNewFolderName));
-                A.setTitle(getString(R.string.cmnuNewFolder));
-
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                input.setInputType(InputType.TYPE_CLASS_TEXT);
-                input.setText("");
-                A.setView(input);
                 dlg = A.create();
                 dlg.show();
                 return true;
