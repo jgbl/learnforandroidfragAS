@@ -42,6 +42,7 @@ import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 import org.de.jmg.learn.R;
@@ -125,18 +126,10 @@ public abstract class OauthAccessCodeRetrievalFragment extends DialogFragment
         }
         catch (Exception ex)
         {
-            AlertDialog.Builder A = new AlertDialog.Builder(mActivity);
-            A.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-            A.setMessage(ex.getMessage());
-            A.setTitle(mActivity.getString(R.string.Error));
-            AlertDialog dlg = A.create();
-            dlg.show();
-            v = super.onCreateView(inflater,container,savedInstanceState);
+            v = inflater.inflate(R.layout.oauth_login_layout_error, container, false);
+            TextView t = (TextView) v.findViewById(R.id.auth_page_load_text_error);
+            rootView = (LinearLayout)v.findViewById(R.id.ll);
+            t.setText(ex.getMessage());
             //lib.ShowMessage(mActivity, ex.getMessage(), "Error");
         }
         return v;

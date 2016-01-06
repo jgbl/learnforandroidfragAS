@@ -34,7 +34,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ListFragment;
+import android.text.InputType;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -42,7 +44,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.de.jmg.learn.MainActivity;
@@ -56,8 +60,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import br.com.thinkti.android.filechooser.FileArrayAdapter;
-import br.com.thinkti.android.filechooser.Option;
 
 public class fragFileChooser extends ListFragment
 {
@@ -186,7 +188,8 @@ public class fragFileChooser extends ListFragment
     {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         View v = info.targetView;
-        Option o = adapter.getItem((int) info.id);
+        final Option o = adapter.getItem((int) info.id);
+        final EditText input = new EditText(_main);
         switch (item.getItemId())
         {
             case R.id.mnuDelete:
@@ -223,24 +226,43 @@ public class fragFileChooser extends ListFragment
                 return true;
             case R.id.mnuRename:
                 String msg2 = String.format(getString(R.string.txtRenameFile), o.getName());
-                lib.OkCancelStringResult res = lib.InputBox(_main, getString(R.string.rename), msg2, o.getName(), false);
-                if (res.res == lib.okcancelundefined.ok.ok && !lib.libString.IsNullOrEmpty(res.input) && res.input != o.getName())
-                {
-                    try
-                    {
+                AlertDialog.Builder A = new AlertDialog.Builder(_main);
+                A.setPositiveButton(_main.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = input.getText().toString();
+                        if (lib.libString.IsNullOrEmpty(name)) return;
+                        try
+                        {
 
-                        File F = new File(o.getPath());
-                        File F2 = new File(F.getParent(), res.input);
-                        F.renameTo(F2);
-                        o.setName(res.input);
-                        o.setPath(F2.getPath());
+                            File F = new File(o.getPath());
+                            File F2 = new File(F.getParent(), name);
+                            F.renameTo(F2);
+                            o.setName(name);
+                            o.setPath(F2.getPath());
+                            adapter.notifyDataSetChanged();
+                        }
+                        catch (Exception ex)
+                        {
+                            lib.ShowMessage(_main, ex.getMessage(), getString((R.string.Error)));
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        lib.ShowMessage(_main, ex.getMessage(), getString((R.string.Error)));
+                });
+                A.setNegativeButton(_main.getString(R.string.rename), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
                     }
-                }
-                //lib.ShowToast(_main, "rename " + t1.getText().toString() + " " + t2.getText().toString() + " " + o.getData() + " "  + o.getPath() + " " + o.getName());
+                });
+                A.setMessage(msg2);
+                A.setTitle(getString(R.string.rename));
+
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                input.setText(o.getName());
+                A.setView(input);
+                AlertDialog dlg = A.create();
+                dlg.show();
                 return true;
             case R.id.mnuCopy:
                 _copiedFile = (o.getPath());
@@ -362,37 +384,46 @@ public class fragFileChooser extends ListFragment
                 }
                 return true;
             case R.id.mnuNewFolder:
-                lib.OkCancelStringResult resNF = lib.InputBox(_main, getString(R.string.cmnuNewFolder)
-                        , getString(R.string.msgEnterNewFolderName)
-                        , ""
-                        , false);
-                if (resNF.res == lib.okcancelundefined.ok)
-                {
-                    String name = resNF.input;
-                    String NFpath;
-                    File NF = new File(o.getPath());
-                    if (NF.isDirectory())
-                    {
-                        NFpath = NF.getPath();
+                A = new AlertDialog.Builder(_main);
+                //final EditText input = new EditText(_main);
+                A.setPositiveButton(_main.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = input.getText().toString();
+                        if (lib.libString.IsNullOrEmpty(name)) return;
+                        String NFpath;
+                        File NF = new File(o.getPath());
+                        if (NF.isDirectory()) {
+                            NFpath = NF.getPath();
+                        } else {
+                            NFpath = NF.getParent();
+                        }
+                        try {
+                            File NewFolder = new File(NFpath, name);
+                            NewFolder.mkdir();
+                            adapter.add(new Option(NewFolder.getName(), getString(R.string.folder), NewFolder
+                                    .getAbsolutePath(), true, false, false));
+
+                        } catch (Exception ex) {
+                            lib.ShowException(_main, ex);
+                        }
                     }
-                    else
-                    {
-                        NFpath = NF.getParent();
-                    }
-                    try
-                    {
-                        File NewFolder = new File(NFpath, name);
-                        NewFolder.mkdir();
-                        adapter.add(new Option(NewFolder.getName(), getString(R.string.folder), NewFolder
-                                .getAbsolutePath(), true, false, false));
+                });
+                A.setNegativeButton(_main.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
                     }
-                    catch (Exception ex)
-                    {
-                        lib.ShowException(_main, ex);
-                    }
+                });
+                A.setMessage(getString(R.string.msgEnterNewFolderName));
+                A.setTitle(getString(R.string.cmnuNewFolder));
 
-                }
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                input.setText("");
+                A.setView(input);
+                dlg = A.create();
+                dlg.show();
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -504,7 +535,7 @@ public class fragFileChooser extends ListFragment
         Collections.sort(dir);
         Collections.sort(fls);
         dir.addAll(fls);
-        dir.add(0, new Option(".", getString(R.string.folder), f.getAbsolutePath(), true, false, false));
+        dir.add(0, new Option(".", getString(R.string.currentDir), f.getAbsolutePath(), true, false, false));
         if (!f.getName().equalsIgnoreCase("sdcard"))
         {
             if (f.getParentFile() != null)

@@ -72,12 +72,27 @@ public class FileArrayAdapter extends ArrayAdapter<Option> {
 			ImageView im = (ImageView) v.findViewById(R.id.img1);
 			TextView t1 = (TextView) v.findViewById(R.id.TextView01);
 			TextView t2 = (TextView) v.findViewById(R.id.TextView02);
-			
-			if(o.getData().equalsIgnoreCase(getString(R.string.folder))){
-				im.setImageResource(R.drawable.folder);
-			} else if (o.getData().equalsIgnoreCase(getString(R.string.parentDirectory))) {
+			if (o.getData().equalsIgnoreCase(getString(R.string.folder)))
+			{
+				if (o.getName().equalsIgnoreCase("."))
+				{
+					im.setImageResource(android.R.drawable.ic_menu_crop);
+				}
+				else
+				{
+					im.setImageResource(R.drawable.folder);
+				}
+			}
+			else if (o.getData().equalsIgnoreCase(getString(R.string.currentDir)))
+			{
+				im.setImageResource(android.R.drawable.ic_menu_crop);
+			}
+			else if (o.getData().equalsIgnoreCase(getString(R.string.parentDirectory)))
+			{
 				im.setImageResource(R.drawable.back);
-			} else {
+			}
+			else
+			{
 				String name = o.getName().toLowerCase();
 				if (name.endsWith(".xls") ||  name.endsWith(".xlsx"))
 					im.setImageResource(R.drawable.xls);
