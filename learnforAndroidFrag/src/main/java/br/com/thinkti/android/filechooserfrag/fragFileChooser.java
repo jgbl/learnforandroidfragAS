@@ -57,6 +57,7 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 
 public class fragFileChooser extends ListFragment
@@ -238,20 +239,42 @@ public class fragFileChooser extends ListFragment
                     public void onClick(DialogInterface dialog, int which)
                     {
                         String name = inputRename.getText().toString();
+                        final String pattern = ".+\\.(((?i)v.{2})|((?i)k.{2}))$";
+                        Pattern vok = Pattern.compile(pattern);
                         if (lib.libString.IsNullOrEmpty(name)) return;
-                        try
+                        if (vok.matcher(name).matches())
                         {
+                            try
+                            {
 
-                            File F = new File(o.getPath());
-                            File F2 = new File(F.getParent(), name);
-                            F.renameTo(F2);
-                            o.setName(name);
-                            o.setPath(F2.getPath());
-                            adapter.notifyDataSetChanged();
+                                File F = new File(o.getPath());
+                                File F2 = new File(F.getParent(), name);
+                                F.renameTo(F2);
+                                o.setName(name);
+                                o.setPath(F2.getPath());
+                                adapter.notifyDataSetChanged();
+                            }
+                            catch (Exception ex)
+                            {
+                                lib.ShowMessage(_main, ex.getMessage(), getString((R.string.Error)));
+                            }
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            lib.ShowMessage(_main, ex.getMessage(), getString((R.string.Error)));
+                            AlertDialog.Builder A = new AlertDialog.Builder(_main);
+                            A.setPositiveButton("OK", new DialogInterface.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which)
+                                {
+
+                                }
+                            });
+                            A.setMessage(getString(R.string.msgWrongExt));
+                            A.setTitle(getString(R.string.message));
+                            AlertDialog dlg = A.create();
+                            dlg.show();
+
                         }
                     }
                 });
