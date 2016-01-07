@@ -197,6 +197,7 @@ public class fragFileChooser extends ListFragment
                     try
                     {
                         File F = new File(o.getPath());
+                        boolean delete = false;
                         if (F.exists())
                         {
                             if (F.isDirectory())
@@ -204,14 +205,15 @@ public class fragFileChooser extends ListFragment
                                 String[] deleteCmd = {"rm", "-r", F.getPath()};
                                 Runtime runtime = Runtime.getRuntime();
                                 runtime.exec(deleteCmd);
+                                delete = true;
                             }
                             else
                             {
-                                F.delete();
+                               delete = F.delete();
                             }
                         }
 
-                        adapter.remove(o);
+                        if (delete) adapter.remove(o);
 
                     }
                     catch (Exception ex)
@@ -289,7 +291,7 @@ public class fragFileChooser extends ListFragment
                         }
                     }
                 });
-                A.setNegativeButton(_main.getString(R.string.rename), new DialogInterface.OnClickListener()
+                A.setNegativeButton(_main.getString(R.string.cancel), new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which)
