@@ -328,4 +328,5 @@
 	<string name="msgFileExists">destination exists!</string>
 	<string name="cmnuNewFolder">new folder</string>
 	<string name="msgEnterNewFolderName">enter the name of the new folder</string>
+	<string name="msgWrongExt2">You have chosen a wrong extension!</string>
 </resources>

@@ -239,7 +239,7 @@ public class fragFileChooser extends ListFragment
                     public void onClick(DialogInterface dialog, int which)
                     {
                         String name = inputRename.getText().toString();
-                        final String pattern = ".+\\.(((?i)v.{2})|((?i)k.{2}))$";
+                        final String pattern = ".+\\.(((?i)v.{2})|((?i)k.{2})|((?i)dic))$";
                         Pattern vok = Pattern.compile(pattern);
                         if (lib.libString.IsNullOrEmpty(name)) return;
                         if (vok.matcher(name).matches())
@@ -249,10 +249,21 @@ public class fragFileChooser extends ListFragment
 
                                 File F = new File(o.getPath());
                                 File F2 = new File(F.getParent(), name);
-                                F.renameTo(F2);
-                                o.setName(name);
-                                o.setPath(F2.getPath());
-                                adapter.notifyDataSetChanged();
+                                if (!F2.exists())
+                                {
+                                    final boolean b = F.renameTo(F2);
+                                    if (b)
+                                    {
+                                        o.setName(name);
+                                        o.setPath(F2.getPath());
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                }
+                                else
+                                {
+                                    lib.ShowMessage(_main,getString(R.string.msgFileExists),"");
+                                }
+
                             }
                             catch (Exception ex)
                             {
@@ -270,7 +281,7 @@ public class fragFileChooser extends ListFragment
 
                                 }
                             });
-                            A.setMessage(getString(R.string.msgWrongExt));
+                            A.setMessage(getString(R.string.msgWrongExt2));
                             A.setTitle(getString(R.string.message));
                             AlertDialog dlg = A.create();
                             dlg.show();

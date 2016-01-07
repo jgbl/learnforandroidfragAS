@@ -30,7 +30,7 @@
                 <data
                     android:host="*"
 			          android:mimeType="*/*"
-			          android:pathPattern="/.+\\.(((?i)v.{2})|((?i)k.{2}))$"
+			          android:pathPattern="/.+\\.(((?i)v.{2})|((?i)k.{2})|((?i)dic))$"
                     android:scheme="file"/>
 				<action android:name="android.intent.action.VIEW"/>
 			    <action android:name="android.intent.action.ACTION_OPEN_DOCUMENT"/>
