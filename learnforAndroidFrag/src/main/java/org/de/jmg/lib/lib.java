@@ -22,6 +22,10 @@ package org.de.jmg.lib;
 
 //import android.support.v7.app.ActionBarActivity;
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
@@ -53,6 +57,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -1692,6 +1697,49 @@ public class lib {
         }
         if (span == null) return new SpannableString(txt);
         else return span;
+    }
+    static Bitmap bmpimg;
+    public static Bitmap downloadpicture (final String Url)
+    {
+        final CountDownLatch l = new CountDownLatch(1);
+        bmpimg = null;
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                InputStream in = null;
+                try
+                {
+                    URL url = new URL(Url);
+                    URLConnection urlConn = url.openConnection();
+                    HttpURLConnection httpConn = (HttpURLConnection) urlConn;
+                    httpConn.connect();
+                    in = httpConn.getInputStream();
+                    bmpimg = BitmapFactory.decodeStream(in);
+                }
+                catch (MalformedURLException e)
+                {
+                    e.printStackTrace();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+                l.countDown();
+            }
+        }).start();
+        try
+        {
+            l.await();
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
+
+        return bmpimg;
     }
 
     protected static void makeLinkClickable(SpannableString strBuilder, final URLSpan span)

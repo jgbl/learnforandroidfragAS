@@ -25,6 +25,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -40,6 +41,7 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.method.MovementMethod;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.URLSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -62,6 +64,7 @@ import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -82,6 +85,7 @@ import org.de.jmg.lib.lib.libString;
 import org.de.jmg.lib.lib.yesnoundefined;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -422,7 +426,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				return false;
 		}
 	};
-
+	RelativeLayout rellayoutMain;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState)
@@ -431,9 +435,11 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		//if (mainView!=null)return mainView;
 
 		mainView = inflater.inflate(R.layout.activity_main, container, false);
+		rellayoutMain = (RelativeLayout)mainView.findViewById(R.id.rellayoutMain);
 		_main = (MainActivity) getActivity();
 		context = _main;
 		_vok = _main.vok;
+		iv = null;
 		libLearn.gStatus = "onCreate InitButtons";
 		try
 		{
@@ -886,8 +892,17 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		getVokabel(showBeds, LoadNext, requestFocusEdWord, false);
 	}
 
+	ImageView iv = null;
 	public void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt) throws Exception
 	{
+		if (iv == null)
+		{
+			//iv = new ImageView(context);
+		}
+		else
+		{
+			iv.setVisibility(View.GONE);
+		}
 		try
 		{
 			if (_btnRight == null) return;
@@ -993,8 +1008,61 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			{
 				t.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 			}
-			t.setText((_vok.reverse || showBeds ? lib.getSpanableString(_vok.getBedeutung1()) : Vokabel.getComment(_vok
-					.getBedeutung1())));
+			if (_vok.reverse || showBeds)
+			{
+				SpannableString tspan = lib.getSpanableString(_vok.getBedeutung1());
+				final String picname = _main.getString(R.string.picture);
+				t.setVisibility(View.VISIBLE);
+				if (tspan.toString().equalsIgnoreCase(picname))
+				{
+					URLSpan urlspn[] = tspan.getSpans(0, tspan.length(), URLSpan.class);
+					for (URLSpan url : urlspn)
+					{
+						Bitmap b = null;
+						try
+						{
+							b = lib.downloadpicture(url.getURL());
+						}
+						catch (Exception ex)
+						{
+							b = null;
+						}
+						if (b!= null)
+						{
+							if (iv == null)
+							{
+								iv = new ImageView(context);
+							}
+							iv.setImageBitmap(b);
+							iv.setVisibility(View.VISIBLE);
+							t.setVisibility(View.GONE);
+							if (iv.getParent() == null)
+							{
+								try
+								{
+									rellayoutMain.addView(iv, t.getLayoutParams());
+								}
+								catch (Exception ex)
+								{
+
+								}
+							}
+						}
+					}
+
+				}
+				else
+				{
+					// iv.setVisibility(View.GONE);
+					t.setVisibility(View.VISIBLE);
+				}
+
+				t.setText(tspan);
+			}
+			else
+			{
+				t.setText(Vokabel.getComment(_vok.getBedeutung1()));
+			}
 			if (_vok.reverse || showBeds)
 			{
 				String txt = t.getText().toString();
