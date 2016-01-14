@@ -36,10 +36,12 @@ import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.method.MovementMethod;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.util.DisplayMetrics;
@@ -83,6 +85,7 @@ import org.de.jmg.lib.lib;
 import org.de.jmg.lib.lib.Sounds;
 import org.de.jmg.lib.lib.libString;
 import org.de.jmg.lib.lib.yesnoundefined;
+import org.de.jmg.lib.urlclickablespan;
 
 import java.io.File;
 import java.net.URL;
@@ -893,6 +896,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	}
 
 	ImageView iv = null;
+	ImageView iv2 = null;
 	public void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt) throws Exception
 	{
 		if (iv == null)
@@ -975,9 +979,60 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 			v = findViewById(R.id.Comment);
 			t = (TextView) v;
+			t.setVisibility(View.VISIBLE);
 			assert t != null;
-			t.setText(lib.getSpanableString(_vok.getKommentar()),
+			SpannableString tspanKom = lib.getSpanableString(_vok.getKommentar());
+			URLSpan[] urlSpans = tspanKom.getSpans(0, tspanKom.length(), URLSpan.class);
+			for (final URLSpan span : urlSpans) {
+				int start = tspanKom.getSpanStart(span);
+				int end = tspanKom.getSpanEnd(span);
+				String txt = tspanKom.toString().substring(start,end);
+				if (txt.equalsIgnoreCase(getString(R.string.picture)))
+				{
+					tspanKom.removeSpan(span);
+					tspanKom.setSpan(new urlclickablespan(span.getURL())
+					{
+						@Override
+						public void onClick(View widget)
+						{
+							Bitmap b = null;
+							try
+							{
+								b = lib.downloadpicture(this.url);
+							}
+							catch (Exception ex)
+							{
+								b = null;
+							}
+							if (b!= null)
+							{
+								if (iv2 == null)
+								{
+									iv2 = new ImageView(context);
+								}
+								iv2.setImageBitmap(b);
+								iv2.setVisibility(View.VISIBLE);
+								_txtKom.setVisibility(View.GONE);
+								if (iv2.getParent() == null)
+								{
+									try
+									{
+										rellayoutMain.addView(iv2, _txtKom.getLayoutParams());
+									}
+									catch (Exception ex)
+									{
+
+									}
+								}
+							}
+						}
+					}, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+				}
+			}
+			t.setText(tspanKom,
 					TextView.BufferType.SPANNABLE);
+
+
 			if (_vok.getSprache() == EnumSprachen.Hebrew
 					|| _vok.getSprache() == EnumSprachen.Griechisch
 					|| (_vok.getFontKom().getName().equalsIgnoreCase("Cardo")))

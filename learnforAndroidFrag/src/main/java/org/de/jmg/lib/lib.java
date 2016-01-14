@@ -1552,7 +1552,9 @@ public class lib {
             {
                 int Start = positions.get(i);
                 int End = Start + links.get(i).length();
-                span.setSpan(new URLSpan(urls.get(i)), Start,
+                URLSpan spn = new URLSpan(urls.get(i));
+
+                span.setSpan(spn, Start,
                         End, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
         }
