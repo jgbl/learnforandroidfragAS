@@ -21,6 +21,7 @@
 package org.de.jmg.learn;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -52,6 +53,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -900,6 +902,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	ImageView iv2 = null;
 	public void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt) throws Exception
 	{
+
 		if (iv != null)
 		{
 			iv.setVisibility(View.GONE);
@@ -1007,6 +1010,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 								if (iv == null)
 								{
 									iv = new ImageView(context);
+									SetTouchListener(iv);
 								}
 								iv.setImageBitmap(b);
 								if (iv.getParent() == null)
@@ -1092,6 +1096,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 							if (iv == null)
 							{
 								iv = new ImageView(context);
+								SetTouchListener(iv);
 							}
 							iv.setImageBitmap(b);
 							if (iv.getParent() == null)
@@ -1227,6 +1232,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				else _txtedWord.requestFocus();
 			}
 			SetActionBarTitle();
+
 			_scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
 			{
 
@@ -1256,6 +1262,37 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			lib.ShowException(_main, e);
 		}
 
+	}
+
+	private void SetTouchListener(ImageView iv)
+	{
+		if (iv != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+		{
+			mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
+			iv.setOnTouchListener(new OnTouchListener()
+			{
+				@TargetApi(Build.VERSION_CODES.FROYO)
+				@Override
+				public boolean onTouch(View v, MotionEvent event)
+				{
+					return mScaleDetector.onTouchEvent(event);
+				}
+			});
+		}
+	}
+
+	private ScaleGestureDetector mScaleDetector;
+
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener
+	{
+		@Override
+		public boolean onScale(ScaleGestureDetector detector) {
+			iv.setScaleX(iv.getScaleX() * detector.getScaleFactor());
+			iv.setScaleY(iv.getScaleY()* detector.getScaleFactor());
+			// Don't let the object get too small or too large.
+			return true;
+		}
 	}
 
 	private String replaceClozes(String txt, String txtClozes)
