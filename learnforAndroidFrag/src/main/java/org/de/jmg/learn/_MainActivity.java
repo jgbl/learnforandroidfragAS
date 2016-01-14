@@ -1004,21 +1004,19 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 							}
 							if (b!= null)
 							{
-								if (iv2 == null)
+								if (iv == null)
 								{
-									iv2 = new ImageView(context);
+									iv = new ImageView(context);
 								}
-								iv2.setImageBitmap(b);
-								iv2.setVisibility(View.VISIBLE);
-								_txtMeaning1.setVisibility(View.GONE);
-								LayoutParams p = new LayoutParams(_txtMeaning1.getLayoutParams());
-								p.width = iv2.getWidth();
-								p.height = iv2.getHeight();
-								if (iv2.getParent() == null)
+								iv.setImageBitmap(b);
+								if (iv.getParent() == null)
 								{
 									try
 									{
-										rellayoutMain.addView(iv2, p);
+										LayoutParams p = _txtMeaning1.getLayoutParams();
+										//p.width = LayoutParams.WRAP_CONTENT;
+										//p.height = LayoutParams.WRAP_CONTENT;
+										rellayoutMain.addView(iv, p);
 									}
 									catch (Exception ex)
 									{
@@ -1027,9 +1025,10 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 								}
 								else
 								{
-									iv2.setLayoutParams(p);
+									//iv2.setLayoutParams(p);
 								}
-
+								_txtMeaning1.setVisibility(View.GONE);
+								iv.setVisibility(View.VISIBLE);
 							}
 						}
 					}, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -1095,15 +1094,13 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 								iv = new ImageView(context);
 							}
 							iv.setImageBitmap(b);
-							iv.setVisibility(View.VISIBLE);
-							t.setVisibility(View.GONE);
-							LayoutParams p = new LayoutParams(t.getLayoutParams());
-							p.width = iv.getWidth();
-							p.height = iv.getHeight();
 							if (iv.getParent() == null)
 							{
 								try
 								{
+									LayoutParams p = t.getLayoutParams();
+									//p.width = LayoutParams.WRAP_CONTENT;
+									//p.height = LayoutParams.WRAP_CONTENT;
 									rellayoutMain.addView(iv, p);
 								}
 								catch (Exception ex)
@@ -1113,8 +1110,10 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 							}
 							else
 							{
-								iv.setLayoutParams(p);
+								//iv.setLayoutParams(p);
 							}
+							t.setVisibility(View.GONE);
+							iv.setVisibility(View.VISIBLE);
 						}
 					}
 
