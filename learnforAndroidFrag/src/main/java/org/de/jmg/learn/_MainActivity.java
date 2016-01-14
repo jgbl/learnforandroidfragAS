@@ -66,6 +66,7 @@ import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -899,14 +900,11 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	ImageView iv2 = null;
 	public void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt) throws Exception
 	{
-		if (iv == null)
-		{
-			//iv = new ImageView(context);
-		}
-		else
+		if (iv != null)
 		{
 			iv.setVisibility(View.GONE);
 		}
+		if (iv2 != null) iv2.setVisibility(View.GONE);
 		try
 		{
 			if (_btnRight == null) return;
@@ -1012,18 +1010,26 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 								}
 								iv2.setImageBitmap(b);
 								iv2.setVisibility(View.VISIBLE);
-								_txtKom.setVisibility(View.GONE);
+								_txtMeaning1.setVisibility(View.GONE);
+								LayoutParams p = new LayoutParams(_txtMeaning1.getLayoutParams());
+								p.width = iv2.getWidth();
+								p.height = iv2.getHeight();
 								if (iv2.getParent() == null)
 								{
 									try
 									{
-										rellayoutMain.addView(iv2, _txtKom.getLayoutParams());
+										rellayoutMain.addView(iv2, p);
 									}
 									catch (Exception ex)
 									{
 
 									}
 								}
+								else
+								{
+									iv2.setLayoutParams(p);
+								}
+
 							}
 						}
 					}, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -1091,16 +1097,23 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 							iv.setImageBitmap(b);
 							iv.setVisibility(View.VISIBLE);
 							t.setVisibility(View.GONE);
+							LayoutParams p = new LayoutParams(t.getLayoutParams());
+							p.width = iv.getWidth();
+							p.height = iv.getHeight();
 							if (iv.getParent() == null)
 							{
 								try
 								{
-									rellayoutMain.addView(iv, t.getLayoutParams());
+									rellayoutMain.addView(iv, p);
 								}
 								catch (Exception ex)
 								{
 
 								}
+							}
+							else
+							{
+								iv.setLayoutParams(p);
 							}
 						}
 					}
