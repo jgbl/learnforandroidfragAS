@@ -36,7 +36,6 @@ import android.view.View;
 
 import org.de.jmg.learn.R;
 import org.de.jmg.lib.lib;
-import org.liberty.android.fantastischmemo.downloader.oauth.OauthAccessCodeRetrievalFragment;
 
 //import roboguice.RoboGuice;
 //import roboguice.activity.RoboActionBarActivity;
@@ -73,7 +72,7 @@ public class LoginQuizletActivity extends AppCompatActivity {
     public void onNewIntent(Intent intent)
     {
         super.onNewIntent(intent);
-        if (Intent.ACTION_VIEW.equals(intent.getAction()))
+        if (Intent.ACTION_VIEW.equals(intent.getAction()) && _dlg != null)
         {
             Uri uri = intent.getData();
             getDlg().processCallbackUrl(uri.toString());
@@ -88,7 +87,7 @@ public class LoginQuizletActivity extends AppCompatActivity {
             try
             {
                 _dlg = new QuizletOAuth2AccessCodeRetrievalFragment();
-                _dlg.setAuthCodeReceiveListener(new OauthAccessCodeRetrievalFragment.AuthCodeReceiveListener()
+                _dlg.setAuthCodeReceiveListener(new QuizletOAuth2AccessCodeRetrievalFragment.AuthCodeReceiveListener()
                 {
                     @Override
                     public void onAuthCodeReceived(String... codes)
@@ -161,7 +160,7 @@ public class LoginQuizletActivity extends AppCompatActivity {
             String url = getDlg().getLoginUrl();
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
-            startActivity(i);
+            startActivityForResult(i,1000);
         }
 
 
@@ -222,6 +221,7 @@ public class LoginQuizletActivity extends AppCompatActivity {
     }
     private void dofinish()
     {
+        _dlg = null;
         finish();
     }
 

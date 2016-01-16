@@ -59,7 +59,6 @@ import org.de.jmg.learn._MainActivity;
 import org.de.jmg.learn.vok.Vokabel;
 import org.de.jmg.learn.vok.typVok;
 import org.de.jmg.lib.lib;
-import org.liberty.android.fantastischmemo.downloader.oauth.OauthAccessCodeRetrievalFragment;
 import org.liberty.android.fantastischmemo.downloader.quizlet.QuizletOAuth2AccessCodeRetrievalFragment;
 
 import java.io.File;

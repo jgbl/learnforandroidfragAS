@@ -24,7 +24,6 @@ import android.annotation.TargetApi;
 import android.util.Base64;
 import android.util.Log;
 
-import org.liberty.android.fantastischmemo.downloader.oauth.OauthAccessCodeRetrievalFragment;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -98,13 +97,22 @@ public final class QuizletOAuth2AccessCodeRetrievalFragment
         return false;
     }
 
-    void setAuthCodeReceiveListener(OauthAccessCodeRetrievalFragment.AuthCodeReceiveListener listener) {
+    void setAuthCodeReceiveListener(AuthCodeReceiveListener listener) {
         authCodeReceiveListener = listener;
     }
 
-    OauthAccessCodeRetrievalFragment.AuthCodeReceiveListener authCodeReceiveListener;
-    private OauthAccessCodeRetrievalFragment.AuthCodeReceiveListener getAuthCodeReceiveListener() {
+    AuthCodeReceiveListener authCodeReceiveListener;
+    private AuthCodeReceiveListener getAuthCodeReceiveListener() {
         return authCodeReceiveListener;
+    }
+
+    public static interface AuthCodeReceiveListener {
+        // the auth code received are different for oauth1 an oauth2
+        // so this mehtod just has a list of possible codes
+        void onAuthCodeReceived(String... codes);
+
+        void onAuthCodeError(String error);
+        void onCancelled();
     }
 
 }

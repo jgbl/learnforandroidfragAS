@@ -2464,7 +2464,10 @@ public class MainActivity extends AppCompatActivity
                 if (!libString.IsNullOrEmpty(fileSelected))
                 {
                     mPager.setCurrentItem(_MainActivity.fragID);
-                    String value = fileSelected;
+                    String value = fileSelectIntent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(i);
+                ed;
                     value = value.replace("\n", "");
                     try
                     {
@@ -2519,6 +2522,9 @@ public class MainActivity extends AppCompatActivity
 					alert.setTitle(getString(R.string.SaveAs));
 					alert.setMessage(getString(R.string.EnterNewFilename)
 							+ ": " + fileSelected);
+Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(i);
 
 					// Set an EditText view to get user input
 					final EditText input = new EditText(this);
@@ -2619,9 +2625,6 @@ public class MainActivity extends AppCompatActivity
             }
             else if (resultCode == RESULT_OK && requestCode == LOGINQUIZLETINTENT && data != null)
             {
-                Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(i);
                 String AuthCode = data.getStringExtra("AuthCode");
                 String user = data.getStringExtra("user");
                 String accessToken = data.getStringExtra("accessToken");
