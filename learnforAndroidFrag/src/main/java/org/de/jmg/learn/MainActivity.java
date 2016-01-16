@@ -272,6 +272,18 @@ public class MainActivity extends AppCompatActivity
                 lib.ShowException(this, e);
             }
             //InitSettings();
+            Intent intent = getIntent();
+            if (Intent.ACTION_VIEW.equals(intent.getAction()) )
+            {
+                Uri uri = intent.getData();
+                if (uri.toString().startsWith("loginquizlet:/"))
+                {
+                    loginQuizlet = new LoginQuizletActivity();
+                    this.onNewIntent(intent);
+                }
+
+                //finish();
+            }
 
 
         }
@@ -2039,6 +2051,7 @@ public class MainActivity extends AppCompatActivity
 
     private void uploadtoQuizlet()
     {
+        if (vok.getGesamtzahl() < 3) return;
         try
         {
             if (this.QuizletAccessToken == null)
@@ -2436,7 +2449,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onNewIntent(Intent intent)
     {
-        loginQuizlet.onNewIntent(intent);
+        super.onNewIntent(intent);
+        if (loginQuizlet!=null) loginQuizlet.onNewIntent(intent);
     }
 
     @Override
@@ -2926,10 +2940,10 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
 
     public void LoginQuizlet(boolean blnUpload)
     {
-        loginQuizlet = new LoginQuizletActivity();
-        Intent login = new Intent(this, LoginQuizletActivity.class);
+        if (loginQuizlet==null) loginQuizlet = new LoginQuizletActivity();
+        Intent login = new Intent();
         login.putExtra("upload", blnUpload);
-        loginQuizlet.doLogin(this,login);
+        loginQuizlet.doLogin(this, login);
         //this.startActivityForResult(login, LOGINQUIZLETINTENT);
     }
 

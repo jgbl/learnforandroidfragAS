@@ -147,6 +147,7 @@ public class LoginQuizletActivity
 
     public void doLogin(MainActivity main, Intent intent)
     {
+        _main = main;
         blnUpload = intent.getBooleanExtra("upload",false);
         String url = getDlg().getLoginUrl();
         Intent i = new Intent(Intent.ACTION_VIEW);

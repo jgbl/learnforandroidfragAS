@@ -2,8 +2,8 @@
 <manifest
     package="org.de.jmg.learn"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:versionCode="1968"
-    android:versionName="1.968">
+    android:versionCode="1969"
+    android:versionName="1.969">
     <uses-sdk
         android:minSdkVersion="7"
         android:targetSdkVersion="23"
@@ -20,7 +20,15 @@
         <activity
             android:name="MainActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="stateAlwaysHidden">
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:launchMode="singleTask"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="loginquizlet" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,17 +61,6 @@
             </intent-filter>
         </activity>
         <activity android:name="br.com.thinkti.android.filechooser.AdvFileChooser"/>
-        <activity
-            android:name="org.liberty.android.fantastischmemo.downloader.quizlet.LoginQuizletActivity"
-            android:launchMode="singleTask"
-        >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="loginquizlet" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
