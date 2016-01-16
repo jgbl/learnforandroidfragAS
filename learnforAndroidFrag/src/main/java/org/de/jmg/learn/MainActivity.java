@@ -2431,6 +2431,14 @@ public class MainActivity extends AppCompatActivity
         if (fPA.fragChooser != null) fPA.fragChooser.setCurrentDir((value));
     }
 
+    LoginQuizletActivity loginQuizlet;
+
+    @Override
+    public void onNewIntent(Intent intent)
+    {
+        loginQuizlet.onNewIntent(intent);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -2918,9 +2926,11 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
 
     public void LoginQuizlet(boolean blnUpload)
     {
+        loginQuizlet = new LoginQuizletActivity();
         Intent login = new Intent(this, LoginQuizletActivity.class);
         login.putExtra("upload", blnUpload);
-        this.startActivityForResult(login, LOGINQUIZLETINTENT);
+        loginQuizlet.doLogin(this,login);
+        //this.startActivityForResult(login, LOGINQUIZLETINTENT);
     }
 
     public void setMnuReverse()

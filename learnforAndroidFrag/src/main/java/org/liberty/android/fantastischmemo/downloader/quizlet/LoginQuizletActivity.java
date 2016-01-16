@@ -34,20 +34,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.View;
 
+import org.de.jmg.learn.MainActivity;
 import org.de.jmg.learn.R;
 import org.de.jmg.lib.lib;
 
 //import roboguice.RoboGuice;
 //import roboguice.activity.RoboActionBarActivity;
 
-public class LoginQuizletActivity extends AppCompatActivity {
+public class LoginQuizletActivity
+{//extends AppCompatActivity {
     static {
         //RoboGuice.setUseAnnotationDatabases(false);
     }
     public String AccessToken;
     public boolean blnUpload;
     public QuizletOAuth2AccessCodeRetrievalFragment _dlg;
-
+    private MainActivity _main;
+    /*
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
         return super.onCreateView(name, context, attrs);
@@ -67,8 +70,8 @@ public class LoginQuizletActivity extends AppCompatActivity {
     {
         super.onStart();
     }
-
-    @Override
+    */
+    //@Override
     public void onNewIntent(Intent intent)
     {
         //super.onNewIntent(intent);
@@ -99,7 +102,7 @@ public class LoginQuizletActivity extends AppCompatActivity {
                         }
                         else
                         {
-                            setResult(Activity.RESULT_CANCELED);
+                            //setResult(Activity.RESULT_CANCELED);
                             dofinish();
                         }
 
@@ -108,16 +111,15 @@ public class LoginQuizletActivity extends AppCompatActivity {
                     @Override
                     public void onAuthCodeError(String error)
                     {
-                        lib.ShowMessage(LoginQuizletActivity.this, error, "");
-                        setResult(Activity.RESULT_CANCELED);
+                        lib.ShowMessage(_main, error, "");
+                        //setResult(Activity.RESULT_CANCELED);
                         dofinish();
                     }
-                    QuizletOAuth2AccessCodeRetrievalFragment dlg;
 
                     @Override
                     public void onCancelled()
                     {
-                        setResult(Activity.RESULT_CANCELED);
+                        //setResult(Activity.RESULT_CANCELED);
                         dofinish();
                     }
                 });
@@ -126,7 +128,7 @@ public class LoginQuizletActivity extends AppCompatActivity {
             }
             catch (Exception ex)
             {
-                AlertDialog.Builder A = new AlertDialog.Builder(this);
+                AlertDialog.Builder A = new AlertDialog.Builder(_main);
                 A.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -134,7 +136,7 @@ public class LoginQuizletActivity extends AppCompatActivity {
                     }
                 });
                 A.setMessage(ex.getMessage());
-                A.setTitle(this.getString(R.string.Error));
+                A.setTitle(_main.getString(R.string.Error));
                 AlertDialog dlg = A.create();
                 dlg.show();
             }
@@ -142,7 +144,16 @@ public class LoginQuizletActivity extends AppCompatActivity {
         }
         return _dlg;
     }
-    
+
+    public void doLogin(MainActivity main, Intent intent)
+    {
+        blnUpload = intent.getBooleanExtra("upload",false);
+        String url = getDlg().getLoginUrl();
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        _main.startActivity(i);
+    }
+    /*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,6 +176,7 @@ public class LoginQuizletActivity extends AppCompatActivity {
 
 
     }
+    */
     private class GetAccessTokenTask extends AsyncTask<String, Void, String[]> {
 
         private ProgressDialog progressDialog;
@@ -174,10 +186,10 @@ public class LoginQuizletActivity extends AppCompatActivity {
         @Override
         public void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(LoginQuizletActivity.this);
+            progressDialog = new ProgressDialog(_main);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setTitle(getString(R.string.loading));
-            progressDialog.setMessage(getString(R.string.loading));
+            progressDialog.setTitle(_main.getString(R.string.loading));
+            progressDialog.setMessage(_main.getString(R.string.loading));
             progressDialog.setCancelable(false);
             progressDialog.show();
         }
@@ -197,8 +209,8 @@ public class LoginQuizletActivity extends AppCompatActivity {
             progressDialog.dismiss();
 
             if (backgroundTaskException != null) {
-                lib.ShowException(LoginQuizletActivity.this, backgroundTaskException);
-                setResult(Activity.RESULT_CANCELED);
+                lib.ShowException(_main, backgroundTaskException);
+                //setResult(Activity.RESULT_CANCELED);
                 dofinish();
             }
 
@@ -209,12 +221,13 @@ public class LoginQuizletActivity extends AppCompatActivity {
                 intent.putExtra("user", accessTokens[1]);
                 intent.putExtra("accessToken", accessTokens[0]);
                 intent.putExtra("upload",blnUpload);
-                setResult(Activity.RESULT_OK, intent);
+                //setResult(Activity.RESULT_OK, intent);
+                _main.onActivityResult(MainActivity.LOGINQUIZLETINTENT, Activity.RESULT_OK,intent);
                 dofinish();
             }
             else
             {
-                setResult(Activity.RESULT_CANCELED);
+                //setResult(Activity.RESULT_CANCELED);
                 dofinish();
             }
         }
@@ -222,7 +235,7 @@ public class LoginQuizletActivity extends AppCompatActivity {
     private void dofinish()
     {
         _dlg = null;
-        finish();
+        //finish();
     }
 
 }
