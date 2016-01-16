@@ -52,8 +52,33 @@ public class LoginQuizletActivity extends AppCompatActivity {
         return super.onCreateView(name, context, attrs);
     }
     @Override
+    public void onActivityReenter(int i, Intent in)
+    {
+        super.onActivityReenter(i, in);
+    }
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
+    @Override
+     public void onStart()
+    {
+        super.onStart();
+        if (Intent.ACTION_VIEW.equals(intent.getAction()))
+        {
+            Uri uri = intent.getData();
+            org.liberty.android.fantastischmemo.downloader.quizlet.lib.dlg.processCallbackUrl(uri.toString());
+            finish();
+        }
+        }
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (org.liberty.android.fantastischmemo.downloader.quizlet.lib.dlg == null)
         {
             try
@@ -124,7 +149,7 @@ QuizletOAuth2AccessCodeRetrievalFragment dlg;
             String url = org.liberty.android.fantastischmemo.downloader.quizlet.lib.dlg.getLoginUrl();
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
-            startActivityForResult(i,1000);
+            startActivity(i);
         }
 
 
