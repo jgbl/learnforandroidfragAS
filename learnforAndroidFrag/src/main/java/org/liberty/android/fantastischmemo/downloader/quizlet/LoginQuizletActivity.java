@@ -72,7 +72,7 @@ public class LoginQuizletActivity extends AppCompatActivity {
                         else
                         {
                             setResult(Activity.RESULT_CANCELED);
-                            finish();
+                            dofinish();
                         }
 
                     }
@@ -82,7 +82,7 @@ public class LoginQuizletActivity extends AppCompatActivity {
                     {
                         lib.ShowMessage(LoginQuizletActivity.this, error, "");
                         setResult(Activity.RESULT_CANCELED);
-                        finish();
+                        dofinish();
                     }
 QuizletOAuth2AccessCodeRetrievalFragment dlg;
 
@@ -90,7 +90,7 @@ QuizletOAuth2AccessCodeRetrievalFragment dlg;
                     public void onCancelled()
                     {
                         setResult(Activity.RESULT_CANCELED);
-                        finish();
+                        dofinish();
                     }
                 });
 
@@ -124,7 +124,7 @@ QuizletOAuth2AccessCodeRetrievalFragment dlg;
             String url = org.liberty.android.fantastischmemo.downloader.quizlet.lib.dlg.getLoginUrl();
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
-            startActivity(i);
+            startActivityForResult(i,1000);
         }
 
 
@@ -163,7 +163,7 @@ QuizletOAuth2AccessCodeRetrievalFragment dlg;
             if (backgroundTaskException != null) {
                 lib.ShowException(LoginQuizletActivity.this, backgroundTaskException);
                 setResult(Activity.RESULT_CANCELED);
-                finish();
+                dofinish();
             }
 
             if (accessTokens!=null && accessTokens.length == 2)
@@ -174,14 +174,18 @@ QuizletOAuth2AccessCodeRetrievalFragment dlg;
                 intent.putExtra("accessToken", accessTokens[0]);
                 intent.putExtra("upload",blnUpload);
                 setResult(Activity.RESULT_OK, intent);
-                finish();
+                dofinish();
             }
             else
             {
                 setResult(Activity.RESULT_CANCELED);
-                finish();
+                dofinish();
             }
         }
+    }
+    private void dofinish()
+    {
+        finish();
     }
 
 }

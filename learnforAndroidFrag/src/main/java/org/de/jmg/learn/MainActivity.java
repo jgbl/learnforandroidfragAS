@@ -2619,6 +2619,9 @@ public class MainActivity extends AppCompatActivity
             }
             else if (resultCode == RESULT_OK && requestCode == LOGINQUIZLETINTENT && data != null)
             {
+                Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(i);
                 String AuthCode = data.getStringExtra("AuthCode");
                 String user = data.getStringExtra("user");
                 String accessToken = data.getStringExtra("accessToken");
