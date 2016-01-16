@@ -2464,10 +2464,7 @@ public class MainActivity extends AppCompatActivity
                 if (!libString.IsNullOrEmpty(fileSelected))
                 {
                     mPager.setCurrentItem(_MainActivity.fragID);
-                    String value = fileSelectIntent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(i);
-                ed;
+                    String value = fileSelected;
                     value = value.replace("\n", "");
                     try
                     {

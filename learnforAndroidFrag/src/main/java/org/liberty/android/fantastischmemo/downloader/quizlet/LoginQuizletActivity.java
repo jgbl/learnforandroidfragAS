@@ -71,7 +71,7 @@ public class LoginQuizletActivity extends AppCompatActivity {
     @Override
     public void onNewIntent(Intent intent)
     {
-        super.onNewIntent(intent);
+        //super.onNewIntent(intent);
         if (Intent.ACTION_VIEW.equals(intent.getAction()) && _dlg != null)
         {
             Uri uri = intent.getData();
@@ -160,7 +160,7 @@ public class LoginQuizletActivity extends AppCompatActivity {
             String url = getDlg().getLoginUrl();
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
-            startActivityForResult(i,1000);
+            startActivity(i);
         }
 
 
