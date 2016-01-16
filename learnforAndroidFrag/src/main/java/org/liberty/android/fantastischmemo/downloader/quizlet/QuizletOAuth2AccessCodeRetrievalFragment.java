@@ -33,20 +33,22 @@ import java.net.URLEncoder;
 import br.com.thinkti.android.filechooserfrag.Data;
 //import roboguice.util.Ln;
 @TargetApi(11)
-public final class QuizletOAuth2AccessCodeRetrievalFragment extends OauthAccessCodeRetrievalFragment {
+public final class QuizletOAuth2AccessCodeRetrievalFragment
+{
 
     public final static int fragID = 5;
 
 
     public QuizletOAuth2AccessCodeRetrievalFragment() { }
 
-    @Override
+
+    //@Override
     protected void requestToken() throws IOException {
         // Do nothing.
     }
 
-    @Override
-    protected String getLoginUrl() {
+    //@Override
+    String getLoginUrl() {
         final String TAG = "getLoginUrl";
         try {
             String uri = String
@@ -66,12 +68,12 @@ public final class QuizletOAuth2AccessCodeRetrievalFragment extends OauthAccessC
         }
     }
 
-    @Override
-    protected boolean processCallbackUrl(String url) {
+    //@Override
+    boolean processCallbackUrl(String url) {
         final String TAG = "ProcessCallbackUrl";
         Log.i(TAG,"Callback url is " + url);
 
-        if (!url.startsWith(Data.RedirectURI)) {
+        if (!url.startsWith(Data.RedirectURI.replace("/","///"))) {
             return false;
         }
 
@@ -95,4 +97,14 @@ public final class QuizletOAuth2AccessCodeRetrievalFragment extends OauthAccessC
         }
         return false;
     }
+
+    void setAuthCodeReceiveListener(OauthAccessCodeRetrievalFragment.AuthCodeReceiveListener listener) {
+        authCodeReceiveListener = listener;
+    }
+
+    OauthAccessCodeRetrievalFragment.AuthCodeReceiveListener authCodeReceiveListener;
+    private OauthAccessCodeRetrievalFragment.AuthCodeReceiveListener getAuthCodeReceiveListener() {
+        return authCodeReceiveListener;
+    }
+
 }

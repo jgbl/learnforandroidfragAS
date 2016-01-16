@@ -53,7 +53,14 @@
             </intent-filter>
         </activity>
         <activity android:name="br.com.thinkti.android.filechooser.AdvFileChooser"/>
-        <activity android:name="org.liberty.android.fantastischmemo.downloader.quizlet.LoginQuizletActivity"/>
+        <activity android:name="org.liberty.android.fantastischmemo.downloader.quizlet.LoginQuizletActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="loginquizlet" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

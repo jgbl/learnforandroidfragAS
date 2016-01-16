@@ -26,6 +26,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -50,61 +51,82 @@ public class LoginQuizletActivity extends AppCompatActivity {
     public View onCreateView(String name, Context context, AttributeSet attrs) {
         return super.onCreateView(name, context, attrs);
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        blnUpload = getIntent().getBooleanExtra("upload",false);
-        try
+        if (org.liberty.android.fantastischmemo.downloader.quizlet.lib.dlg == null)
         {
-            QuizletOAuth2AccessCodeRetrievalFragment dlg = new QuizletOAuth2AccessCodeRetrievalFragment();
-            dlg.setAuthCodeReceiveListener(new OauthAccessCodeRetrievalFragment.AuthCodeReceiveListener() {
-                @Override
-                public void onAuthCodeReceived(String... codes) {
-                    if(codes != null && codes.length>0)
+            try
+            {
+                org.liberty.android.fantastischmemo.downloader.quizlet.lib.dlg = new QuizletOAuth2AccessCodeRetrievalFragment();
+                org.liberty.android.fantastischmemo.downloader.quizlet.lib.dlg.setAuthCodeReceiveListener(new OauthAccessCodeRetrievalFragment.AuthCodeReceiveListener()
+                {
+                    @Override
+                    public void onAuthCodeReceived(String... codes)
                     {
-                        AccessToken = codes[0];
-                        new GetAccessTokenTask().execute(codes);
+                        if (codes != null && codes.length > 0)
+                        {
+                            AccessToken = codes[0];
+                            new GetAccessTokenTask().execute(codes);
+                        }
+                        else
+                        {
+                            setResult(Activity.RESULT_CANCELED);
+                            finish();
+                        }
+
                     }
-                    else
+
+                    @Override
+                    public void onAuthCodeError(String error)
+                    {
+                        lib.ShowMessage(LoginQuizletActivity.this, error, "");
+                        setResult(Activity.RESULT_CANCELED);
+                        finish();
+                    }
+QuizletOAuth2AccessCodeRetrievalFragment dlg;
+
+                    @Override
+                    public void onCancelled()
                     {
                         setResult(Activity.RESULT_CANCELED);
                         finish();
                     }
+                });
 
-                }
+                //dlg.show(this.getSupportFragmentManager(), "OauthAccessCodeRetrievalFragment");
+            }
+            catch (Exception ex)
+            {
+                AlertDialog.Builder A = new AlertDialog.Builder(this);
+                A.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                @Override
-                public void onAuthCodeError(String error) {
-                    lib.ShowMessage(LoginQuizletActivity.this,error,"");
-                    setResult(Activity.RESULT_CANCELED);
-                    finish();
-                }
+                    }
+                });
+                A.setMessage(ex.getMessage());
+                A.setTitle(this.getString(R.string.Error));
+                AlertDialog dlg = A.create();
+                dlg.show();
+            }
 
-                @Override
-                public void onCancelled() {
-                    setResult(Activity.RESULT_CANCELED);
-                    finish();
-                }
-            });
-
-
-            dlg.show(this.getSupportFragmentManager(), "OauthAccessCodeRetrievalFragment");
         }
-        catch (Exception ex)
+        Intent intent = getIntent();
+        if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            Uri uri = intent.getData();
+            org.liberty.android.fantastischmemo.downloader.quizlet.lib.dlg.processCallbackUrl(uri.toString());
+            finish();
+        }
+        else
         {
-            AlertDialog.Builder A = new AlertDialog.Builder(this);
-            A.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-            A.setMessage(ex.getMessage());
-            A.setTitle(this.getString(R.string.Error));
-            AlertDialog dlg = A.create();
-            dlg.show();
+            blnUpload = intent.getBooleanExtra("upload",false);
+            String url = org.liberty.android.fantastischmemo.downloader.quizlet.lib.dlg.getLoginUrl();
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
         }
+
 
     }
     private class GetAccessTokenTask extends AsyncTask<String, Void, String[]> {
