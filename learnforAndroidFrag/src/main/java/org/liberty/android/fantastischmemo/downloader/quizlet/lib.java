@@ -51,7 +51,6 @@ public class lib
     public final static  String QUIZLET_API_ENDPOINT = "https://api.quizlet.com/2.0";
     public final static String QUIZLET_CLIENT_ID = new String(Base64.decode(Data.QuizletClientID, Base64.DEFAULT));
     public static final String QUIZLET_CLIENT_SECRET = new String(Base64.decode(Data.SecretKey, Base64.DEFAULT));;
-    public static QuizletOAuth2AccessCodeRetrievalFragment dlg;
 
     /**
      * Make API call to Quizlet server with oauth

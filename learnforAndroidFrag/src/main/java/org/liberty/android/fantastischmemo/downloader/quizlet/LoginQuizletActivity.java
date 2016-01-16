@@ -47,6 +47,8 @@ public class LoginQuizletActivity extends AppCompatActivity {
     }
     public String AccessToken;
     public boolean blnUpload;
+    public QuizletOAuth2AccessCodeRetrievalFragment _dlg;
+
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
         return super.onCreateView(name, context, attrs);
@@ -65,26 +67,28 @@ public class LoginQuizletActivity extends AppCompatActivity {
      public void onStart()
     {
         super.onStart();
-        if (Intent.ACTION_VIEW.equals(intent.getAction()))
-        {
-            Uri uri = intent.getData();
-            org.liberty.android.fantastischmemo.downloader.quizlet.lib.dlg.processCallbackUrl(uri.toString());
-            finish();
-        }
-        }
-
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onNewIntent(Intent intent)
+    {
+        super.onNewIntent(intent);
+        if (Intent.ACTION_VIEW.equals(intent.getAction()))
+        {
+            Uri uri = intent.getData();
+            getDlg().processCallbackUrl(uri.toString());
+            //finish();
+        }
+    }
 
-        if (org.liberty.android.fantastischmemo.downloader.quizlet.lib.dlg == null)
+    private QuizletOAuth2AccessCodeRetrievalFragment getDlg()
+    {
+        if (_dlg == null)
         {
             try
             {
-                org.liberty.android.fantastischmemo.downloader.quizlet.lib.dlg = new QuizletOAuth2AccessCodeRetrievalFragment();
-                org.liberty.android.fantastischmemo.downloader.quizlet.lib.dlg.setAuthCodeReceiveListener(new OauthAccessCodeRetrievalFragment.AuthCodeReceiveListener()
+                _dlg = new QuizletOAuth2AccessCodeRetrievalFragment();
+                _dlg.setAuthCodeReceiveListener(new OauthAccessCodeRetrievalFragment.AuthCodeReceiveListener()
                 {
                     @Override
                     public void onAuthCodeReceived(String... codes)
@@ -109,7 +113,7 @@ public class LoginQuizletActivity extends AppCompatActivity {
                         setResult(Activity.RESULT_CANCELED);
                         dofinish();
                     }
-QuizletOAuth2AccessCodeRetrievalFragment dlg;
+                    QuizletOAuth2AccessCodeRetrievalFragment dlg;
 
                     @Override
                     public void onCancelled()
@@ -137,16 +141,24 @@ QuizletOAuth2AccessCodeRetrievalFragment dlg;
             }
 
         }
+        return _dlg;
+    }
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        
         Intent intent = getIntent();
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             Uri uri = intent.getData();
-            org.liberty.android.fantastischmemo.downloader.quizlet.lib.dlg.processCallbackUrl(uri.toString());
+            getDlg().processCallbackUrl(uri.toString());
             finish();
         }
         else
         {
             blnUpload = intent.getBooleanExtra("upload",false);
-            String url = org.liberty.android.fantastischmemo.downloader.quizlet.lib.dlg.getLoginUrl();
+            String url = getDlg().getLoginUrl();
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
             startActivity(i);
