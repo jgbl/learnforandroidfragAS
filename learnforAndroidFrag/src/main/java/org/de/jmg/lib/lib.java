@@ -1719,6 +1719,7 @@ public class lib {
                     httpConn.connect();
                     in = httpConn.getInputStream();
                     bmpimg = BitmapFactory.decodeStream(in);
+                    in.close();
                 }
                 catch (MalformedURLException e)
                 {
