@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -1012,6 +1013,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 									iv = new ImageView(context);
 									SetTouchListener(iv);
 								}
+								b= resizeBM(b);
 								iv.setImageBitmap(b);
 								if (iv.getParent() == null)
 								{
@@ -1098,6 +1100,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 								iv = new ImageView(context);
 								SetTouchListener(iv);
 							}
+							b= resizeBM(b);
 							iv.setImageBitmap(b);
 							if (iv.getParent() == null)
 							{
@@ -1262,6 +1265,22 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			lib.ShowException(_main, e);
 		}
 
+	}
+
+	private Bitmap resizeBM(Bitmap b)
+	{
+		if (b != null)
+		{
+			int width = Math.max(b.getWidth(),b.getHeight());
+			int widthScreen = this.width;
+			widthScreen -= lib.dpToPx(40);
+			float fact = (float)widthScreen/(float)width;
+			Matrix matrix = new Matrix();
+			matrix.postScale(fact, fact);
+			Bitmap scaledBitmap = Bitmap.createBitmap(b, 0, 0, b.getWidth(), b.getHeight(), matrix, true);
+			return scaledBitmap;
+		}
+		return null;
 	}
 
 	private void SetTouchListener(ImageView iv)
