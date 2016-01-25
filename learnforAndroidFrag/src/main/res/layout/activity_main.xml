@@ -41,7 +41,8 @@
 			        android:textColor="#000000"
 			        android:textSize="60px"
 			        android:textStyle="bold"
-			        android:typeface="normal" />
+			        android:typeface="normal"
+					/>
 			    
 			    <org.de.jmg.lib.BorderedEditText
 			        android:id="@+id/edword"
@@ -76,7 +77,8 @@
 			        android:scrollHorizontally="false"
 			        android:text="@string/hello_world"
 			        android:textColor="#000000"
-			        android:textSize="35px" />
+			        android:textSize="35px"
+					/>
 			    
 			    <org.de.jmg.lib.BorderedEditText
 			        android:id="@+id/edComment"
@@ -105,7 +107,8 @@
 		        android:text="@string/hello_world"
 		        android:textAppearance="?android:attr/textAppearanceLarge"
 		        android:textColor="#000000"
-		        android:textSize="40px" >
+		        android:textSize="40px"
+				>
 		
 		        <requestFocus android:layout_width="wrap_content" />
 		
@@ -125,7 +128,8 @@
 		        android:text="@string/hello_world"
 		        android:textAppearance="?android:attr/textAppearanceLarge"
 		        android:textColor="#000000"
-		        android:textSize="40px" />
+		        android:textSize="40px"
+				/>
 		
 		    <org.de.jmg.lib.BorderedEditText
 		        android:id="@+id/txtMeaning3"
@@ -141,7 +145,8 @@
 		        android:text="@string/hello_world"
 		        android:textAppearance="?android:attr/textAppearanceLarge"
 		        android:textColor="#000000"
-		        android:textSize="40px" />
+		        android:textSize="40px"
+				/>
 		    </RelativeLayout>
 		</ScrollView>
 		<RelativeLayout

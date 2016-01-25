@@ -1583,7 +1583,7 @@ public class lib {
                 if (span!=null) txt = span.toString();
             }
             Matcher matcher = pattern.matcher(txt);
-            if (matcher.find())
+            if (false && matcher.find())
             {
                 int start = 0;
                 boolean blnNewSpan = false;
@@ -1615,7 +1615,7 @@ public class lib {
                 if (span!=null) txt = span.toString();
             }
         }
-        if (txt.contains("http://") || txt.contains("https://"))
+        if ((txt.contains("http://") || txt.contains("https://")))
         {
 
             int found = 0;
