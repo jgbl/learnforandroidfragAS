@@ -1637,11 +1637,15 @@ public class lib {
             if (span == null) span = new SpannableString(txt);
             txt = txt.replace("\r", " ");
             txt = txt.replace("\n", " ");
+            txt += " ";
             while (found!=-1)
             {
                 int start = found;
                 int end = txt.indexOf(" ",found+1);
-                if (end == -1 || txt.indexOf(")",found+1)<end) end = txt.indexOf(")",found+1);
+                int endhyphen = txt.indexOf("\"",found+1);
+                int endbracked = txt.indexOf(")",found+1);
+                if (end == -1 || (endhyphen>-1 && endhyphen<end)) end = endhyphen;
+                if (end == -1 || (endbracked>-1 && endbracked<end)) end = endbracked;
                 if (end != -1)
                 {
                     URLSpan urls[] = span.getSpans(start, end, URLSpan.class);
