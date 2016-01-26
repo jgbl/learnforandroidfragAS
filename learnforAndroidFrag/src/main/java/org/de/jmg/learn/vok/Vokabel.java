@@ -475,7 +475,7 @@ public class Vokabel {
 	public int getGesamtzahl() {
 		if (mGesamtzahl == 0 && mVok != null)
 		{
-			mGesamtzahl = mVok.size();
+			mGesamtzahl = mVok.size() ;
 		}
 		return mGesamtzahl;
 	}
