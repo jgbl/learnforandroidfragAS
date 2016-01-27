@@ -1733,7 +1733,10 @@ public class lib {
                 {
                     e.printStackTrace();
                 }
-                l.countDown();
+                finally
+                {
+                    l.countDown();
+                }
             }
         }).start();
         try
