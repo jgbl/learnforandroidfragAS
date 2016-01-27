@@ -989,7 +989,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				int start = tspanKom.getSpanStart(span);
 				int end = tspanKom.getSpanEnd(span);
 				String txt = tspanKom.toString().substring(start,end);
-				if (txt.equalsIgnoreCase(getString(R.string.picture)))
+				if (txtIsPicture(txt))
 				{
 					tspanKom.removeSpan(span);
 					tspanKom.setSpan(new urlclickablespan(span.getURL())
@@ -1077,9 +1077,9 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			if (_vok.reverse || showBeds)
 			{
 				SpannableString tspan = lib.getSpanableString(_vok.getBedeutung1());
-				final String picname = _main.getString(R.string.picture);
+				//final String picname = _main.getString(R.string.picture);
 				t.setVisibility(View.VISIBLE);
-				if (tspan.toString().equalsIgnoreCase(picname))
+				if (txtIsPicture(tspan.toString()))
 				{
 					URLSpan urlspn[] = tspan.getSpans(0, tspan.length(), URLSpan.class);
 					for (URLSpan url : urlspn)
@@ -1265,6 +1265,20 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			lib.ShowException(_main, e);
 		}
 
+	}
+
+	private boolean txtIsPicture(String txt)
+	{
+		if (txt.equalsIgnoreCase("Bild")
+				|| txt.equalsIgnoreCase("picture")
+				|| txt.equalsIgnoreCase(getString(R.string.picture)))
+		{
+			return  true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	private Bitmap resizeBM(Bitmap b)
