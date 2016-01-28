@@ -48,6 +48,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.internal.view.menu.MenuBuilder;
 import android.text.InputType;
+import android.text.style.URLSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -1854,6 +1855,10 @@ public class MainActivity extends AppCompatActivity
             if (id == R.id.action_settings)
             {
                 mPager.setCurrentItem(SettingsActivity.fragID);
+            }
+            else if (id == R.id.mnuCredits)
+            {
+                lib.ShowMessage(this,new URLSpan("https://github.com/mypapit/android-file-chooser","android file chooser"),"Credits");
             }
             else if (id == R.id.mnuContact)
             {

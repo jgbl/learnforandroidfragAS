@@ -329,4 +329,5 @@
     <string name="cmnuNewFolder">Neuer Ordner</string>
     <string name="msgEnterNewFolderName">Bitte geben Sie den Namen des neuen Ordners ein  </string>
     <string name="msgWrongExt2">Sie haben eine falsche Erweiterung eingegeben!</string>
+    <string name="mnuCredits">Credits</string>
 </resources>
