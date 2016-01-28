@@ -1861,12 +1861,14 @@ public class MainActivity extends AppCompatActivity
             }
             else if (id == R.id.mnuCredits)
             {
-                String txt = "android-file-chooser";
-                URLSpan spanurl = new URLSpan("https://github.com/mypapit/android-file-chooser");
-                Spannable spn = new SpannableString(txt);
-                spn.setSpan(spanurl,0,spn.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                InputStream is = this.getAssets().open("CREDITS");
+                java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+                String strCredits = s.hasNext() ? s.next() : "";
+                s.close();
+                is.close();
+                Spannable spn = lib.getSpanableString(strCredits);
                 lib.ShowMessage(this,spn,"Credits");
-            }ff
+            }
             else if (id == R.id.mnuContact)
             {
                 Intent intent = new Intent(Intent.ACTION_SEND, Uri.fromParts("mailto", "jhmgbl@gmail.com", null));

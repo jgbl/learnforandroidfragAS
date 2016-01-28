@@ -77,6 +77,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.util.Log;
@@ -456,7 +457,8 @@ public class lib {
         A.setTitle(title);
         AlertDialog dlg = A.create();
         dlg.show();
-        OpenDialogs.add(dlg);
+        ((TextView)dlg.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                OpenDialogs.add(dlg);
     }
 
     public static class MessageException extends  RuntimeException
