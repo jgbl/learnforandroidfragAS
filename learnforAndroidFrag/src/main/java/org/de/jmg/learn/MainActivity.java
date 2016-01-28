@@ -1866,7 +1866,9 @@ public class MainActivity extends AppCompatActivity
                 String strCredits = s.hasNext() ? s.next() : "";
                 s.close();
                 is.close();
-                Spannable spn = lib.getSpanableString(strCredits);
+                String versionName = context.getPackageManager()
+                        .getPackageInfo(context.getPackageName(), 0).versionName;
+                Spannable spn = lib.getSpanableString(strCredits + "\nV" + versionName);
                 lib.ShowMessage(this,spn,"Credits");
             }
             else if (id == R.id.mnuContact)
