@@ -48,6 +48,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.internal.view.menu.MenuBuilder;
 import android.text.InputType;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.style.URLSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -1858,8 +1861,12 @@ public class MainActivity extends AppCompatActivity
             }
             else if (id == R.id.mnuCredits)
             {
-                lib.ShowMessage(this,new URLSpan("https://github.com/mypapit/android-file-chooser","android file chooser"),"Credits");
-            }
+                String txt = "android-file-chooser";
+                URLSpan spanurl = new URLSpan("https://github.com/mypapit/android-file-chooser");
+                Spannable spn = new SpannableString(txt);
+                spn.setSpan(spanurl,0,spn.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                lib.ShowMessage(this,spn,"Credits");
+            }ff
             else if (id == R.id.mnuContact)
             {
                 Intent intent = new Intent(Intent.ACTION_SEND, Uri.fromParts("mailto", "jhmgbl@gmail.com", null));

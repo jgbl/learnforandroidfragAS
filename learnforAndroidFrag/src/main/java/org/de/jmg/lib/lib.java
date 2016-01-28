@@ -72,6 +72,7 @@ import android.os.Message;
 import android.provider.*;
 import android.text.Html;
 import android.text.InputType;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
@@ -440,6 +441,10 @@ public class lib {
     }
 
     public static void ShowMessage(Context context, String msg, String title) {
+        ShowMessage(context,new SpannableString(msg),title);
+    }
+
+    public static void ShowMessage(Context context, Spannable msg, String title) {
         // System.Threading.SynchronizationContext.Current.Post(new
         // System.Threading.SendOrPostCallback(DelShowException),new
         // ExStateInfo(context, ex));
