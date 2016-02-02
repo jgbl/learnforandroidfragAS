@@ -1999,6 +1999,10 @@ public class Vokabel {
 			mVok.get(h).Bed1 = vok;
 			mVok.get(h).z = 0;
 		}
+		Locale lang = this.getLangWord();
+		this.setLangWord(this.getLangMeaning());
+		this.setLangMeaning(lang);
+
 		if (!libString.IsNullOrEmpty(mFileName))
 		{
 			File F = new File(mFileName);
