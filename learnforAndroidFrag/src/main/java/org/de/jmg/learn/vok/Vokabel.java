@@ -533,7 +533,6 @@ public class Vokabel {
 	}
 	
 	public short getZaehler() throws Exception {
-		short functionReturnValue = 0;
 		// ERROR: Not supported in C#: OnErrorStatement
 		libLearn.gStatus = "Vokabel.ZÃƒÆ’Ã‚Â¤hler Start";
 		// ERROR: Not supported in C#: OnErrorStatement
@@ -541,8 +540,8 @@ public class Vokabel {
 		// Gleichung verwendet.
 		// Syntax: Debug.Print X.ZÃƒÆ’Ã‚Â¤hler
 		if (mIndex>mVok.size()-1) mIndex= mVok.size()-1;
-		functionReturnValue = mVok.get(mIndex).z;
-		return functionReturnValue;
+		return mVok.get(mIndex).z;
+		//return functionReturnValue;
 	}
 
 	public void setZaehler(short value) throws Exception {
@@ -663,7 +662,6 @@ public class Vokabel {
 
 	// Inserted by CodeCompleter
 	public String getWort() throws Exception {
-		String functionReturnValue = null;
 		// ERROR: Not supported in C#: OnErrorStatement
 		libLearn.gStatus = "Vokabel.Wort Start";
 		// ERROR: Not supported in C#: OnErrorStatement
@@ -672,8 +670,8 @@ public class Vokabel {
 		// Syntax: Debug.Print X.Wort
 		if (mIndex>mVok.size()-1) mIndex= mVok.size()-1;
 		if (mIndex < 0) return "";
-		functionReturnValue = mVok.get(mIndex).Wort;
-		return functionReturnValue;
+		return mVok.get(mIndex).Wort;
+
 	}
 
 	public void setWort(String value, boolean blnDontThow) throws Exception {
@@ -699,7 +697,7 @@ public class Vokabel {
 
 		mSTatusO = StatusO;
 
-		return;
+
 	}
 
 	public void SkipVokabel() throws Exception {
@@ -710,7 +708,7 @@ public class Vokabel {
 		mLernindex += 1;
 		InitAbfrage();
 		//
-		return;
+
 	}
 
 	public Bewertung CheckAntwort(String[] Antworten) throws Exception {
@@ -719,9 +717,9 @@ public class Vokabel {
 		functionReturnValue = Bewertung.undefiniert;
 		try {
 			libLearn.gStatus = "Vokabel.CheckAnwort Start";
-			String[] Bedeutungen = null;
-			short i = 0;
-			short ii = 0;
+			String[] Bedeutungen;
+			short i;
+			short ii;
 			short Loesungen = 0;
 			// Anzahl der eingegebenen Antworten
 			short anzBedeutungen = 0;
@@ -744,7 +742,7 @@ public class Vokabel {
 
 			libLearn.gStatus = "Vokabel.CheckAnwort Line 248";
 			// Inserted by CodeCompleter
-			Bewertung TeilErgebnis = (Bewertung.undefiniert);
+			Bewertung TeilErgebnis;
 
 			mOldBed[0] = "";
 			mOldBed[1] = "";
@@ -774,7 +772,7 @@ public class Vokabel {
 
 						if (!libString.IsNullOrEmpty(Bedeutungen[ii])) {
 							libLearn.gStatus = CodeLoc + " call MakeVergl";
-							boolean CheckVergl = false;
+							boolean CheckVergl;
 							try {
 								CheckVergl = lib.like(Antwort,
 										MakeVergl(Bedeutungen[ii]));
@@ -787,36 +785,31 @@ public class Vokabel {
 								// Inserted by CodeCompleter
 								mOldBed[ii] = Bedeutungen[ii];
 								Bedeutungen[ii] = "";
-								Antwort = "";
-
 								Loesungen += 1;
 
-								break; // TODO: might not be correct. Was : Exit
+								break; 
 										// For
 								// Falls eine Antwort mehrere Teilantworten
 								// enthÃ¤lt
 							} else {
 								String[] s = EnthaeltTrennzeichen(RemoveKomment(Bedeutungen[ii]));
-								RefSupport<String> refVar1 = new RefSupport<String>(
-										Antwort);
-								RefSupport<String[]> refVar2 = new RefSupport<String[]>(
-										s);
+								RefSupport<String> refVar1 = new RefSupport<>(Antwort);
+								RefSupport<String[]> refVar2 = new RefSupport<>(s);
 								short[] refii = new short[] { ii };
-								RefSupport<short[]> refVar3 = new RefSupport<short[]>(
-										refii);
+								RefSupport<short[]> refVar3 = new RefSupport<>(refii);
 								TeilErgebnis = TeileUeberpruefen(refVar1,
 										refVar2, refVar3);
-								Antwort = (String) refVar1.getValue();
-								s = refVar2.getValue();
-								ii = (Short) refVar3.getValue()[0];
+								Antwort = refVar1.getValue();
+								//s = refVar2.getValue();
+								ii = refVar3.getValue()[0];
 								if (TeilErgebnis == Bewertung.AllesRichtig) {
 									libLearn.gStatus = "Vokabel.CheckAnwort Line 288";
 									// Inserted by CodeCompleter
 									Loesungen += 1;
 									mOldBed[ii] = Bedeutungen[ii];
 									Bedeutungen[ii] = "";
-									Antwort = "";
-									break; // TODO: might not be correct. Was :
+									//Antwort = "";
+									break; 
 											// Exit For
 								} else if (TeilErgebnis == Bewertung.TeilweiseRichtig) {
 									TeilweiseRichtig += 1;
@@ -861,12 +854,11 @@ public class Vokabel {
 										Enthalten += 1;
 									} else {
 										short refII[] = new short[] { ii };
-										RefSupport<short[]> refVar___ii = new RefSupport<short[]>(
-												refII);
+										RefSupport<short[]> refVar___ii = new RefSupport<>(refII);
 										boolean boolVar___0 = Aehnlichkeit(
 												Bedeutungen[ii], Antwort,
 												refVar___ii) > 0.5;
-										ii = (Short) refVar___ii.getValue()[0];
+										ii = refVar___ii.getValue()[0];
 										if (boolVar___0) {
 											aehnlich += 1;
 										}
@@ -923,7 +915,7 @@ public class Vokabel {
 
 		final String CodeLoc = className + ".Aehnlichkeit";
 		libLearn.gStatus = CodeLoc + " Start";
-		short Size1 = 0;
+		short Size1;
 		Bedeutung = Bedeutung.toLowerCase(Locale.getDefault());
 		Antwort = Antwort.toLowerCase(Locale.getDefault());
 		Size1 = (short) RemoveKomment(Bedeutung).length();
@@ -935,7 +927,7 @@ public class Vokabel {
 				.IsNullOrEmpty(mOldBed[BedNR.getValue()[0]]);
 		// TODO: Dim locs(Size1) As Integer
 		int LastPos = 0;
-		String Test = null;
+		String Test;
 		// Bedeutung = Me.Bedeutungen(BedNR)
 		// mOldBed(BedNR) = ""
 		// Antwort = mAntworten(BedNR)
@@ -944,7 +936,7 @@ public class Vokabel {
 																			// Bedeutung.length());
 		char[] tst = Test.toCharArray();
 		for (int ii = 0; ii <= Antwort.length() - 1; ii++) {
-			int Pos = -1;
+			int Pos;
 			int Pos2 = -1;
 			int LastLastPos = LastPos;
 			do {
@@ -953,7 +945,7 @@ public class Vokabel {
 				if (Pos == -1)
 					break;
 
-				// TODO: might not be correct. Was : Exit Do
+				
 				if (Pos > -1 && ii < Antwort.length() - 1) {
 					sub = Antwort.substring(ii + 1, ii + 2);
 					Pos2 = Bedeutung.indexOf(sub, Pos + 1);
@@ -982,7 +974,7 @@ public class Vokabel {
 		}
 		Test = new String(tst);
 		if (libString.IsNullOrEmpty(mOldBed[BedNR.getValue()[0]])
-				|| blnOldBed == false) {
+				|| !blnOldBed) {
 			mOldBed[BedNR.getValue()[0]] = Test;
 		} else {
 			// For iii As Integer = 0 To test.Length - 1
@@ -1036,13 +1028,13 @@ public class Vokabel {
 	}
 
 	private String MakeVergl(String Bed) throws Exception {
-		String functionReturnValue = null;
+		String functionReturnValue;
 		final String CodeLoc = className + ".MakeVergl";
 		libLearn.gStatus = CodeLoc + " Start";
-		short i = 0;
-		int f1 = 0;
-		int f2 = 0;
-		int intAsc = 0;
+		short i;
+		int f1;
+		int f2;
+		int intAsc;
 		// Optionale Teile herausfiltern
 		try {
 			f1 = Bed.indexOf("(", 0);// libString.InStr(1, Bed, "(");
@@ -1097,8 +1089,8 @@ public class Vokabel {
 	public static String RemoveKomment(String Bed) {
 		final String CodeLoc = className + ".RemoveKomment";
 		libLearn.gStatus = CodeLoc + " Start";
-		int f1 = 0;
-		int f2 = 0;
+		int f1;
+		int f2;
 		f1 = Bed.indexOf("[", 0); // libString.InStr(1, Bed, "[");
 		while (f1 > -1) {
 			f2 = Bed.indexOf("]", f1 + 1);// libString.InStr(f1 + 1, Bed, "]");
@@ -1124,13 +1116,13 @@ public class Vokabel {
 		Bewertung functionReturnValue = Bewertung.undefiniert;
 		// ERROR: Not supported in C#: OnErrorStatement
 		libLearn.gStatus = "Vokabel.TeileUeberpruefen Start";
-		short i = 0;
-		short ii = 0;
+		short i;
+		short ii;
 		short richtig = 0;
 		short Bedeutungen = 0;
 		short aehnlich = 0;
 		short enthalten = 0;
-		String Antworten[] = null;
+		String Antworten[];
 		if ((teile.getValue() == null || teile.getValue().length == 0)) {
 			functionReturnValue = Bewertung.AllesFalsch;
 			return functionReturnValue;
@@ -1175,10 +1167,10 @@ public class Vokabel {
 			}
 
 		}
-		// TODO: might not be correct. Was : Exit For
+		
 		// Erst in zweitem Schritt aehnlichkeiten feststellen!
-		boolean Aehn = false;
-		float lAehnlichkeit = 0;
+		boolean Aehn;
+		float lAehnlichkeit;
 		for (i = 0; i <= (teile.getValue()).length - 1; i++) {
 			libLearn.gStatus = "Vokabel.TeileUeberpruefen Line 420";
 			// Inserted by CodeCompleter
@@ -1196,8 +1188,7 @@ public class Vokabel {
 
 						}
 						if (!CheckVergl) {
-							RefSupport<short[]> refVar___0 = new RefSupport<short[]>(
-									BedNR.getValue());
+							RefSupport<short[]> refVar___0 = new RefSupport<>(BedNR.getValue());
 							lAehnlichkeit = Aehnlichkeit(teile.getValue()[i],
 									Antworten[ii], refVar___0);
 							BedNR.setValue(refVar___0.getValue());
@@ -1546,7 +1537,7 @@ public class Vokabel {
 					break;
 				}
 
-				// TODO: might not be correct. Was : Exit Do
+				
 				refblnDurch.setValue(true);
 			}
 			if (CheckIfNotContained(vokNr)
@@ -1558,7 +1549,7 @@ public class Vokabel {
 			}
 
 		} while (true);
-		// TODO: might not be correct. Was : Exit Do
+		
 		/*
 		 * RefSupport<Object> refVar___2 = new RefSupport<Object>(vokNr);
 		 * RefSupport<Object> refVar___3 = new RefSupport<Object>(i);
@@ -1597,7 +1588,7 @@ public class Vokabel {
 					break;
 				}
 			} else {
-				// TODO: might not be correct. Was : Exit Do
+				
 				double r = rnd.nextDouble();
 				double z = (double) mVok.get(intVokNr).z;
 				double p;
