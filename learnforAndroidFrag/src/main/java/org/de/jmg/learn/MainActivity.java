@@ -441,7 +441,7 @@ public class MainActivity extends AppCompatActivity
                     prefs.edit().putBoolean("play", !res.checked).commit();
                     if (res.res == yesnoundefined.yes)
                     {
-                        String url = "https://play.google.com/apps/testing/org.de.jmg.learn";
+                        String url = "https://play.google.com/store/apps/details?id=org.de.jmg.learn";//"https://play.google.com/apps/testing/org.de.jmg.learn";
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(url));
                         startActivity(i);
@@ -1242,11 +1242,14 @@ public class MainActivity extends AppCompatActivity
                     {
                         res = lib.ShowMessageYesNoWithCheckbox(this, this.getString(R.string.copy),this.getString(R.string.copyfiles), this.getString(R.string.msgRememberChoice),false);
                     }
-                    if (res.checked)
+                    if (res != null)
                     {
-                        prefs.edit().putInt("dontcopyorchoose", (res.res == yesnoundefined.no?-1:0)).commit();
+                        if (res.checked)
+                        {
+                            prefs.edit().putInt("dontcopyorchoose", (res.res == yesnoundefined.no?-1:0)).commit();
+                        }
+                        if (res.res == yesnoundefined.no) return;
                     }
-                    if (res.res == yesnoundefined.no) return;
                 }
                 AssetManager A = this.getAssets();
                 try
@@ -1748,7 +1751,7 @@ public class MainActivity extends AppCompatActivity
             DisplayMetrics metrics = resources.getDisplayMetrics();
             double height = metrics.heightPixels;
             int viewTop = this.findViewById(Window.ID_ANDROID_CONTENT).getTop();
-            double scale = (double) (height - viewTop) / (double) 950;
+            double scale =  (height - viewTop) / (double) 950;
 
             if (scale < .5f)
             {
@@ -1788,28 +1791,28 @@ public class MainActivity extends AppCompatActivity
                 {
                     if (_blnReverse)
                     {
-                        if (!_hasBeenDownsized || _hasBeenDownsized)
+                        //if (!_hasBeenDownsized || _hasBeenDownsized)
+                        //{
+                        MenuBuilder mm = (MenuBuilder) ActionMenu.getMenu();
+                        int Actions = mm.getActionItems().size();
+                        try
                         {
-                            MenuBuilder mm = (MenuBuilder) ActionMenu.getMenu();
-                            int Actions = mm.getActionItems().size();
-                            try
+                            MenuItem mmm = ActionMenu.getMenu().getItem(Actions + _invisibleCount);
+                            if (mmm.isVisible())
                             {
-                                MenuItem mmm = ActionMenu.getMenu().getItem(Actions + _invisibleCount);
-                                if (mmm.isVisible())
-                                {
-                                    MenuItemCompat.setShowAsAction(mmm, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
-                                }
-                                else
-                                {
-                                    _invisibleCount += 1;
-                                    _SetShowAsAction(mmm);
-                                }
+                                MenuItemCompat.setShowAsAction(mmm, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
                             }
-                            catch (IndexOutOfBoundsException ex)
+                            else
                             {
-                                return;
+                                _invisibleCount += 1;
+                                _SetShowAsAction(mmm);
                             }
                         }
+                        catch (IndexOutOfBoundsException ex)
+                        {
+                            return;
+                        }
+                        //}
 
                     }
                     else
