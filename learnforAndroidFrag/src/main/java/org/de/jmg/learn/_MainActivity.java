@@ -1384,6 +1384,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 						{
 							HashMap<String, String> h = new HashMap<>();
 							h.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "cloze");
+							//noinspection deprecation
 							_main.tts.playSilence(2500, TextToSpeech.QUEUE_ADD, h);
 						}
 						else
@@ -1415,6 +1416,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					HashMap<String, String> h = new HashMap<>();
 					h.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, ID);
 
+					//noinspection deprecation
 					_main.tts.speak(t, flags, h);
 				}
 				else

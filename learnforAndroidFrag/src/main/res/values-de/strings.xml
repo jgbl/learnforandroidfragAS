@@ -185,7 +185,7 @@
     <string name="MeaningSimilar">Die eingegebene Bedeutung ist ähnlich</string>
     <string name="MeaningPartiallyCorrect">Die eingegebene Bedeutung ist teilweise richtig!</string>
     <string name="MeaningIsSubstring">Die Antwort ist nur ein Teil der Bedeutung!</string>
-    <string name="MeaningIsSubstringSimilar">Die Antwort ist teiweise stückweise richtig und teilweise ähnlich</string>
+    <string name="MeaningIsSubstringSimilar">Die Antwort ist teilweise stückweise richtig und teilweise ähnlich</string>
     <string name="MeaningIsPartiallyCorrectSubstring">Die Antwort ist teilweise richtig und teilweise stückweise richtig!</string>
     <string name="mnuStatistics">Statistik</string>
     <string name="counter">Zähler</string>

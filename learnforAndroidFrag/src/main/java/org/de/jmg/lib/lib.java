@@ -21,39 +21,21 @@
 package org.de.jmg.lib;
 
 //import android.support.v7.app.ActionBarActivity;
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLDecoder;
-import java.nio.channels.FileChannel;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Random;
-import java.util.StringTokenizer;
-import java.util.concurrent.CountDownLatch;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.de.jmg.learn.MainActivity;
-import org.de.jmg.learn.libLearn;
-import org.de.jmg.learn.R;
-
-
-//import com.microsoft.live.*;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.*;
-import android.content.*;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.UiModeManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -68,14 +50,13 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-//import android.runtime.*;
-import android.provider.*;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.text.Html;
 import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
@@ -93,48 +74,93 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.de.jmg.learn.MainActivity;
+import org.de.jmg.learn.R;
+import org.de.jmg.learn.libLearn;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLDecoder;
+import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Random;
+import java.util.concurrent.CountDownLatch;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import static android.content.Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION;
 
-public class lib {
+//import com.microsoft.live.*;
+//import android.runtime.*;
 
-    public static class YesNoCheckResult {
+public class lib
+{
 
-        public yesnoundefined res;
-        public boolean checked;
-
-        public YesNoCheckResult(yesnoundefined res, boolean checked)
-        {
-            this.res=res;
-            this.checked= checked;
-        }
-    }
-
-    public static class OkCancelStringResult {
-
-        public okcancelundefined res;
-        public String input;
-        public OkCancelStringResult(okcancelundefined res, String input)
-        {
-            this.res=res;
-            this.input=input;
-        }
-    }
-
-    public lib() {
-    }
-
-    private static String _status = "";
+    public static final String TAG = "org.de.jmg.lib.lib";
+    public static final int SELECT_FILE = 0xa3b4;
     // private static final String ONEDRIVE_APP_ID = "48122D4E";
     private static final String ClassName = "lib.lib";
-    public static final String TAG = "org.de.jmg.lib.lib";
-
     public static boolean sndEnabled = true;
     public static boolean AntwWasRichtig;
-    public static String getgstatus() {
-        return _status;
-    }
     public static ArrayList<DialogInterface> OpenDialogs = new ArrayList<>();
     public static MainActivity main;
+    public static Handler YesNoHandler;
+    public static String[] AssetSounds = new String[13];
+    public static PrefsOnMultiChoiceClickListener cbListener = new PrefsOnMultiChoiceClickListener();
+    static AlertDialog dlgOK;
+    static Bitmap bmpimg;
+    private static String _status = "";
+    private static yesnoundefined DialogResultYes = yesnoundefined.undefined;
+    private static DialogInterface.OnClickListener listenerYesNo = new DialogInterface.OnClickListener()
+    {
+
+        @Override
+        public void onClick(DialogInterface dialog, int which)
+        {
+            switch (which)
+            {
+                case DialogInterface.BUTTON_POSITIVE:
+                    // Yes button clicked
+                    DialogResultYes = yesnoundefined.yes;
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    // No button clicked
+                    DialogResultYes = yesnoundefined.no;
+                    break;
+            }
+            if (YesNoHandler != null) YesNoHandler.sendMessage(YesNoHandler.obtainMessage());
+        }
+    };
+    /*
+     * public static String rtfToHtml(Reader rtf) throws IOException {
+     * JEditorPane p = new JEditorPane(); p.setContentType("text/rtf");
+     * EditorKit kitRtf = p.getEditorKitForContentType("text/rtf"); try {
+     * kitRtf.read(rtf, p.getDocument(), 0); kitRtf = null; EditorKit kitHtml =
+     * p.getEditorKitForContentType("text/html"); Writer writer = new
+     * StringWriter(); kitHtml.write(writer, p.getDocument(), 0,
+     * p.getDocument().getLength()); return writer.toString(); } catch
+     * (BadLocationException e) { e.printStackTrace(); } return null; }
+     */
+    private static long SLEEP_TIME = 2; // for 2 second
+    private static CountDownLatch latch;
+
+    public lib()
+    {
+    }
+
+    public static String getgstatus()
+    {
+        return _status;
+    }
 
     public static void removeDlg(DialogInterface dlg)
     {
@@ -144,16 +170,22 @@ public class lib {
         }
     }
 
-    public static void setgstatus(String value) {
+	/*
+     * private static class ExStateInfo { public Context context; public
+	 * RuntimeException ex; public ExStateInfo(Context context, RuntimeException
+	 * ex) { this.context = context; this.ex = ex; } }
+	 */
+
+    public static void setgstatus(String value)
+    {
         _status = value;
         System.out.println(value);
     }
 
-
     public static boolean ExtensionMatch(String value, String extension)
     {
         String ext;
-        if(value.contains("."))
+        if (value.contains("."))
         {
             ext = value.substring(value.lastIndexOf("."));
         }
@@ -162,20 +194,16 @@ public class lib {
             return false;
         }
 
-        if (extension.toLowerCase(Locale.getDefault()).contains(ext.toLowerCase(Locale.getDefault()))) return true;
+        if (extension.toLowerCase(Locale.getDefault()).contains(ext.toLowerCase(Locale.getDefault())))
+            return true;
 
         String itext = extension;
         if (!itext.startsWith(".")) itext = "." + itext;
         itext = itext.replace(".", "\\.");
         itext = itext.toLowerCase(Locale.getDefault());
         ext = ext.toLowerCase(Locale.getDefault());
-        if (ext.matches(itext.replace("?", ".{1}").replace("*", ".*")))
-        {
-            return true;
-        }
+        return ext.matches(itext.replace("?", ".{1}").replace("*", ".*"));
 
-
-        return false;
 
     }
 
@@ -185,7 +213,7 @@ public class lib {
         if (!libString.IsNullOrEmpty(ext))
         {
             ext = ext.toLowerCase(Locale.getDefault());
-            if (ext.startsWith(".k")||ext.startsWith(".v")) return true;
+            if (ext.startsWith(".k") || ext.startsWith(".v")) return true;
         }
         return false;
 		/*
@@ -195,7 +223,7 @@ public class lib {
 		*/
     }
 
-    public static final boolean NookSimpleTouch()
+    public static boolean NookSimpleTouch()
     {
         //return true;
 
@@ -207,11 +235,15 @@ public class lib {
 
     }
 
-    private static String getBuildField(String fieldName) {
+    private static String getBuildField(String fieldName)
+    {
 
-        try {
-            return (String)Build.class.getField(fieldName).get(null);
-        } catch (Exception e) {
+        try
+        {
+            return (String) Build.class.getField(fieldName).get(null);
+        }
+        catch (Exception e)
+        {
             Log.d("cr3", "Exception while trying to check Build." + fieldName);
             return "";
         }
@@ -221,67 +253,97 @@ public class lib {
                                             android.net.Uri contentURI) throws Exception
     {
         android.database.Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
+        try
+        {
+            String[] proj = {MediaStore.Images.Media.DATA};
             cursor = context.getContentResolver().query(contentURI, proj, null,
                     null, null);
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
+            if (cursor != null)
+            {
+                int column_index = cursor
+                        .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+                return cursor.getString(column_index);
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+        finally
+        {
+            if (cursor != null)
+            {
                 cursor.close();
             }
         }
     }
 
     public static String getSizeFromURI(Context context,
-                                        android.net.Uri contentURI) {
+                                        android.net.Uri contentURI)
+    {
         android.database.Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.SIZE };
+        try
+        {
+            String[] proj = {MediaStore.Images.Media.SIZE};
             cursor = context.getContentResolver().query(contentURI, proj, null,
                     null, null);
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.SIZE);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
+            if (cursor != null)
+            {
+                int column_index = cursor
+                        .getColumnIndexOrThrow(MediaStore.Images.Media.SIZE);
+                cursor.moveToFirst();
+                return cursor.getString(column_index);
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+        finally
+        {
+            if (cursor != null)
+            {
                 cursor.close();
             }
         }
     }
 
-    public static void StartViewer(Context context, android.net.Uri uri) {
+	/*
+	 * public static <E> getEnumByOrdinal(<E> object, int ordinal) throws
+	 * RuntimeException { E value; return value; }
+	 */
+
+    public static void StartViewer(Context context, android.net.Uri uri)
+    {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setDataAndType(uri, "image/*");
         context.startActivity(i);
     }
 
-	/*
-	 * private static class ExStateInfo { public Context context; public
-	 * RuntimeException ex; public ExStateInfo(Context context, RuntimeException
-	 * ex) { this.context = context; this.ex = ex; } }
-	 */
-
-    public static void copyFile(String Source, String Dest) throws IOException {
+    public static void copyFile(String Source, String Dest) throws IOException
+    {
         File source = new File(Source);
         File dest = new File(Dest);
         FileChannel sourceChannel = null;
         FileChannel destChannel = null;
-        try {
+        try
+        {
             sourceChannel = new FileInputStream(source).getChannel();
             destChannel = new FileOutputStream(dest).getChannel();
             destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
-        } finally {
+        }
+        finally
+        {
             sourceChannel.close();
             destChannel.close();
         }
     }
 
-    public static float convertFromDp(Context context, float input) {
+    public static float convertFromDp(Context context, float input)
+    {
         int minWidth = context.getResources().getDisplayMetrics().widthPixels;
         int minHeight = context.getResources().getDisplayMetrics().heightPixels;
         if (minHeight < minWidth)
@@ -290,45 +352,8 @@ public class lib {
         return ((input - 0.5f) / scale);
     }
 
-    public static class libString {
-        public static boolean IsNullOrEmpty(String s) {
-            if (s == null || s == "" || s.length() == 0) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        public static int InStr(String s, String Search) {
-            int Start = 1;
-            return InStr(Start, s, Search);
-        }
-
-        public static int InStr(int Start, String s, String Search) {
-            return s.indexOf(Search, Start - 1) + 1;
-        }
-
-        public static String Chr(int Code) {
-            char c[] = { (char) Code };
-            return new String(c);
-        }
-
-        public static String Left(String s, int length) {
-            return s.substring(0, length);
-        }
-
-        public static int Len(String s) {
-            return s.length();
-        }
-
-        public static String Right(String wort, int i) {
-
-            return wort.substring(wort.length() - i);
-        }
-
-    }
-
-    public static boolean like(final String str, final String expr) {
+    public static boolean like(final String str, final String expr)
+    {
         String regex = quotemeta(expr);
         regex = regex.replace("_", ".").replace("*", ".*?");
         Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE
@@ -336,20 +361,25 @@ public class lib {
         return p.matcher(str).matches();
     }
 
-    public static String quotemeta(String s) {
-        if (s == null) {
+    public static String quotemeta(String s)
+    {
+        if (s == null)
+        {
             throw new IllegalArgumentException("String cannot be null");
         }
 
         int len = s.length();
-        if (len == 0) {
+        if (len == 0)
+        {
             return "";
         }
 
         StringBuilder sb = new StringBuilder(len * 2);
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < len; i++)
+        {
             char c = s.charAt(i);
-            if ("[](){}.+?$^|#\\".indexOf(c) != -1) {
+            if ("[](){}.+?$^|#\\".indexOf(c) != -1)
+            {
                 sb.append("\\");
             }
             sb.append(c);
@@ -357,13 +387,16 @@ public class lib {
         return sb.toString();
     }
 
-    public static int countMatches(String str, String sub) {
-        if (libString.IsNullOrEmpty(str) || libString.IsNullOrEmpty(sub)) {
+    public static int countMatches(String str, String sub)
+    {
+        if (libString.IsNullOrEmpty(str) || libString.IsNullOrEmpty(sub))
+        {
             return 0;
         }
         int count = 0;
         int idx = 0;
-        while ((idx = str.indexOf(sub, idx)) != -1) {
+        while ((idx = str.indexOf(sub, idx)) != -1)
+        {
             count++;
             idx += sub.length();
         }
@@ -371,44 +404,44 @@ public class lib {
 
     }
 
-    public static String MakeMask(String strBed) {
-        try {
+    public static String MakeMask(String strBed)
+    {
+        try
+        {
             int i = 0;
             int Len = strBed.length();
             if (Len == 0)
                 return "";
             libLearn.gStatus = ClassName + ".MakeMask";
-            for (i = 0; i <= Len - 1; i++) {
-                if ((".,;/[]()".indexOf(strBed.charAt(i)) > -1)) {
+            for (i = 0; i <= Len - 1; i++)
+            {
+                if ((".,;/[]()".indexOf(strBed.charAt(i)) > -1))
+                {
                     strBed = strBed.substring(0, i) + "*"
                             + (i < Len - 1 ? strBed.substring(i + 1) : "");
                 }
             }
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             ex.printStackTrace();
         }
         return strBed;
 
     }
 
-	/*
-	 * public static <E> getEnumByOrdinal(<E> object, int ordinal) throws
-	 * RuntimeException { E value; return value; }
-	 */
-
     /**
      * Returns a pseudo-random number between min and max, inclusive. The
      * difference between min and max can be at most
      * <code>Integer.MAX_VALUE - 1</code>.
      *
-     * @param min
-     *            Minimum value
-     * @param max
-     *            Maximum value. Must be greater than min.
+     * @param min Minimum value
+     * @param max Maximum value. Must be greater than min.
      * @return Integer between min and max, inclusive.
      * @see java.util.Random#nextInt(int)
      */
-    public static int rndInt(int min, int max) {
+    public static int rndInt(int min, int max)
+    {
 
         // NOTE: Usually this should be a field rather than a method
         // variable so that it is not re-seeded every call.
@@ -421,7 +454,8 @@ public class lib {
         return randomNum;
     }
 
-    public static <T> T[] ResizeArray(T Array[], int newSize) {
+    public static <T> T[] ResizeArray(T Array[], int newSize)
+    {
         @SuppressWarnings("unchecked")
         T[] NewArr = (T[]) java.lang.reflect.Array.newInstance(
                 Array.getClass(), newSize);
@@ -432,7 +466,8 @@ public class lib {
         return NewArr;
     }
 
-    public static int[] ResizeArray(int[] Array, int newSize) {
+    public static int[] ResizeArray(int[] Array, int newSize)
+    {
         int[] NewArr = new int[newSize];
         int length = Array.length;
         if (length > newSize)
@@ -441,11 +476,13 @@ public class lib {
         return NewArr;
     }
 
-    public static void ShowMessage(Context context, String msg, String title) {
-        ShowMessage(context,new SpannableString(msg),title);
+    public static void ShowMessage(Context context, String msg, String title)
+    {
+        ShowMessage(context, new SpannableString(msg), title);
     }
 
-    public static void ShowMessage(Context context, Spannable msg, String title) {
+    public static void ShowMessage(Context context, Spannable msg, String title)
+    {
         // System.Threading.SynchronizationContext.Current.Post(new
         // System.Threading.SendOrPostCallback(DelShowException),new
         // ExStateInfo(context, ex));
@@ -457,16 +494,11 @@ public class lib {
         A.setTitle(title);
         AlertDialog dlg = A.create();
         dlg.show();
-        ((TextView)dlg.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
-                OpenDialogs.add(dlg);
+        ((TextView) dlg.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+        OpenDialogs.add(dlg);
     }
 
-    public static class MessageException extends  RuntimeException
-    {
-
-    }
-
-    public static boolean ShowMessageWithCheckbox(Context context,String title, String msg, String CheckboxTitle) throws Exception
+    public static boolean ShowMessageWithCheckbox(Context context, String title, String msg, String CheckboxTitle) throws Exception
     {
         // System.Threading.SynchronizationContext.Current.Post(new
         // System.Threading.SendOrPostCallback(DelShowException),new
@@ -484,19 +516,23 @@ public class lib {
 
         A.setView(checkBoxView);
         DialogResultYes = yesnoundefined.undefined;
-        A.setPositiveButton(context.getString(R.string.ok), new OnClickListener() {
+        A.setPositiveButton(context.getString(R.string.ok), new OnClickListener()
+        {
 
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int which)
+            {
                 //throw new MessageException();
                 DialogResultYes = yesnoundefined.yes;
             }
         });
-         //A.setMessage(msg);
+        //A.setMessage(msg);
         AlertDialog dlg = A.create();
-        dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        dlg.setOnDismissListener(new DialogInterface.OnDismissListener()
+        {
             @Override
-            public void onDismiss(DialogInterface dialog) {
+            public void onDismiss(DialogInterface dialog)
+            {
                 throw new MessageException();
             }
         });
@@ -506,22 +542,24 @@ public class lib {
 
         {
             Looper.loop();
-        } catch (Exception e2) {
+        }
+        catch (Exception e2)
+        {
             // Looper.myLooper().quit();
-            if (dlg.isShowing()) {
+            if (dlg.isShowing())
+            {
                 dlg.setOnDismissListener(null);
                 dlg.dismiss();
             }
             removeDlg(dlg);
-            dlg=null;
-            if (!(e2 instanceof  MessageException)) throw e2;
+            dlg = null;
+            if (!(e2 instanceof MessageException)) throw e2;
         }
-        if (DialogResultYes == yesnoundefined.yes) return cbx.isChecked();
-        else return false;
+        return DialogResultYes == yesnoundefined.yes && cbx.isChecked();
     }
 
-    static AlertDialog dlgOK;
-    public static void ShowException(Context context, Throwable ex) {
+    public static void ShowException(Context context, Throwable ex)
+    {
         // System.Threading.SynchronizationContext.Current.Post(new
         // System.Threading.SendOrPostCallback(DelShowException),new
         // ExStateInfo(context, ex));
@@ -533,9 +571,11 @@ public class lib {
                 + "\n" + Log.getStackTraceString(ex));
         A.setTitle("Error");
         dlgOK = A.create();
-        dlgOK.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        dlgOK.setOnDismissListener(new DialogInterface.OnDismissListener()
+        {
             @Override
-            public void onDismiss(DialogInterface dialog) {
+            public void onDismiss(DialogInterface dialog)
+            {
                 removeDlg(dialog);
             }
         });
@@ -543,38 +583,32 @@ public class lib {
         OpenDialogs.add(dlgOK);
     }
 
-    private static class listener implements DialogInterface.OnClickListener
-    {
-
-        @Override
-        public void onClick(DialogInterface dialog, int which)
-        {
-            removeDlg(dialog);
-        }
-    }
-
-    public static Handler YesNoHandler;
-
     public static yesnoundefined ShowMessageYesNo(Context context,
-                                                               String msg, String title)
+                                                  String msg, String title)
     {
-        return ShowMessageYesNo(context,msg,title,false);
+        return ShowMessageYesNo(context, msg, title, false);
     }
 
     public static yesnoundefined ShowMessageYesNo(Context context,
-                                                               String msg, String title, boolean center) {
+                                                  String msg, String title, boolean center)
+    {
         // System.Threading.SynchronizationContext.Current.Post(new
         // System.Threading.SendOrPostCallback(DelShowException),new
         // ExStateInfo(context, ex));
         if (libString.IsNullOrEmpty(title)) title = context.getString(R.string.question);
-        try {
+        try
+        {
             if (YesNoHandler == null)
-                YesNoHandler = new Handler() {
+            {
+                YesNoHandler = new Handler()
+                {
                     @Override
-                    public void handleMessage(Message mesg) {
+                    public void handleMessage(Message mesg)
+                    {
                         //throw new MessageException();
                     }
                 };
+            }
 
             DialogResultYes = yesnoundefined.undefined;
             AlertDialog.Builder A = new AlertDialog.Builder(context);
@@ -583,9 +617,11 @@ public class lib {
             A.setMessage(msg);
             A.setTitle(title);
             AlertDialog dlg = A.create();
-            dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            dlg.setOnDismissListener(new DialogInterface.OnDismissListener()
+            {
                 @Override
-                public void onDismiss(DialogInterface dialog) {
+                public void onDismiss(DialogInterface dialog)
+                {
                     throw new MessageException();
                 }
             });
@@ -594,44 +630,55 @@ public class lib {
             OpenDialogs.add(dlg);
             if (center)
             {
-                TextView messageView = (TextView)dlg.findViewById(android.R.id.message);
+                TextView messageView = (TextView) dlg.findViewById(android.R.id.message);
                 messageView.setGravity(Gravity.CENTER);
             }
             try
 
             {
                 Looper.loop();
-            } catch (Exception e2) {
+            }
+            catch (Exception e2)
+            {
                 // Looper.myLooper().quit();
                 YesNoHandler = null;
-                if (dlg.isShowing()) {
+                if (dlg.isShowing())
+                {
                     dlg.setOnDismissListener(null);
                     dlg.dismiss();
                 }
                 removeDlg(dlg);
                 dlg = null;
-                if (!(e2 instanceof  MessageException)) throw e2;
+                if (!(e2 instanceof MessageException)) throw e2;
             }
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             ShowException(context, ex);
         }
         return DialogResultYes;
     }
 
     public static yesnoundefined ShowMessageOKCancel(Context context,
-                                                  String msg, String title, boolean center) {
+                                                     String msg, String title, boolean center)
+    {
         // System.Threading.SynchronizationContext.Current.Post(new
         // System.Threading.SendOrPostCallback(DelShowException),new
         // ExStateInfo(context, ex));
         if (libString.IsNullOrEmpty(title)) title = context.getString(R.string.question);
-        try {
+        try
+        {
             if (YesNoHandler == null)
-                YesNoHandler = new Handler() {
+            {
+                YesNoHandler = new Handler()
+                {
                     @Override
-                    public void handleMessage(Message mesg) {
+                    public void handleMessage(Message mesg)
+                    {
                         //throw new MessageException();
                     }
                 };
+            }
 
             DialogResultYes = yesnoundefined.undefined;
             AlertDialog.Builder A = new AlertDialog.Builder(context);
@@ -640,9 +687,11 @@ public class lib {
             A.setMessage(msg);
             A.setTitle(title);
             AlertDialog dlg = A.create();
-            dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            dlg.setOnDismissListener(new DialogInterface.OnDismissListener()
+            {
                 @Override
-                public void onDismiss(DialogInterface dialog) {
+                public void onDismiss(DialogInterface dialog)
+                {
                     throw new MessageException();
                 }
             });
@@ -651,49 +700,59 @@ public class lib {
             OpenDialogs.add(dlg);
             if (center)
             {
-                TextView messageView = (TextView)dlg.findViewById(android.R.id.message);
+                TextView messageView = (TextView) dlg.findViewById(android.R.id.message);
                 messageView.setGravity(Gravity.CENTER);
             }
             try
 
             {
                 Looper.loop();
-            } catch (Exception e2) {
+            }
+            catch (Exception e2)
+            {
                 // Looper.myLooper().quit();
                 YesNoHandler = null;
-                if (dlg.isShowing()) {
+                if (dlg.isShowing())
+                {
                     dlg.setOnDismissListener(null);
                     dlg.dismiss();
                 }
                 removeDlg(dlg);
                 dlg = null;
-                if (!(e2 instanceof  MessageException)) throw e2;
+                if (!(e2 instanceof MessageException)) throw e2;
             }
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             ShowException(context, ex);
         }
         return DialogResultYes;
     }
 
-
     public static YesNoCheckResult ShowMessageYesNoWithCheckbox(Context context,
-                                                                             String title,
-                                                                             String msg,
-                                                                             String CheckBoxTitle,
-                                                                             boolean center) {
+                                                                String title,
+                                                                String msg,
+                                                                String CheckBoxTitle,
+                                                                boolean center)
+    {
         // System.Threading.SynchronizationContext.Current.Post(new
         // System.Threading.SendOrPostCallback(DelShowException),new
         // ExStateInfo(context, ex));
         if (libString.IsNullOrEmpty(title)) title = context.getString(R.string.question);
-        libLearn.gStatus= "ShowMessageYesNoWithCheckbox";
-        try {
+        libLearn.gStatus = "ShowMessageYesNoWithCheckbox";
+        try
+        {
             if (YesNoHandler == null)
-                YesNoHandler = new Handler() {
+            {
+                YesNoHandler = new Handler()
+                {
                     @Override
-                    public void handleMessage(Message mesg) {
+                    public void handleMessage(Message mesg)
+                    {
                         //throw new MessageException();
                     }
                 };
+            }
 
             DialogResultYes = yesnoundefined.undefined;
             AlertDialog.Builder A = new AlertDialog.Builder(context);
@@ -707,9 +766,11 @@ public class lib {
 
             A.setView(checkBoxView);
             AlertDialog dlg = A.create();
-            dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            dlg.setOnDismissListener(new DialogInterface.OnDismissListener()
+            {
                 @Override
-                public void onDismiss(DialogInterface dialog) {
+                public void onDismiss(DialogInterface dialog)
+                {
                     throw new MessageException();
                 }
             });
@@ -718,7 +779,7 @@ public class lib {
             OpenDialogs.add(dlg);
             if (center)
             {
-                TextView messageView = (TextView)dlg.findViewById(android.R.id.message);
+                TextView messageView = (TextView) dlg.findViewById(android.R.id.message);
                 messageView.setGravity(Gravity.CENTER);
             }
 
@@ -726,42 +787,53 @@ public class lib {
 
             {
                 Looper.loop();
-            } catch (Exception e2) {
+            }
+            catch (Exception e2)
+            {
                 // Looper.myLooper().quit();
                 YesNoHandler = null;
-                if (dlg.isShowing()) {
+                if (dlg.isShowing())
+                {
                     dlg.setOnDismissListener(null);
                     dlg.dismiss();
                 }
                 removeDlg(dlg);
                 dlg = null;
-                if (!(e2 instanceof  MessageException)) throw e2;
+                if (!(e2 instanceof MessageException)) throw e2;
             }
             return new YesNoCheckResult(DialogResultYes, cbx.isChecked());
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             ShowException(context, ex);
         }
         return null;
     }
 
     public static OkCancelStringResult InputBox(Context context,
-                                                                             String title,
-                                                                             String msg,
-                                                                             String prompt,
-                                                                             boolean center) {
+                                                String title,
+                                                String msg,
+                                                String prompt,
+                                                boolean center)
+    {
         // System.Threading.SynchronizationContext.Current.Post(new
         // System.Threading.SendOrPostCallback(DelShowException),new
         // ExStateInfo(context, ex));
         if (libString.IsNullOrEmpty(title)) title = context.getString(R.string.question);
-        libLearn.gStatus= "ShowMessageYesNoWithCheckbox";
-        try {
+        libLearn.gStatus = "ShowMessageYesNoWithCheckbox";
+        try
+        {
             if (YesNoHandler == null)
-                YesNoHandler = new Handler() {
+            {
+                YesNoHandler = new Handler()
+                {
                     @Override
-                    public void handleMessage(Message mesg) {
+                    public void handleMessage(Message mesg)
+                    {
                         //throw new MessageException();
                     }
                 };
+            }
 
             DialogResultYes = yesnoundefined.undefined;
             AlertDialog.Builder A = new AlertDialog.Builder(context);
@@ -775,9 +847,11 @@ public class lib {
             input.setText(prompt);
             A.setView(input);
             AlertDialog dlg = A.create();
-            dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            dlg.setOnDismissListener(new DialogInterface.OnDismissListener()
+            {
                 @Override
-                public void onDismiss(DialogInterface dialog) {
+                public void onDismiss(DialogInterface dialog)
+                {
                     throw new MessageException();
                 }
             });
@@ -786,7 +860,7 @@ public class lib {
             OpenDialogs.add(dlg);
             if (center)
             {
-                TextView messageView = (TextView)dlg.findViewById(android.R.id.message);
+                TextView messageView = (TextView) dlg.findViewById(android.R.id.message);
                 messageView.setGravity(Gravity.CENTER);
             }
 
@@ -794,56 +868,65 @@ public class lib {
 
             {
                 Looper.loop();
-            } catch (Exception e2) {
+            }
+            catch (Exception e2)
+            {
                 // Looper.myLooper().quit();
                 YesNoHandler = null;
-                if (dlg.isShowing()) {
+                if (dlg.isShowing())
+                {
                     dlg.setOnDismissListener(null);
                     dlg.dismiss();
                 }
                 removeDlg(dlg);
                 dlg = null;
-                if (!(e2 instanceof  MessageException)) throw e2;
+                if (!(e2 instanceof MessageException)) throw e2;
             }
             okcancelundefined res;
             if (DialogResultYes == yesnoundefined.yes)
             {
-                res=okcancelundefined.ok;
+                res = okcancelundefined.ok;
             }
-            else if(DialogResultYes==yesnoundefined.no)
+            else if (DialogResultYes == yesnoundefined.no)
             {
-                res=okcancelundefined.cancel;
+                res = okcancelundefined.cancel;
             }
             else
             {
-                res=okcancelundefined.undefined;
+                res = okcancelundefined.undefined;
             }
             return new OkCancelStringResult(res, input.getText().toString());
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             ShowException(context, ex);
         }
         return null;
     }
 
-
-
     public static yesnoundefined ShowMessageYesNoWithCheckboxes(Context context,
-                                                                             String msg,
-                                                                             CharSequence[] items,
-                                                                             boolean[]checkedItems,
-                                                                             DialogInterface.OnMultiChoiceClickListener cbListener) {
+                                                                String msg,
+                                                                CharSequence[] items,
+                                                                boolean[] checkedItems,
+                                                                DialogInterface.OnMultiChoiceClickListener cbListener)
+    {
         // System.Threading.SynchronizationContext.Current.Post(new
         // System.Threading.SendOrPostCallback(DelShowException),new
         // ExStateInfo(context, ex));
 
-        try {
+        try
+        {
             if (YesNoHandler == null)
-                YesNoHandler = new Handler() {
+            {
+                YesNoHandler = new Handler()
+                {
                     @Override
-                    public void handleMessage(Message mesg) {
+                    public void handleMessage(Message mesg)
+                    {
                         //throw new MessageException();
                     }
                 };
+            }
 
             DialogResultYes = yesnoundefined.undefined;
             AlertDialog.Builder A = new AlertDialog.Builder(context);
@@ -851,11 +934,13 @@ public class lib {
             A.setNegativeButton(context.getString(R.string.no), listenerYesNo);
             //A.setMessage(msg);
             A.setTitle(msg);
-            A.setMultiChoiceItems(items,checkedItems, cbListener);
+            A.setMultiChoiceItems(items, checkedItems, cbListener);
             AlertDialog dlg = A.create();
-            dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            dlg.setOnDismissListener(new DialogInterface.OnDismissListener()
+            {
                 @Override
-                public void onDismiss(DialogInterface dialog) {
+                public void onDismiss(DialogInterface dialog)
+                {
                     throw new MessageException();
                 }
             });
@@ -867,104 +952,81 @@ public class lib {
 
             {
                 Looper.loop();
-            } catch (Exception e2) {
+            }
+            catch (Exception e2)
+            {
                 // Looper.myLooper().quit();
                 YesNoHandler = null;
-                if (dlg.isShowing()) {
+                if (dlg.isShowing())
+                {
                     dlg.setOnDismissListener(null);
                     dlg.dismiss();
                 }
                 removeDlg(dlg);
                 dlg = null;
-                if (!(e2 instanceof  MessageException)) throw e2;
+                if (!(e2 instanceof MessageException)) throw e2;
             }
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             ShowException(context, ex);
 
         }
         return DialogResultYes;
     }
 
-
-    public static void ShowToast(Context context, String msg) {
+    public static void ShowToast(Context context, String msg)
+    {
 		/* Looper.prepare(); */
         Toast T = Toast.makeText(context, msg, Toast.LENGTH_LONG);
         T.show();
     }
 
-    public enum yesnoundefined {
-        yes, no, undefined
-    }
-    public enum okcancelundefined {
-        ok, cancel, undefined
-    }
-    private static yesnoundefined DialogResultYes = yesnoundefined.undefined;
-    private static DialogInterface.OnClickListener listenerYesNo = new DialogInterface.OnClickListener() {
-
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            switch (which) {
-                case DialogInterface.BUTTON_POSITIVE:
-                    // Yes button clicked
-                    DialogResultYes = yesnoundefined.yes;
-                    break;
-
-                case DialogInterface.BUTTON_NEGATIVE:
-                    // No button clicked
-                    DialogResultYes = yesnoundefined.no;
-                    break;
-            }
-            if (YesNoHandler!=null)YesNoHandler.sendMessage(YesNoHandler.obtainMessage());
-        }
-    };
-
-    public static String getExtension(String Filename) {
+    public static String getExtension(String Filename)
+    {
         return getExtension(new File(Filename));
     }
 
-    public static String getExtension(java.io.File F) {
+    public static String getExtension(java.io.File F)
+    {
         String extension = "";
 
         int i = F.getName().lastIndexOf('.');
-        if (i > 0) {
+        if (i > 0)
+        {
             extension = F.getName().substring(i);
             return extension;
-        } else {
+        }
+        else
+        {
             return null;
         }
     }
 
-    public static String getFilenameWithoutExtension(String Filename) {
+    public static String getFilenameWithoutExtension(String Filename)
+    {
         return getFilenameWithoutExtension(new File(Filename));
     }
 
-    public static String getFilenameWithoutExtension(java.io.File F) {
+    public static String getFilenameWithoutExtension(java.io.File F)
+    {
         String Filename = F.getPath();
 
         int i = Filename.lastIndexOf('.');
         int ii = Filename.lastIndexOf(java.io.File.pathSeparatorChar);
-        if (i > 0 && i > ii) {
+        if (i > 0 && i > ii)
+        {
             Filename = Filename.substring(0, i);
             return Filename;
-        } else {
+        }
+        else
+        {
             return Filename;
         }
     }
 
-    /*
-     * public static String rtfToHtml(Reader rtf) throws IOException {
-     * JEditorPane p = new JEditorPane(); p.setContentType("text/rtf");
-     * EditorKit kitRtf = p.getEditorKitForContentType("text/rtf"); try {
-     * kitRtf.read(rtf, p.getDocument(), 0); kitRtf = null; EditorKit kitHtml =
-     * p.getEditorKitForContentType("text/html"); Writer writer = new
-     * StringWriter(); kitHtml.write(writer, p.getDocument(), 0,
-     * p.getDocument().getLength()); return writer.toString(); } catch
-     * (BadLocationException e) { e.printStackTrace(); } return null; }
-     */
-    private static long SLEEP_TIME = 2; // for 2 second
-    private static CountDownLatch latch;
-
-    public static void Sleep(int Seconds) throws InterruptedException {
+    public static void Sleep(int Seconds) throws InterruptedException
+    {
         latch = new CountDownLatch(1);
         SLEEP_TIME = Seconds;
         MyLauncher launcher = new MyLauncher();
@@ -972,56 +1034,51 @@ public class lib {
         // latch.await();
     }
 
-    private static class MyLauncher extends Thread {
-        @Override
-        /**
-         * Sleep for 2 seconds as you can also change SLEEP_TIME 2 to any.
-         */
-        public void run() {
-            try {
-                // Sleeping
-                Thread.sleep(SLEEP_TIME * 1000);
-                latch.countDown();
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
-            }
-            // do something you want to do
-            // And your code will be executed after 2 second
-        }
-    }
-
-    public static int[] getColors() {
+    public static int[] getColors()
+    {
         int[] Colors = new int[4096];
         for (int i = 0; i < 16; i++)
+        {
             for (int ii = 0; ii < 16; ii++)
+            {
                 for (int iii = 0; iii < 16; iii++)
+                {
                     Colors[i + ii * 16 + iii * 16 * 16] = Color.rgb(i * 16,
                             ii * 16, iii * 16);
+                }
+            }
+        }
         ;
         ;
         return Colors;
     }
 
     public static int[] getIntArrayFromPrefs(SharedPreferences prefs,
-                                             String name) {
+                                             String name)
+    {
         int count = prefs.getInt(name, -1);
-        if (count > -1) {
+        if (count > -1)
+        {
             int[] res = new int[count + 1];
-            for (int i = 0; i <= count; i++) {
+            for (int i = 0; i <= count; i++)
+            {
                 res[i] = prefs.getInt(name + i, 0);
             }
 
             return res;
-        } else {
+        }
+        else
+        {
             return null;
         }
 
     }
 
     public static void putIntArrayToPrefs(SharedPreferences prefs, int array[],
-                                          String name) {
+                                          String name)
+    {
         Editor edit = prefs.edit();
-        if (array==null)
+        if (array == null)
         {
             edit.putInt(name, -1);
             //edit.putInt(name + 0, 1);
@@ -1030,7 +1087,8 @@ public class lib {
         {
             int count = array.length - 1;
             edit.putInt(name, count);
-            for (int i = 0; i <= count; i++) {
+            for (int i = 0; i <= count; i++)
+            {
                 edit.putInt(name + i, array[i]);
             }
         }
@@ -1040,13 +1098,8 @@ public class lib {
 
     }
 
-    public enum Sounds {
-        Richtig0, Richtig1, Richtig2, Richtig3, Richtig4, Richtig5, Falsch0, Falsch1, Falsch2, Falsch3, Falsch4, Falsch5, Beep
-    }
-
-    public static String[] AssetSounds = new String[13];
-
-    public static void initSounds() {
+    public static void initSounds()
+    {
         AssetSounds[0] = "snd/clapping_hurray.ogg";
         AssetSounds[1] = "snd/Fireworks Finale-SoundBible.com-370363529.ogg";
         AssetSounds[2] = "snd/Red_stag_roar-Juan_Carlos_-2004708707.ogg";
@@ -1063,16 +1116,20 @@ public class lib {
 
     }
 
-    public static void playSound(Context context, Sounds s) throws Exception {
+    public static void playSound(Context context, Sounds s) throws Exception
+    {
         MainActivity main = (MainActivity) context;
         AssetManager assets = context.getAssets();
-        if (main.colSounds.size() > 0) {
+        if (main.colSounds.size() > 0)
+        {
             File F = new File(main.colSounds.get(s).SoundPath);
             if (F.exists())
                 playSound(F);
             else if (F.getPath().startsWith("snd/"))
                 playSound(assets, F.getPath());
-        } else {
+        }
+        else
+        {
             if (AssetSounds[0] == null)
                 initSounds();
             playSound(assets, AssetSounds[s.ordinal()]);
@@ -1080,7 +1137,8 @@ public class lib {
     }
 
     public static void playSound(AssetManager assets, String name)
-            throws Exception {
+            throws Exception
+    {
         if (!sndEnabled)
             return;
         AssetFileDescriptor afd = assets.openFd(name);
@@ -1098,8 +1156,10 @@ public class lib {
         }
     }
 
-    public static Sounds getSoundByNumber(int Zaehler) {
-        for (int i = 0; i < Sounds.values().length; i++) {
+    public static Sounds getSoundByNumber(int Zaehler)
+    {
+        for (int i = 0; i < Sounds.values().length; i++)
+        {
             if (Sounds.values()[i].ordinal() == Zaehler)
                 return Sounds.values()[i];
         }
@@ -1107,15 +1167,17 @@ public class lib {
     }
 
     public static void playSound(Context context, int Zaehler)
-            throws Exception {
+            throws Exception
+    {
         MainActivity main = (MainActivity) context;
-        if (main.colSounds.size() > 0) {
+        if (main.colSounds.size() > 0)
+        {
             if (Zaehler < -4)
                 Zaehler = -4;
             else if (Zaehler > 5)
                 Zaehler = 5;
             lib.Sounds Sound = null;
-            if (Zaehler <= 0 && lib.AntwWasRichtig==false)
+            if (Zaehler <= 0 && lib.AntwWasRichtig == false)
                 Zaehler = Math.abs(Zaehler - 6);
 
             Sound = getSoundByNumber(Zaehler);
@@ -1125,7 +1187,9 @@ public class lib {
                 playSound(F);
             else if (F.getPath().startsWith("snd/"))
                 playSound(context.getAssets(), F.getPath());
-        } else {
+        }
+        else
+        {
             AssetManager assets = context.getAssets();
             if (AssetSounds[0] == null)
                 initSounds();
@@ -1141,7 +1205,8 @@ public class lib {
 
     }
 
-    public static void playSound(File F) throws Exception {
+    public static void playSound(File F) throws Exception
+    {
         if (!sndEnabled)
             return;
         try
@@ -1158,9 +1223,11 @@ public class lib {
     }
 
     public static Drawable scaleImage(Context context, Drawable image,
-                                      float scaleFactor) {
+                                      float scaleFactor)
+    {
 
-        if ((image == null) || !(image instanceof BitmapDrawable)) {
+        if ((image == null) || !(image instanceof BitmapDrawable))
+        {
             throw new RuntimeException("Not BitmapDrawable!");
         }
 
@@ -1180,15 +1247,19 @@ public class lib {
 
     @SuppressLint("NewApi")
     @SuppressWarnings("deprecation")
-    public static Drawable getDefaultCheckBoxDrawable(Context context) {
+    public static Drawable getDefaultCheckBoxDrawable(Context context)
+    {
         int resID = 0;
 
-        if (Build.VERSION.SDK_INT <= 10) {
+        if (Build.VERSION.SDK_INT <= 10)
+        {
             // pre-Honeycomb has a different way of setting the CheckBox button
             // drawable
             resID = Resources.getSystem().getIdentifier("btn_check",
                     "drawable", "android");
-        } else {
+        }
+        else
+        {
             // starting with Honeycomb, retrieve the theme-based indicator as
             // CheckBox button drawable
             TypedValue value = new TypedValue();
@@ -1199,7 +1270,7 @@ public class lib {
                             true);
             resID = value.resourceId;
         }
-        if (Build.VERSION.SDK_INT<22)
+        if (Build.VERSION.SDK_INT < 22)
         {
             return context.getResources().getDrawable(resID);
         }
@@ -1239,7 +1310,6 @@ public class lib {
 
     }
 
-
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @SuppressWarnings("deprecation")
     public static void setBgEditText(TextView e, Drawable drawable)
@@ -1265,30 +1335,13 @@ public class lib {
         return (int) (px / Resources.getSystem().getDisplayMetrics().density);
     }
 
-    public static final int SELECT_FILE = 0xa3b4;
-
-    public static class PrefsOnMultiChoiceClickListener implements OnMultiChoiceClickListener
-    {
-
-        public SharedPreferences prefs;
-        public String key;
-        @Override
-        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-
-            prefs.edit().putInt(key, isChecked?-1:0).commit();
-        }
-    }
-
-
-    public static PrefsOnMultiChoiceClickListener cbListener = new PrefsOnMultiChoiceClickListener();
-
     @SuppressLint("InlinedApi")
     public static void SelectFile(Activity context, Uri defaultURI) throws Exception
     {
 
-        libLearn.gStatus="Select File";
+        libLearn.gStatus = "Select File";
         Intent intent = new Intent();
-        if (defaultURI!=null)
+        if (defaultURI != null)
         {
             intent.setData(defaultURI);
         }
@@ -1302,13 +1355,13 @@ public class lib {
         int ShowAlwaysDocumentProvider = prefs.getInt(key, 999);
         String checkBoxTitle = context.getString(R.string.msgRememberChoice);
         lib.YesNoCheckResult res = null;
-        if (Build.VERSION.SDK_INT>=19 && ShowAlwaysDocumentProvider==999)
+        if (Build.VERSION.SDK_INT >= 19 && ShowAlwaysDocumentProvider == 999)
         {
-            res = ShowMessageYesNoWithCheckbox(context, "", msg, checkBoxTitle,false);
+            res = ShowMessageYesNoWithCheckbox(context, "", msg, checkBoxTitle, false);
             if (res.res == yesnoundefined.undefined) return;
         }
 
-        if (Build.VERSION.SDK_INT<19 || ShowAlwaysDocumentProvider==0 ||
+        if (Build.VERSION.SDK_INT < 19 || ShowAlwaysDocumentProvider == 0 ||
                 (res != null && res.res == yesnoundefined.no))
         {
             intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -1321,7 +1374,7 @@ public class lib {
         else
         {
             intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-            if (res!=null && res.checked)
+            if (res != null && res.checked)
             {
                 prefs.edit().putInt(key, -1).commit();
             }
@@ -1340,11 +1393,13 @@ public class lib {
             context.startActivityForResult(chooser, SELECT_FILE);
         }
     }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public static void removewfcListener(ViewTreeObserver observer,
-                                         OnWindowFocusChangeListener wfcListener) {
+                                         OnWindowFocusChangeListener wfcListener)
+    {
 
-        if (Build.VERSION.SDK_INT>=18)
+        if (Build.VERSION.SDK_INT >= 18)
         {
             observer.removeOnWindowFocusChangeListener(wfcListener);
         }
@@ -1353,28 +1408,34 @@ public class lib {
     public static void removeLayoutListener(ViewTreeObserver observer,
                                             OnGlobalLayoutListener listener)
     {
-        if (Build.VERSION.SDK_INT < 16) {
+        if (Build.VERSION.SDK_INT < 16)
+        {
             removeLayoutListenerPre16(
-                    observer,listener);
-        } else {
+                    observer, listener);
+        }
+        else
+        {
             removeLayoutListenerPost16(
                     observer, listener);
         }
     }
+
     @SuppressWarnings("deprecation")
     private static void removeLayoutListenerPre16(ViewTreeObserver observer,
-                                                  OnGlobalLayoutListener listener) {
+                                                  OnGlobalLayoutListener listener)
+    {
         observer.removeGlobalOnLayoutListener(listener);
     }
 
     @TargetApi(16)
     private static void removeLayoutListenerPost16(ViewTreeObserver observer,
-                                                   OnGlobalLayoutListener listener) {
+                                                   OnGlobalLayoutListener listener)
+    {
         observer.removeOnGlobalLayoutListener(listener);
     }
 
-
-    public static String dumpUriMetaData(Activity context,Uri uri) {
+    public static String dumpUriMetaData(Activity context, Uri uri)
+    {
 
         // The query, since it only applies to a single document, will only return
         // one row. There's no need to filter, sort, or select fields, since we want
@@ -1386,15 +1447,17 @@ public class lib {
             cursor = context.getContentResolver().query(uri, null, null, null, null);
             mimeType = context.getContentResolver().getType(uri);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            Log.e("DumpUri","getContentResolver().query "+ uri.toString(),ex);
+            Log.e("DumpUri", "getContentResolver().query " + uri.toString(), ex);
             cursor = null;
         }
-        try {
+        try
+        {
             // moveToFirst() returns false if the cursor has 0 rows.  Very handy for
             // "if there's anything to look at, look at it" conditionals.
-            if (cursor != null && cursor.moveToFirst()) {
+            if (cursor != null && cursor.moveToFirst())
+            {
 
                 // Note it's called "Display Name".  This is
                 // provider-specific, and might not necessarily be the file name.
@@ -1402,12 +1465,12 @@ public class lib {
                         cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                 Log.i(TAG, "Display Name: " + displayName);
                 String path = uri.getPath();
-                path = URLDecoder.decode(path,"UTF-8");
-                path = path.substring(path.lastIndexOf("/")+1);
+                path = URLDecoder.decode(path, "UTF-8");
+                path = path.substring(path.lastIndexOf("/") + 1);
                 int found = path.indexOf(displayName);
-                if (found>-1 && (found+displayName.length()<path.length()))
+                if (found > -1 && (found + displayName.length() < path.length()))
                 {
-                    displayName+=path.substring(found+displayName.length());
+                    displayName += path.substring(found + displayName.length());
                 }
 
                 int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
@@ -1418,21 +1481,24 @@ public class lib {
                 // happen often:  The storage API allows for remote files, whose
                 // size might not be locally known.
                 String size = null;
-                if (!cursor.isNull(sizeIndex)) {
+                if (!cursor.isNull(sizeIndex))
+                {
                     // Technically the column stores an int, but cursor.getString()
                     // will do the conversion automatically.
                     size = cursor.getString(sizeIndex);
-                } else {
+                }
+                else
+                {
                     size = "Unknown";
                 }
-                Log.i(TAG, "Size: " + size );
+                Log.i(TAG, "Size: " + size);
 
 
                 return displayName + ":" + size + ":" + mimeType;
             }
             else
             {
-                MainActivity main = (MainActivity)context;
+                MainActivity main = (MainActivity) context;
                 if (!libString.IsNullOrEmpty(main.vok.getURIName()))
                 {
                     return "/" + main.vok.getURIName();
@@ -1442,7 +1508,7 @@ public class lib {
                     String p = uri.getPath();
                     if (!libString.IsNullOrEmpty(p))
                     {
-                        p = p.substring(p.lastIndexOf("/")+1);
+                        p = p.substring(p.lastIndexOf("/") + 1);
                         return p;
                     }
                     else
@@ -1452,7 +1518,7 @@ public class lib {
                 }
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             lib.ShowException(context, ex);
         }
@@ -1463,14 +1529,14 @@ public class lib {
         return "";
     }
 
-    @SuppressLint({ "InlinedApi", "NewApi" })
+    @SuppressLint({"InlinedApi", "NewApi"})
     public static void CheckPermissions(Activity container, Uri uri, boolean blnShowMessage) throws Exception
     {
         try
         {
-            int Flags = Intent.FLAG_GRANT_READ_URI_PERMISSION ;
+            int Flags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
             Flags = Flags | Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
-            if (Build.VERSION.SDK_INT>=19)
+            if (Build.VERSION.SDK_INT >= 19)
             {
                 //Flags = Flags | FLAG_GRANT_PERSISTABLE_URI_PERMISSION;
                 container.getContentResolver().takePersistableUriPermission(uri, Flags);
@@ -1487,7 +1553,7 @@ public class lib {
                 int Flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                         | Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
                 //container.grantUriPermission("org.de.jmg.learn", uri , Flags);
-                if (Build.VERSION.SDK_INT>= 19)
+                if (Build.VERSION.SDK_INT >= 19)
                 {
                     container.getContentResolver().takePersistableUriPermission(uri, Flags);
                 }
@@ -1503,9 +1569,9 @@ public class lib {
                     String CheckBoxTitle = container.getString(R.string.msgDontShowThisMessageAgain);
                     String msg = container.getString(R.string.msgNoPersistableUriPermissionCouldBeTaken);
                     String title = "";
-                    if (DontShowPersistableURIMessage!=-1)
+                    if (DontShowPersistableURIMessage != -1)
                     {
-                        DontShowPersistableURIMessage = ShowMessageWithCheckbox(container, title, msg, CheckBoxTitle)?-1:0;
+                        DontShowPersistableURIMessage = ShowMessageWithCheckbox(container, title, msg, CheckBoxTitle) ? -1 : 0;
                         prefs.edit().putInt(key, DontShowPersistableURIMessage).commit();
                     }
                 }
@@ -1514,12 +1580,15 @@ public class lib {
             //throw new RuntimeException("CheckPermissions", ex);
         }
     }
-    public static SpannableString getSpanableString(String txt) throws Exception {
+
+    public static SpannableString getSpanableString(String txt) throws Exception
+    {
         if (libString.IsNullOrEmpty(txt)) return new SpannableString("");
         final Pattern pattern = Pattern.compile("(?i)<a.*?</a>");
         final Pattern patternLI = Pattern.compile("(?i)<li>.*?<//li>", Pattern.DOTALL);
         Matcher matcherLI = patternLI.matcher(txt);
-        if (txt.startsWith("{\\rtf1\\")) {
+        if (txt.startsWith("{\\rtf1\\"))
+        {
             // txt = Java2Html.convertToHtml(txt,
             // JavaSourceConversionOptions.getDefault());
             // return Html.fromHtml(txt);
@@ -1533,21 +1602,21 @@ public class lib {
             ArrayList<String> links = new ArrayList<String>();
             ArrayList<Integer> positions = new ArrayList<Integer>();
             int found = -1;
-            while (txt.indexOf("<link://",found+1)> -1)
+            while (txt.indexOf("<link://", found + 1) > -1)
             {
-                found = txt.indexOf("<link://", found +1);
+                found = txt.indexOf("<link://", found + 1);
                 int Start = found + 8;
-                int End = txt.indexOf("/>",Start);
-                String repl = txt.substring(found,End+2);
-                if (End>0)
+                int End = txt.indexOf("/>", Start);
+                String repl = txt.substring(found, End + 2);
+                if (End > 0)
                 {
-                    String Link = txt.substring(Start,End);
+                    String Link = txt.substring(Start, End);
                     int LinkEnd = Link.indexOf(" ");
                     if (LinkEnd > -1)
                     {
-                        String url = Link.substring(0,LinkEnd);
+                        String url = Link.substring(0, LinkEnd);
                         urls.add(url);
-                        String linkText = Link.substring(LinkEnd+1,Link.length());
+                        String linkText = Link.substring(LinkEnd + 1, Link.length());
                         links.add(linkText);
                         positions.add(found);
                         txt = txt.replace(repl, linkText);
@@ -1555,7 +1624,7 @@ public class lib {
                 }
             }
             span = new SpannableString(txt);
-            for (int i = 0 ; i < links.size(); i++)
+            for (int i = 0; i < links.size(); i++)
             {
                 int Start = positions.get(i);
                 int End = Start + links.get(i).length();
@@ -1575,19 +1644,20 @@ public class lib {
                     String LI = matcherLI.group();
                     LI = LI.replace("<//", "</");
                     SpannableString spnLI = new SpannableString(Html.fromHtml(LI));
-                    spnLI.setSpan(new android.text.style.BulletSpan(),0,spnLI.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spnLI.setSpan(new android.text.style.BulletSpan(), 0, spnLI.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     if (span == null || start == 0)
                     {
                         span = new SpannableString(txt.substring(start, matcherLI.start()));
                     }
                     else
                     {
-                        span = new SpannableString (TextUtils.concat(span,txt.substring(start,matcherLI.start())));
+                        span = new SpannableString(TextUtils.concat(span, txt.substring(start, matcherLI.start())));
                     }
-                    start = matcherLI.end()+1;
-                    span = new SpannableString(TextUtils.concat(span,spnLI));
-                } while (matcherLI.find());
-                if (span!=null) txt = span.toString();
+                    start = matcherLI.end() + 1;
+                    span = new SpannableString(TextUtils.concat(span, spnLI));
+                }
+                while (matcherLI.find());
+                if (span != null) txt = span.toString();
             }
             Matcher matcher = pattern.matcher(txt);
             if (false && matcher.find())
@@ -1603,23 +1673,24 @@ public class lib {
                         span = new SpannableString(txt.substring(start, matcher.start()));
                         blnNewSpan = true;
                     }
-                    else if(blnNewSpan)
+                    else if (blnNewSpan)
                     {
-                        span = new SpannableString(TextUtils.concat(span,txt.substring(start,matcher.start())));
+                        span = new SpannableString(TextUtils.concat(span, txt.substring(start, matcher.start())));
                     }
-                    start = matcher.end()+1;
+                    start = matcher.end() + 1;
                     if (blnNewSpan)
                     {
-                        span = new SpannableString (TextUtils.concat(span,spnAnchor));
+                        span = new SpannableString(TextUtils.concat(span, spnAnchor));
                     }
                     else
                     {
                         span = new SpannableString(TextUtils.replace
                                 (span, new String[]{Anchor}, new CharSequence[]{spnAnchor}));
                     }
-                } while (matcher.find());
+                }
+                while (matcher.find());
 
-                if (span!=null) txt = span.toString();
+                if (span != null) txt = span.toString();
             }
         }
         if ((txt.contains("http://") || txt.contains("https://")))
@@ -1633,7 +1704,7 @@ public class lib {
             //Matcher m = p.matcher(txt);
             found1 = txt.indexOf("http://");
             found2 = txt.indexOf("https://");
-            if ((found1>-1 && found1<found2) || found2 == -1 )
+            if ((found1 > -1 && found1 < found2) || found2 == -1)
             {
                 found = found1;
             }
@@ -1645,25 +1716,25 @@ public class lib {
             txt = txt.replace("\r", " ");
             txt = txt.replace("\n", " ");
             txt += " ";
-            while (found!=-1)
+            while (found != -1)
             {
                 int start = found;
-                int end = txt.indexOf(" ",found+1);
-                int endhyphen = txt.indexOf("\"",found+1);
-                int endbracked = txt.indexOf(")",found+1);
-                if (end == -1 || (endhyphen>-1 && endhyphen<end)) end = endhyphen;
-                if (end == -1 || (endbracked>-1 && endbracked<end)) end = endbracked;
+                int end = txt.indexOf(" ", found + 1);
+                int endhyphen = txt.indexOf("\"", found + 1);
+                int endbracked = txt.indexOf(")", found + 1);
+                if (end == -1 || (endhyphen > -1 && endhyphen < end)) end = endhyphen;
+                if (end == -1 || (endbracked > -1 && endbracked < end)) end = endbracked;
                 if (end != -1)
                 {
                     URLSpan urls[] = span.getSpans(start, end, URLSpan.class);
-                    if (urls == null || urls.length==0)
+                    if (urls == null || urls.length == 0)
                     {
-                        String url = txt.substring(start,end);
+                        String url = txt.substring(start, end);
                         span.setSpan(new URLSpan(url), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     }
-                    found1 = txt.indexOf("http://",end+1);
-                    found2 = txt.indexOf("https://",end+1);
-                    if ((found1>-1 && found1<found2) || found2 == -1 )
+                    found1 = txt.indexOf("http://", end + 1);
+                    found2 = txt.indexOf("https://", end + 1);
+                    if ((found1 > -1 && found1 < found2) || found2 == -1)
                     {
                         found = found1;
                     }
@@ -1678,30 +1749,30 @@ public class lib {
                 }
             }
 			/*
-			URLSpan[] urls = span.getSpans(0, txt.length(), URLSpan.class);   
+			URLSpan[] urls = span.getSpans(0, txt.length(), URLSpan.class);
 	        for(URLSpan urlspan : urls) {
 	            makeLinkClickable(span, urlspan);
 	        }
 	        */
             return span;
-			
+
 			/*
 			Pattern pattern = Pattern.compile(
-		            "\\b(((ht|f)tp(s?)\\:\\/\\/|~\\/|\\/)|www.)" + 
-		            "(\\w+:\\w+@)?(([-\\w]+\\.)+(com|org|net|gov" + 
-		            "|mil|biz|info|mobi|name|aero|jobs|museum" + 
+		            "\\b(((ht|f)tp(s?)\\:\\/\\/|~\\/|\\/)|www.)" +
+		            "(\\w+:\\w+@)?(([-\\w]+\\.)+(com|org|net|gov" +
+		            "|mil|biz|info|mobi|name|aero|jobs|museum" +
 		            "|travel|[a-z]{2}))_txtMeaning1.setMovementMethod(LinkMovementMethod.getInstance());
-		(:[\\d]{1,5})?" + 
-		            "(((\\/([-\\w~!$+|.,=]|%[a-f\\d]{2})+)+|\\/)+|\\?|#)?" + 
-		            "((\\?([-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" + 
-		            "([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)" + 
-		            "(&(?:[-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" + 
-		            "([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)*)*" + 
+		(:[\\d]{1,5})?" +
+		            "(((\\/([-\\w~!$+|.,=]|%[a-f\\d]{2})+)+|\\/)+|\\?|#)?" +
+		            "((\\?([-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" +
+		            "([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)" +
+		            "(&(?:[-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" +
+		            "([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)*)*" +
 		            "(#([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)?\\b");
 
 		        Matcher matcher = pattern.matcher(txt);
 		        SpannableString span = new SpannableString(txt);
-				
+
 		        while (matcher.find()) {
 		        	String url = txt.substring(matcher.start(),matcher.end());
 					span.setSpan(new URLSpan(url), matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -1711,8 +1782,8 @@ public class lib {
         if (span == null) return new SpannableString(txt);
         else return span;
     }
-    static Bitmap bmpimg;
-    public static Bitmap downloadpicture (final String Url)
+
+    public static Bitmap downloadpicture(final String Url)
     {
         final CountDownLatch l = new CountDownLatch(1);
         bmpimg = null;
@@ -1764,8 +1835,10 @@ public class lib {
         int start = strBuilder.getSpanStart(span);
         int end = strBuilder.getSpanEnd(span);
         int flags = strBuilder.getSpanFlags(span);
-        ClickableSpan clickable = new ClickableSpan() {
-            public void onClick(View view) {
+        ClickableSpan clickable = new ClickableSpan()
+        {
+            public void onClick(View view)
+            {
                 Log.d("Link", span.getURL());
                 // Do something with span.getURL() to handle the link click...
             }
@@ -1776,7 +1849,7 @@ public class lib {
 
     public static int getUIMode(Context context)
     {
-        if (Build.VERSION.SDK_INT>=8)
+        if (Build.VERSION.SDK_INT >= 8)
         {
             UiModeManager uiModeManager = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
             return uiModeManager.getCurrentModeType();
@@ -1795,7 +1868,7 @@ public class lib {
         return localeId;
     }
 
-    public static Locale forLanguageTag (String s)
+    public static Locale forLanguageTag(String s)
     {
         /*
         StringTokenizer tempStringTokenizer = new StringTokenizer(s,"-");
@@ -1808,8 +1881,8 @@ public class lib {
         if (l!=null && c!=null)return new Locale(l,c);
         if (l!=null) return new Locale(l);
         */
-        s = s.replace("-","_");
-        if (s.length()> 1 && s.endsWith("_")) s = s.substring(0,s.length()-1);
+        s = s.replace("-", "_");
+        if (s.length() > 1 && s.endsWith("_")) s = s.substring(0, s.length() - 1);
         return new Locale(s);
         //return null;
     }
@@ -1829,7 +1902,8 @@ public class lib {
                 {
                     String Link = txt.substring(Start, End);
                     int LinkEnd = Link.indexOf(" ");
-                    if (LinkEnd > -1) {
+                    if (LinkEnd > -1)
+                    {
                         String url = Link.substring(0, LinkEnd);
                         String linkText = Link.substring(LinkEnd + 1, Link.length());
                         txt = txt.replace(repl, "<a href=\"" + url + "\">" + linkText + "</a>");
@@ -1838,6 +1912,149 @@ public class lib {
             }
         }
         return txt;
+    }
+
+
+    public enum yesnoundefined
+    {
+        yes, no, undefined
+    }
+
+    public enum okcancelundefined
+    {
+        ok, cancel, undefined
+    }
+
+    public enum Sounds
+    {
+        Richtig0, Richtig1, Richtig2, Richtig3, Richtig4, Richtig5, Falsch0, Falsch1, Falsch2, Falsch3, Falsch4, Falsch5, Beep
+    }
+
+    public static class YesNoCheckResult
+    {
+
+        public yesnoundefined res;
+        public boolean checked;
+
+        public YesNoCheckResult(yesnoundefined res, boolean checked)
+        {
+            this.res = res;
+            this.checked = checked;
+        }
+    }
+
+    public static class OkCancelStringResult
+    {
+
+        public okcancelundefined res;
+        public String input;
+
+        public OkCancelStringResult(okcancelundefined res, String input)
+        {
+            this.res = res;
+            this.input = input;
+        }
+    }
+
+    public static class libString
+    {
+        public static boolean IsNullOrEmpty(String s)
+        {
+            if (s == null || s == "" || s.length() == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static int InStr(String s, String Search)
+        {
+            int Start = 1;
+            return InStr(Start, s, Search);
+        }
+
+        public static int InStr(int Start, String s, String Search)
+        {
+            return s.indexOf(Search, Start - 1) + 1;
+        }
+
+        public static String Chr(int Code)
+        {
+            char c[] = {(char) Code};
+            return new String(c);
+        }
+
+        public static String Left(String s, int length)
+        {
+            return s.substring(0, length);
+        }
+
+        public static int Len(String s)
+        {
+            return s.length();
+        }
+
+        public static String Right(String wort, int i)
+        {
+
+            return wort.substring(wort.length() - i);
+        }
+
+    }
+
+    public static class MessageException extends RuntimeException
+    {
+
+    }
+
+    private static class listener implements DialogInterface.OnClickListener
+    {
+
+        @Override
+        public void onClick(DialogInterface dialog, int which)
+        {
+            removeDlg(dialog);
+        }
+    }
+
+    private static class MyLauncher extends Thread
+    {
+        @Override
+        /**
+         * Sleep for 2 seconds as you can also change SLEEP_TIME 2 to any.
+         */
+        public void run()
+        {
+            try
+            {
+                // Sleeping
+                Thread.sleep(SLEEP_TIME * 1000);
+                latch.countDown();
+            }
+            catch (Exception e)
+            {
+                Log.e(TAG, e.getMessage());
+            }
+            // do something you want to do
+            // And your code will be executed after 2 second
+        }
+    }
+
+    public static class PrefsOnMultiChoiceClickListener implements OnMultiChoiceClickListener
+    {
+
+        public SharedPreferences prefs;
+        public String key;
+
+        @Override
+        public void onClick(DialogInterface dialog, int which, boolean isChecked)
+        {
+
+            prefs.edit().putInt(key, isChecked ? -1 : 0).commit();
+        }
     }
 
 }

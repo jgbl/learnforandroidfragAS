@@ -1519,7 +1519,7 @@ public class MainActivity extends AppCompatActivity
                             intent.putExtra("blnUniCode", blnUniCode);
                             intent.putExtra("DefaultDir",
                                     new File(JMGDataDirectory).exists() ? JMGDataDirectory
-                                            : "/sdcard/");
+                                            : Environment.getExternalStorageDirectory().getPath());
                             intent.putExtra("selectFolder", false);
                             intent.putExtra("blnNew", blnNew);
                             if (_blnUniCode)
@@ -2427,7 +2427,7 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra("blnUniCode", blnUniCode);
         intent.putExtra("DefaultDir",
                 (JMGDataDirectory != null && new File(JMGDataDirectory).exists()) ? JMGDataDirectory
-                        : "/sdcard/");
+                        : Environment.getExternalStorageDirectory().getPath());
         if (_blnUniCode)
             _oldUniCode = yesnoundefined.yes;
         else
