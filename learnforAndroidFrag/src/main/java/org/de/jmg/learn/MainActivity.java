@@ -100,7 +100,7 @@ import br.com.thinkti.android.filechooserfrag.Data;
 import br.com.thinkti.android.filechooserfrag.fragFileChooser;
 import br.com.thinkti.android.filechooserfrag.fragFileChooserQuizlet;
 
-//Main Activity that contains all fragments
+//Main Activity that contains all fragments...
 public class MainActivity extends AppCompatActivity
 {
 
