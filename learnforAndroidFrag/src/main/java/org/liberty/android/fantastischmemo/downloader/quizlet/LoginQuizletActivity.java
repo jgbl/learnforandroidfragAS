@@ -79,6 +79,8 @@ public class LoginQuizletActivity
         {
             Uri uri = intent.getData();
             getDlg().processCallbackUrl(uri.toString());
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
             //finish();
         }
     }

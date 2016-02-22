@@ -1671,8 +1671,8 @@ public class MainActivity extends AppCompatActivity
                 mnuQuizlet.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        throw new RuntimeException("Test");
-                        //return true;
+                        //throw new RuntimeException("Test");
+                        return false;
                     }
                 });
                 if (BuildConfig.DEBUG)
@@ -2242,7 +2242,7 @@ public class MainActivity extends AppCompatActivity
             {
                 this.LoginQuizlet(false);
             }
-            else
+            else if(fPA != null && fPA.fragQuizlet != null)
             {
 
                 final AlertDialog.Builder A = new AlertDialog.Builder(context);
