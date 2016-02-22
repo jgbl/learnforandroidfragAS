@@ -1871,9 +1871,9 @@ public class MainActivity extends AppCompatActivity
             }
             else if (id == R.id.mnuContact)
             {
-                Intent intent = new Intent(Intent.ACTION_SEND, Uri.fromParts("mailto", "jhmgbl@gmail.com", null));
+                Intent intent = new Intent(Intent.ACTION_SEND, Uri.fromParts("mailto", "jhmgbl2@t-online.de", null));
                 intent.setType("message/rfc822");
-                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"jhmgbl@gmail.com"});
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"jhmgbl2@t-online.de"});
                 String versionName = context.getPackageManager()
                         .getPackageInfo(context.getPackageName(), 0).versionName;
                 intent.putExtra(Intent.EXTRA_SUBJECT, "learnforandroid " + versionName);
