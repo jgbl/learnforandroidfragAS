@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity
     yesnoundefined _oldUniCode = yesnoundefined.undefined;
     AlertDialog dlg = null;
     private Thread.UncaughtExceptionHandler defaultErrorHandler;
-    public UncaughtExceptionHandler ErrorHandler = new UncaughtExceptionHandler()
+    public final UncaughtExceptionHandler ErrorHandler = new UncaughtExceptionHandler()
     {
 
         @Override
@@ -173,11 +173,11 @@ public class MainActivity extends AppCompatActivity
             defaultErrorHandler.uncaughtException(thread, ex);
         }
     };
-    private Context context = this;
+    private final Context context = this;
     private boolean _blnEink;
     private int _backPressed;
-    private Handler handlerbackpressed = new Handler();
-    private Runnable rSetBackPressedFalse = new Runnable()
+    private final Handler handlerbackpressed = new Handler();
+    private final Runnable rSetBackPressedFalse = new Runnable()
     {
         @Override
         public void run()
