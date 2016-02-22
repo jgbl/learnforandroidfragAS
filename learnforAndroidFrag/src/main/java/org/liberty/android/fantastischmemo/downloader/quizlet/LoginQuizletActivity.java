@@ -153,8 +153,10 @@ public class LoginQuizletActivity
         blnUpload = intent.getBooleanExtra("upload",false);
         String url = getDlg().getLoginUrl();
         Intent i = new Intent(Intent.ACTION_VIEW);
+        //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.setData(Uri.parse(url));
         _main.startActivity(i);
+        //_main.finish();
     }
     /*
     @Override
