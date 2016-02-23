@@ -43,7 +43,6 @@ import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.method.MovementMethod;
-import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.util.DisplayMetrics;
@@ -69,7 +68,6 @@ import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -92,7 +90,6 @@ import org.de.jmg.lib.lib.yesnoundefined;
 import org.de.jmg.lib.urlclickablespan;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -118,24 +115,21 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	Double ScaleTextButtons = 0d;
 	boolean blnWrongWidth = false;
 	int width;
-	MovementMethod oldMeaning1MovementMethod;
-	MovementMethod oldWordMovementMethod;
-	MovementMethod oldedWordMovementMethod;
 	OnTouchListenerScroll OnTouchListenerScrollWord;
 	OnTouchListenerScroll OnTouchListenerScrolledWord;
 	OnTouchListenerScroll OnTouchListenerScrollKom;
 	OnTouchListenerScroll OnTouchListenerScrolledKom;
 	OnTouchListenerScroll OnTouchListenerScrollMeaning1;
-	ScrollGestureListener ListeneredKom = new ScrollGestureListener(_txtedKom, OnTouchListenerScrolledKom);
+	ScrollGestureListener ListenerEdKom = new ScrollGestureListener(_txtedKom, OnTouchListenerScrolledKom);
 	ScrollGestureListener ListenerWord = new ScrollGestureListener(_txtWord, OnTouchListenerScrollWord);
 	ScrollGestureListener ListenerKom = new ScrollGestureListener(_txtKom, OnTouchListenerScrollKom);
-	ScrollGestureListener ListeneredWord = new ScrollGestureListener(_txtedWord, OnTouchListenerScrolledWord);
+	ScrollGestureListener ListenerEdWord = new ScrollGestureListener(_txtedWord, OnTouchListenerScrolledWord);
 	GestureDetector detectorWord = new GestureDetector(_main, ListenerWord);
-	GestureDetector detectoredWord = new GestureDetector(_main, ListeneredWord);
+	GestureDetector detectoredWord = new GestureDetector(_main, ListenerEdWord);
 	ScrollGestureListener ListenerMeaning1 = new ScrollGestureListener(_txtMeaning1, OnTouchListenerScrollMeaning1);
 	GestureDetector detectorMeaning1 = new GestureDetector(_main, ListenerMeaning1);
 	GestureDetector detectorKom = new GestureDetector(_main, ListenerKom);
-	GestureDetector detectoredKom = new GestureDetector(_main, ListeneredKom);
+	GestureDetector detectoredKom = new GestureDetector(_main, ListenerEdKom);
 	MovementMethod _originalMovementmethod = null;
 	int _OriginalWidth = 0;
 	private Context context;
@@ -981,8 +975,9 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 			v = findViewById(R.id.Comment);
 			t = (TextView) v;
-			t.setVisibility(View.VISIBLE);
 			assert t != null;
+			t.setVisibility(View.VISIBLE);
+
 			SpannableString tspanKom = lib.getSpanableString(_vok.getKommentar());
 			URLSpan[] urlSpans = tspanKom.getSpans(0, tspanKom.length(), URLSpan.class);
 			for (final URLSpan span : urlSpans) {
@@ -997,7 +992,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 						@Override
 						public void onClick(View widget)
 						{
-							Bitmap b = null;
+							Bitmap b;
 							try
 							{
 								b = lib.downloadpicture(this.url);
@@ -1026,12 +1021,12 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 									}
 									catch (Exception ex)
 									{
-
+										Log.e("addImageView",ex.getMessage(),ex);
 									}
 								}
 								else
 								{
-									//iv2.setLayoutParams(p);
+									Log.d("ImageView","exists");
 								}
 								_txtMeaning1.setVisibility(View.GONE);
 								iv.setVisibility(View.VISIBLE);
@@ -1084,7 +1079,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					URLSpan urlspn[] = tspan.getSpans(0, tspan.length(), URLSpan.class);
 					for (URLSpan url : urlspn)
 					{
-						Bitmap b = null;
+						Bitmap b;
 						try
 						{
 							b = lib.downloadpicture(url.getURL());
@@ -1113,12 +1108,12 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 								}
 								catch (Exception ex)
 								{
-
+									Log.e("Imagview",ex.getMessage(),ex);
 								}
 							}
 							else
 							{
-								//iv.setLayoutParams(p);
+								Log.d("ImageView","exists");
 							}
 							t.setVisibility(View.GONE);
 							iv.setVisibility(View.VISIBLE);
@@ -1269,16 +1264,9 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	private boolean txtIsPicture(String txt)
 	{
-		if (txt.equalsIgnoreCase("Bild")
+		return txt.equalsIgnoreCase("Bild")
 				|| txt.equalsIgnoreCase("picture")
-				|| txt.equalsIgnoreCase(getString(R.string.picture)))
-		{
-			return  true;
-		}
-		else
-		{
-			return false;
-		}
+				|| txt.equalsIgnoreCase(getString(R.string.picture));
 	}
 
 	private Bitmap resizeBM(Bitmap b)
@@ -1291,8 +1279,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			float fact = (float)widthScreen/(float)width;
 			Matrix matrix = new Matrix();
 			matrix.postScale(fact, fact);
-			Bitmap scaledBitmap = Bitmap.createBitmap(b, 0, 0, b.getWidth(), b.getHeight(), matrix, true);
-			return scaledBitmap;
+			return Bitmap.createBitmap(b, 0, 0, b.getWidth(), b.getHeight(), matrix, true);
 		}
 		return null;
 	}
@@ -1626,16 +1613,16 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		assert _txtedWord != null;
 		_txtedWord.setOnLongClickListener(textlongclicklistener);
 		OnTouchListenerScrolledWord = new OnTouchListenerScroll(detectoredWord, this);
-		ListeneredWord.l = OnTouchListenerScrolledWord;
-		ListeneredWord.t = _txtedWord;
+		ListenerEdWord.l = OnTouchListenerScrolledWord;
+		ListenerEdWord.t = _txtedWord;
 		_txtedWord.setOnTouchListener(OnTouchListenerScrolledWord);
 
 		_txtedKom = (BorderedEditText) findViewById(R.id.edComment);
 		assert _txtedKom != null;
 		_txtedKom.setOnLongClickListener(textlongclicklistener);
 		OnTouchListenerScrolledKom = new OnTouchListenerScroll(detectoredKom, this);
-		ListeneredKom.l = OnTouchListenerScrolledKom;
-		ListeneredKom.t = _txtedKom;
+		ListenerEdKom.l = OnTouchListenerScrolledKom;
+		ListenerEdKom.t = _txtedKom;
 		_txtedKom.setOnTouchListener(OnTouchListenerScrolledKom);
 
 
@@ -1678,6 +1665,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		_txtedWord.setText(_txtWord.getText());
 		_txtedWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,_txtWord.getTextSize());
 		View LayWord = findViewById(R.id.LayWord);
+		assert LayWord != null;
 		RelativeLayout.LayoutParams params =
 				(RelativeLayout.LayoutParams) LayWord.getLayoutParams();
 		params.width = LayoutParams.MATCH_PARENT;
@@ -1808,8 +1796,10 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			_txtedWord.setVisibility(View.GONE);
 			_txtWord.setText(lib.getSpanableString(_txtedWord.getText().toString()));
 			View LayWord = findViewById(R.id.LayWord);
+			assert LayWord != null;
 			RelativeLayout.LayoutParams params =
 					(RelativeLayout.LayoutParams) LayWord.getLayoutParams();
+			assert params!=null;
 			params.width = LayoutParams.WRAP_CONTENT;
 			LayWord.setLayoutParams(params);
 			_txtedKom.setVisibility(View.GONE);
@@ -1892,7 +1882,8 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		 * _txtKom.setBackgroundColor(_main.Colors.get(ColorItems.background
 		 * ).ColorValue);
 		 */
-		findViewById(R.id.layoutMain).setBackgroundColor(
+		View v = findViewById(R.id.layoutMain);
+		if (v!=null) v.setBackgroundColor(
 				_main.Colors.get(ColorItems.background).ColorValue);
 	}
 
@@ -1927,7 +1918,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 				(float) (40 * scale));
 		_txtMeaning1.setMaxLines(3);
-		_txtMeaning1.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+		_txtMeaning1.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
 		_txtMeaning1.setHorizontallyScrolling(false);
 		//_txtMeaning1.setAutoLinkMask(0);
 		if (_originalMovementmethod != null && _txtMeaning1.getMovementMethod() == LinkMovementMethod.getInstance())
@@ -1976,7 +1967,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		_txtMeaning1.setMaxLines(1000);
 		_txtMeaning1.setLines(16);
 		//_txtMeaning1.setMinLines(2);
-		_txtMeaning1.setGravity(Gravity.TOP | Gravity.LEFT);
+		_txtMeaning1.setGravity(Gravity.TOP | Gravity.START);
 		_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 				(float) (25 * scale));
 		//_txtMeaning1.requestFocus();
@@ -2005,10 +1996,13 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	private void flashwords() throws Exception {
 		Runnable r;
 		final RelativeLayout layout = (RelativeLayout) findViewById(R.id.layoutMainParent);
+		assert layout != null;
 		layout.setBackgroundColor(_main.Colors.get(ColorItems.background_wrong).ColorValue);
 		final ScrollView layoutScroll = (ScrollView) findViewById(R.id.layoutMain);
+		assert layoutScroll != null;
 		layoutScroll.setBackgroundColor(_main.Colors.get(ColorItems.background_wrong).ColorValue);
 		final RelativeLayout layoutButtons = (RelativeLayout) findViewById(R.id.layoutButtons);
+		assert layoutButtons != null;
 		layoutButtons.setVisibility(View.GONE);
 		View tb = _main.findViewById(R.id.action_bar);
 		tb.setVisibility(View.GONE);
@@ -2139,6 +2133,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		}
 		else
 		{
+			Log.d("Vok","empty");
 			/*
 			 * String title = "Learn " + "empty._vok" + " " +
 			 * getString(R.string.number) + ": " + _vok.getIndex() + " " +
@@ -2252,7 +2247,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			float measuredWidth = p.measureText(s.toString());
 			if (measuredWidth != width)
 			{
-				float scaleA = (float) width / (float) measuredWidth;
+				float scaleA = (float) width / measuredWidth;
 				if (libString.IsNullOrEmpty(_vok.getFileName())) scaleA *= .75f;
 				if (scaleA < .5f) scaleA = .5f;
 				if (scaleA > 2.0f) scaleA = 2.0f;
@@ -2288,7 +2283,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		public resetLayoutTask(View layout)
 		{
 
-			if (layout == null) layout = (RelativeLayout) findViewById(R.id.layoutMainParent);
+			if (layout == null) layout = findViewById(R.id.layoutMainParent);
 			this.view = layout;
 		}
 
@@ -2302,10 +2297,12 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					_txtKom.setVisibility(View.VISIBLE);
 				}
 				final RelativeLayout layoutButtons = (RelativeLayout) findViewById(R.id.layoutButtons);
+				assert layoutButtons != null;
 				layoutButtons.setVisibility(View.VISIBLE);
 				View tb = _main.findViewById(R.id.action_bar);
 				tb.setVisibility(View.VISIBLE);
 				final ScrollView layoutScroll = (ScrollView) findViewById(R.id.layoutMain);
+				assert layoutScroll != null;
 				layoutScroll.setBackgroundColor(_main.Colors.get(ColorItems.background).ColorValue);
 				runnableFalse.run();
 
