@@ -2113,7 +2113,7 @@ public class Vokabel
 
         try
         {
-            Charset enc = Charset.forName("UTF-8");
+            Charset enc;
             Charset CharsetWindows = null;
             try
             {
@@ -2384,7 +2384,7 @@ public class Vokabel
     private boolean GetNextLineFromString(String strContent) throws Exception
     {
         int FirstLine = 0;
-        RefSupport<String> strRef = new RefSupport<String>("nihxyz");
+        RefSupport<String> strRef = new RefSupport<>("nihxyz");
         return GetNextLineFromString(strContent, strRef, FirstLine);
     }
 
@@ -2398,10 +2398,10 @@ public class Vokabel
     private boolean GetNextLineFromString(String strContent,
                                           RefSupport<String> strRef, int FirstLine) throws Exception
     {
-        boolean functionReturnValue = false;
+        boolean functionReturnValue;
         // ERROR: Not supported in C#: OnErrorStatement
         libLearn.gStatus = "Vokabel.GetNextLineFromString Start";
-        int crFound = 0;
+        int crFound;
         if (libString.IsNullOrEmpty(strContent))
         {
             throw new RuntimeException("GetNextLineFromString\n"
@@ -2427,7 +2427,7 @@ public class Vokabel
         strRef.setValue(strContent.substring(
                 static_GetNextLineFromString_startLine, crFound - 1));
         static_GetNextLineFromString_startLine = crFound + 2;
-        return functionReturnValue;
+        return false;
     }
 
     public void LoadFromString(String strContent) throws Exception
@@ -2439,13 +2439,13 @@ public class Vokabel
         short qf = 0;
         short hh = 0;
         short h = 0;
-        short sp = 0;
+        short sp;
         short n = 0;
         short lad = 0;
-        short indexlang = 0;
-        String fontfil = null;
-        String tastbel = null;
-        String strTmp = null;
+        short indexlang;
+        String fontfil;
+        String tastbel;
+        String strTmp;
         mLernVokabeln = new int[mSchrittweite + 1];
         mLastIndex = 0;
         // ERROR: Not supported in C#: OnErrorStatement
@@ -2458,7 +2458,7 @@ public class Vokabel
         libLearn.gStatus = "Vokabel.LoadFromString Line 669";
         // Inserted by CodeCompleter
 
-        RefSupport<String> refStrTmp = new RefSupport<String>(strTmp);
+        RefSupport<String> refStrTmp = new RefSupport<>(strTmp);
         GetNextLineFromString(strContent, refStrTmp, -1);
         strTmp = refStrTmp.getValue();
         // SPRACHE LADEN
@@ -2483,7 +2483,7 @@ public class Vokabel
             refStrTmp.setValue(fontfil);
             GetNextLineFromString(strContent, refStrTmp);
             fontfil = refStrTmp.getValue();
-            RefSupport<String> refVar___0 = new RefSupport<String>(fontfil);
+            RefSupport<String> refVar___0 = new RefSupport<>(fontfil);
             RefSupport<Object> refVar___1 = new RefSupport<Object>(hh);
             RefSupport<Object> refVar___2 = new RefSupport<Object>(h);
             RefSupport<Object> refVar___3 = new RefSupport<Object>(indexlang);
@@ -2511,7 +2511,7 @@ public class Vokabel
             mVok.add(new typVok());
             n = (short) (mVok.size() - 1);
             // lib.ResizeArray(mVok, n + 1);
-            RefSupport<String> refWort = new RefSupport<String>(
+            RefSupport<String> refWort = new RefSupport<>(
                     mVok.get(n).Wort);
             GetNextLineFromString(strContent, refWort);
             mVok.get(n).Wort = refWort.getValue();
@@ -2560,16 +2560,17 @@ public class Vokabel
 
         // Defmouse 0
         sp = (short) (sp & 7);
-        if (sp >= 0 & sp <= 3)
+        if (sp >= 0 && sp <= 3)
         {
             indexlang = sp;
         }
-        switch (indexlang)
+        for (EnumSprachen Sprache : EnumSprachen.values())
         {
-            // Case 0: mSprache = "Deutsch"
-            // Case 1: mSprache = "HebrÃ¤isch"
-            // Case 2: mSprache = "Griechisch"
-            // Case Is > 2: Sprache = "Sonstige"
+            if (Sprache.ordinal() == indexlang)
+            {
+                mSprache = Sprache;
+                break;
+            }
         }
         // If Sprache <> "" Then mSprache = Sprache
         if (mGesamtzahl > 5)
@@ -2726,17 +2727,15 @@ public class Vokabel
             short qf = 0;
             short n = 0;
             short lad = 0;
-            short indexlang = 0;
+            short indexlang;
             boolean canBeSingleLine = false;
-            String fontfil = null;
+            String fontfil;
             String tastbel = null;
-            String strTmp = null;
+            String strTmp;
             java.io.InputStreamReader isr = null;
             InputStream is = null;
             WindowsBufferedReader sr = null;
-            String tmp = null;
-            fontfil = "";
-            strTmp = "";
+            String tmp;
             _URIName = "";
             mLernVokabeln = new int[mSchrittweite + 1];
             mLastIndex = 0;
@@ -2763,7 +2762,7 @@ public class Vokabel
             }
             if (CharsetWindows == null)
                 CharsetWindows = Charset.defaultCharset();
-            Charset CharSetUnicode = null;
+            Charset CharSetUnicode;
 
             boolean blnWrongNumberFormat = false;
             if (!blnDontPrompt && libString.IsNullOrEmpty(strFileName) && uri != null)
@@ -2818,7 +2817,6 @@ public class Vokabel
                             sr.close();
                             isr.close();
                             is.close();
-                            continue;
                         }
                         else
                         {
@@ -2840,24 +2838,13 @@ public class Vokabel
 
                 if (F != null)
                 {
-                    if (lib.getExtension(F).toLowerCase(Locale.getDefault())
-                            .indexOf(".k") != -1)
-                        _cardmode = true;
-                    else
-                        _cardmode = false;
+                    _cardmode = lib.getExtension(F).toLowerCase(Locale.getDefault()).contains(".k");
                 }
                 else if (uri != null)
                 {
                     String path = lib.dumpUriMetaData(Container, uri);
                     if (path.contains(":")) path = path.split(":")[0];
-                    if (path.toLowerCase().lastIndexOf(".k") > path.length() - 5)
-                    {
-                        _cardmode = true;
-                    }
-                    else
-                    {
-                        _cardmode = false;
-                    }
+                    _cardmode = path.toLowerCase().lastIndexOf(".k") > path.length() - 5;
                 }
                 libLearn.gStatus = CodeLoc + " ReadLine1";
                 tmp = sr.readLine();
@@ -2877,7 +2864,7 @@ public class Vokabel
                     if (!blnDontPrompt) this.setStatus(ex.getMessage());
                     sp -= 1;
                     blnWrongNumberFormat = true;
-                    blnUnicode = (sp > -2 ? !blnUnicode : true);
+                    blnUnicode = ((sp <= -2) || !blnUnicode);
                     if (sr != null)
                     {
                         sr.close();
@@ -2930,10 +2917,9 @@ public class Vokabel
                     x = sr.readLine();
                     // while ((x = sr.readLine()).length()==0 && x!=null);
                     fontfil = x.replaceAll("\"$|^\"", "");
-                    ;
                     if (!blnAppend)
                     {
-                        RefSupport<String> refVar___0 = new RefSupport<String>(
+                        RefSupport<String> refVar___0 = new RefSupport<>(
                                 fontfil);
                         RefSupport<Object> refVar___1 = new RefSupport<Object>(hh);
                         RefSupport<Object> refVar___2 = new RefSupport<Object>(h);
@@ -2943,7 +2929,7 @@ public class Vokabel
                         RefSupport<Object> refVar___5 = new RefSupport<Object>(lad);
                         Getfonts(refVar___0, refVar___1, refVar___2, refVar___3,
                                 refVar___4, refVar___5);
-                        fontfil = (String) refVar___0.getValue();
+                        fontfil = refVar___0.getValue();
                         hh = (Short) refVar___1.getValue();
                         h = (Short) refVar___2.getValue();
                         indexlang = (Short) refVar___3.getValue();
