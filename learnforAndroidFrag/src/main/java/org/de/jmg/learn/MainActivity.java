@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity
 
         /** Setting the FragmentPagerAdapter object to the viewPager object */
         mPager.setAdapter(fPA);
-
+        //mPager.setCurrentItem(0);
 
         libLearn.gStatus = "onCreate getEink";
         try
@@ -443,6 +443,10 @@ public class MainActivity extends AppCompatActivity
                         finish();
                     }
                 }
+            }
+            else
+            {
+                lib.ShowMessageOKCancel(this,this.getString(R.string.msgAppStarted),"",true);
             }
             vok = new Vokabel(this,
                     (TextView) this.findViewById(R.id.txtStatus));
