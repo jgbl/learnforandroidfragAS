@@ -197,6 +197,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        blnTextToSpeech = false;
         lib.main = this;
 
         //getting the kind of userinterface: television or watch or else

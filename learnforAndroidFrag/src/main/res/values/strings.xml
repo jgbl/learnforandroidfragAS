@@ -331,4 +331,6 @@
 	<string name="msgWrongExt2">You have chosen a wrong extension!</string>
 	<string name="mnuCredits">credits</string>
 	<string name="msgAppStarted">Learnforandroid was started</string>
+	<string name="hintResetGooglePlay">Resets asking for installation from Google Play to default</string>
+	<string name="btnResetGooglePlay">Reset Google Play</string>
 </resources>

@@ -331,4 +331,6 @@
     <string name="msgWrongExt2">Sie haben eine falsche Erweiterung eingegeben!</string>
     <string name="mnuCredits">Credits</string>
     <string name="msgAppStarted">Learnforandroid ist gestartet!</string>
+    <string name="btnResetGooglePlay">Google Play zurücksetzen</string>
+    <string name="hintResetGooglePlay">Setzt die Abfrage auf die Installation von Google Play zurück</string>
 </resources>

@@ -108,6 +108,7 @@ public class SettingsActivity extends Fragment
 	public org.de.jmg.lib.NoClickSpinner spnSounds;
 	public Button btnColors;
 	public Button btnResetDefaultVok;
+	public Button btnResetGooglePlay;
 	public CheckBox chkRandom;
 	public CheckBox chkAskAll;
 	public CheckBox chkSound;
@@ -199,7 +200,7 @@ public class SettingsActivity extends Fragment
 			intent = new Intent();
 		}
 		try {
-			init();
+			init(savedInstanceState != null);
 		} catch (Exception e) {
 			lib.ShowException(_main,e);
 		}
@@ -224,7 +225,7 @@ public class SettingsActivity extends Fragment
 		_main = main;
 	}
 	
-	public void init() throws Exception
+	public void init(boolean blnRestart) throws Exception
 	{
 		if (_Intent == null || _main == null || SettingsView == null || _blnInitialized)
 		{
@@ -255,7 +256,7 @@ public class SettingsActivity extends Fragment
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			txtSettings.setText(Settings);
 			initCheckBoxes();
-			initSpinners();
+			initSpinners(blnRestart);
 			initButtons();
 			initHelp();
 			edDataDir = (EditText) findViewById(R.id.edDataDir);
@@ -579,7 +580,7 @@ public class SettingsActivity extends Fragment
 
 	}
 
-	private void initSpinners() {
+	private void initSpinners(boolean blnRestart) {
 		libLearn.gStatus = "initSpinners";
 		try {
 			spnAbfragebereich = (Spinner) findViewById(R.id.spnAbfragebereich);
@@ -595,7 +596,7 @@ public class SettingsActivity extends Fragment
 			spnSounds = (org.de.jmg.lib.NoClickSpinner) findViewById(R.id.spnSounds);
 			spnLangWord = (Spinner) findViewById(R.id.spnLangWord);
 			spnLangMeaning = (Spinner) findViewById(R.id.spnLangMeaning);
-			langinitialized = 0;
+			if (!blnRestart) langinitialized = 0; else langinitialized = 0;
 			if (spnAbfragebereich.getAdapter()!= null && spnAbfragebereich.getAdapter().getCount()>0) return; 
 			if (Colors == null || Colors != null)
 			{
@@ -1020,10 +1021,15 @@ public class SettingsActivity extends Fragment
 								return;
 							}
 							Locale l = adapterLangWord.getItem(position).locale;
-							int res = _main.tts.setLanguage(l);
-							if (chkTextToSpeech.isChecked() == false
+							int res = 0;
+							if (_main.tts.isLanguageAvailable(Locale.US) >= 0)
+							{
+								res = _main.tts.setLanguage(l);
+							}
+							if (!chkTextToSpeech.isChecked()
 									|| res >= 0
 									|| l.toString().equalsIgnoreCase("_off")
+									|| !_main.blnTextToSpeech
 									|| lib.ShowMessageYesNo(_main,
 									String.format(_main.getString
 											(R.string.msgLanguageNotavailable)
@@ -1080,10 +1086,15 @@ public class SettingsActivity extends Fragment
 								return;
 							}
 							Locale l = adapterLangMeaning.getItem(position).locale;
-							int res = _main.tts.setLanguage(l);
-							if (chkTextToSpeech.isChecked() == false
+							int res = 0;
+							if (_main.tts.isLanguageAvailable(Locale.US) >= 0)
+							{
+								res = _main.tts.setLanguage(l);
+							}
+							if (!chkTextToSpeech.isChecked()
 									|| res >= 0
 									|| l.toString().equalsIgnoreCase("_off")
+									|| !_main.blnTextToSpeech
 									|| lib.ShowMessageYesNo(_main, String.format
 									(_main.getString(R.string.msgLanguageNotavailable),
 											l.getDisplayLanguage() + " "
@@ -1234,6 +1245,16 @@ public class SettingsActivity extends Fragment
 
 			}
 		});
+		btnResetGooglePlay = (Button) findViewById(R.id.btnResetGooglePlay);
+		btnResetGooglePlay.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				prefs.edit().putBoolean("play", true).commit();
+			}
+		});
+
 		/*
 		Button b = (Button) findViewById(R.id.btnOK);
 		b.setOnClickListener(new OnClickListener() {
