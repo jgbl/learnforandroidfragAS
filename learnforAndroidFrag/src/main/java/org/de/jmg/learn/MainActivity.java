@@ -62,6 +62,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import org.de.jmg.errorintent.ExceptionActivity;
 import org.de.jmg.learn.vok.Vokabel;
 import org.de.jmg.lib.ColorSetting;
 import org.de.jmg.lib.ColorSetting.ColorItems;
@@ -227,7 +228,10 @@ public class MainActivity extends AppCompatActivity
         setPageChangedListener();
 
         /** Creating an instance of FragmentPagerAdapter */
-        if (fPA == null) fPA = new MyFragmentPagerAdapter(fm, this, savedInstanceState != null);
+        if (fPA == null)
+        {
+            fPA = new MyFragmentPagerAdapter(fm, this, savedInstanceState != null);
+        }
 
         /** Setting the FragmentPagerAdapter object to the viewPager object */
         mPager.setAdapter(fPA);
@@ -254,7 +258,7 @@ public class MainActivity extends AppCompatActivity
 
             // View LayoutMain = findViewById(R.id.layoutMain);
 
-            processPreferences();
+            processPreferences(savedInstanceState != null);
 
             libLearn.gStatus = "onCreate Copy Assets";
             CopyAssets();
@@ -306,6 +310,14 @@ public class MainActivity extends AppCompatActivity
             String filename = savedInstanceState.getString("vokpath");
             Uri uri = null;
             String strURI = savedInstanceState.getString("URI");
+            try
+            {
+                mPager.setCurrentItem(savedInstanceState.getInt("SelFragID",0));
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
             if (!libString.IsNullOrEmpty(strURI)) uri = Uri.parse(strURI);
             int index = savedInstanceState.getInt("vokindex");
             int[] Lernvokabeln = savedInstanceState
@@ -415,7 +427,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void processPreferences()
+    private void processPreferences(boolean blnReStarted)
     {
         libLearn.gStatus = "getting preferences";
         try
@@ -423,30 +435,33 @@ public class MainActivity extends AppCompatActivity
             libLearn.gStatus = "onCreate getPrefs";
             prefs = this.getPreferences(Context.MODE_PRIVATE);
             String Installer = this.getPackageManager().getInstallerPackageName(this.getPackageName());
-            if (prefs.getBoolean("play", true)
-                    && (Installer == null
-                    || (!Installer.equalsIgnoreCase("com.android.vending")
-                    && !Installer.contains("com.google.android"))))
+            if (!blnReStarted)
             {
-                lib.YesNoCheckResult res = lib.ShowMessageYesNoWithCheckbox
-                        (this, Installer != null ? Installer : "", this.getString(R.string.msgNotGooglePlay)
-                                , this.getString(R.string.msgDontShowThisMessageAgain), false);
-                if (res != null)
+                if (prefs.getBoolean("play", true)
+                        && (Installer == null
+                        || (!Installer.equalsIgnoreCase("com.android.vending")
+                        && !Installer.contains("com.google.android"))))
                 {
-                    prefs.edit().putBoolean("play", !res.checked).commit();
-                    if (res.res == yesnoundefined.yes)
+                    lib.YesNoCheckResult res = lib.ShowMessageYesNoWithCheckbox
+                            (this, Installer != null ? Installer : "", this.getString(R.string.msgNotGooglePlay)
+                                    , this.getString(R.string.msgDontShowThisMessageAgain), false);
+                    if (res != null)
                     {
-                        String url = "https://play.google.com/store/apps/details?id=org.de.jmg.learn";//"https://play.google.com/apps/testing/org.de.jmg.learn";
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(url));
-                        startActivity(i);
-                        finish();
+                        prefs.edit().putBoolean("play", !res.checked).commit();
+                        if (res.res == yesnoundefined.yes)
+                        {
+                            String url = "https://play.google.com/store/apps/details?id=org.de.jmg.learn";//"https://play.google.com/apps/testing/org.de.jmg.learn";
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse(url));
+                            startActivity(i);
+                            finish();
+                        }
                     }
                 }
-            }
-            else
-            {
-                lib.ShowMessageOKCancel(this,this.getString(R.string.msgAppStarted),"",true);
+                else
+                {
+                    //lib.ShowMessageOKCancel(this,this.getString(R.string.msgAppStarted),"",true);
+                }
             }
             vok = new Vokabel(this,
                     (TextView) this.findViewById(R.id.txtStatus));
