@@ -337,7 +337,9 @@ public class MainActivity extends AppCompatActivity
                 vok.setURI(uri);
                 vok.setCardMode(CardMode);
                 vok.aend = savedInstanceState.getBoolean("aend", true);
-                        /*
+                vok.AnzRichtig = savedInstanceState.getInt("Right",0);
+                vok.AnzFalsch = savedInstanceState.getInt("Wrong",0);
+                     /*
 						if (fPA.fragMain!=null && fPA.fragMain.mainView!=null)
 						{
 							fPA.fragMain.getVokabel(false, false);
@@ -743,6 +745,8 @@ public class MainActivity extends AppCompatActivity
                 outState.putBoolean("Unicode", vok.getUniCode());
                 outState.putBoolean("Cardmode", vok.getCardMode());
                 outState.putBoolean("aend", aend);
+                outState.putInt("Right",vok.AnzRichtig);
+                outState.putInt("Wrong",vok.AnzFalsch);
                 if (uri != null) outState.putString("URI", uri.toString());
                 vok.aend = aend;
                 vok.setFileName(filename);
