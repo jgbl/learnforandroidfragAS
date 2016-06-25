@@ -1663,6 +1663,24 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		_txtKom.setVisibility(View.GONE);
 		_txtedWord.setVisibility(View.VISIBLE);
 		_txtedWord.setText(_txtWord.getText());
+		if (_vok.getSprache() == EnumSprachen.Hebrew)
+		{
+			try
+			{
+				lib.setLocale(context, "he");
+			}
+			catch (Exception ex)
+			{
+				try
+				{
+					lib.setLocale(context, "iw");
+				}
+				catch (Exception eex)
+				{
+					lib.ShowException(_main,eex);
+				}
+			}
+		}
 		_txtedWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,_txtWord.getTextSize());
 		View LayWord = findViewById(R.id.LayWord);
 		assert LayWord != null;

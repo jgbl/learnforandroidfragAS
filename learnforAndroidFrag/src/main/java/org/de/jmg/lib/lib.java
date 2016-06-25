@@ -61,6 +61,7 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -516,12 +517,10 @@ public class lib
 
         A.setView(checkBoxView);
         DialogResultYes = yesnoundefined.undefined;
-        A.setPositiveButton(context.getString(R.string.ok), new OnClickListener()
-        {
+        A.setPositiveButton(context.getString(R.string.ok), new OnClickListener() {
 
             @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
+            public void onClick(DialogInterface dialog, int which) {
                 //throw new MessageException();
                 DialogResultYes = yesnoundefined.yes;
             }
@@ -571,11 +570,9 @@ public class lib
                 + "\n" + Log.getStackTraceString(ex));
         A.setTitle("Error");
         dlgOK = A.create();
-        dlgOK.setOnDismissListener(new DialogInterface.OnDismissListener()
-        {
+        dlgOK.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
-            public void onDismiss(DialogInterface dialog)
-            {
+            public void onDismiss(DialogInterface dialog) {
                 removeDlg(dialog);
             }
         });
@@ -847,11 +844,9 @@ public class lib
             input.setText(prompt);
             A.setView(input);
             AlertDialog dlg = A.create();
-            dlg.setOnDismissListener(new DialogInterface.OnDismissListener()
-            {
+            dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
-                public void onDismiss(DialogInterface dialog)
-                {
+                public void onDismiss(DialogInterface dialog) {
                     throw new MessageException();
                 }
             });
@@ -1912,6 +1907,17 @@ public class lib
             }
         }
         return txt;
+    }
+
+    public static void setLocale(Context c,String l) throws Exception
+    {
+
+        Resources res = c.getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        android.content.res.Configuration conf = res.getConfiguration();
+        conf.locale = new Locale(l);
+        res.updateConfiguration(conf, dm);
+
     }
 
 
