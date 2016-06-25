@@ -16,6 +16,15 @@
             <option value="$PROJECT_DIR$/library" />
           </set>
         </option>
+        <option name="myModules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/fileChooser" />
+            <option value="$PROJECT_DIR$/jmgerrorintent" />
+            <option value="$PROJECT_DIR$/learnforAndroidFrag" />
+            <option value="$PROJECT_DIR$/library" />
+          </set>
+        </option>
       </GradleProjectSettings>
     </option>
   </component>
