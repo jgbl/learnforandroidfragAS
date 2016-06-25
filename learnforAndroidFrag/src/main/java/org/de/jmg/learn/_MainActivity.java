@@ -1663,6 +1663,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		_txtKom.setVisibility(View.GONE);
 		_txtedWord.setVisibility(View.VISIBLE);
 		_txtedWord.setText(_txtWord.getText());
+		/*
 		if (_vok.getSprache() == EnumSprachen.Hebrew)
 		{
 			try
@@ -1681,6 +1682,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				}
 			}
 		}
+		*/
 		_txtedWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,_txtWord.getTextSize());
 		View LayWord = findViewById(R.id.LayWord);
 		assert LayWord != null;
