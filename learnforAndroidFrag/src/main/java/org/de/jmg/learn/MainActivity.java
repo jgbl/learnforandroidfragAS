@@ -1759,6 +1759,7 @@ public class MainActivity extends AppCompatActivity
 
     private void _SetShowAsAction(final MenuItem m)
     {
+
         final View tb = this.findViewById(R.id.action_bar);
         int SizeOther = 0;
         int width;
@@ -1865,6 +1866,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         }
+
     }
 
     @Override
@@ -2990,19 +2992,33 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
         if (OptionsMenu != null)
         {
             MenuItem item = OptionsMenu.findItem(R.id.mnuAskReverse);
+            boolean isAction = false;
+            if (ActionMenu != null)
+            {
+                MenuBuilder mm = (MenuBuilder) ActionMenu.getMenu();
+                if (mm.getActionItems().contains(item))
+                {
+                    isAction = true;
+                }
+            }
+
             if (vok != null)
             {
                 item.setChecked(vok.reverse);
-                if (vok.reverse)
+                if (isAction)
                 {
-                    item.setIcon(android.R.drawable.ic_menu_revert);
+                    if (vok.reverse)
+                    {
+                        item.setIcon(android.R.drawable.ic_menu_revert);
+                    }
+                    else
+                    {
+                        item.setIcon(android.R.drawable.ic_media_rew);
+                    }
                 }
-                else
-                {
-                    item.setIcon(android.R.drawable.ic_media_rew);
-                }
+
             }
-            else
+            else if(isAction)
             {
                 item.setIcon(android.R.drawable.ic_media_rew);
             }

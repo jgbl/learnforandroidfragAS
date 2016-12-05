@@ -5,41 +5,41 @@
 
     <item android:id="@+id/mnuHome" 
         android:title="@string/mnuHome"
-        compat:showAsAction="always"  
+        compat:showAsAction="ifRoom"
         android:icon="@drawable/ic_menu_home">
     </item>
     <item android:id="@+id/mnuFileOpen"
         android:title="@string/mnuFileOpen" 
-        compat:showAsAction="always" 
+        compat:showAsAction="ifRoom"
         android:icon="@drawable/ic_menu_archive">
     </item>
     <item android:id="@+id/mnuOpenQuizlet"
         android:title="@string/mnuOpenQuizlet"
-        compat:showAsAction="always"
+        compat:showAsAction="ifRoom"
         android:icon="@drawable/ic_menu_import">
     </item>
     <item
         android:id="@+id/mnuUploadToQuizlet"
         android:title="@string/mnuUploadToQuizlet"
-        compat:showAsAction="always"
+        compat:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_menu_upload"
         />
     <item android:id="@+id/mnuSaveAs"
         android:title="@string/mnuSaveAs" 
-        compat:showAsAction="always"
+        compat:showAsAction="ifRoom"
         android:icon="@drawable/ic_menu_save">
     </item>
     <item
         android:id="@+id/mnuAskReverse"
         android:title="@string/mnuAskReverse"
-        compat:showAsAction="always"
+        compat:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_media_rew"
         android:checkable="true">
     </item>
     <item
         android:id="@+id/mnuAddWord"
         android:title="@string/mnuAddWord"
-        compat:showAsAction="always"
+        compat:showAsAction="ifRoom"
         android:icon="@drawable/ic_menu_add"
         />
     <item
