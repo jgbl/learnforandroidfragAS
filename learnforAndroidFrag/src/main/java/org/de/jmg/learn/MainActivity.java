@@ -1707,7 +1707,19 @@ public class MainActivity extends AppCompatActivity
                 {
                     mnuQuizlet.setVisible(false);
                 }
-
+                MenuItem mnuAskReverse = OptionsMenu.findItem(R.id.mnuAskReverse);
+                mnuAskReverse.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener()
+                                                         {
+                                                             @Override
+                                                             public boolean onMenuItemClick(MenuItem item)
+                                                             {
+                                                                 item.setChecked(!item.isChecked());
+                                                                 vok.reverse = item.isChecked();
+                                                                 setMnuReverse();
+                                                                 return true;
+                                                             }
+                                                         }
+                );
                 setMnuReverse();
                 /*
                 if (isSmallDevice)
@@ -2992,6 +3004,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
         if (OptionsMenu != null)
         {
             MenuItem item = OptionsMenu.findItem(R.id.mnuAskReverse);
+
             boolean isAction = false;
             if (ActionMenu != null)
             {
