@@ -218,6 +218,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         setContentView(R.layout.activity_main_viewpager);
+
         /** Getting a reference to ViewPager from the layout */
         View pager = this.findViewById(R.id.pager);
         Layout = (ViewGroup) pager;
@@ -1743,7 +1744,7 @@ public class MainActivity extends AppCompatActivity
                                     public void onGlobalLayout() {
                                         // Ensure you call it only once :
                                         lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
-                                        MainActivity.this.SetShowAsAction(mnuUploadToQuizlet);
+                                        //MainActivity.this.SetShowAsAction(mnuUploadToQuizlet);
                                     }
                                 }
                         );
