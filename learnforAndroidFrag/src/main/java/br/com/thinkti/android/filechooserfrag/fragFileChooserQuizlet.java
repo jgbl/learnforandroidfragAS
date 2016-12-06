@@ -64,6 +64,8 @@ import org.liberty.android.fantastischmemo.downloader.quizlet.QuizletOAuth2Acces
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -106,6 +108,7 @@ public class fragFileChooserQuizlet extends ListFragment
 
 	private String username;
 	private String searchPhrase;
+	private String originalSearchPhrase;
 	private int page = 1;   // 1 based page number
 	private int totalPages;
 	private int totalResults;
@@ -138,13 +141,27 @@ public class fragFileChooserQuizlet extends ListFragment
 		this.username = username;
 	}
 
+	public String getOriginalSearchPhrase() {
+		return originalSearchPhrase ;
+	}
 
 	public String getSearchPhrase() {
 		return searchPhrase ;
 	}
+
 	public void setSearchPhrase( String searchPhrase )
 	{
+		this.originalSearchPhrase = searchPhrase;
+		try
+		{
+			searchPhrase = URLEncoder.encode(searchPhrase, "UTF-8");
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+		}
 		this.searchPhrase = searchPhrase ;
+
 		if (adapter!=null)
 		{
 			blnAdapterInvalid = true;

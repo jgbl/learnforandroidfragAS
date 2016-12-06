@@ -2328,7 +2328,7 @@ public class MainActivity extends AppCompatActivity
                 //A.setTitle(getString(R.string.Search));
                 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
-                input.setText(fPA.fragQuizlet.getSearchPhrase());
+                input.setText(fPA.fragQuizlet.getOriginalSearchPhrase());
 				/*
 				android.widget.LinearLayout.LayoutParams params
 						= (android.widget.LinearLayout.LayoutParams) input.getLayoutParams();
