@@ -2196,8 +2196,24 @@ public class MainActivity extends AppCompatActivity
                         lib.removeDlg(dlg);
                     }
                 });
+                String name = "";
+                if (vok.getURI() != null)
+                {
+                    name = vok.getURI().getLastPathSegment();
+                }
+                if (!libString.IsNullOrEmpty(vok.getFileName()))
+                {
+                    try
+                    {
+                        name = new File(vok.getFileName()).getName();
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.printStackTrace();
+                    }
+                }
+                A.setTitle(String.format(getString(R.string.UploadToQuizlet), name));
 
-                A.setTitle(String.format(getString(R.string.UploadToQuizlet), new File(vok.getFileName()).getName()));
                 //A.setTitle(getString(R.string.Search));
                 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
