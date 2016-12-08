@@ -260,6 +260,7 @@ public class SettingsActivity extends Fragment
 			seekSpeed = (SeekBar) findViewById((R.id.seekSpeechSpeed));
 			float rate = getIntent().getExtras().getFloat("SpeechRate", .75f);
 			seekSpeed.setProgress((int)((rate- .5f) * 10));
+			intent.putExtra("SpeechRate", rate);
 			seekSpeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
 			{
 				@Override
