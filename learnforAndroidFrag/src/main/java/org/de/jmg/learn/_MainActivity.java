@@ -1405,6 +1405,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 					//noinspection deprecation
 					_main.tts.speak(t, flags, h);
+
 				}
 				else
 				{

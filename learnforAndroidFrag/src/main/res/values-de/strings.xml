@@ -333,4 +333,5 @@
     <string name="msgAppStarted">Learnforandroid ist gestartet!</string>
     <string name="btnResetGooglePlay">Google Play zurücksetzen</string>
     <string name="hintResetGooglePlay">Setzt die Abfrage auf die Installation von Google Play zurück</string>
+    <string name="txtSpeechSpeed">speech speed</string>
 </resources>

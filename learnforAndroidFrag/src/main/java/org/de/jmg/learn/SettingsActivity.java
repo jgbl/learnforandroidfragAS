@@ -64,6 +64,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -120,6 +121,7 @@ public class SettingsActivity extends Fragment
 	public EditText edDataDir;
 	public CheckBox chkAlwaysStartExternalProgram;
 	public CheckBox chkTextToSpeech;
+	public SeekBar seekSpeed;
 	public ColorsArrayAdapter Colors;
 	public SoundsArrayAdapter Sounds;
 	public SharedPreferences prefs;
@@ -255,6 +257,34 @@ public class SettingsActivity extends Fragment
 			Settings.setSpan(new UnderlineSpan(), 0, Settings.length(),
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			txtSettings.setText(Settings);
+			seekSpeed = (SeekBar) findViewById((R.id.seekSpeechSpeed));
+			float rate = getIntent().getExtras().getFloat("SpeechRate", .75f);
+			seekSpeed.setProgress((int)((rate- .5f) * 10));
+			seekSpeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+			{
+				@Override
+				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+				{
+					if(fromUser)
+					{
+						float rate =  (float)progress/10 + .5f;
+						intent.putExtra("SpeechRate", rate);
+						intent.putExtra("OK","OK");
+					}
+				}
+
+				@Override
+				public void onStartTrackingTouch(SeekBar seekBar)
+				{
+
+				}
+
+				@Override
+				public void onStopTrackingTouch(SeekBar seekBar)
+				{
+
+				}
+			});
 			initCheckBoxes();
 			initSpinners(blnRestart);
 			initButtons();

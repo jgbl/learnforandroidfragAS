@@ -555,7 +555,8 @@ public class MainActivity extends AppCompatActivity
                     }
                     else
                     {
-                        tts.setSpeechRate(.75f);
+                        float rate = prefs.getFloat("SpeechRate", .75f);
+                        tts.setSpeechRate(rate);
                     }
                 }
                 else
@@ -2414,6 +2415,8 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra("translate", prefs.getBoolean("translate", true));
         intent.putExtra("langword", lib.toLanguageTag(vok.getLangWord()));
         intent.putExtra("langmeaning", lib.toLanguageTag(vok.getLangMeaning()));
+        float rate = prefs.getFloat("SpeechRate", .75f);
+        intent.putExtra("SpeechRate", rate);
         //fPA.fragSettings.init(intent, Settings_Activity);
         return intent;
     }
@@ -2918,6 +2921,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
 
             String langword = data.getExtras().getString("langword");
             String langmeaning = data.getExtras().getString("langmeaning");
+
             if (!libString.IsNullOrEmpty(langword)
                     && !langword.equalsIgnoreCase(lib.toLanguageTag(vok.getLangWord())))
             {
@@ -2964,6 +2968,9 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
             int AlwaysStartExternalProgram = data.getExtras().getInt(key, 999);
             libLearn.gStatus = "writing values to prefs";
             Editor editor = prefs.edit();
+            float rate = data.getExtras().getFloat("SpeechRate", .75f);
+            editor.putFloat("SpeechRate", rate);
+            if (tts!=null) tts.setSpeechRate(rate);
             editor.putInt("Schrittweite", vok.getSchrittweite());
             editor.putString("CharsetASCII", vok.CharsetASCII);
             editor.putInt("Abfragebereich", vok.getAbfragebereich());

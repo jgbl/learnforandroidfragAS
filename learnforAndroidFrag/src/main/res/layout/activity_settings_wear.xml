@@ -252,10 +252,28 @@
 				android:prompt="@string/spnLangMeaning"/>
 
 			<TextView
-				android:id="@+id/txtDataDir"
+				android:id="@+id/txtSpeechSpeed"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/spnLangMeaning"
+				android:text="@string/txtSpeechSpeed"
+				android:textSize="18sp"
+				android:textStyle="bold"
+				android:typeface="normal" />
+
+
+			<SeekBar
+				android:id="@+id/seekSpeechSpeed"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/txtSpeechSpeed"
+				android:max="10"/>
+
+			<TextView
+				android:id="@+id/txtDataDir"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/seekSpeechSpeed"
 				android:contentDescription="@string/descConentDscription"
 				android:text="@string/txtDataDir"
 				android:textSize="18sp"
