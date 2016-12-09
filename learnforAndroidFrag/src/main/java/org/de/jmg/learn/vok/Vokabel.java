@@ -810,11 +810,15 @@ public class Vokabel
         History.add(mIndex);
         HistPos = History.size()-1;
         ReorderLernVokabeln();
-        mLernindex += 1;
+        if(! _isBack) mLernindex += 1;
         InitAbfrage();
+        _isBack = false;
         //
 
     }
+
+    private boolean _isBack;
+
     public void Back() throws Exception
     {
         // ERROR: Not supported in C#: OnErrorStatement
@@ -825,6 +829,7 @@ public class Vokabel
         {
             setIndex((History.get(HistPos)));
             HistPos -= 1;
+            _isBack = true;
         }
         //
 
@@ -1570,14 +1575,14 @@ public class Vokabel
         }
         AnzRichtig += 1;
         InitAbfrage();
-
+        _isBack = false;
         return res;
 
     }
 
     private void ReorderLernVokabeln()
     {
-        mLernVokabeln[mLernindex] = 0;
+        if (!_isBack) mLernVokabeln[mLernindex] = 0;
 		/*
 		 * funkioniert nicht if (mLernindex < mSchrittweite) { for (int i =
 		 * mLernindex;i < mSchrittweite;i++) { mLernVokabeln[i] =
@@ -1709,7 +1714,7 @@ public class Vokabel
 
             }
             // NÃ¤chste Vokabel im Puffer einstellen
-            mLernindex += 1;
+            if (!_isBack) mLernindex += 1;
             // falls wir am Ende sind wieder an den Anfang gehen
             if (mLernindex > mSchrittweite)
                 mLernindex = 1;
