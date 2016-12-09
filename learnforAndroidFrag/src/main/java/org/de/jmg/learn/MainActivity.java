@@ -1949,6 +1949,15 @@ public class MainActivity extends AppCompatActivity
                 uploadtoQuizlet();
 
             }
+            else if (id == R.id.mnuBack)
+            {
+
+                if (fPA != null && fPA.fragMain != null)
+                {
+                    vok.Back();
+                    fPA.fragMain.getVokabel(false,false);
+                }
+            }
             else if (id == R.id.mnuAskReverse)
             {
                 item.setChecked(!item.isChecked());

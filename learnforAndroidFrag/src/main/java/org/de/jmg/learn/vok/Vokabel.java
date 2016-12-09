@@ -86,7 +86,8 @@ public class Vokabel
     }
 
     List<FehlerEventHandler> FehlerEventlisteners = new ArrayList<>();
-
+    List<Integer> History = new ArrayList<>();
+    int HistPos = 0;
     public void addFehlerEventListener(FehlerEventHandler toAdd)
     {
         FehlerEventlisteners.add(toAdd);
@@ -566,6 +567,7 @@ public class Vokabel
         if (value >= 0 & value <= mGesamtzahl)
         {
             mIndex = value;
+
         }
 
     }
@@ -805,9 +807,25 @@ public class Vokabel
         // ERROR: Not supported in C#: OnErrorStatement
 
         libLearn.gStatus = "Vokabel.SkipVokabel Start";
+        History.add(mIndex);
+        HistPos = History.size()-1;
         ReorderLernVokabeln();
         mLernindex += 1;
         InitAbfrage();
+        //
+
+    }
+    public void Back() throws Exception
+    {
+        // ERROR: Not supported in C#: OnErrorStatement
+
+        libLearn.gStatus = "Vokabel.Back Start";
+        //ReorderLernVokabeln();
+        if (HistPos>0)
+        {
+            HistPos -= 1;
+            setIndex((History.get(HistPos)));
+        }
         //
 
     }
@@ -1537,6 +1555,8 @@ public class Vokabel
         aend = true;
         lib.AntwWasRichtig = true;
         res = mVok.get(mIndex).z;
+        History.add(mIndex);
+        HistPos = History.size()-1;
         if (mVok.get(mIndex).z > -1)
         {
             if (mLernVokabeln == null)
@@ -1581,6 +1601,8 @@ public class Vokabel
         }
         aend = true;
         AnzFalsch += 1;
+        History.add(mIndex);
+        HistPos = History.size()-1;
         lib.AntwWasRichtig = false;
         if (RestartInterval > -1 && (AnzFalsch % RestartInterval) == 0)
         {

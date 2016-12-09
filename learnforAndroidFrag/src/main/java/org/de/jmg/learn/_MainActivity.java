@@ -892,10 +892,15 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	{
 		getVokabel(showBeds, LoadNext, requestFocusEdWord, false);
 	}
-
-	ImageView iv = null;
-	ImageView iv2 = null;
 	public void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt) throws Exception
+	{
+		getVokabel(showBeds,LoadNext,requestFocusEdWord,DontPrompt,false);
+	}
+
+
+		ImageView iv = null;
+	ImageView iv2 = null;
+	public void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt, boolean LoadPrev) throws Exception
 	{
 
 		if (iv != null)
@@ -928,7 +933,13 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				}
 			}
 			if (LoadNext)
+			{
 				_vok.setLernIndex((short) (_vok.getLernIndex() + 1));
+			}
+			else if (LoadPrev && _vok.getLernIndex()>1)
+			{
+				_vok.setLernIndex((short) (_vok.getLernIndex() - 1));
+			}
 
 			View v;
 			TextView t;

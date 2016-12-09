@@ -13,6 +13,11 @@
         compat:showAsAction="ifRoom"
         android:icon="@drawable/ic_menu_archive">
     </item>
+    <item android:id="@+id/mnuBack"
+          android:title="@string/mnuBack"
+          compat:showAsAction="ifRoom"
+          android:icon="@drawable/back">
+    </item>
     <item android:id="@+id/mnuOpenQuizlet"
         android:title="@string/mnuOpenQuizlet"
         compat:showAsAction="ifRoom"
