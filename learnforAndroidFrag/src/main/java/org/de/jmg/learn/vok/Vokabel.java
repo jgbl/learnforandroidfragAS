@@ -87,7 +87,7 @@ public class Vokabel
 
     List<FehlerEventHandler> FehlerEventlisteners = new ArrayList<>();
     List<Integer> History = new ArrayList<>();
-    int HistPos = 0;
+    int HistPos = -1;
     public void addFehlerEventListener(FehlerEventHandler toAdd)
     {
         FehlerEventlisteners.add(toAdd);
@@ -821,10 +821,10 @@ public class Vokabel
 
         libLearn.gStatus = "Vokabel.Back Start";
         //ReorderLernVokabeln();
-        if (HistPos>0)
+        if (HistPos>=0)
         {
-            HistPos -= 1;
             setIndex((History.get(HistPos)));
+            HistPos -= 1;
         }
         //
 
@@ -2470,6 +2470,8 @@ public class Vokabel
         String strTmp;
         mLernVokabeln = new int[mSchrittweite + 1];
         mLastIndex = 0;
+        History.clear();
+        HistPos = -1;
         // ERROR: Not supported in C#: OnErrorStatement
 
         mFileName = "";
@@ -2722,6 +2724,8 @@ public class Vokabel
         AnzFalsch = 0;
         mLangMeaning = Locale.getDefault();
         mLangWord = Locale.getDefault();
+        History.clear();
+        HistPos = -1;
     }
 
     public void LoadFile(String strFileName) throws Exception
@@ -2761,6 +2765,8 @@ public class Vokabel
             _URIName = "";
             mLernVokabeln = new int[mSchrittweite + 1];
             mLastIndex = 0;
+            History.clear();
+            HistPos = -1;
             // ERROR: Not supported in C#: OnErrorStatement
 
             libLearn.gStatus = "Load File: " + strFileName;

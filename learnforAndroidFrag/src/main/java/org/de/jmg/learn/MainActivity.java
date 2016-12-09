@@ -1952,7 +1952,7 @@ public class MainActivity extends AppCompatActivity
             else if (id == R.id.mnuBack)
             {
 
-                if (fPA != null && fPA.fragMain != null)
+                if (fPA != null && fPA.fragMain != null && mPager.getCurrentItem() == _MainActivity.fragID)
                 {
                     vok.Back();
                     fPA.fragMain.getVokabel(false,false);
