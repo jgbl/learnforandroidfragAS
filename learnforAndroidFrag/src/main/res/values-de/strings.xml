@@ -335,4 +335,5 @@
     <string name="hintResetGooglePlay">Setzt die Abfrage auf die Installation von Google Play zurück</string>
     <string name="txtSpeechSpeed">Geschwindigkeit Sprachausgabe</string>
     <string name="mnuBack">zurück</string>
+    <string name="mnuReplaceClozes">Platzhalter ersetzen</string>
 </resources>

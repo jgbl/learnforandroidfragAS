@@ -132,6 +132,8 @@ public class MainActivity extends AppCompatActivity
     public Menu OptionsMenu;
     public MenuItem mnuAddNew;
     public MenuItem mnuUploadToQuizlet;
+    public MenuItem mnuReplaceClozes;
+
     boolean _blnUniCode = true;
     yesnoundefined _oldUniCode = yesnoundefined.undefined;
     AlertDialog dlg = null;
@@ -1723,6 +1725,9 @@ public class MainActivity extends AppCompatActivity
                                                          }
                 );
                 setMnuReverse();
+
+                mnuReplaceClozes = OptionsMenu.findItem(R.id.mnuReplaceClozes);
+                mnuReplaceClozes.setChecked(prefs.getBoolean("ReplaceClozes", true));
                 /*
                 if (isSmallDevice)
                 {
@@ -1963,6 +1968,11 @@ public class MainActivity extends AppCompatActivity
                 item.setChecked(!item.isChecked());
                 vok.reverse = item.isChecked();
                 setMnuReverse();
+            }
+            else if (id == R.id.mnuReplaceClozes)
+            {
+                item.setChecked(!item.isChecked());
+                prefs.edit().putBoolean("ReplaceClozes",item.isChecked()).commit();
             }
             else if (id == R.id.mnuOpenUri)
             {

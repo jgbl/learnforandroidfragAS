@@ -335,4 +335,5 @@
 	<string name="btnResetGooglePlay">Reset Google Play</string>
 	<string name="txtSpeechSpeed">speech speed</string>
 	<string name="mnuBack">back</string>
+	<string name="mnuReplaceClozes">replace clozes</string>
 </resources>
