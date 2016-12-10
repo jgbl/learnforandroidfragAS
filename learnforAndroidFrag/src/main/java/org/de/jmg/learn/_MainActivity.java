@@ -1328,7 +1328,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	private String replaceClozes(String txt, String txtClozes)
 	{
-		final String regexCloze = "_{2,}|\\.{4,}|(_ ){2,}|(\\. ){4,}";
+		final String regexCloze = "_{2,}|\\.{3,}|(_ ){2,}|(\\. ){3,}";
 		txt = " " + txt + "  ";
 		if (txtClozes != null)
 		{
