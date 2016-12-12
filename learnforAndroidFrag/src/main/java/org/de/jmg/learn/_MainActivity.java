@@ -68,7 +68,9 @@ import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -899,7 +901,8 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	}
 
 
-		ImageView iv = null;
+	ImageView iv = null;
+	//HorizontalScrollView sv = null;
 	ImageView iv2 = null;
 	public void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt, boolean LoadPrev) throws Exception
 	{
@@ -908,6 +911,12 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		{
 			iv.setVisibility(View.GONE);
 		}
+        /*
+		if (sv != null)
+		{
+			sv.setVisibility((View.GONE));
+		}
+        */
 		if (iv2 != null) iv2.setVisibility(View.GONE);
 		try
 		{
@@ -1029,36 +1038,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 							{
 								b = null;
 							}
-							if (b!= null)
-							{
-								if (iv == null)
-								{
-									iv = new ImageView(context);
-									SetTouchListener(iv);
-								}
-								b= resizeBM(b);
-								iv.setImageBitmap(b);
-								if (iv.getParent() == null)
-								{
-									try
-									{
-										LayoutParams p = _txtMeaning1.getLayoutParams();
-										//p.width = LayoutParams.WRAP_CONTENT;
-										//p.height = LayoutParams.WRAP_CONTENT;
-										rellayoutMain.addView(iv, p);
-									}
-									catch (Exception ex)
-									{
-										Log.e("addImageView",ex.getMessage(),ex);
-									}
-								}
-								else
-								{
-									Log.d("ImageView","exists");
-								}
-								_txtMeaning1.setVisibility(View.GONE);
-								iv.setVisibility(View.VISIBLE);
-							}
+							showBitmap(b);
 						}
 					}, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 				}
@@ -1116,6 +1096,8 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 						{
 							b = null;
 						}
+						showBitmap(b);
+						/*
 						if (b!= null)
 						{
 							if (iv == null)
@@ -1146,6 +1128,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 							t.setVisibility(View.GONE);
 							iv.setVisibility(View.VISIBLE);
 						}
+						*/
 					}
 
 				}
@@ -1288,6 +1271,66 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			lib.ShowException(_main, e);
 		}
 
+	}
+
+	private void showBitmap (Bitmap b)
+	{
+		boolean isNew = false;
+        if (b!= null)
+		{
+			if (iv == null)
+			{
+				iv = new ImageView(context);
+				SetTouchListener(iv);
+			}
+            /*
+            if (sv == null)
+            {
+                sv = new HorizontalScrollView(context);
+                isNew = true;
+            }
+            */
+            b = resizeBM(b);
+			iv.setImageBitmap(b);
+			if (iv.getParent() == null)
+			{
+				try
+				{
+
+                    LayoutParams p = _txtMeaning1.getLayoutParams();
+                    /*
+                    p.width = LayoutParams.WRAP_CONTENT;
+					p.height = LayoutParams.WRAP_CONTENT;
+                    */
+                    rellayoutMain.addView(iv, p);
+                    /*
+                    if (isNew)
+                    {
+                        LinearLayout.LayoutParams pp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                        //pp.width = LayoutParams.WRAP_CONTENT;
+                        //pp.height = LayoutParams.WRAP_CONTENT;
+                                //new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+                        pp.gravity = Gravity.CENTER_HORIZONTAL;
+                        //pp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                        sv.addView(iv,pp);
+                    }
+                    */
+
+
+                }
+				catch (Exception ex)
+				{
+					Log.e("addImageView",ex.getMessage(),ex);
+				}
+			}
+			else
+			{
+				Log.d("ImageView","exists");
+			}
+			_txtMeaning1.setVisibility(View.GONE);
+			iv.setVisibility(View.VISIBLE);
+			//sv.setVisibility(View.VISIBLE);
+		}
 	}
 
 	private boolean txtIsPicture(String txt)
