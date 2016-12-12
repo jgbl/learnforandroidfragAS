@@ -79,6 +79,8 @@ public class Vokabel
 
     final static String className = "Vokabel";
 
+    public boolean isQuizlet; //Gibt an, ob die Vokablen von Quizlet stammen
+
     // ******** Events ************
     interface FehlerEventHandler
     {

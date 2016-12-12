@@ -90,6 +90,7 @@ import org.de.jmg.lib.lib.yesnoundefined;
 import org.de.jmg.lib.urlclickablespan;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -988,8 +989,8 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			t = (TextView) v;
 			assert t != null;
 			t.setVisibility(View.VISIBLE);
-
-			SpannableString tspanKom = lib.getSpanableString(_vok.getKommentar());
+			String Kom = _vok.getKommentar();
+			SpannableString tspanKom = lib.getSpanableString(Kom);
 			URLSpan[] urlSpans = tspanKom.getSpans(0, tspanKom.length(), URLSpan.class);
 			for (final URLSpan span : urlSpans) {
 				int start = tspanKom.getSpanStart(span);
@@ -998,7 +999,23 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				if (txtIsPicture(txt))
 				{
 					tspanKom.removeSpan(span);
-					tspanKom.setSpan(new urlclickablespan(span.getURL())
+					String url = span.getURL();
+					if(Kom.contains("<link://https://quizlet.com/ Quizlet/>"))
+					{
+						if (url.endsWith("_m.jpg") || url.endsWith("_s.jpg") || url.endsWith("_t.jpg") )
+						{
+							url = url.substring(0,url.length()-6) + "_b.jpg";
+						}
+						else
+						{
+							if (!url.endsWith("_b.jpg"))
+							{
+								url = url.replace(".jpg","_b.jpg");
+							}
+						}
+						lib.setgstatus(url);
+					}
+					tspanKom.setSpan(new urlclickablespan(url)
 					{
 						@Override
 						public void onClick(View widget)

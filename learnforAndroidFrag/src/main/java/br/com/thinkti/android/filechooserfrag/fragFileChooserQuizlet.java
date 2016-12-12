@@ -277,6 +277,7 @@ public class fragFileChooserQuizlet extends ListFragment
 				{
 					_main.vok.NewFile();
 					_main.vok.getVokabeln().addAll(list);
+					_main.vok.isQuizlet = true;
 					_main.vok.setLangMeaning(_LangMeaning);
 					_main.vok.setLangWord(_LangWord);
 
