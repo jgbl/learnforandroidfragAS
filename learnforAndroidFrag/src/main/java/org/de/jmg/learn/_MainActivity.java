@@ -914,7 +914,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		{
 			iv.setVisibility(View.GONE);
 		}
-        /*
+		/*
 		if (sv != null)
 		{
 			sv.setVisibility(View.GONE);
@@ -924,7 +924,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		{
 			llayoutImage.setVisibility((View.GONE));
 		}
-        */
+		*/
 		if (iv2 != null) iv2.setVisibility(View.GONE);
 		try
 		{
@@ -1291,20 +1291,21 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				iv = new ImageView(context);
 				SetTouchListener(iv);
 			}
-            /*
+/*
             if (sv == null)
             {
                 sv = new HorizontalScrollView(context);
 
                 isNew = true;
             }
+
 			if (llayoutImage == null)
 			{
 				llayoutImage = new LinearLayout(context);
 				isNew = true;
 			}
-            */
-			b = resizeBM(b);
+*/
+            b = resizeBM(b);
 			iv.setImageBitmap(b);
 			if (iv.getParent() == null)
 			{
@@ -1312,24 +1313,34 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				{
 
                     RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
-
+					iv.setLayoutParams(p);
+					/*
+					RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+					pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning1);
+					sv.setLayoutParams(pnew);
+                    */
                     /*
                     */
 					//p.width = LayoutParams.MATCH_PARENT;
 					//p.height = LayoutParams.MATCH_PARENT;
-                    rellayoutMain.addView(iv,p);
-                    /*
+					/*
                     LinearLayout.LayoutParams pp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
-                    sv.addView(llayoutImage,pp);
+                    pp.gravity = Gravity.CENTER_HORIZONTAL;
+					llayoutImage.setLayoutParams(pp);
+					llayoutImage.setGravity(Gravity.CENTER_HORIZONTAL);
+					llayoutImage.setOrientation(LinearLayout.HORIZONTAL);
 
-                    LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(b.getWidth(), b.getHeight());
-                    layoutParams.gravity=Gravity.CENTER;
-
-                    llayoutImage.setOrientation(LinearLayout.HORIZONTAL);
-                    //iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                    llayoutImage.addView(iv,layoutParams);
-                    /*
-                    if (isNew)
+					LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(b.getWidth(), b.getHeight());
+                    layoutParams.gravity=Gravity.CENTER_HORIZONTAL;
+                    */
+                    iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+					/*
+					llayoutImage.addView(iv,layoutParams);
+					sv.addView(llayoutImage,pp);
+					*/
+					rellayoutMain.addView(iv);
+					/*
+					if (isNew)
                     {
                         LinearLayout.LayoutParams pp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                         //pp.width = LayoutParams.WRAP_CONTENT;
