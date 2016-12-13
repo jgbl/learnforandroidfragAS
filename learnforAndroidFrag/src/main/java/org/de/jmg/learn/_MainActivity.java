@@ -536,6 +536,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	}
 
+
 	@Override
 	public void onSaveInstanceState(Bundle outState)
 
