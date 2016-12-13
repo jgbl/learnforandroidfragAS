@@ -32,6 +32,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -904,6 +905,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	ImageView iv = null;
 	//HorizontalScrollView sv = null;
 	ImageView iv2 = null;
+	//LinearLayout llayoutImage = null;
 	public void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt, boolean LoadPrev) throws Exception
 	{
 
@@ -914,7 +916,12 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
         /*
 		if (sv != null)
 		{
-			sv.setVisibility((View.GONE));
+			sv.setVisibility(View.GONE);
+		}
+
+		if (llayoutImage != null)
+		{
+			llayoutImage.setVisibility((View.GONE));
 		}
         */
 		if (iv2 != null) iv2.setVisibility(View.GONE);
@@ -1287,22 +1294,39 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
             if (sv == null)
             {
                 sv = new HorizontalScrollView(context);
+
                 isNew = true;
             }
+			if (llayoutImage == null)
+			{
+				llayoutImage = new LinearLayout(context);
+				isNew = true;
+			}
             */
-            b = resizeBM(b);
+			b = resizeBM(b);
 			iv.setImageBitmap(b);
 			if (iv.getParent() == null)
 			{
 				try
 				{
 
-                    LayoutParams p = _txtMeaning1.getLayoutParams();
+                    RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
+
                     /*
-                    p.width = LayoutParams.WRAP_CONTENT;
-					p.height = LayoutParams.WRAP_CONTENT;
                     */
-                    rellayoutMain.addView(iv, p);
+					//p.width = LayoutParams.MATCH_PARENT;
+					//p.height = LayoutParams.MATCH_PARENT;
+                    rellayoutMain.addView(iv,p);
+                    /*
+                    LinearLayout.LayoutParams pp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+                    sv.addView(llayoutImage,pp);
+
+                    LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(b.getWidth(), b.getHeight());
+                    layoutParams.gravity=Gravity.CENTER;
+
+                    llayoutImage.setOrientation(LinearLayout.HORIZONTAL);
+                    //iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    llayoutImage.addView(iv,layoutParams);
                     /*
                     if (isNew)
                     {
@@ -1330,6 +1354,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			_txtMeaning1.setVisibility(View.GONE);
 			iv.setVisibility(View.VISIBLE);
 			//sv.setVisibility(View.VISIBLE);
+			//llayoutImage.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -1357,7 +1382,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	private void SetTouchListener(ImageView iv)
 	{
-		if (iv != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+		if (mScaleDetector == null && iv != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 		{
 			mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
 			iv.setOnTouchListener(new OnTouchListener()
