@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity
     public Menu OptionsMenu;
     public MenuItem mnuAddNew;
     public MenuItem mnuUploadToQuizlet;
-    public MenuItem mnuReplaceClozes;
+    private MenuItem _mnuReplaceClozes;
 
     boolean _blnUniCode = true;
     yesnoundefined _oldUniCode = yesnoundefined.undefined;
@@ -1726,8 +1726,8 @@ public class MainActivity extends AppCompatActivity
                 );
                 setMnuReverse();
 
-                mnuReplaceClozes = OptionsMenu.findItem(R.id.mnuReplaceClozes);
-                mnuReplaceClozes.setChecked(prefs.getBoolean("ReplaceClozes", true));
+                _mnuReplaceClozes = OptionsMenu.findItem(R.id.mnuReplaceClozes);
+                _mnuReplaceClozes.setChecked(prefs.getBoolean("ReplaceClozes", true));
                 /*
                 if (isSmallDevice)
                 {
@@ -1765,6 +1765,18 @@ public class MainActivity extends AppCompatActivity
         }
 
         return false;
+    }
+    public MenuItem getmnuReplaceClozes()
+    {
+        if(OptionsMenu == null)
+        {
+            lib.setgstatus("Options menu null!");
+        }
+        if (_mnuReplaceClozes == null && OptionsMenu != null)
+        {
+            _mnuReplaceClozes = OptionsMenu.findItem(R.id.mnuReplaceClozes);
+        }
+        return _mnuReplaceClozes;
     }
     private boolean _hasBeenDownsized = false;
     public void SetShowAsAction(final MenuItem m)

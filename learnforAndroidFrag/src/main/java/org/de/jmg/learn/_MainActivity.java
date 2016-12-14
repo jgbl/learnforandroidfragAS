@@ -53,6 +53,7 @@ import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -904,9 +905,9 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 
 	ImageView iv = null;
-	//HorizontalScrollView sv = null;
+	HorizontalScrollView sv = null;
 	ImageView iv2 = null;
-	//LinearLayout llayoutImage = null;
+	LinearLayout llayoutImage = null;
 	public void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt, boolean LoadPrev) throws Exception
 	{
 
@@ -914,7 +915,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		{
 			iv.setVisibility(View.GONE);
 		}
-		/*
+
 		if (sv != null)
 		{
 			sv.setVisibility(View.GONE);
@@ -924,7 +925,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		{
 			llayoutImage.setVisibility((View.GONE));
 		}
-		*/
+
 		if (iv2 != null) iv2.setVisibility(View.GONE);
 		try
 		{
@@ -1017,6 +1018,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				{
 					tspanKom.removeSpan(span);
 					String url = span.getURL();
+					String originalURL = url;
 					if(Kom.contains("<link://https://quizlet.com/ Quizlet/>"))
 					{
 						if (url.endsWith("_m.jpg") || url.endsWith("_s.jpg") || url.endsWith("_t.jpg") )
@@ -1032,7 +1034,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 						}
 						lib.setgstatus(url);
 					}
-					tspanKom.setSpan(new urlclickablespan(url)
+					tspanKom.setSpan(new urlclickablespan(url, originalURL)
 					{
 						@Override
 						public void onClick(View widget)
@@ -1045,6 +1047,18 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 							catch (Exception ex)
 							{
 								b = null;
+							}
+							if (b == null && this.originalURL != null)
+							{
+								try
+								{
+									b = lib.downloadpicture(this.originalURL);
+								}
+								catch (Exception ex)
+								{
+									b = null;
+								}
+
 							}
 							showBitmap(b);
 						}
@@ -1291,7 +1305,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				iv = new ImageView(context);
 				SetTouchListener(iv);
 			}
-/*
+
             if (sv == null)
             {
                 sv = new HorizontalScrollView(context);
@@ -1304,42 +1318,39 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				llayoutImage = new LinearLayout(context);
 				isNew = true;
 			}
-*/
+
             b = resizeBM(b);
 			iv.setImageBitmap(b);
 			if (iv.getParent() == null)
 			{
 				try
 				{
-
-                    RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
-					p.setMargins(p.leftMargin,p.topMargin,p.rightMargin, lib.dpToPx(50));
+					LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+                    RelativeLayout.LayoutParams pold = (RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
+					p.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, lib.dpToPx(50));
+					p.gravity = Gravity.CENTER;
+					p.weight = 1.0f;
+					iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 					iv.setLayoutParams(p);
-					/*
-					RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+
+					RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 					pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning1);
 					sv.setLayoutParams(pnew);
-                    */
-                    /*
-                    */
-					//p.width = LayoutParams.MATCH_PARENT;
+                    //p.width = LayoutParams.MATCH_PARENT;
 					//p.height = LayoutParams.MATCH_PARENT;
-					/*
+
                     LinearLayout.LayoutParams pp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
                     pp.gravity = Gravity.CENTER_HORIZONTAL;
+					pp.weight = 1.0f;
 					llayoutImage.setLayoutParams(pp);
-					llayoutImage.setGravity(Gravity.CENTER_HORIZONTAL);
+					llayoutImage.setGravity(Gravity.CENTER);
 					llayoutImage.setOrientation(LinearLayout.HORIZONTAL);
 
-					LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(b.getWidth(), b.getHeight());
-                    layoutParams.gravity=Gravity.CENTER_HORIZONTAL;
-                    */
-                    iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-					/*
-					llayoutImage.addView(iv,layoutParams);
-					sv.addView(llayoutImage,pp);
-					*/
-					rellayoutMain.addView(iv);
+					//LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(b.getWidth(), b.getHeight());
+                    //layoutParams.gravity=Gravity.CENTER_HORIZONTAL;
+                    llayoutImage.addView(iv);
+					sv.addView(llayoutImage);
+					rellayoutMain.addView(sv);
 					/*
 					if (isNew)
                     {
@@ -1366,8 +1377,8 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			}
 			_txtMeaning1.setVisibility(View.GONE);
 			iv.setVisibility(View.VISIBLE);
-			//sv.setVisibility(View.VISIBLE);
-			//llayoutImage.setVisibility(View.VISIBLE);
+			sv.setVisibility(View.VISIBLE);
+			llayoutImage.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -1395,7 +1406,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	private void SetTouchListener(ImageView iv)
 	{
-		if (mScaleDetector == null && iv != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+		if (iv != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 		{
 			mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
 			iv.setOnTouchListener(new OnTouchListener()
@@ -1426,7 +1437,11 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	private String replaceClozes(String txt, String txtClozes)
 	{
-		if (_main != null && !_main.mnuReplaceClozes.isChecked()) txtClozes = null;
+		if (_main != null)
+		{
+			MenuItem mnuRepl = _main.getmnuReplaceClozes();
+			if (mnuRepl!= null && !mnuRepl.isChecked()) txtClozes = null;
+		}
 		final String regexCloze = "_{2,}|\\.{3,}|(_ ){2,}|(\\. ){3,}";
 		txt = " " + txt + "  ";
 		if (txtClozes != null)

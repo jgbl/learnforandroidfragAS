@@ -8,10 +8,20 @@ import android.view.View;
  */
 public abstract class urlclickablespan extends ClickableSpan
 {
-    public String url;
+    public String url = null;
+    public String originalURL = null;
+
     public urlclickablespan(String url)
     {
         this.url = url;
     }
 
+    public urlclickablespan(String url, String originalURL)
+    {
+        this.url = url;
+        if (!originalURL.equalsIgnoreCase(url))
+        {
+            this.originalURL = originalURL;
+        }
+    }
 }
