@@ -70,6 +70,7 @@ import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -1325,31 +1326,35 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			{
 				try
 				{
-					LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+					LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT, 1.0f);
                     RelativeLayout.LayoutParams pold = (RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
 					p.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, lib.dpToPx(50));
-					p.gravity = Gravity.CENTER;
+					p.gravity = Gravity.CENTER_HORIZONTAL;
 					p.weight = 1.0f;
 					iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 					iv.setLayoutParams(p);
 
-					RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
+
+					RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams (LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 					pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning1);
+					pnew.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, lib.dpToPx(25));
+					pnew.addRule(RelativeLayout.CENTER_HORIZONTAL);
 					sv.setLayoutParams(pnew);
                     //p.width = LayoutParams.MATCH_PARENT;
 					//p.height = LayoutParams.MATCH_PARENT;
 
-                    LinearLayout.LayoutParams pp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+                    FrameLayout.LayoutParams pp = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
                     pp.gravity = Gravity.CENTER_HORIZONTAL;
-					pp.weight = 1.0f;
+					//int m = (rellayoutMain.getWidth()-b.getWidth()) / 2;
+					//pp.setMargins(m,0,m,0);
+					//pp.weight = 1.0f;
 					llayoutImage.setLayoutParams(pp);
-					llayoutImage.setGravity(Gravity.CENTER);
-					llayoutImage.setOrientation(LinearLayout.HORIZONTAL);
-
+					llayoutImage.setGravity(Gravity.CENTER_HORIZONTAL);
 					//LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(b.getWidth(), b.getHeight());
-                    //layoutParams.gravity=Gravity.CENTER_HORIZONTAL;
-                    llayoutImage.addView(iv);
+					//layoutParams.gravity=Gravity.CENTER_HORIZONTAL;
+					llayoutImage.setOrientation(LinearLayout.HORIZONTAL);
 					sv.addView(llayoutImage);
+					llayoutImage.addView(iv);
 					rellayoutMain.addView(sv);
 					/*
 					if (isNew)
@@ -1373,12 +1378,17 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			}
 			else
 			{
+				//int m = (rellayoutMain.getWidth()-b.getWidth()) / 2;
+				//FrameLayout.LayoutParams l = (FrameLayout.LayoutParams) llayoutImage.getLayoutParams();
+				//l.setMargins(m,0,m,0);
+				//llayoutImage.setLayoutParams(l);
 				Log.d("ImageView","exists");
 			}
 			_txtMeaning1.setVisibility(View.GONE);
 			iv.setVisibility(View.VISIBLE);
 			sv.setVisibility(View.VISIBLE);
 			llayoutImage.setVisibility(View.VISIBLE);
+			lib.setgstatus("main "+ rellayoutMain.getWidth() + " sv " + sv.getWidth() + " llimg " + llayoutImage.getWidth() + " iv " + iv.getWidth());
 		}
 	}
 

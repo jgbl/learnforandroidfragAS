@@ -764,6 +764,7 @@ public class MainActivity extends AppCompatActivity
             }
             lib.OpenDialogs.clear();
 
+
         }
         catch (Exception e)
         {
