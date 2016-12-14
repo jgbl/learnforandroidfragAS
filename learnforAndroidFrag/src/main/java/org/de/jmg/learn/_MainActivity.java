@@ -1313,6 +1313,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				{
 
                     RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
+					p.setMargins(p.leftMargin,p.topMargin,p.rightMargin, lib.dpToPx(50));
 					iv.setLayoutParams(p);
 					/*
 					RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
