@@ -1328,7 +1328,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			{
 				try
 				{
-					LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+					LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
                     //p.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, lib.dpToPx(50));
 					p.gravity = Gravity.CENTER_HORIZONTAL;
 					//p.weight = 1.0f;
@@ -1342,7 +1342,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 
 					RelativeLayout.LayoutParams pold = (RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
-                    RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams (LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+                    RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams (LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 					pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning1);
 					pnew.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, lib.dpToPx(25));
 					pnew.addRule(RelativeLayout.CENTER_HORIZONTAL);
