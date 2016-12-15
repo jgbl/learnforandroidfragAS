@@ -34,6 +34,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -54,6 +55,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -291,8 +293,6 @@ public class MainActivity extends AppCompatActivity
 
                 //finish();
             }
-
-
         }
         catch (Exception ex)
         {
@@ -842,6 +842,52 @@ public class MainActivity extends AppCompatActivity
             // Otherwise, select the previous step.
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
+    }
+
+    private float mx,my;
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event)
+    {
+        float curX, curY;
+
+        switch (event.getAction())
+        {
+
+            case MotionEvent.ACTION_DOWN:
+                mx = event.getX();
+                my = event.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                curX = event.getX();
+                curY = event.getY();
+                //vScroll.scrollBy((int) (mx - curX), (int) (my - curY));
+                //hScroll.scrollBy((int) (mx - curX), (int) (my - curY));
+                mx = curX;
+                my = curY;
+                break;
+            case MotionEvent.ACTION_UP:
+                curX = event.getX();
+                curY = event.getY();
+                //vScroll.scrollBy((int) (mx - curX), (int) (my - curY));
+                //hScroll.scrollBy((int) (mx - curX), (int) (my - curY));
+                break;
+        }
+        if (event.getAction() == MotionEvent. fPA != null && fPA.fragMain != null && mPager.getCurrentItem() == _MainActivity.fragID)
+        {
+            if (fPA.fragMain.iv != null && fPA.fragMain.iv.getVisibility() == View.VISIBLE)
+            {
+                Rect rect = new Rect();
+                fPA.fragMain.iv.getHitRect(rect);
+                if (rect.contains((int)mx,(int)my))
+                {
+                    return fPA.fragMain.iv.dispatchTouchEvent(event);
+
+                }
+            }
+        }
+
+        return super.dispatchTouchEvent(event);
     }
 
     private boolean saveVokAsync(boolean dontPrompt, final boolean blnAsync) throws Exception
