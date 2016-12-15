@@ -873,15 +873,23 @@ public class MainActivity extends AppCompatActivity
                 //hScroll.scrollBy((int) (mx - curX), (int) (my - curY));
                 break;
         }
-        if (event.getAction() == MotionEvent. fPA != null && fPA.fragMain != null && mPager.getCurrentItem() == _MainActivity.fragID)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO)
         {
-            if (fPA.fragMain.iv != null && fPA.fragMain.iv.getVisibility() == View.VISIBLE)
+
+            if (fPA != null && fPA.fragMain != null && mPager.getCurrentItem() == _MainActivity.fragID)
             {
-                Rect rect = new Rect();
-                fPA.fragMain.iv.getHitRect(rect);
-                if (rect.contains((int)mx,(int)my))
+                if (fPA.fragMain.iv != null && fPA.fragMain.iv.getVisibility() == View.VISIBLE)
                 {
-                    return fPA.fragMain.iv.dispatchTouchEvent(event);
+                    //Rect rect = new Rect();
+                    //fPA.fragMain.iv.getHitRect(rect);
+                    Rect rect2 = new Rect();
+                    fPA.fragMain.llayoutImage.getHitRect(rect2);
+                    //lib.getHitRect(fPA.fragMain.iv, rect);
+                    if (rect2.contains((int) mx, (int) my))
+                    {
+                        boolean res = fPA.fragMain.getScaleDetector().onTouchEvent(event);
+                        return res;
+                    }
 
                 }
             }

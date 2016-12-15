@@ -1305,6 +1305,8 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			{
 				iv = new ImageView(context);
 				SetTouchListener(iv);
+                iv.setAdjustViewBounds(true);
+
 			}
 
             if (sv == null)
@@ -1326,16 +1328,15 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			{
 				try
 				{
-					LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT, 1.0f);
-                    RelativeLayout.LayoutParams pold = (RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
-					p.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, lib.dpToPx(50));
+					LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+                    //p.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, lib.dpToPx(50));
 					p.gravity = Gravity.CENTER_HORIZONTAL;
-					p.weight = 1.0f;
-					iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+					//p.weight = 1.0f;
+					//iv.setScaleType(ImageView.ScaleType.FIT_XY);
 					iv.setLayoutParams(p);
 
-
-					RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams (LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
+                    RelativeLayout.LayoutParams pold = (RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
+                    RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams (LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
 					pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning1);
 					pnew.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, lib.dpToPx(25));
 					pnew.addRule(RelativeLayout.CENTER_HORIZONTAL);
@@ -1343,7 +1344,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
                     //p.width = LayoutParams.MATCH_PARENT;
 					//p.height = LayoutParams.MATCH_PARENT;
 
-                    FrameLayout.LayoutParams pp = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
+                    FrameLayout.LayoutParams pp = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
                     pp.gravity = Gravity.CENTER_HORIZONTAL;
 					//int m = (rellayoutMain.getWidth()-b.getWidth()) / 2;
 					//pp.setMargins(m,0,m,0);
@@ -1388,7 +1389,8 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			iv.setVisibility(View.VISIBLE);
 			sv.setVisibility(View.VISIBLE);
 			llayoutImage.setVisibility(View.VISIBLE);
-			lib.setgstatus("main "+ rellayoutMain.getWidth() + " sv " + sv.getWidth() + " llimg " + llayoutImage.getWidth() + " iv " + iv.getWidth());
+			String status ="main "+ rellayoutMain.getWidth() + " sv " + sv.getWidth() + " llimg " + llayoutImage.getWidth() + " iv " + iv.getWidth();
+			lib.setgstatus(status);
 		}
 	}
 
@@ -1425,12 +1427,17 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				@Override
 				public boolean onTouch(View v, MotionEvent event)
 				{
-					return mScaleDetector.onTouchEvent(event);
+					boolean res = mScaleDetector.onTouchEvent(event);
+					return res;
 				}
 			});
 		}
 	}
 
+	public ScaleGestureDetector getScaleDetector()
+	{
+		return mScaleDetector;
+	}
 	private ScaleGestureDetector mScaleDetector;
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -1438,9 +1445,13 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	{
 		@Override
 		public boolean onScale(ScaleGestureDetector detector) {
-			iv.setScaleX(iv.getScaleX() * detector.getScaleFactor());
-			iv.setScaleY(iv.getScaleY()* detector.getScaleFactor());
-			// Don't let the object get too small or too large.
+			float scaleX = iv.getScaleX() * detector.getScaleFactor();
+            float scaleY = iv.getScaleY()* detector.getScaleFactor();
+            iv.setScaleX(scaleX);
+			iv.setScaleY(scaleY);
+            String status ="main "+ rellayoutMain.getWidth() + " sv " + sv.getWidth() + " llimg " + llayoutImage.getWidth() + " iv " + iv.getWidth();
+            lib.setgstatus(status);
+            // Don't let the object get too small or too large.
 			return true;
 		}
 	}

@@ -41,6 +41,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
@@ -1522,6 +1523,16 @@ public class lib
             if (cursor != null) cursor.close();
         }
         return "";
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static void getHitRect(View v, Rect rect) {
+        rect.left = (int) (v.getLeft() + v.getTranslationX());
+        rect.top = (int) (v.getTop() + v.getTranslationY());
+        rect.right = rect.left + v.getWidth();
+        rect.bottom = rect.top + v.getHeight();
+        //rect.top -= v.dividerValue/2;
+        //rect.bottom +=dividerValue/2;
     }
 
     @SuppressLint({"InlinedApi", "NewApi"})
