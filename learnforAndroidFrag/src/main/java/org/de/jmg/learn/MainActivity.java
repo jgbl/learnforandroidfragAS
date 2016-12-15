@@ -62,6 +62,7 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.de.jmg.errorintent.ExceptionActivity;
@@ -844,6 +845,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
     private float mx,my;
 
     @Override
@@ -880,12 +882,29 @@ public class MainActivity extends AppCompatActivity
             {
                 if (fPA.fragMain.iv != null && fPA.fragMain.iv.getVisibility() == View.VISIBLE)
                 {
-                    //Rect rect = new Rect();
-                    //fPA.fragMain.iv.getHitRect(rect);
-                    Rect rect2 = new Rect();
-                    fPA.fragMain.llayoutImage.getHitRect(rect2);
-                    //lib.getHitRect(fPA.fragMain.iv, rect);
-                    if (rect2.contains((int) mx, (int) my))
+                    Rect rect = new Rect();
+                    fPA.fragMain.iv.getHitRect(rect);
+                    View parent = (View) fPA.fragMain.iv.getParent();
+                    View grandparent = (View) parent.getParent();
+                    rect.top += parent.getTop();
+                    rect.left += parent.getLeft();
+                    rect.bottom += parent.getTop();
+                    rect.right += parent.getLeft();
+
+                    rect.top += grandparent.getTop();
+                    rect.left += grandparent.getLeft();
+                    rect.bottom += grandparent.getTop();
+                    rect.right += grandparent.getLeft();
+
+                    // Modify the dimensions of the Rectangle
+                    // Padding values below zero are replaced by zeros
+                    /*
+                    rect.top -= Math.max(0, topPadding);
+                    rect.bottom += Math.max(0, bottomPadding);
+                    rect.left -= Math.max(0, leftPadding);
+                    rect.right += Math.max(0, rightPadding)
+                    */
+                    if (rect.contains((int) mx, (int) my))
                     {
                         boolean res = fPA.fragMain.getScaleDetector().onTouchEvent(event);
                         return res;
@@ -897,6 +916,7 @@ public class MainActivity extends AppCompatActivity
 
         return super.dispatchTouchEvent(event);
     }
+
 
     private boolean saveVokAsync(boolean dontPrompt, final boolean blnAsync) throws Exception
     {

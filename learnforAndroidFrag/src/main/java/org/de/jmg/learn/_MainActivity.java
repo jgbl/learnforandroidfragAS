@@ -1305,7 +1305,6 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			{
 				iv = new ImageView(context);
 				SetTouchListener(iv);
-                iv.setAdjustViewBounds(true);
 
 			}
 
@@ -1324,22 +1323,31 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
             b = resizeBM(b);
 			iv.setImageBitmap(b);
+			iv.setTag(R.id.bitMapIV,b);
 			if (iv.getParent() == null)
 			{
 				try
 				{
-					LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+					LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
                     //p.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, lib.dpToPx(50));
 					p.gravity = Gravity.CENTER_HORIZONTAL;
 					//p.weight = 1.0f;
-					//iv.setScaleType(ImageView.ScaleType.FIT_XY);
 					iv.setLayoutParams(p);
+					iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+					iv.setClickable(true);
+					iv.setFocusable(true);
+					iv.setFocusableInTouchMode(true);
+					iv.setAdjustViewBounds(true);
 
-                    RelativeLayout.LayoutParams pold = (RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
+
+
+					RelativeLayout.LayoutParams pold = (RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
                     RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams (LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
 					pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning1);
 					pnew.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, lib.dpToPx(25));
 					pnew.addRule(RelativeLayout.CENTER_HORIZONTAL);
+					pnew.addRule(RelativeLayout.CENTER_IN_PARENT);
+
 					sv.setLayoutParams(pnew);
                     //p.width = LayoutParams.MATCH_PARENT;
 					//p.height = LayoutParams.MATCH_PARENT;
@@ -1354,9 +1362,13 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					//LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(b.getWidth(), b.getHeight());
 					//layoutParams.gravity=Gravity.CENTER_HORIZONTAL;
 					llayoutImage.setOrientation(LinearLayout.HORIZONTAL);
+
 					sv.addView(llayoutImage);
+
 					llayoutImage.addView(iv);
+
 					rellayoutMain.addView(sv);
+
 					/*
 					if (isNew)
                     {
@@ -1447,11 +1459,22 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		public boolean onScale(ScaleGestureDetector detector) {
 			float scaleX = iv.getScaleX() * detector.getScaleFactor();
             float scaleY = iv.getScaleY()* detector.getScaleFactor();
-            iv.setScaleX(scaleX);
-			iv.setScaleY(scaleY);
-            String status ="main "+ rellayoutMain.getWidth() + " sv " + sv.getWidth() + " llimg " + llayoutImage.getWidth() + " iv " + iv.getWidth();
-            lib.setgstatus(status);
-            // Don't let the object get too small or too large.
+			if (false && iv.getTag(R.id.bitMapIV) != null)
+			{
+				Bitmap b = (Bitmap) iv.getTag(R.id.bitMapIV);
+				b = lib.resizeBM(b,scaleX,scaleY);
+				iv.setImageBitmap(b);
+			}
+			else
+			{
+				iv.setScaleX(scaleX);
+				iv.setScaleY(scaleY);
+				llayoutImage.setScaleX(scaleX);
+				llayoutImage.setScaleY(scaleY);
+				String status ="main "+ rellayoutMain.getWidth() + " sv " + sv.getWidth() + " llimg " + llayoutImage.getWidth() + " iv " + iv.getWidth();
+				lib.setgstatus(status);
+			}
+			// Don't let the object get too small or too large.
 			return true;
 		}
 	}

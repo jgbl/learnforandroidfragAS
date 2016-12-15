@@ -41,6 +41,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -163,6 +164,18 @@ public class lib
     {
         return _status;
     }
+
+    public static Bitmap resizeBM(Bitmap b, float factX, float factY )
+    {
+        if (b != null)
+        {
+            Matrix matrix = new Matrix();
+            matrix.postScale(factX, factY);
+            return Bitmap.createBitmap(b, 0, 0, b.getWidth(), b.getHeight(), matrix, true);
+        }
+        return null;
+    }
+
 
     public static void removeDlg(DialogInterface dlg)
     {
