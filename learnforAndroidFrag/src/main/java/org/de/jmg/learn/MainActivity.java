@@ -853,63 +853,66 @@ public class MainActivity extends AppCompatActivity
     {
         float curX, curY;
 
-        switch (event.getAction())
+        if (event.getPointerCount() == 2)
         {
-
-            case MotionEvent.ACTION_DOWN:
-                mx = event.getX();
-                my = event.getY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                curX = event.getX();
-                curY = event.getY();
-                //vScroll.scrollBy((int) (mx - curX), (int) (my - curY));
-                //hScroll.scrollBy((int) (mx - curX), (int) (my - curY));
-                mx = curX;
-                my = curY;
-                break;
-            case MotionEvent.ACTION_UP:
-                curX = event.getX();
-                curY = event.getY();
-                //vScroll.scrollBy((int) (mx - curX), (int) (my - curY));
-                //hScroll.scrollBy((int) (mx - curX), (int) (my - curY));
-                break;
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO)
-        {
-
-            if (fPA != null && fPA.fragMain != null && mPager.getCurrentItem() == _MainActivity.fragID)
+            switch (event.getAction())
             {
-                if (fPA.fragMain.iv != null && fPA.fragMain.iv.getVisibility() == View.VISIBLE)
+
+                case MotionEvent.ACTION_DOWN:
+                    mx = event.getX();
+                    my = event.getY();
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    curX = event.getX();
+                    curY = event.getY();
+                    //vScroll.scrollBy((int) (mx - curX), (int) (my - curY));
+                    //hScroll.scrollBy((int) (mx - curX), (int) (my - curY));
+                    mx = curX;
+                    my = curY;
+                    break;
+                case MotionEvent.ACTION_UP:
+                    curX = event.getX();
+                    curY = event.getY();
+                    //vScroll.scrollBy((int) (mx - curX), (int) (my - curY));
+                    //hScroll.scrollBy((int) (mx - curX), (int) (my - curY));
+                    break;
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO)
+            {
+
+                if (fPA != null && fPA.fragMain != null && mPager.getCurrentItem() == _MainActivity.fragID)
                 {
-                    Rect rect = new Rect();
-                    fPA.fragMain.iv.getHitRect(rect);
-                    View parent = (View) fPA.fragMain.iv.getParent();
-                    View grandparent = (View) parent.getParent();
-                    rect.top += parent.getTop();
-                    rect.left += parent.getLeft();
-                    rect.bottom += parent.getTop();
-                    rect.right += parent.getLeft();
+                    if (fPA.fragMain.iv != null && fPA.fragMain.iv.getVisibility() == View.VISIBLE)
+                    {
+                        Rect rect = new Rect();
+                        fPA.fragMain.iv.getHitRect(rect);
+                        View parent = (View) fPA.fragMain.iv.getParent();
+                        View grandparent = (View) parent.getParent();
+                        rect.top += parent.getTop();
+                        rect.left += parent.getLeft();
+                        rect.bottom += parent.getTop();
+                        rect.right += parent.getLeft();
 
-                    rect.top += grandparent.getTop();
-                    rect.left += grandparent.getLeft();
-                    rect.bottom += grandparent.getTop();
-                    rect.right += grandparent.getLeft();
+                        rect.top += grandparent.getTop();
+                        rect.left += grandparent.getLeft();
+                        rect.bottom += grandparent.getTop();
+                        rect.right += grandparent.getLeft();
 
-                    // Modify the dimensions of the Rectangle
-                    // Padding values below zero are replaced by zeros
+                        // Modify the dimensions of the Rectangle
+                        // Padding values below zero are replaced by zeros
                     /*
                     rect.top -= Math.max(0, topPadding);
                     rect.bottom += Math.max(0, bottomPadding);
                     rect.left -= Math.max(0, leftPadding);
                     rect.right += Math.max(0, rightPadding)
                     */
-                    if (rect.contains((int) mx, (int) my))
-                    {
-                        boolean res = fPA.fragMain.getScaleDetector().onTouchEvent(event);
-                        return res;
-                    }
+                        if (rect.contains((int) mx, (int) my))
+                        {
+                            boolean res = fPA.fragMain.getScaleDetector().onTouchEvent(event);
+                            return res;
+                        }
 
+                    }
                 }
             }
         }
