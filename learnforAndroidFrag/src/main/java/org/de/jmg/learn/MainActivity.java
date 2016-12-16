@@ -908,10 +908,17 @@ public class MainActivity extends AppCompatActivity
                     */
                         if (rect.contains((int) mx, (int) my))
                         {
-                            boolean res = fPA.fragMain.getScaleDetector().onTouchEvent(event);
-                            return res;
+                            try
+                            {
+                                boolean res = fPA.fragMain.getScaleDetector().onTouchEvent(event);
+                                return res;
+                            }
+                            catch (Throwable ex)
+                            {
+                                ex.printStackTrace();
+                                return false;
+                            }
                         }
-
                     }
                 }
             }

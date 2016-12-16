@@ -1318,7 +1318,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 			if (frmLayoutImage == null)
 			{
-				frmLayoutImage = new LinearLayout(context);
+				frmLayoutImage = new ScalingFrameLayout(context);
 				frmLayoutImage.setClipChildren(false);
 
 				isNew = true;
@@ -1331,12 +1331,12 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			{
 				try
 				{
-					LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+					LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
                     //p.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, lib.dpToPx(50));
 					p.gravity = Gravity.CENTER_HORIZONTAL;
 					//p.weight = 1.0f;
 					iv.setLayoutParams(p);
-					iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+					iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
 					iv.setClickable(true);
 					iv.setFocusable(true);
 					iv.setFocusableInTouchMode(true);
@@ -1347,9 +1347,9 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					RelativeLayout.LayoutParams pold = (RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
                     RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams (LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 					pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning1);
-					pnew.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, lib.dpToPx(25));
-					pnew.addRule(RelativeLayout.CENTER_HORIZONTAL);
-					pnew.addRule(RelativeLayout.CENTER_IN_PARENT);
+					pnew.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, pold.topMargin);
+					//pnew.addRule(RelativeLayout.CENTER_HORIZONTAL);
+					//pnew.addRule(RelativeLayout.CENTER_IN_PARENT);
 
 					sv.setLayoutParams(pnew);
                     //p.width = LayoutParams.MATCH_PARENT;
@@ -1361,10 +1361,11 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					//pp.setMargins(m,0,m,0);
 					//pp.weight = 1.0f;
 					frmLayoutImage.setLayoutParams(pp);
-					frmLayoutImage.setGravity(Gravity.CENTER_HORIZONTAL);
+
+					//frmLayoutImage..setGravity(Gravity.CENTER_HORIZONTAL);
 					//LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(b.getWidth(), b.getHeight());
 					//layoutParams.gravity=Gravity.CENTER_HORIZONTAL;
-					frmLayoutImage.setOrientation(LinearLayout.HORIZONTAL);
+					//frmLayoutImage.setOrientation(LinearLayout.HORIZONTAL);
 
 					frmLayoutImage.addView(iv);
 
@@ -1462,22 +1463,24 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		public boolean onScale(ScaleGestureDetector detector) {
 			float scaleX = iv.getScaleX() * detector.getScaleFactor();
             float scaleY = iv.getScaleY()* detector.getScaleFactor();
+			float fscaleX = frmLayoutImage.getScaleX() * detector.getScaleFactor();
+			float fscaleY = frmLayoutImage.getScaleY()* detector.getScaleFactor();
+			//float scale = frmLayoutImage.getScale() * detector.getScaleFactor();
 			if (false && iv.getTag(R.id.bitMapIV) != null)
 			{
 				Bitmap b = (Bitmap) iv.getTag(R.id.bitMapIV);
-				b = lib.resizeBM(b,scaleX,scaleY);
+				//b = lib.resizeBM(b,scaleX,scaleY);
 				iv.setImageBitmap(b);
 			}
 			else
 			{
 				//iv.getLayoutParams().width = (int) (iv.getWidth() * scaleX);
 				//iv.getLayoutParams().height = (int) (iv.getHeight() * scaleX);
-
-				frmLayoutImage.setScaleX(scaleX);
-				frmLayoutImage.setScaleY(scaleY);
-				iv.setScaleX(scaleX);
-				iv.setScaleY(scaleY);
-
+				frmLayoutImage.setScaleX(fscaleX);
+				frmLayoutImage.setScaleY(fscaleY);
+				//iv.setScaleX(scaleX);
+				//iv.setScaleY(scaleY);
+				//frmLayoutImage.setScale(scale);
 				String status ="main "+ rellayoutMain.getWidth() + " sv " + sv.getWidth() + " llimg " + frmLayoutImage.getWidth() + " iv " + iv.getWidth();
 				lib.setgstatus(status);
 			}
