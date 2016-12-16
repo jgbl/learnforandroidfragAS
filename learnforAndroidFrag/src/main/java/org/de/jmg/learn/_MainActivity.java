@@ -1467,10 +1467,12 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			}
 			else
 			{
+				iv.getLayoutParams().width = (int) (iv.getWidth() * scaleX);
+				iv.getLayoutParams().height = (int) (iv.getHeight() * scaleX);
 				iv.setScaleX(scaleX);
 				iv.setScaleY(scaleY);
-				llayoutImage.setScaleX(scaleX);
-				llayoutImage.setScaleY(scaleY);
+				//llayoutImage.setScaleX(scaleX);
+				//llayoutImage.setScaleY(scaleY);
 				String status ="main "+ rellayoutMain.getWidth() + " sv " + sv.getWidth() + " llimg " + llayoutImage.getWidth() + " iv " + iv.getWidth();
 				lib.setgstatus(status);
 			}
