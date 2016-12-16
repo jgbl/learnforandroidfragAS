@@ -79,6 +79,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import org.de.jmg.learn.scroll.ScalingFrameLayout;
 import org.de.jmg.learn.vok.Vokabel;
 import org.de.jmg.learn.vok.Vokabel.Bewertung;
 import org.de.jmg.learn.vok.Vokabel.EnumSprachen;
@@ -908,7 +909,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	ImageView iv = null;
 	HorizontalScrollView sv = null;
 	ImageView iv2 = null;
-	LinearLayout llayoutImage = null;
+	ScalingFrameLayout frmLayoutImage = null;
 	public void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt, boolean LoadPrev) throws Exception
 	{
 
@@ -922,9 +923,9 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			sv.setVisibility(View.GONE);
 		}
 
-		if (llayoutImage != null)
+		if (frmLayoutImage != null)
 		{
-			llayoutImage.setVisibility((View.GONE));
+			frmLayoutImage.setVisibility((View.GONE));
 		}
 
 		if (iv2 != null) iv2.setVisibility(View.GONE);
@@ -1315,9 +1316,11 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
                 isNew = true;
             }
 
-			if (llayoutImage == null)
+			if (frmLayoutImage == null)
 			{
-				llayoutImage = new LinearLayout(context);
+				frmLayoutImage = new LinearLayout(context);
+				frmLayoutImage.setClipChildren(false);
+
 				isNew = true;
 			}
 
@@ -1357,15 +1360,15 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					//int m = (rellayoutMain.getWidth()-b.getWidth()) / 2;
 					//pp.setMargins(m,0,m,0);
 					//pp.weight = 1.0f;
-					llayoutImage.setLayoutParams(pp);
-					llayoutImage.setGravity(Gravity.CENTER_HORIZONTAL);
+					frmLayoutImage.setLayoutParams(pp);
+					frmLayoutImage.setGravity(Gravity.CENTER_HORIZONTAL);
 					//LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(b.getWidth(), b.getHeight());
 					//layoutParams.gravity=Gravity.CENTER_HORIZONTAL;
-					llayoutImage.setOrientation(LinearLayout.HORIZONTAL);
+					frmLayoutImage.setOrientation(LinearLayout.HORIZONTAL);
 
-					sv.addView(llayoutImage);
+					frmLayoutImage.addView(iv);
 
-					llayoutImage.addView(iv);
+					sv.addView(frmLayoutImage);
 
 					rellayoutMain.addView(sv);
 
@@ -1392,16 +1395,16 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			else
 			{
 				//int m = (rellayoutMain.getWidth()-b.getWidth()) / 2;
-				//FrameLayout.LayoutParams l = (FrameLayout.LayoutParams) llayoutImage.getLayoutParams();
+				//FrameLayout.LayoutParams l = (FrameLayout.LayoutParams) frmLayoutImage.getLayoutParams();
 				//l.setMargins(m,0,m,0);
-				//llayoutImage.setLayoutParams(l);
+				//frmLayoutImage.setLayoutParams(l);
 				Log.d("ImageView","exists");
 			}
 			_txtMeaning1.setVisibility(View.GONE);
 			iv.setVisibility(View.VISIBLE);
 			sv.setVisibility(View.VISIBLE);
-			llayoutImage.setVisibility(View.VISIBLE);
-			String status ="main "+ rellayoutMain.getWidth() + " sv " + sv.getWidth() + " llimg " + llayoutImage.getWidth() + " iv " + iv.getWidth();
+			frmLayoutImage.setVisibility(View.VISIBLE);
+			String status ="main "+ rellayoutMain.getWidth() + " sv " + sv.getWidth() + " llimg " + frmLayoutImage.getWidth() + " iv " + iv.getWidth();
 			lib.setgstatus(status);
 		}
 	}
@@ -1467,13 +1470,15 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			}
 			else
 			{
-				iv.getLayoutParams().width = (int) (iv.getWidth() * scaleX);
-				iv.getLayoutParams().height = (int) (iv.getHeight() * scaleX);
+				//iv.getLayoutParams().width = (int) (iv.getWidth() * scaleX);
+				//iv.getLayoutParams().height = (int) (iv.getHeight() * scaleX);
+
+				frmLayoutImage.setScaleX(scaleX);
+				frmLayoutImage.setScaleY(scaleY);
 				iv.setScaleX(scaleX);
 				iv.setScaleY(scaleY);
-				//llayoutImage.setScaleX(scaleX);
-				//llayoutImage.setScaleY(scaleY);
-				String status ="main "+ rellayoutMain.getWidth() + " sv " + sv.getWidth() + " llimg " + llayoutImage.getWidth() + " iv " + iv.getWidth();
+
+				String status ="main "+ rellayoutMain.getWidth() + " sv " + sv.getWidth() + " llimg " + frmLayoutImage.getWidth() + " iv " + iv.getWidth();
 				lib.setgstatus(status);
 			}
 			// Don't let the object get too small or too large.
