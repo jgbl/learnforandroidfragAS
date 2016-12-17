@@ -69,6 +69,7 @@ import org.de.jmg.errorintent.ExceptionActivity;
 import org.de.jmg.learn.vok.Vokabel;
 import org.de.jmg.lib.ColorSetting;
 import org.de.jmg.lib.ColorSetting.ColorItems;
+import org.de.jmg.lib.HackyViewPager;
 import org.de.jmg.lib.Path;
 import org.de.jmg.lib.SoundSetting;
 import org.de.jmg.lib.lib;
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity
     public static final int FILE_OPENINTENT = 34826;
     public static final int LOGINQUIZLETINTENT = 34827;
     private static final int EDIT_REQUEST_CODE = 0x3abd;
-    public ViewPager mPager;
+    public HackyViewPager mPager;
     public float DisplayDurationWord;
     public float DisplayDurationBed;
     public int PaukRepetitions = 3;
@@ -227,7 +228,7 @@ public class MainActivity extends AppCompatActivity
         /** Getting a reference to ViewPager from the layout */
         View pager = this.findViewById(R.id.pager);
         Layout = (ViewGroup) pager;
-        mPager = (ViewPager) pager;
+        mPager = (HackyViewPager) pager;
 
         /** Getting a reference to FragmentManager */
         FragmentManager fm = getSupportFragmentManager();
@@ -845,7 +846,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
+    /*
     private float mx,my;
 
     @Override
@@ -906,6 +907,7 @@ public class MainActivity extends AppCompatActivity
                     rect.left -= Math.max(0, leftPadding);
                     rect.right += Math.max(0, rightPadding)
                     */
+    /*
                         if (rect.contains((int) mx, (int) my))
                         {
                             try
@@ -926,7 +928,7 @@ public class MainActivity extends AppCompatActivity
 
         return super.dispatchTouchEvent(event);
     }
-
+    */
 
     private boolean saveVokAsync(boolean dontPrompt, final boolean blnAsync) throws Exception
     {
@@ -3490,9 +3492,5 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
         protected void onProgressUpdate(Void... values)
         {
         }
-
-
     }
-
-
 }

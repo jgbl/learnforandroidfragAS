@@ -47,6 +47,7 @@ dependencies {
     compile files('libs/achartengine-1.1.0.jar')
     compile project(':library')
     compile project(':jmgerrorintent')
+    compile 'com.github.chrisbanes:PhotoView:1.3.0'
     /*compile ('org.roboguice:roboguice:3.0.1') {
         exclude module: 'aopalliance'
         exclude module: 'cglib'

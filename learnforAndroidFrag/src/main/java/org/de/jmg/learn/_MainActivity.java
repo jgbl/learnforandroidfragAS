@@ -101,6 +101,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 
 public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
@@ -435,6 +437,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		}
 	};
 	RelativeLayout rellayoutMain;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState)
@@ -907,9 +910,9 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 
 	ImageView iv = null;
-	HorizontalScrollView sv = null;
+	//HorizontalScrollView sv = null;
 	ImageView iv2 = null;
-	ScalingFrameLayout frmLayoutImage = null;
+	//ScalingFrameLayout frmLayoutImage = null;
 	public void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt, boolean LoadPrev) throws Exception
 	{
 
@@ -917,7 +920,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		{
 			iv.setVisibility(View.GONE);
 		}
-
+		/*
 		if (sv != null)
 		{
 			sv.setVisibility(View.GONE);
@@ -927,7 +930,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		{
 			frmLayoutImage.setVisibility((View.GONE));
 		}
-
+		*/
 		if (iv2 != null) iv2.setVisibility(View.GONE);
 		try
 		{
@@ -1297,6 +1300,8 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	}
 
+	private PhotoViewAttacher mAttacher;
+
 	private void showBitmap (Bitmap b)
 	{
 		boolean isNew = false;
@@ -1305,10 +1310,10 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			if (iv == null)
 			{
 				iv = new ImageView(context);
-				SetTouchListener(iv);
+				//SetTouchListener(iv);
 
 			}
-
+			/*
             if (sv == null)
             {
                 sv = new HorizontalScrollView(context);
@@ -1323,19 +1328,30 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 				isNew = true;
 			}
+			*/
 
             b = resizeBM(b);
 			iv.setImageBitmap(b);
+            if (mAttacher == null)
+            {
+                //mAttacher = new PhotoViewAttacher(iv);
+            }
+            else
+            {
+                mAttacher.update();
+            }
 			//iv.setTag(R.id.bitMapIV,b);
 			if (iv.getParent() == null)
 			{
 				try
 				{
-					LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+					//LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
                     //p.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, lib.dpToPx(50));
-					p.gravity = Gravity.CENTER_HORIZONTAL;
+					RelativeLayout.LayoutParams pold = (RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
+					//p.gravity = Gravity.CENTER_HORIZONTAL;
 					//p.weight = 1.0f;
-					iv.setLayoutParams(p);
+					iv.setLayoutParams(pold);
+					/*
 					iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
 					iv.setClickable(true);
 					iv.setFocusable(true);
@@ -1345,8 +1361,8 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					{
 						iv.setCropToPadding(false);
 					}
-
-
+                    +/
+					/*
 					RelativeLayout.LayoutParams pold = (RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
                     RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams (LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
 					pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning1);
@@ -1378,6 +1394,12 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					sv.addView(frmLayoutImage);
 
 					rellayoutMain.addView(sv);
+					*/
+					rellayoutMain.addView(iv);
+                    if (mAttacher == null)
+                    {
+                        mAttacher = new PhotoViewAttacher(iv);
+                    }
 
 					/*
 					if (isNew)
@@ -1409,10 +1431,10 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			}
 			_txtMeaning1.setVisibility(View.GONE);
 			iv.setVisibility(View.VISIBLE);
-			sv.setVisibility(View.VISIBLE);
-			frmLayoutImage.setVisibility(View.VISIBLE);
-			String status ="main "+ rellayoutMain.getWidth() + " sv " + sv.getWidth() + " llimg " + frmLayoutImage.getWidth() + " iv " + iv.getWidth();
-			lib.setgstatus(status);
+			//sv.setVisibility(View.VISIBLE);
+			//frmLayoutImage.setVisibility(View.VISIBLE);
+			//String status ="main "+ rellayoutMain.getWidth() + " sv " + sv.getWidth() + " llimg " + frmLayoutImage.getWidth() + " iv " + iv.getWidth();
+			//lib.setgstatus(status);
 		}
 	}
 
@@ -1437,7 +1459,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		}
 		return null;
 	}
-
+	/*
 	private void SetTouchListener(ImageView iv)
 	{
 		if (iv != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
@@ -1455,11 +1477,13 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			});
 		}
 	}
-
+	*/
+	/*
 	public ScaleGestureDetector getScaleDetector()
 	{
 		return mScaleDetector;
 	}
+
 	private ScaleGestureDetector mScaleDetector;
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -1480,7 +1504,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			}
 			else
 			{*/
-				//iv.getLayoutParams().width = (int) (iv.getWidth() * scaleX);
+				/*//iv.getLayoutParams().width = (int) (iv.getWidth() * scaleX);
 				//iv.getLayoutParams().height = (int) (iv.getHeight() * scaleX);
 				frmLayoutImage.setScaleX(fscaleX);
 				frmLayoutImage.setScaleY(fscaleY);
@@ -1494,7 +1518,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			return true;
 		}
 	}
-
+	*/
 	private String replaceClozes(String txt, String txtClozes)
 	{
 		if (_main != null)
