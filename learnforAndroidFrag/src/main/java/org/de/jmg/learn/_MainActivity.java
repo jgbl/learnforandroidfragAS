@@ -1326,32 +1326,38 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
             b = resizeBM(b);
 			iv.setImageBitmap(b);
-			iv.setTag(R.id.bitMapIV,b);
+			//iv.setTag(R.id.bitMapIV,b);
 			if (iv.getParent() == null)
 			{
 				try
 				{
-					LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+					LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
                     //p.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, lib.dpToPx(50));
 					p.gravity = Gravity.CENTER_HORIZONTAL;
 					//p.weight = 1.0f;
 					iv.setLayoutParams(p);
-					iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+					iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
 					iv.setClickable(true);
 					iv.setFocusable(true);
 					iv.setFocusableInTouchMode(true);
 					iv.setAdjustViewBounds(true);
-
+					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+					{
+						iv.setCropToPadding(false);
+					}
 
 
 					RelativeLayout.LayoutParams pold = (RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
-                    RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams (LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
+                    RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams (LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
 					pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning1);
 					pnew.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, pold.topMargin);
 					//pnew.addRule(RelativeLayout.CENTER_HORIZONTAL);
 					//pnew.addRule(RelativeLayout.CENTER_IN_PARENT);
 
 					sv.setLayoutParams(pnew);
+					sv.setFillViewport(true);
+					sv.setHorizontalFadingEdgeEnabled(false);
+					sv.setVerticalFadingEdgeEnabled(false);
                     //p.width = LayoutParams.MATCH_PARENT;
 					//p.height = LayoutParams.MATCH_PARENT;
 
@@ -1466,14 +1472,14 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			float fscaleX = frmLayoutImage.getScaleX() * detector.getScaleFactor();
 			float fscaleY = frmLayoutImage.getScaleY()* detector.getScaleFactor();
 			//float scale = frmLayoutImage.getScale() * detector.getScaleFactor();
-			if (false && iv.getTag(R.id.bitMapIV) != null)
+			/*if (false && iv.getTag(R.id.bitMapIV) != null)
 			{
 				Bitmap b = (Bitmap) iv.getTag(R.id.bitMapIV);
 				//b = lib.resizeBM(b,scaleX,scaleY);
 				iv.setImageBitmap(b);
 			}
 			else
-			{
+			{*/
 				//iv.getLayoutParams().width = (int) (iv.getWidth() * scaleX);
 				//iv.getLayoutParams().height = (int) (iv.getHeight() * scaleX);
 				frmLayoutImage.setScaleX(fscaleX);
@@ -1483,7 +1489,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				//frmLayoutImage.setScale(scale);
 				String status ="main "+ rellayoutMain.getWidth() + " sv " + sv.getWidth() + " llimg " + frmLayoutImage.getWidth() + " iv " + iv.getWidth();
 				lib.setgstatus(status);
-			}
+			//}
 			// Don't let the object get too small or too large.
 			return true;
 		}
