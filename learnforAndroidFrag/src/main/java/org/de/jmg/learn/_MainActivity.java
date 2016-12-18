@@ -1412,6 +1412,8 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
                     if (mAttacher == null)
                     {
                         mAttacher = new PhotoViewAttacher(iv);
+						mAttacher.setMinimumScale(.5f);
+						mAttacher.setZoomable(true);
                     }
 
 					/*
