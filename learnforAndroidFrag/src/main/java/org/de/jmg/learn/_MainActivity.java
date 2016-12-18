@@ -1330,7 +1330,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			}
 			*/
 
-            b = resizeBM(b);
+            b = resizeBM(b,true);
 			iv.setImageBitmap(b);
             if (mAttacher == null)
             {
@@ -1350,7 +1350,20 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					RelativeLayout.LayoutParams pold = (RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
 					//p.gravity = Gravity.CENTER_HORIZONTAL;
 					//p.weight = 1.0f;
-					iv.setLayoutParams(pold);
+					RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams(pold.width,pold.height);
+                    pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning1);
+                    pnew.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, pold.topMargin);
+                    pnew.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                    //pnew.addRule(RelativeLayout.CENTER_IN_PARENT);
+                    /*
+                    for (int rule: pold.getRules())
+                    {
+                        pnew.addRule(rule);
+                    }
+                    */
+                    //pnew.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, pold.topMargin);
+
+                    iv.setLayoutParams(pnew);
 					/*
 					iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
 					iv.setClickable(true);
@@ -1445,7 +1458,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				|| txt.equalsIgnoreCase(getString(R.string.picture));
 	}
 
-	private Bitmap resizeBM(Bitmap b)
+	private Bitmap resizeBM(Bitmap b, boolean onlyGrow)
 	{
 		if (b != null)
 		{
@@ -1453,10 +1466,17 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			int widthScreen = this.width;
 			widthScreen -= lib.dpToPx(40);
 			float fact = (float)widthScreen/(float)width;
-			Matrix matrix = new Matrix();
-			matrix.postScale(fact, fact);
-			return Bitmap.createBitmap(b, 0, 0, b.getWidth(), b.getHeight(), matrix, true);
-		}
+            if (!onlyGrow | fact > 1)
+            {
+                Matrix matrix = new Matrix();
+                matrix.postScale(fact, fact);
+                return Bitmap.createBitmap(b, 0, 0, b.getWidth(), b.getHeight(), matrix, true);
+            }
+            else
+            {
+                return b;
+            }
+        }
 		return null;
 	}
 	/*
