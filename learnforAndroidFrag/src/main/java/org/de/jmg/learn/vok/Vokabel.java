@@ -302,7 +302,9 @@ public class Vokabel
 
     public void setShowPics(boolean value)
     {
+        if(_ShowPics != value) aend = true;
         _ShowPics = value;
+
     }
 
     public String getFileName()
