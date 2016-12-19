@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity
     public MenuItem mnuAddNew;
     public MenuItem mnuUploadToQuizlet;
     private MenuItem _mnuReplaceClozes;
-
+    private MenuItem _mnuShowPics;
     boolean _blnUniCode = true;
     yesnoundefined _oldUniCode = yesnoundefined.undefined;
     AlertDialog dlg = null;
@@ -198,6 +198,7 @@ public class MainActivity extends AppCompatActivity
     private int _invisibleCount = 0;
     private boolean _blnPrivate = false;
     private boolean _blnVerifyToken = false;
+
 
     //Initialisation
     protected void onCreate(Bundle savedInstanceState)
@@ -1070,6 +1071,7 @@ public class MainActivity extends AppCompatActivity
             try
             {
                 vok.LoadFile(this, fileSelected, uri, false, false, _blnUniCode);
+                _mnuShowPics.setChecked(vok.getShowPics());
             }
             catch (RuntimeException ex)
             {
@@ -1815,6 +1817,9 @@ public class MainActivity extends AppCompatActivity
 
                 _mnuReplaceClozes = OptionsMenu.findItem(R.id.mnuReplaceClozes);
                 _mnuReplaceClozes.setChecked(prefs.getBoolean("ReplaceClozes", true));
+                _mnuShowPics = OptionsMenu.findItem(R.id.mnuShowPics);
+                if (vok != null) _mnuShowPics.setChecked(vok.getShowPics());
+
                 /*
                 if (isSmallDevice)
                 {
@@ -2072,6 +2077,11 @@ public class MainActivity extends AppCompatActivity
             {
                 item.setChecked(!item.isChecked());
                 prefs.edit().putBoolean("ReplaceClozes",item.isChecked()).commit();
+            }
+            else if (id == R.id.mnuShowPics)
+            {
+                item.setChecked(!item.isChecked());
+                vok.setShowPics(item.isChecked());
             }
             else if (id == R.id.mnuOpenUri)
             {
@@ -2626,6 +2636,7 @@ public class MainActivity extends AppCompatActivity
         vok.AddVokabel();
         fPA.fragMain.getVokabel(true, false, true);
         fPA.fragMain.StartEdit();
+        _mnuShowPics.setChecked(vok.getShowPics());
     }
 
     public void setJMGDataDirectory(String value)

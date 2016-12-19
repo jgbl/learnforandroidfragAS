@@ -1039,7 +1039,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 						}
 						lib.setgstatus(url);
 					}
-					tspanKom.setSpan(new urlclickablespan(url, originalURL)
+					urlclickablespan QuizletPicture = new urlclickablespan(url, originalURL)
 					{
 						@Override
 						public void onClick(View widget)
@@ -1067,7 +1067,13 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 							}
 							showBitmap(b);
 						}
-					}, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+					};
+					tspanKom.setSpan(QuizletPicture, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+					if (_vok.getShowPics())
+					{
+						QuizletPicture.onClick(null);
+					}
+
 				}
 			}
 			t.setText(tspanKom,

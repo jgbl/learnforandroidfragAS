@@ -336,4 +336,5 @@
     <string name="txtSpeechSpeed">Geschwindigkeit Sprachausgabe</string>
     <string name="mnuBack">zurück</string>
     <string name="mnuReplaceClozes">Platzhalter ersetzen</string>
+    <string name="mnuShowPics">Bilder anzeigen</string>
 </resources>

@@ -336,4 +336,5 @@
 	<string name="txtSpeechSpeed">speech speed</string>
 	<string name="mnuBack">back</string>
 	<string name="mnuReplaceClozes">replace clozes</string>
+	<string name="mnuShowPics">show pictures</string>
 </resources>

@@ -166,7 +166,7 @@ public class Vokabel
         public clsFont Kom;
     }
 
-    // ************* final ************
+    // ************* private ************
 
     final short ErrLernindex = 1005;
     final short ErrWrongfilename = 1001;
@@ -217,6 +217,7 @@ public class Vokabel
     private boolean _UniCode;
     private boolean _AskAll;
     private Uri _uri = null;
+    private boolean _ShowPics;
 
 
     public Uri getURI()
@@ -292,6 +293,16 @@ public class Vokabel
     public void setCardMode(boolean value)
     {
         _cardmode = value;
+    }
+
+    public boolean getShowPics()
+    {
+        return _ShowPics;
+    }
+
+    public void setShowPics(boolean value)
+    {
+        _ShowPics = value;
     }
 
     public String getFileName()
@@ -2244,6 +2255,7 @@ public class Vokabel
             }
             spr = (short) (spr | 256);
             if (reverse) spr = (short) (spr | 512);
+            if (_ShowPics) spr = (short) (spr | 1024);
             if (!libString.IsNullOrEmpty(tastbel)
                     | !libString.IsNullOrEmpty(fontfil))
             {
@@ -2733,6 +2745,8 @@ public class Vokabel
         mLangWord = Locale.getDefault();
         History.clear();
         HistPos = -1;
+        _ShowPics = false;
+        reverse = false;
     }
 
     public void LoadFile(String strFileName) throws Exception
@@ -2977,14 +2991,15 @@ public class Vokabel
                 {
                     lad = 0;
                 }
-                if ((sp & 256) != 0 && sp < 1024)
+                if ((sp & 256) != 0 && sp < 2048)
                 {
                     String x = sr.readLine();
                     String[] Sprachen = x.split(",");
                     mLangWord = lib.forLanguageTag(Sprachen[0]);
                     mLangMeaning = lib.forLanguageTag(Sprachen[1]);
                 }
-                if (sp < 1024) reverse = (sp & 512) != 0;
+                if (sp < 2048) reverse = (sp & 512) != 0;
+                if (sp < 2048) _ShowPics = (sp & 1024) != 0;
                 if (Container != null) ((MainActivity) Container).setMnuReverse();
                 libLearn.gStatus = CodeLoc + " Line 829";
                 // Inserted by CodeCompleter
