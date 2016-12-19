@@ -1069,7 +1069,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 						}
 					};
 					tspanKom.setSpan(QuizletPicture, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-					if (_vok.getShowPics())
+					if (!(showBeds || _vok.reverse) && _vok.getShowPics())
 					{
 						QuizletPicture.onClick(null);
 					}
