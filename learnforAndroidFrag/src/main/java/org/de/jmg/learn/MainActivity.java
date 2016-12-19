@@ -1071,7 +1071,7 @@ public class MainActivity extends AppCompatActivity
             try
             {
                 vok.LoadFile(this, fileSelected, uri, false, false, _blnUniCode);
-                _mnuShowPics.setChecked(vok.getShowPics());
+                if (_mnuShowPics != null) _mnuShowPics.setChecked(vok.getShowPics());
             }
             catch (RuntimeException ex)
             {
