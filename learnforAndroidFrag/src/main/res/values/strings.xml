@@ -337,4 +337,6 @@
 	<string name="mnuBack">back</string>
 	<string name="mnuReplaceClozes">replace clozes</string>
 	<string name="mnuShowPics">show pictures</string>
+	<string name="mnuPrivacyPolicy">privacy policy</string>
+	<string name="PrivacyPolicy">I accept the privacy policy</string>
 </resources>

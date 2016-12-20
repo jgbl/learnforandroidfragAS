@@ -509,24 +509,10 @@ public class MainActivity extends AppCompatActivity
                         strLicense,
                         getString(R.string.license),
                         true));
-					/*
-					java.lang.CharSequence[] cbxs = {getString(R.string.gpl),getString(R.string.gplno)};
-					boolean[] blns = {false,false};
-					lib.yesnoundefined res = (lib.ShowMessageYesNoWithCheckboxes
-							(this,
-									strLicense,
-									cbxs,
-									blns,
-									new DialogInterface.OnMultiChoiceClickListener() {
 
-										@Override
-										public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                lib.yesnoundefined res2 = lib.AcceptPrivacyPolicy(this);
 
-										}
-									})
-					);
-					*/
-                if (res == lib.yesnoundefined.yes)
+                if (res == lib.yesnoundefined.yes && res2 == yesnoundefined.yes)
                 {
                     prefs.edit().putBoolean("LicenseAccepted", true).commit();
                 }
@@ -2017,6 +2003,26 @@ public class MainActivity extends AppCompatActivity
                         .getPackageInfo(context.getPackageName(), 0).versionName;
                 Spannable spn = lib.getSpanableString(strCredits + "\nV" + versionName);
                 lib.ShowMessage(this,spn,"Credits");
+            }
+            else if (id == R.id.mnuPrivacyPolicy)
+            {
+                /*
+                String url = "https://sourceforge.net/projects/learnforandroid/files/privacypolicy.html/download";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+                */
+                lib.yesnoundefined res2 = lib.AcceptPrivacyPolicy(this);
+
+                if (res2 == yesnoundefined.yes)
+                {
+                    prefs.edit().putBoolean("LicenseAccepted", true).commit();
+                }
+                else
+                {
+                    prefs.edit().putBoolean("LicenseAccepted", false).commit();
+                    finish();
+                }
             }
             else if (id == R.id.mnuContact)
             {

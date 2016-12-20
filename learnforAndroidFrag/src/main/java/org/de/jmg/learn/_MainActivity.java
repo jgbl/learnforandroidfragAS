@@ -920,6 +920,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		{
 			iv.setVisibility(View.GONE);
 		}
+		if (_txtMeaning1 != null) _txtMeaning1.setVisibility(View.VISIBLE);
 		/*
 		if (sv != null)
 		{
@@ -1310,6 +1311,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	private void showBitmap (Bitmap b)
 	{
+		if(!(_txtWord.getVisibility()==View.VISIBLE)) return;
 		boolean isNew = false;
         if (b!= null)
 		{
@@ -1357,7 +1359,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					//p.gravity = Gravity.CENTER_HORIZONTAL;
 					//p.weight = 1.0f;
 					RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams(pold.width,pold.height);
-                    pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning1);
+                    pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning3);
                     pnew.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, pold.topMargin);
                     pnew.addRule(RelativeLayout.CENTER_HORIZONTAL);
                     //pnew.addRule(RelativeLayout.CENTER_IN_PARENT);
@@ -1450,7 +1452,15 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				//frmLayoutImage.setLayoutParams(l);
 				Log.d("ImageView","exists");
 			}
-			_txtMeaning1.setVisibility(View.GONE);
+
+			if (!_vok.getCardMode())
+			{
+			}
+			else
+			{
+				_txtMeaning1.setVisibility(View.GONE);
+			}
+
 			iv.setVisibility(View.VISIBLE);
 			//sv.setVisibility(View.VISIBLE);
 			//frmLayoutImage.setVisibility(View.VISIBLE);
@@ -1721,6 +1731,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 					if (!_vok.getCardMode())
 					{
+						if (iv != null) iv.setVisibility(View.GONE);
 						setBtnsEnabled(false);
 						flashwords();
 

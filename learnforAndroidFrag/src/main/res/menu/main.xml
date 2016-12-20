@@ -97,6 +97,11 @@
         android:title="@string/mnuCredits"
         android:icon="@android:drawable/ic_dialog_info"
         />
-
+    <item
+        android:id="@+id/mnuPrivacyPolicy"
+        android:orderInCategory="200"
+        android:title="@string/mnuPrivacyPolicy"
+        android:icon="@android:drawable/ic_dialog_info"
+        />
 
 </menu>

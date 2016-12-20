@@ -337,4 +337,6 @@
     <string name="mnuBack">zurück</string>
     <string name="mnuReplaceClozes">Platzhalter ersetzen</string>
     <string name="mnuShowPics">Bilder anzeigen</string>
+    <string name="mnuPrivacyPolicy">Datenschutzerklärung</string>
+    <string name="PrivacyPolicy">Ich akzeptiere die Datenschutzerklärung</string>
 </resources>

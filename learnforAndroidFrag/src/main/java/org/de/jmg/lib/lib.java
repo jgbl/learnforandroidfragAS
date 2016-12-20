@@ -165,7 +165,7 @@ public class lib
         return _status;
     }
 
-    public static Bitmap resizeBM(Bitmap b, float factX, float factY )
+    public static Bitmap resizeBM(Bitmap b, float factX, float factY)
     {
         if (b != null)
         {
@@ -531,10 +531,12 @@ public class lib
 
         A.setView(checkBoxView);
         DialogResultYes = yesnoundefined.undefined;
-        A.setPositiveButton(context.getString(R.string.ok), new OnClickListener() {
+        A.setPositiveButton(context.getString(R.string.ok), new OnClickListener()
+        {
 
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int which)
+            {
                 //throw new MessageException();
                 DialogResultYes = yesnoundefined.yes;
             }
@@ -584,9 +586,11 @@ public class lib
                 + "\n" + Log.getStackTraceString(ex));
         A.setTitle("Error");
         dlgOK = A.create();
-        dlgOK.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        dlgOK.setOnDismissListener(new DialogInterface.OnDismissListener()
+        {
             @Override
-            public void onDismiss(DialogInterface dialog) {
+            public void onDismiss(DialogInterface dialog)
+            {
                 removeDlg(dialog);
             }
         });
@@ -858,9 +862,11 @@ public class lib
             input.setText(prompt);
             A.setView(input);
             AlertDialog dlg = A.create();
-            dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            dlg.setOnDismissListener(new DialogInterface.OnDismissListener()
+            {
                 @Override
-                public void onDismiss(DialogInterface dialog) {
+                public void onDismiss(DialogInterface dialog)
+                {
                     throw new MessageException();
                 }
             });
@@ -1539,7 +1545,8 @@ public class lib
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static void getHitRect(View v, Rect rect) {
+    public static void getHitRect(View v, Rect rect)
+    {
         rect.left = (int) (v.getLeft() + v.getTranslationX());
         rect.top = (int) (v.getTop() + v.getTranslationY());
         rect.right = rect.left + v.getWidth();
@@ -1933,7 +1940,7 @@ public class lib
         return txt;
     }
 
-    public static void setLocale(Context c,String l) throws Exception
+    public static void setLocale(Context c, String l) throws Exception
     {
 
         Resources res = c.getResources();
@@ -1943,6 +1950,30 @@ public class lib
         res.updateConfiguration(conf, dm);
 
     }
+
+    public static yesnoundefined AcceptPrivacyPolicy(Context context) throws IOException
+    {
+        InputStream is
+        if ((context.Locale.getDefault().getDisplayLanguage() == Locale.GERMAN) || (Locale.getDefault().getDisplayLanguage() == Locale.GERMANY))
+        {
+            is = context.getAssets().open("PrivacyPolicy");
+        }
+        else
+        {
+            is = context.getAssets().open("PrivacyPolicy");
+        }
+        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+        String strPrivacyPolicy = s.hasNext() ? s.next() : "";
+        s.close();
+        is.close();
+        lib.yesnoundefined res2 = (lib.ShowMessageYesNo(context,
+                strPrivacyPolicy,
+                context.getString(R.string.PrivacyPolicy),
+                true));
+        return res2;
+    }
+
+
 
 
     public enum yesnoundefined
