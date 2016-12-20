@@ -510,7 +510,7 @@ public class MainActivity extends AppCompatActivity
                         getString(R.string.license),
                         true));
 
-                lib.yesnoundefined res2 = lib.AcceptPrivacyPolicy(this);
+                lib.yesnoundefined res2 = lib.AcceptPrivacyPolicy(this, Locale.getDefault());
 
                 if (res == lib.yesnoundefined.yes && res2 == yesnoundefined.yes)
                 {
@@ -2012,7 +2012,7 @@ public class MainActivity extends AppCompatActivity
                 i.setData(Uri.parse(url));
                 startActivity(i);
                 */
-                lib.yesnoundefined res2 = lib.AcceptPrivacyPolicy(this);
+                lib.yesnoundefined res2 = lib.AcceptPrivacyPolicy(this, Locale.getDefault());
 
                 if (res2 == yesnoundefined.yes)
                 {
@@ -2663,6 +2663,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        super.onActivityResult(requestCode, resultCode, data);
         try
         {
             if ((requestCode == FILE_CHOOSER)

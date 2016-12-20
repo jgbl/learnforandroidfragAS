@@ -100,6 +100,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static android.content.Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION;
+import static java.util.Locale.getDefault;
 
 //import com.microsoft.live.*;
 //import android.runtime.*;
@@ -209,14 +210,14 @@ public class lib
             return false;
         }
 
-        if (extension.toLowerCase(Locale.getDefault()).contains(ext.toLowerCase(Locale.getDefault())))
+        if (extension.toLowerCase(getDefault()).contains(ext.toLowerCase(getDefault())))
             return true;
 
         String itext = extension;
         if (!itext.startsWith(".")) itext = "." + itext;
         itext = itext.replace(".", "\\.");
-        itext = itext.toLowerCase(Locale.getDefault());
-        ext = ext.toLowerCase(Locale.getDefault());
+        itext = itext.toLowerCase(getDefault());
+        ext = ext.toLowerCase(getDefault());
         return ext.matches(itext.replace("?", ".{1}").replace("*", ".*"));
 
 
@@ -227,7 +228,7 @@ public class lib
         String ext = lib.getExtension(FileName);
         if (!libString.IsNullOrEmpty(ext))
         {
-            ext = ext.toLowerCase(Locale.getDefault());
+            ext = ext.toLowerCase(getDefault());
             if (ext.startsWith(".k") || ext.startsWith(".v")) return true;
         }
         return false;
@@ -1951,12 +1952,12 @@ public class lib
 
     }
 
-    public static yesnoundefined AcceptPrivacyPolicy(Context context) throws IOException
+    public static yesnoundefined AcceptPrivacyPolicy(Context context, Locale L) throws IOException
     {
-        InputStream is
-        if ((context.Locale.getDefault().getDisplayLanguage() == Locale.GERMAN) || (Locale.getDefault().getDisplayLanguage() == Locale.GERMANY))
+        InputStream is;
+        if ((L == Locale.GERMAN) || (L == Locale.GERMANY))
         {
-            is = context.getAssets().open("PrivacyPolicy");
+            is = context.getAssets().open("PrivacyPolicyDe");
         }
         else
         {
