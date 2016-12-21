@@ -512,6 +512,15 @@ public class lib
         dlg.show();
         ((TextView) dlg.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
         OpenDialogs.add(dlg);
+        dlg.setOnDismissListener(new DialogInterface.OnDismissListener()
+        {
+            @Override
+            public void onDismiss(DialogInterface dialog)
+            {
+                removeDlg(dialog);
+            }
+        });
+
     }
 
     public static boolean ShowMessageWithCheckbox(Context context, String title, String msg, String CheckboxTitle) throws Exception

@@ -2372,6 +2372,7 @@ public class MainActivity extends AppCompatActivity
                 dlg = A.create();
                 dlg.show();
 
+                lib.OpenDialogs.add(dlg);
                 dlg.setOnDismissListener(new DialogInterface.OnDismissListener()
                 {
                     @Override
@@ -2380,7 +2381,7 @@ public class MainActivity extends AppCompatActivity
                         lib.removeDlg(dlg);
                     }
                 });
-                lib.OpenDialogs.add(dlg);
+
             }
 
         }
@@ -2500,6 +2501,7 @@ public class MainActivity extends AppCompatActivity
                 dlg = A.create();
                 dlg.show();
 
+                lib.OpenDialogs.add(dlg);
                 dlg.setOnDismissListener(new DialogInterface.OnDismissListener()
                 {
                     @Override
@@ -2508,7 +2510,8 @@ public class MainActivity extends AppCompatActivity
                         lib.removeDlg(dlg);
                     }
                 });
-                lib.OpenDialogs.add(dlg);
+                //Remove Dialog
+
             }
 
         }
