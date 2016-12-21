@@ -1372,17 +1372,17 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
                     //pnew.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, pold.topMargin);
 
                     iv.setLayoutParams(pnew);
-					/*
-					iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+					//iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
 					iv.setClickable(true);
 					iv.setFocusable(true);
 					iv.setFocusableInTouchMode(true);
 					iv.setAdjustViewBounds(true);
-					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+					/*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
 					{
 						iv.setCropToPadding(false);
-					}
-                    +/
+					}*/
+
 					/*
 					RelativeLayout.LayoutParams pold = (RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
                     RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams (LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);

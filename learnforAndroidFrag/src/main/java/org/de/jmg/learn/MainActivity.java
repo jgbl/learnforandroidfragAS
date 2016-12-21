@@ -747,9 +747,23 @@ public class MainActivity extends AppCompatActivity
 
             }
             handlerbackpressed.removeCallbacks(rSetBackPressedFalse);
-            for (DialogInterface dlg : lib.OpenDialogs)
+            try
             {
-                dlg.dismiss();
+                for (DialogInterface dlg : lib.OpenDialogs)
+                {
+                    try
+                    {
+                        dlg.dismiss();
+                    }
+                    catch (Throwable eex)
+                    {
+                        eex.printStackTrace();
+                    }
+                }
+            }
+            catch (Throwable ex)
+            {
+                ex.printStackTrace();
             }
             lib.OpenDialogs.clear();
 

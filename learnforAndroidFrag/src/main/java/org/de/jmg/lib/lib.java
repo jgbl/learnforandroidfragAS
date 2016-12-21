@@ -1964,7 +1964,7 @@ public class lib
     public static yesnoundefined AcceptPrivacyPolicy(Context context, Locale L) throws IOException
     {
         InputStream is;
-        if ((L == Locale.GERMAN) || (L == Locale.GERMANY))
+        if ((L.equals( Locale.GERMAN)) || (L.equals( Locale.GERMANY)))
         {
             is = context.getAssets().open("PrivacyPolicyDe");
         }
