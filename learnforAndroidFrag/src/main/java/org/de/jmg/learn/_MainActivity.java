@@ -1285,7 +1285,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 					lib.removeLayoutListener(_scrollView.getViewTreeObserver(), this);
 					hideKeyboard();
-					if (showBeds)
+					if ((showBeds && !_vok.reverse))
 					{
 						_scrollView.scrollTo(0, _txtMeaning1.getTop());
 					}
@@ -1346,10 +1346,18 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
             }
             else
             {
-                mAttacher.update();
+				try
+				{
+					mAttacher.update();
+				}
+				catch (Throwable ex)
+				{
+					lib.ShowException(context,ex);
+				}
             }
 			//iv.setTag(R.id.bitMapIV,b);
-			if (iv.getParent() == null)
+
+			if (true)
 			{
 				try
 				{
@@ -1359,7 +1367,25 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					//p.gravity = Gravity.CENTER_HORIZONTAL;
 					//p.weight = 1.0f;
 					RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams(pold.width,pold.height);
-                    pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning3);
+                    if (_vok != null && _vok.getCardMode())
+					{
+						pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning1);
+					}
+					else
+					{
+						if (_txtMeaning3.getVisibility() == View.VISIBLE)
+						{
+							pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning3);
+						}
+						else if (_txtMeaning2.getVisibility() == View.VISIBLE)
+						{
+							pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning2);
+						}
+						else
+						{
+							pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning1);
+						}
+					}
                     pnew.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, pold.topMargin);
                     pnew.addRule(RelativeLayout.CENTER_HORIZONTAL);
                     //pnew.addRule(RelativeLayout.CENTER_IN_PARENT);
@@ -1374,11 +1400,14 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
                     iv.setLayoutParams(pnew);
 
 					//iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
-					iv.setClickable(true);
-					iv.setFocusable(true);
-					iv.setFocusableInTouchMode(true);
-					iv.setAdjustViewBounds(true);
-					/*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+					if (iv.getParent() == null)
+					{
+						iv.setClickable(true);
+						iv.setFocusable(true);
+						iv.setFocusableInTouchMode(true);
+						iv.setAdjustViewBounds(true);
+					}
+						/*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
 					{
 						iv.setCropToPadding(false);
 					}*/
@@ -1416,7 +1445,14 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 					rellayoutMain.addView(sv);
 					*/
-					rellayoutMain.addView(iv);
+					if (iv.getParent() == null)
+					{
+						rellayoutMain.addView(iv);
+					}
+					else
+					{
+						rellayoutMain.requestLayout();
+					}
                     if (mAttacher == null)
                     {
                         mAttacher = new PhotoViewAttacher(iv);
