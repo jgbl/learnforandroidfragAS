@@ -916,9 +916,17 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	public void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt, boolean LoadPrev) throws Exception
 	{
 
-		if (iv != null)
+		if (iv != null && iv.getVisibility() == View.VISIBLE)
 		{
 			iv.setVisibility(View.GONE);
+			if (_vok != null && _vok.getCardMode())
+			{
+				SetViewsToCardmode();
+			}
+			else
+			{
+				SetViewsToVokMode();
+			}
 		}
 		if (_txtMeaning1 != null) _txtMeaning1.setVisibility(View.VISIBLE);
 		/*
@@ -1390,7 +1398,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 						}
 					}
 					*/
-                    pnew.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, pold.topMargin);
+					pnew.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, pold.topMargin);
                     pnew.addRule(RelativeLayout.CENTER_HORIZONTAL);
                     //pnew.addRule(RelativeLayout.CENTER_IN_PARENT);
                     /*
@@ -1498,7 +1506,20 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			}
 			else
 			{
-				_txtMeaning1.setVisibility(View.GONE);
+				if (!_vok.reverse)
+				{
+					_txtMeaning1.setVisibility(View.GONE);
+					_txtMeaning2.setVisibility(View.GONE);
+					_txtMeaning3.setVisibility(View.GONE);
+				}
+				else
+				{
+					int lines = _txtMeaning1.getLineCount();
+
+					if (lines < 16) _txtMeaning1.setLines (lines);
+
+					//_txtMeaning1.setLayoutParams(params);
+				}
 			}
 
 			iv.setVisibility(View.VISIBLE);
