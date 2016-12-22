@@ -1016,6 +1016,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			String Kom = _vok.getKommentar();
 			SpannableString tspanKom = lib.getSpanableString(Kom);
 			URLSpan[] urlSpans = tspanKom.getSpans(0, tspanKom.length(), URLSpan.class);
+			urlclickablespan QuizletPicture = null;
 			for (final URLSpan span : urlSpans) {
 				int start = tspanKom.getSpanStart(span);
 				int end = tspanKom.getSpanEnd(span);
@@ -1040,7 +1041,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 						}
 						lib.setgstatus(url);
 					}
-					urlclickablespan QuizletPicture = new urlclickablespan(url, originalURL)
+					QuizletPicture = new urlclickablespan(url, originalURL)
 					{
 						@Override
 						public void onClick(View widget)
@@ -1070,10 +1071,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 						}
 					};
 					tspanKom.setSpan(QuizletPicture, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-					if ((!showBeds || _vok.reverse) && _vok.getShowPics())
-					{
-						QuizletPicture.onClick(null);
-					}
+					
 
 				}
 			}
@@ -1296,7 +1294,10 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					}
 				}
 			});
-
+			if ((!showBeds || _vok.reverse) && _vok.getShowPics() && QuizletPicture != null)
+			{
+				QuizletPicture.onClick(null);
+			}
 
 		}
 		catch (Exception e)
@@ -1357,7 +1358,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
             }
 			//iv.setTag(R.id.bitMapIV,b);
 
-			if (true)
+			if (iv.getParent() == null)
 			{
 				try
 				{
@@ -1367,7 +1368,9 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					//p.gravity = Gravity.CENTER_HORIZONTAL;
 					//p.weight = 1.0f;
 					RelativeLayout.LayoutParams pnew = new RelativeLayout.LayoutParams(pold.width,pold.height);
-                    if (_vok != null && _vok.getCardMode())
+					pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning3);
+					/*
+					if (_vok != null && _vok.getCardMode())
 					{
 						pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning1);
 					}
@@ -1386,6 +1389,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 							pnew.addRule(RelativeLayout.BELOW, R.id.txtMeaning1);
 						}
 					}
+					*/
                     pnew.setMargins(pold.leftMargin,pold.topMargin,pold.rightMargin, pold.topMargin);
                     pnew.addRule(RelativeLayout.CENTER_HORIZONTAL);
                     //pnew.addRule(RelativeLayout.CENTER_IN_PARENT);
