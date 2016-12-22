@@ -2257,7 +2257,7 @@ public class Vokabel
             }
             spr = (short) (spr | 256);
             if (reverse) spr = (short) (spr | 512);
-            if (_ShowPics) spr = (short) (spr | 1024);
+            if (_ShowPics) spr = (short) (spr | 2048);
             if (!libString.IsNullOrEmpty(tastbel)
                     | !libString.IsNullOrEmpty(fontfil))
             {
@@ -2993,15 +2993,17 @@ public class Vokabel
                 {
                     lad = 0;
                 }
-                if ((sp & 256) != 0 && sp < 2048)
+                boolean first = true;
+                if ((sp & 256) != 0 && (sp < 1024 || sp > 2048))
                 {
                     String x = sr.readLine();
                     String[] Sprachen = x.split(",");
                     mLangWord = lib.forLanguageTag(Sprachen[0]);
                     mLangMeaning = lib.forLanguageTag(Sprachen[1]);
+                    first = false;
                 }
-                if (sp < 2048) reverse = (sp & 512) != 0;
-                if (sp < 2048) _ShowPics = (sp & 1024) != 0;
+                if (sp < 1024 || sp > 2048) reverse = (sp & 512) != 0;
+                if (sp >= 2048) _ShowPics = (sp & 2048) != 0;
                 if (Container != null) ((MainActivity) Container).setMnuReverse();
                 libLearn.gStatus = CodeLoc + " Line 829";
                 // Inserted by CodeCompleter
@@ -3021,8 +3023,29 @@ public class Vokabel
                 int csvFound = 0;
                 boolean csvRegognized = false;
                 typVok CurVok = null;
+
                 for (String x = sr.readLine(); x != null; x = sr.readLine())
                 {
+                    if (first && (sp & 256) != 0)
+                    {
+                        //String x = sr.readLine();
+                        String[] Sprachen = x.split(",");
+                        if (Sprachen.length == 2)
+                        {
+                            try
+                            {
+                                mLangWord = lib.forLanguageTag(Sprachen[0]);
+                                mLangMeaning = lib.forLanguageTag(Sprachen[1]);
+                                first = false;
+                                continue;
+                            }
+                            catch (Throwable e)
+                            {
+
+                            }
+                        }
+                    }
+                    first = false;
                     csvFound = 0;
                     int Len = x.length();
                     if (Len == 0)

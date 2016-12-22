@@ -3418,7 +3418,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
                                 && ex.getCause().getMessage()
                                 .contains("IsSingleline"))
                         {
-                            vok.LoadFile(MainActivity.this, null, uri, true, false, _blnUniCode);
+                            vok.LoadFile(MainActivity.this, null, uri, true, false, _blnUniCode,true);
                         }
                         else
                         {

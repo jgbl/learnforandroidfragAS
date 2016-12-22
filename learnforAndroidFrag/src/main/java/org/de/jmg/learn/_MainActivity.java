@@ -908,6 +908,25 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		getVokabel(showBeds,LoadNext,requestFocusEdWord,DontPrompt,false);
 	}
 
+	public String getQuizletHighResUrl(String txt,String url)
+	{
+		if(txt.contains("<link://https://quizlet.com/ Quizlet/>"))
+		{
+			if (url.endsWith("_m.jpg") || url.endsWith("_s.jpg") || url.endsWith("_t.jpg") )
+			{
+				url = url.substring(0,url.length()-6) + "_b.jpg";
+			}
+			else
+			{
+				if (!url.endsWith("_b.jpg"))
+				{
+					url = url.replace(".jpg","_b.jpg");
+				}
+			}
+			lib.setgstatus(url);
+		}
+		return url;
+	}
 
 	ImageView iv = null;
 	//HorizontalScrollView sv = null;
@@ -1034,21 +1053,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					tspanKom.removeSpan(span);
 					String url = span.getURL();
 					String originalURL = url;
-					if(Kom.contains("<link://https://quizlet.com/ Quizlet/>"))
-					{
-						if (url.endsWith("_m.jpg") || url.endsWith("_s.jpg") || url.endsWith("_t.jpg") )
-						{
-							url = url.substring(0,url.length()-6) + "_b.jpg";
-						}
-						else
-						{
-							if (!url.endsWith("_b.jpg"))
-							{
-								url = url.replace(".jpg","_b.jpg");
-							}
-						}
-						lib.setgstatus(url);
-					}
+					url = getQuizletHighResUrl(Kom,url);
 					QuizletPicture = new urlclickablespan(url, originalURL)
 					{
 						@Override
@@ -1127,14 +1132,29 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					URLSpan urlspn[] = tspan.getSpans(0, tspan.length(), URLSpan.class);
 					for (URLSpan url : urlspn)
 					{
+						String 	surl = url.getURL();
+						String originalURL = surl;
+						surl = getQuizletHighResUrl(tspan.toString(),surl);
 						Bitmap b;
 						try
 						{
-							b = lib.downloadpicture(url.getURL());
+							b = lib.downloadpicture(surl);
 						}
 						catch (Exception ex)
 						{
 							b = null;
+						}
+						if (b == null && originalURL != null)
+						{
+							try
+							{
+								b = lib.downloadpicture(originalURL);
+							}
+							catch (Exception ex)
+							{
+								b = null;
+							}
+
 						}
 						showBitmap(b);
 						/*
@@ -1973,6 +1993,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		_txtKom.setVisibility(View.GONE);
 		_txtedWord.setVisibility(View.VISIBLE);
 		_txtedWord.setText(_txtWord.getText());
+		_txtMeaning1.setVisibility((View.VISIBLE));
 		/*
 		if (_vok.getSprache() == EnumSprachen.Hebrew)
 		{
@@ -2052,6 +2073,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		_txtedWord.clearFocus();
 		//_txtedWord.requestFocusFromTouch();
 		_txtedWord.requestFocus();
+		if (iv != null) iv.setVisibility(View.GONE);
 		mainView.getViewTreeObserver().addOnGlobalLayoutListener(
 				new ViewTreeObserver.OnGlobalLayoutListener() {
 
