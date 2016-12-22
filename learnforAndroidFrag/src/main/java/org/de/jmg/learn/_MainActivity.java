@@ -1135,6 +1135,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 						String 	surl = url.getURL();
 						String originalURL = surl;
 						surl = getQuizletHighResUrl(tspan.toString(),surl);
+						// pictures no more zoomable
 						Bitmap b;
 						try
 						{
