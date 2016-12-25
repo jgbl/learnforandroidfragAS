@@ -159,7 +159,7 @@ public class SettingsActivity extends Fragment
 		super.onSaveInstanceState(outState);
 		try {
 			saveResultsAndFinish(true);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 
 			lib.ShowException(_main, e);
 		}
@@ -203,7 +203,7 @@ public class SettingsActivity extends Fragment
 		}
 		try {
 			init(savedInstanceState != null);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			lib.ShowException(_main,e);
 		}
 		//langinitialized = true;
@@ -227,7 +227,7 @@ public class SettingsActivity extends Fragment
 		_main = main;
 	}
 	
-	public void init(boolean blnRestart) throws Exception
+	public void init(boolean blnRestart) throws Throwable
 	{
 		if (_Intent == null || _main == null || SettingsView == null || _blnInitialized)
 		{
@@ -348,7 +348,7 @@ public class SettingsActivity extends Fragment
 			}
 			_blnInitialized = true;
 		}
-		catch (Exception ex)
+		catch (Throwable ex)
 		{
 			lib.ShowException(_main, ex);
 		}
@@ -900,7 +900,7 @@ public class SettingsActivity extends Fragment
 					libLearn.gStatus = "get Spinneradapter ProbabilityFactor";
 					Pos = (a1.getPosition(strDD));
 					spnProbabilityFactor.setSelection(Pos);
-				} catch (Exception ex) {
+				} catch (Throwable ex) {
 					lib.ShowException(_main, ex);
 				}
 
@@ -955,7 +955,7 @@ public class SettingsActivity extends Fragment
 					libLearn.gStatus = "get Spinneradapter ProbabilityFactor";
 					Pos = (a1.getPosition(strDD));
 					spnRestartInterval.setSelection(Pos);
-				} catch (Exception ex) {
+				} catch (Throwable ex) {
 					lib.ShowException(_main, ex);
 				}
 
@@ -1212,7 +1212,7 @@ public class SettingsActivity extends Fragment
 							lib.playSound(F);
 						else
 							lib.playSound(_main.getAssets(), item.SoundPath);
-					} catch (Exception e) {
+					} catch (Throwable e) {
 
 						e.printStackTrace();
 					}
@@ -1227,7 +1227,7 @@ public class SettingsActivity extends Fragment
 				
 			});
 
-		} catch (Exception ex) {
+		} catch (Throwable ex) {
 			lib.ShowException(_main, ex);
 		}
 	}
@@ -1295,7 +1295,7 @@ public class SettingsActivity extends Fragment
 
 				try {
 					saveResultsAndFinish(false);
-				} catch (Exception e) {
+				} catch (Throwable e) {
 
 					e.printStackTrace();
 				}
@@ -1313,7 +1313,7 @@ public class SettingsActivity extends Fragment
 		*/
 	}
 	
-	void saveResultsAndFinish(boolean blnDontSetCurrentItem) throws Exception
+	void saveResultsAndFinish(boolean blnDontSetCurrentItem) throws Throwable
 	{
 		for (int i = 0; i < Colors.getCount(); i++) {
 			intent.putExtra(Colors.getItem(i).ColorItem.name(),
@@ -1520,7 +1520,7 @@ public class SettingsActivity extends Fragment
 
 			
 		}
-		catch (Exception ex)
+		catch (Throwable ex)
 		{
 			lib.ShowException(_main, ex);
 		}
@@ -1664,7 +1664,7 @@ public class SettingsActivity extends Fragment
 					editor.commit();
 				}
 			}
-		} catch (Exception ex) {
+		} catch (Throwable ex) {
 			lib.ShowException(_main, ex);
 		}
 	}

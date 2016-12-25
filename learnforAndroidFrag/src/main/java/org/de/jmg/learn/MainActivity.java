@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity
             if (_blnEink)
                 lib.ShowToast(this, "This is an Eink diplay!");
         }
-        catch (Exception ex)
+        catch (Throwable ex)
         {
             lib.ShowException(this, ex);
         }
@@ -277,7 +277,7 @@ public class MainActivity extends AppCompatActivity
             {
                 processBundle(savedInstanceState);
             }
-            catch (Exception e)
+            catch (Throwable e)
             {
 
                 e.printStackTrace();
@@ -297,14 +297,14 @@ public class MainActivity extends AppCompatActivity
                 //finish();
             }
         }
-        catch (Exception ex)
+        catch (Throwable ex)
         {
             lib.ShowException(this, ex);
         }
 
     }
 
-    private void processBundle(Bundle savedInstanceState) throws Exception
+    private void processBundle(Bundle savedInstanceState) throws Throwable
     {
         final String tmppath = Path.combine(getApplicationInfo().dataDir, "vok.tmp");
 
@@ -321,7 +321,7 @@ public class MainActivity extends AppCompatActivity
             {
                 mPager.setCurrentItem(savedInstanceState.getInt("SelFragID",0));
             }
-            catch (Exception e)
+            catch (Throwable e)
             {
                 e.printStackTrace();
             }
@@ -523,7 +523,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         }
-        catch (Exception e)
+        catch (Throwable e)
         {
 
             lib.ShowException(this, e);
@@ -579,7 +579,7 @@ public class MainActivity extends AppCompatActivity
                             {
                                 fPA.fragSettings.saveResultsAndFinish(true);
                             }
-                            catch (Exception ex)
+                            catch (Throwable ex)
                             {
                                 Log.e(".saveResultsAndFinish", ex.getMessage(), ex);
                             }
@@ -592,7 +592,7 @@ public class MainActivity extends AppCompatActivity
                         }
 
                     }
-                    catch (Exception e)
+                    catch (Throwable e)
                     {
 
                         lib.ShowException(MainActivity.this, e);
@@ -616,7 +616,7 @@ public class MainActivity extends AppCompatActivity
 								{
 									mPager.setCurrentItem(_MainActivity.fragID);
 								}
-							} catch (Exception e) {
+							} catch (Throwable e) {
 
 								lib.ShowException(MainActivity.this, e);
 							}
@@ -658,7 +658,7 @@ public class MainActivity extends AppCompatActivity
                             fPA.fragSettings.setSpnWordPosition();
                             fPA.fragSettings.setChkTSS();
                         }
-                        catch (Exception ex)
+                        catch (Throwable ex)
                         {
                             Log.e(".saveResultsAndFinish", ex.getMessage(), ex);
                         }
@@ -769,7 +769,7 @@ public class MainActivity extends AppCompatActivity
 
 
         }
-        catch (Exception e)
+        catch (Throwable e)
         {
 
             Log.e("OnSaveInstanceState", e.getMessage(), e);
@@ -797,7 +797,7 @@ public class MainActivity extends AppCompatActivity
             {
                 saveVok(false);
             }
-            catch (Exception e)
+            catch (Throwable e)
             {
 
                 lib.ShowException(this, e);
@@ -818,7 +818,7 @@ public class MainActivity extends AppCompatActivity
                 }
 
             }
-            catch (Exception e)
+            catch (Throwable e)
             {
 
                 Log.e("onBackPressed", e.getMessage(), e);
@@ -931,7 +931,7 @@ public class MainActivity extends AppCompatActivity
     }
     */
 
-    private boolean saveVokAsync(boolean dontPrompt, final boolean blnAsync) throws Exception
+    private boolean saveVokAsync(boolean dontPrompt, final boolean blnAsync) throws Throwable
     {
         fPA.fragMain.EndEdit(true);
         if (vok.aend)
@@ -967,13 +967,13 @@ public class MainActivity extends AppCompatActivity
 
 
                         }
-                        catch (Exception e)
+                        catch (Throwable e)
                         {
                             try
                             {
                                 SaveVokAs(true, false);
                             }
-                            catch (Exception e1)
+                            catch (Throwable e1)
                             {
 
                                 e1.printStackTrace();
@@ -1035,7 +1035,7 @@ public class MainActivity extends AppCompatActivity
                     handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
 
                 }
-                catch (Exception e)
+                catch (Throwable e)
                 {
                     lib.ShowException(this, e);
                 }
@@ -1118,7 +1118,7 @@ public class MainActivity extends AppCompatActivity
             if (fPA.fragMain != null && fPA.fragMain.mainView != null)
                 fPA.fragMain.getVokabel(false, false, false);
         }
-        catch (Exception e)
+        catch (Throwable e)
         {
             lib.ShowException(this, e);
             if (fPA.fragMain != null && fPA.fragMain.mainView != null)
@@ -1127,7 +1127,7 @@ public class MainActivity extends AppCompatActivity
                 {
                     fPA.fragMain.getVokabel(true, true, false);
                 }
-                catch (Exception e1)
+                catch (Throwable e1)
                 {
                     lib.ShowException(this, e);
                 }
@@ -1135,17 +1135,17 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public boolean saveVok(boolean dontPrompt) throws Exception
+    public boolean saveVok(boolean dontPrompt) throws Throwable
     {
         return saveVok(dontPrompt, true, false);
     }
 
-    public boolean saveVok(boolean dontPrompt, boolean dontShowBackPressed) throws Exception
+    public boolean saveVok(boolean dontPrompt, boolean dontShowBackPressed) throws Throwable
     {
         return saveVok(dontPrompt, dontShowBackPressed, false);
     }
 
-    public boolean saveVok(boolean dontPrompt, boolean dontShowBackPressed, boolean blnAsync) throws Exception
+    public boolean saveVok(boolean dontPrompt, boolean dontShowBackPressed, boolean blnAsync) throws Throwable
     {
         if (fPA.fragMain != null && fPA.fragMain.mainView != null)
         {
@@ -1180,7 +1180,7 @@ public class MainActivity extends AppCompatActivity
 				 * vok.getUniCode()); vok.aend = false; _backPressed += 1;
 				 * Handler handler = new Handler();
 				 * handler.postDelayed(rSetBackPressedFalse, 10000);
-				 * saveFilePrefs(); } catch (Exception e) { // TODO
+				 * saveFilePrefs(); } catch (Throwable e) { // TODO
 				 * Auto-generated catch block
 				 * lib.ShowException(MainActivity.this, e); } } });
 				 * A.setNegativeButton(getString(R.string.no), new
@@ -1234,7 +1234,7 @@ public class MainActivity extends AppCompatActivity
                     return true;
                 }
             }
-            catch (Exception e)
+            catch (Throwable e)
             {
 
                 //lib.ShowException(this, e);
@@ -1272,7 +1272,7 @@ public class MainActivity extends AppCompatActivity
             {
                 takePersistableUri(vok.getURI(), false);
             }
-            catch (Exception e)
+            catch (Throwable e)
             {
 
                 e.printStackTrace();
@@ -1291,7 +1291,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @SuppressLint("NewApi")
-    private void takePersistableUri(Uri selectedUri, boolean force) throws Exception
+    private void takePersistableUri(Uri selectedUri, boolean force) throws Throwable
     {
         if (Build.VERSION.SDK_INT >= 19)
         {
@@ -1302,7 +1302,7 @@ public class MainActivity extends AppCompatActivity
                 // Check for the freshest data.
                 getContentResolver().takePersistableUriPermission(selectedUri, takeFlags);
             }
-            catch (Exception ex)
+            catch (Throwable ex)
             {
                 Log.e("takePersistableUri", "Error", ex);
                 if (force) lib.ShowException(this, ex);
@@ -1410,7 +1410,7 @@ public class MainActivity extends AppCompatActivity
                                     myInput.close();
                                     successful = true;
                                 }
-                                catch (Exception eex)
+                                catch (Throwable eex)
                                 {
                                     if (i == 0) throw eex;
                                     lib.ShowMessage(this, this.getString(R.string.fileCouldNotBeCreated) + " " + outFileName, this.getString(R.string.Error));
@@ -1560,7 +1560,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @SuppressLint("InlinedApi")
-    public void SaveVokAs(boolean blnUniCode, boolean blnNew) throws Exception
+    public void SaveVokAs(boolean blnUniCode, boolean blnNew) throws Throwable
     {
         boolean blnActionCreateDocument = false;
         try
@@ -1677,7 +1677,7 @@ public class MainActivity extends AppCompatActivity
                             blnSuccess = true;
                         }
                     }
-                    catch (Exception ex)
+                    catch (Throwable ex)
                     {
                         blnSuccess = false;
                         Log.e("SaveAs", ex.getMessage(), ex);
@@ -1741,7 +1741,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         }
-        catch (Exception ex)
+        catch (Throwable ex)
         {
             libLearn.gStatus = "SaveVokAs";
             lib.ShowException(this, ex);
@@ -1851,7 +1851,7 @@ public class MainActivity extends AppCompatActivity
             }
             throw new RuntimeException("menu is null!");
         }
-        catch (Exception ex)
+        catch (Throwable ex)
         {
             lib.ShowException(this, ex);
         }
@@ -1912,7 +1912,7 @@ public class MainActivity extends AppCompatActivity
                     tb.setLayoutParams(layoutParams);
                     tb.requestLayout();
                 }
-                catch (Exception ex)
+                catch (Throwable ex)
                 {
                     Log.e("SetToolbarHeight", ex.getMessage(),ex);
                 }
@@ -2213,7 +2213,7 @@ public class MainActivity extends AppCompatActivity
 						*/
                         mPager.setCurrentItem(fragStatistics.fragID);
                     }
-                    catch (Exception ex)
+                    catch (Throwable ex)
                     {
                         lib.ShowException(this, ex);
                     }
@@ -2241,7 +2241,7 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean newVok() throws Exception
+    public boolean newVok() throws Throwable
     {
         if (saveVok(false))
         {
@@ -2273,7 +2273,7 @@ public class MainActivity extends AppCompatActivity
                                 _blnVerifyToken = org.liberty.android.fantastischmemo.downloader.quizlet.lib
                                         .verifyAccessToken(new String[]{QuizletAccessToken, QuizletUser});
                             }
-                            catch (Exception e)
+                            catch (Throwable e)
                             {
                                 e.printStackTrace();
                                 _blnVerifyToken = false;
@@ -2356,7 +2356,7 @@ public class MainActivity extends AppCompatActivity
                     {
                         name = new File(vok.getFileName()).getName();
                     }
-                    catch (Exception ex)
+                    catch (Throwable ex)
                     {
                         ex.printStackTrace();
                     }
@@ -2399,7 +2399,7 @@ public class MainActivity extends AppCompatActivity
             }
 
         }
-        catch (Exception ex)
+        catch (Throwable ex)
         {
             lib.ShowException(this, ex);
         }
@@ -2427,7 +2427,7 @@ public class MainActivity extends AppCompatActivity
                                 _blnVerifyToken = org.liberty.android.fantastischmemo.downloader.quizlet.lib
                                         .verifyAccessToken(new String[]{QuizletAccessToken, QuizletUser});
                             }
-                            catch (Exception e)
+                            catch (Throwable e)
                             {
                                 e.printStackTrace();
                                 _blnVerifyToken = false;
@@ -2529,7 +2529,7 @@ public class MainActivity extends AppCompatActivity
             }
 
         }
-        catch (Exception ex)
+        catch (Throwable ex)
         {
             lib.ShowException(this, ex);
         }
@@ -2572,7 +2572,7 @@ public class MainActivity extends AppCompatActivity
         return intent;
     }
 
-    public boolean checkLoadFile() throws Exception
+    public boolean checkLoadFile() throws Throwable
     {
         boolean blnLoadFile;
         if (fPA.fragMain != null && fPA.fragMain.mainView != null)
@@ -2601,7 +2601,7 @@ public class MainActivity extends AppCompatActivity
         return blnLoadFile;
     }
 
-    public void LoadFile(boolean blnUniCode) throws Exception
+    public void LoadFile(boolean blnUniCode) throws Throwable
     {
 
         if (checkLoadFile())
@@ -2640,7 +2640,7 @@ public class MainActivity extends AppCompatActivity
         return intent;
     }
 
-    private void newvok() throws Exception
+    private void newvok() throws Throwable
     {
         mPager.setCurrentItem(_MainActivity.fragID);
         vok.NewFile();
@@ -2754,7 +2754,7 @@ public class MainActivity extends AppCompatActivity
                         }
 
                     }
-                    catch (Exception e)
+                    catch (Throwable e)
                     {
 
                         lib.ShowException(MainActivity.this, e);
@@ -2828,7 +2828,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
 											SetActionBarTitle();
 										}
 
-									} catch (Exception e) {
+									} catch (Throwable e) {
 
 										lib.ShowException(MainActivity.this, e);
 										e.printStackTrace();
@@ -2844,7 +2844,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
 									if(blnNew)
 										try {
 											newvok();
-										} catch (Exception e) {
+										} catch (Throwable e) {
 											lib.ShowException(MainActivity.this, e);
 										}
 								}
@@ -2860,7 +2860,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
                         {
                             newvok();
                         }
-                        catch (Exception e)
+                        catch (Throwable e)
                         {
                             lib.ShowException(MainActivity.this, e);
                         }
@@ -2942,7 +2942,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
                             fPA.fragMain.SetActionBarTitle();
                         prefs.edit().putString("defaultURI", strUri).commit();
                     }
-                    catch (Exception ex)
+                    catch (Throwable ex)
                     {
                         if (ex.getMessage().equalsIgnoreCase("SaveVokError") && ex.getCause() != null)
                         {
@@ -3008,7 +3008,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
                                 fPA.fragMain.SetActionBarTitle();
                             prefs.edit().putString("defaultURI", strUri).commit();
                         }
-                        catch (Exception ex)
+                        catch (Throwable ex)
                         {
                             if (ex.getMessage().equalsIgnoreCase("SaveVokError") && ex.getCause() != null)
                             {
@@ -3031,7 +3031,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
                         //vok.aend=true;
                     }
                 }
-                catch (Exception e)
+                catch (Throwable e)
                 {
                     if (e.getMessage().equalsIgnoreCase("SaveVokError") && e.getCause() != null && e.getCause() instanceof IOException)
                     {
@@ -3046,13 +3046,13 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
                 }
             }
         }
-        catch (Exception e)
+        catch (Throwable e)
         {
             lib.ShowException(MainActivity.this, e);
         }
     }
 
-    void processSettingsIntent(Intent data) throws Exception
+    void processSettingsIntent(Intent data) throws Throwable
     {
         if (data.getStringExtra("OK").equalsIgnoreCase("OK"))
         {
@@ -3216,14 +3216,14 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
 
     }
 
-    class UploadToQuzletTask extends AsyncTask<String, Void, Exception>
+    class UploadToQuzletTask extends AsyncTask<String, Void, Throwable>
     {
 
         ProgressDialog p;
         String res;
 
         @Override
-        protected Exception doInBackground(String... params)
+        protected Throwable doInBackground(String... params)
         {
             try
             {
@@ -3235,7 +3235,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
                                         .vok, MainActivity.this.QuizletAccessToken
                                         , userId, params[0]);
             }
-            catch (Exception e)
+            catch (Throwable e)
             {
                 return e;
             }
@@ -3245,7 +3245,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
 
         @TargetApi(Build.VERSION_CODES.GINGERBREAD)
         @Override
-        protected void onPostExecute(Exception ex)
+        protected void onPostExecute(Throwable ex)
         {
 
             if (p.isShowing()) p.dismiss();
@@ -3279,7 +3279,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
                             }
                         }
                     }
-                    catch (Exception e)
+                    catch (Throwable e)
                     {
                         e.printStackTrace();
                     }
@@ -3365,7 +3365,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
                             }
                         }
                     }
-                    catch (Exception e)
+                    catch (Throwable e)
                     {
                         e.printStackTrace();
                     }
@@ -3390,10 +3390,10 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
 
     }
 
-    class TaskOpenUri extends AsyncTask<Void, Void, Exception>
+    class TaskOpenUri extends AsyncTask<Void, Void, Throwable>
     {
         ProgressDialog p;
-        Uri uri;
+        final Uri uri;
 
         TaskOpenUri(Uri uri)
         {
@@ -3402,7 +3402,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
         }
 
         @Override
-        protected Exception doInBackground(Void... params)
+        protected Throwable doInBackground(Void... params)
         {
             try
             {
@@ -3432,7 +3432,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
                 }
             }
 
-            catch (Exception e2)
+            catch (Throwable e2)
             {
                 return e2;
             }
@@ -3442,7 +3442,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
         }
 
         @Override
-        protected void onPostExecute(Exception ex)
+        protected void onPostExecute(Throwable ex)
         {
 
             if (p.isShowing()) p.dismiss();
@@ -3473,7 +3473,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
                         if (fPA.fragMain != null && fPA.fragMain.mainView != null)
                             fPA.fragMain.getVokabel(false, false, false);
                     }
-                    catch (Exception e)
+                    catch (Throwable e)
                     {
                         lib.ShowException(MainActivity.this, e);
                         if (fPA.fragMain != null && fPA.fragMain.mainView != null)
@@ -3482,7 +3482,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
                             {
                                 fPA.fragMain.getVokabel(true, true, false);
                             }
-                            catch (Exception e1)
+                            catch (Throwable e1)
                             {
                                 lib.ShowException(MainActivity.this, e1);
                             }
@@ -3497,7 +3497,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
                     throw ex;
                 }
             }
-            catch (Exception e2)
+            catch (Throwable e2)
             {
                 lib.ShowException(MainActivity.this, ex);
             }
@@ -3516,7 +3516,7 @@ Intent i = new Intent(this, org.de.jmg.learn.MainActivity.class);
                 p.setMessage(MainActivity.this.getString(R.string.loading));
                 p.show();
             }
-            catch (Exception e)
+            catch (Throwable e)
             {
                 lib.ShowException(MainActivity.this, e);
                 this.cancel(false);

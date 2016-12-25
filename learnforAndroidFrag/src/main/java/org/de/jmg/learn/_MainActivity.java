@@ -109,6 +109,8 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	public final static int fragID = 0;
 	public View mainView;
 	public BorderedEditText _txtMeaning1;
+	public ScrollView _scrollView; //= (ScrollView) findViewById(R.id.layoutMain);
+
 	private BorderedTextView _txtWord;
 	private BorderedEditText _txtedKom;
 	private BorderedTextView _txtStatus;
@@ -116,38 +118,37 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	private BorderedEditText _txtMeaning3;
 	private BorderedTextView _txtKom;
 	private BorderedEditText _txtedWord;
-	public ScrollView _scrollView; //= (ScrollView) findViewById(R.id.layoutMain);
-	Handler handler = new Handler();
+	private final Handler handler = new Handler();
 	Vokabel _vok;
 	MainActivity _main;
-	Double ScaleWidth = 0d;
-	Double ScaleTextButtons = 0d;
-	boolean blnWrongWidth = false;
-	int width;
-	OnTouchListenerScroll OnTouchListenerScrollWord;
-	OnTouchListenerScroll OnTouchListenerScrolledWord;
-	OnTouchListenerScroll OnTouchListenerScrollKom;
-	OnTouchListenerScroll OnTouchListenerScrolledKom;
-	OnTouchListenerScroll OnTouchListenerScrollMeaning1;
-	ScrollGestureListener ListenerEdKom = new ScrollGestureListener(_txtedKom, OnTouchListenerScrolledKom);
-	ScrollGestureListener ListenerWord = new ScrollGestureListener(_txtWord, OnTouchListenerScrollWord);
-	ScrollGestureListener ListenerKom = new ScrollGestureListener(_txtKom, OnTouchListenerScrollKom);
-	ScrollGestureListener ListenerEdWord = new ScrollGestureListener(_txtedWord, OnTouchListenerScrolledWord);
-	GestureDetector detectorWord = new GestureDetector(_main, ListenerWord);
-	GestureDetector detectoredWord = new GestureDetector(_main, ListenerEdWord);
-	ScrollGestureListener ListenerMeaning1 = new ScrollGestureListener(_txtMeaning1, OnTouchListenerScrollMeaning1);
-	GestureDetector detectorMeaning1 = new GestureDetector(_main, ListenerMeaning1);
-	GestureDetector detectorKom = new GestureDetector(_main, ListenerKom);
-	GestureDetector detectoredKom = new GestureDetector(_main, ListenerEdKom);
-	MovementMethod _originalMovementmethod = null;
-	int _OriginalWidth = 0;
+	private Double ScaleWidth = 0d;
+	private Double ScaleTextButtons = 0d;
+	private boolean blnWrongWidth = false;
+	private int width;
+	private OnTouchListenerScroll OnTouchListenerScrollWord;
+	private OnTouchListenerScroll OnTouchListenerScrolledWord;
+	private OnTouchListenerScroll OnTouchListenerScrollKom;
+	private OnTouchListenerScroll OnTouchListenerScrolledKom;
+	private OnTouchListenerScroll OnTouchListenerScrollMeaning1;
+	private final ScrollGestureListener ListenerEdKom = new ScrollGestureListener(_txtedKom, OnTouchListenerScrolledKom);
+	private final ScrollGestureListener ListenerWord = new ScrollGestureListener(_txtWord, OnTouchListenerScrollWord);
+	private final ScrollGestureListener ListenerKom = new ScrollGestureListener(_txtKom, OnTouchListenerScrollKom);
+	private final ScrollGestureListener ListenerEdWord = new ScrollGestureListener(_txtedWord, OnTouchListenerScrolledWord);
+	private final GestureDetector detectorWord = new GestureDetector(_main, ListenerWord);
+	private final GestureDetector detectoredWord = new GestureDetector(_main, ListenerEdWord);
+	private final ScrollGestureListener ListenerMeaning1 = new ScrollGestureListener(_txtMeaning1, OnTouchListenerScrollMeaning1);
+	private final GestureDetector detectorMeaning1 = new GestureDetector(_main, ListenerMeaning1);
+	private final GestureDetector detectorKom = new GestureDetector(_main, ListenerKom);
+	private final GestureDetector detectoredKom = new GestureDetector(_main, ListenerEdKom);
+	private MovementMethod _originalMovementmethod = null;
+	private int _OriginalWidth = 0;
 	private Context context;
 	private Button _btnRight;
 	private Button _btnWrong;
 	private Button _btnSkip;
 	private Button _btnView;
 	private Button _btnEdit;
-	OnLongClickListener textlongclicklistener = new OnLongClickListener()
+	private final OnLongClickListener textlongclicklistener = new OnLongClickListener()
 	{
 
 		@Override
@@ -212,7 +213,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					}
 				}
 			}
-			catch (Exception e)
+			catch (Throwable e)
 			{
 				e.printStackTrace();
 			}
@@ -223,7 +224,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	private double scale = 1;
 	private Drawable _MeaningBG;
 	private boolean _firstFocus = true;
-	public OnFocusChangeListener FocusListenerMeaning1 = (new OnFocusChangeListener() {
+	public final OnFocusChangeListener FocusListenerMeaning1 = (new OnFocusChangeListener() {
 
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
@@ -243,7 +244,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	 * @Override public void run() { // do what you need to do
 	 * getVokabel(false,true); } };
 	 */
-	private Runnable runnableFalse = new Runnable()
+	private final Runnable runnableFalse = new Runnable()
 	{
 		@Override
 		public void run()
@@ -253,13 +254,13 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			{
 				getVokabel(false, false);
 			}
-			catch (Exception e)
+			catch (Throwable e)
 			{
 				e.printStackTrace();
 			}
 		}
 	};
-	private Runnable runnableGetVok = new Runnable()
+	private final Runnable runnableGetVok = new Runnable()
 	{
 		@Override
 		public void run()
@@ -269,7 +270,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			{
 				getVokabel(false, false, false, true);
 			}
-			catch (Exception e)
+			catch (Throwable e)
 			{
 				e.printStackTrace();
 			}
@@ -279,11 +280,12 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	 * private void runFlashWords() { new Thread(new Runnable() {
 	 *
 	 * @Override public void run() {  try {
-	 * flashwords(); } catch (Exception e) {
+	 * flashwords(); } catch (Throwable e) {
 	 * e.printStackTrace(); } } }).start(); }
 	 */
-	private ArrayList<Runnable> rFlashs = new ArrayList<>();
+	private final ArrayList<Runnable> rFlashs = new ArrayList<>();
 	@SuppressLint("ClickableViewAccessibility")
+	private final
 	OnTouchListener OnTouchListenerRemoveCallbacks = new OnTouchListener()
 	{
 
@@ -294,7 +296,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			return false;
 		}
 	};
-	private OnEditorActionListener EditorActionListener = new OnEditorActionListener()
+	private final OnEditorActionListener EditorActionListener = new OnEditorActionListener()
 	{
 
 		@Override
@@ -341,7 +343,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 									}
 								}
-								catch (Exception e)
+								catch (Throwable e)
 								{
 
 									lib.ShowException(_main, e);
@@ -388,7 +390,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 							}
 
 						}
-						catch (Exception e)
+						catch (Throwable e)
 						{
 
 							lib.ShowException(_main, e);
@@ -400,7 +402,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 						{
 							EndEdit(false);
 						}
-						catch (Exception e)
+						catch (Throwable e)
 						{
 
 							lib.ShowException(_main, e);
@@ -436,7 +438,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				return false;
 		}
 	};
-	RelativeLayout rellayoutMain;
+	private RelativeLayout rellayoutMain;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -476,7 +478,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				}
 				//getVokabel(false, false);
 			}
-			catch (Exception e1)
+			catch (Throwable e1)
 			{
 
 				lib.ShowException(_main, e1);
@@ -500,13 +502,13 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 							{
 								getVokabel(false, false);
 							}
-							catch (Exception e1)
+							catch (Throwable e1)
 							{
 
 								lib.ShowException(_main, e1);
 								try {
 									getVokabel(true, true);
-								} catch (Exception e) {
+								} catch (Throwable e) {
 									lib.ShowException(_main, e);
 								}
 							}
@@ -515,7 +517,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 								}
 							});
 		}
-		catch (Exception e)
+		catch (Throwable e)
 		{
 			lib.ShowException(_main, e);
 		}
@@ -894,21 +896,21 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		return this.mainView.findViewById(id);
 	}
 
-	public void getVokabel(boolean showBeds, boolean LoadNext) throws Exception
+	public void getVokabel(boolean showBeds, boolean LoadNext) throws Throwable
 	{
 		getVokabel(showBeds, LoadNext, false, false);
 	}
 
-	public void getVokabel(boolean showBeds, boolean LoadNext, boolean requestFocusEdWord) throws Exception
+	public void getVokabel(boolean showBeds, boolean LoadNext, boolean requestFocusEdWord) throws Throwable
 	{
 		getVokabel(showBeds, LoadNext, requestFocusEdWord, false);
 	}
-	public void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt) throws Exception
+	private void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt) throws Throwable
 	{
 		getVokabel(showBeds,LoadNext,requestFocusEdWord,DontPrompt,false);
 	}
 
-	public String getQuizletHighResUrl(String txt,String url)
+	private String getQuizletHighResUrl(String txt, String url)
 	{
 		if(txt.contains("<link://https://quizlet.com/ Quizlet/>"))
 		{
@@ -928,11 +930,11 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		return url;
 	}
 
-	ImageView iv = null;
+	private ImageView iv = null;
 	//HorizontalScrollView sv = null;
-	ImageView iv2 = null;
+	private final ImageView iv2 = null;
 	//ScalingFrameLayout frmLayoutImage = null;
-	public void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt, boolean LoadPrev) throws Exception
+	private void getVokabel(final boolean showBeds, boolean LoadNext, boolean requestFocusEdWord, boolean DontPrompt, boolean LoadPrev) throws Throwable
 	{
 
 		if (iv != null && iv.getVisibility() == View.VISIBLE)
@@ -1064,7 +1066,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 							{
 								b = lib.downloadpicture(this.url);
 							}
-							catch (Exception ex)
+							catch (Throwable ex)
 							{
 								b = null;
 							}
@@ -1074,7 +1076,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 								{
 									b = lib.downloadpicture(this.originalURL);
 								}
-								catch (Exception ex)
+								catch (Throwable ex)
 								{
 									b = null;
 								}
@@ -1141,7 +1143,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 						{
 							b = lib.downloadpicture(surl);
 						}
-						catch (Exception ex)
+						catch (Throwable ex)
 						{
 							b = null;
 						}
@@ -1151,7 +1153,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 							{
 								b = lib.downloadpicture(originalURL);
 							}
-							catch (Exception ex)
+							catch (Throwable ex)
 							{
 								b = null;
 							}
@@ -1177,7 +1179,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 									//p.height = LayoutParams.WRAP_CONTENT;
 									rellayoutMain.addView(iv, p);
 								}
-								catch (Exception ex)
+								catch (Throwable ex)
 								{
 									Log.e("Imagview",ex.getMessage(),ex);
 								}
@@ -1329,7 +1331,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			}
 
 		}
-		catch (Exception e)
+		catch (Throwable e)
 		{
 
 			lib.ShowException(_main, e);
@@ -1508,7 +1510,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 
                 }
-				catch (Exception ex)
+				catch (Throwable ex)
 				{
 					Log.e("addImageView",ex.getMessage(),ex);
 				}
@@ -1677,12 +1679,12 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		return txt;
 	}
 
-	public void speak(String t, Locale l, String ID)
+	private void speak(String t, Locale l, String ID)
 	{
 		speak(t, l, ID, false);
 	}
 
-	public void speak(String t, Locale l, String ID, boolean blnFlush)
+	private void speak(String t, Locale l, String ID, boolean blnFlush)
 	{
 		try
 		{
@@ -1742,7 +1744,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				}
 			}
 		}
-		catch (Exception ex)
+		catch (Throwable ex)
 		{
 			lib.setgstatus("speak: " + t + " " + l.toString());
 			lib.ShowException(_main, ex);
@@ -1756,7 +1758,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 	}
 
 	@SuppressLint("ClickableViewAccessibility")
-	private void InitControls() throws Exception
+	private void InitControls() throws Throwable
 	{
 		View v = findViewById(R.id.btnRight);
 		Button b = (Button) v;
@@ -1786,7 +1788,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					_lastIsWrongVokID = -1;
 
 				}
-				catch (Exception e)
+				catch (Throwable e)
 				{
 
 					lib.ShowException(_main, e);
@@ -1823,7 +1825,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 						getVokabel(false, false);
 					}
 				}
-				catch (Exception e)
+				catch (Throwable e)
 				{
 
 					lib.ShowException(_main, e);
@@ -1846,7 +1848,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					_vok.SkipVokabel();
 					getVokabel(false, false);
 				}
-				catch (Exception e)
+				catch (Throwable e)
 				{
 
 					lib.ShowException(_main, e);
@@ -1869,7 +1871,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 					getVokabel(true, false);
 
 				}
-				catch (Exception e)
+				catch (Throwable e)
 				{
 
 					lib.ShowException(_main, e);
@@ -1892,7 +1894,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				{
 					edit();
 				}
-				catch (Exception e)
+				catch (Throwable e)
 				{
 
 					lib.ShowException(_main, e);
@@ -1976,7 +1978,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		setTextColors();
 	}
 	
-	public void edit() throws Exception {
+	public void edit() throws Throwable {
 		if (_txtWord.getVisibility()==View.VISIBLE)
 		{
 			StartEdit();
@@ -1987,7 +1989,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		}
 	}
 
-	void StartEdit() throws Exception
+	void StartEdit() throws Throwable
 	{
 		_txtWord.setText(lib.getSpanableString(_vok.getWort()), TextView.BufferType.SPANNABLE);
 		_txtWord.setVisibility(View.GONE);
@@ -2002,13 +2004,13 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			{
 				lib.setLocale(context, "he");
 			}
-			catch (Exception ex)
+			catch (Throwable ex)
 			{
 				try
 				{
 					lib.setLocale(context, "iw");
 				}
-				catch (Exception eex)
+				catch (Throwable eex)
 				{
 					lib.ShowException(_main,eex);
 				}
@@ -2086,7 +2088,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				});
 	}
 
-	boolean EndEdit(boolean dontPrompt) throws Exception
+	boolean EndEdit(boolean dontPrompt) throws Throwable
 	{
 		if (_txtedWord == null) return true;
 		if (_txtedWord.getVisibility() == View.VISIBLE)
@@ -2119,7 +2121,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 							_vok.setBedeutung2(_txtMeaning2.getText().toString());
 							_vok.setBedeutung3(_txtMeaning3.getText().toString());
 						}
-						catch (Exception eex)
+						catch (Throwable eex)
 						{
 							Log.e("EndEdit", eex.getMessage(), eex);
 							return false;
@@ -2129,7 +2131,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 				EndEdit2();
 			}
-			catch (Exception ex)
+			catch (Throwable ex)
 			{
 				lib.ShowMessage(context, ex.getMessage(), null);
 				return false;
@@ -2139,7 +2141,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		return true;
 	}
 
-	void EndEdit2() throws Exception
+	void EndEdit2() throws Throwable
 	{
 		if (_txtedWord == null) return;
 		if (_txtedWord.getVisibility() == View.VISIBLE)
@@ -2346,7 +2348,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	}
 
-	private void flashwords() throws Exception {
+	private void flashwords() throws Throwable {
 		Runnable r;
 		final RelativeLayout layout = (RelativeLayout) findViewById(R.id.layoutMainParent);
 		assert layout != null;
@@ -2428,7 +2430,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				_main.Colors.get(ColorItems.background).ColorValue);
 	}
 
-	public void SetActionBarTitle() throws Exception
+	public void SetActionBarTitle() throws Throwable
 	{
 		if (mainView == null) return;
 		if (_vok.getGesamtzahl() > 0)
@@ -2512,7 +2514,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 		return _main;
 	}
 
-	public void resizeActionbar(final int width)
+	private void resizeActionbar(final int width)
 	{
 		/*
 		View tb = this.findViewById(R.id.action_bar);
@@ -2584,7 +2586,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	}
 
-	void SetTxtStatusSize(int width)
+	private void SetTxtStatusSize(int width)
 	{
 		if (width == 0) width = mainView.getWidth();
 		if (width == 0 && _OriginalWidth == 0) return;
@@ -2631,7 +2633,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	private class resetLayoutTask implements Runnable
 	{
-		public View view;
+		public final View view;
 
 		public resetLayoutTask(View layout)
 		{
@@ -2704,7 +2706,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 
 			}
-			catch (Exception e)
+			catch (Throwable e)
 			{
 
 				e.printStackTrace();
@@ -2726,7 +2728,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	private class showBedBordersTask implements Runnable
 	{
-		public BorderedEditText Bed;
+		public final BorderedEditText Bed;
 
 		public showBedBordersTask(BorderedEditText Bed)
 		{
@@ -2781,7 +2783,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 				});
 
 			}
-			catch (Exception e)
+			catch (Throwable e)
 			{
 
 				e.printStackTrace();
@@ -2792,7 +2794,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 
 	private class hideBedBordersTask implements Runnable
 	{
-		public BorderedEditText Bed;
+		public final BorderedEditText Bed;
 
 		public hideBedBordersTask(BorderedEditText Bed)
 		{

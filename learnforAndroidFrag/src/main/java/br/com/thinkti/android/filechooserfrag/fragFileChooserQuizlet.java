@@ -192,7 +192,7 @@ public class fragFileChooserQuizlet extends ListFragment
 
 			try {
 				list = openPage();
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				e.printStackTrace();
 				list = new ArrayList<RowData>();
 				RowData r = new RowData();
@@ -262,7 +262,7 @@ public class fragFileChooserQuizlet extends ListFragment
 
 			try {
 				list = openSet(params[0]);
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				e.printStackTrace();
 			}
 
@@ -309,7 +309,7 @@ public class fragFileChooserQuizlet extends ListFragment
 							}
 
 						}
-						catch (Exception ex)
+						catch (Throwable ex)
 						{
 
 						}
@@ -327,7 +327,7 @@ public class fragFileChooserQuizlet extends ListFragment
 
 					}
 				}
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				e.printStackTrace();
 			}
 
@@ -592,7 +592,7 @@ public class fragFileChooserQuizlet extends ListFragment
 					}
 					reader.endObject();
 				}
-				catch (Exception exception)
+				catch (Throwable exception)
 				{
 					reader.skipValue();
 					//String value = "<link://" + reader.nextString() + "/>";
@@ -782,7 +782,7 @@ public class fragFileChooserQuizlet extends ListFragment
 			{
 				new TaskopenSet().execute(params);
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			lib.ShowException(_main,e);
 		}
 

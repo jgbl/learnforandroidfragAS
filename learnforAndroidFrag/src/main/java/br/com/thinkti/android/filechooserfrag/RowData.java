@@ -7,7 +7,7 @@ public class RowData  {
     int id;
     String name;
     String description;
-    Exception ex;
+    Throwable ex;
     int numCards ;
     String lastModified ;
 }
