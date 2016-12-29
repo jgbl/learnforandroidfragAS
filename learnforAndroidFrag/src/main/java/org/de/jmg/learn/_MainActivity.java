@@ -1351,7 +1351,10 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
 			{
 				iv = new ImageView(context);
 				//SetTouchListener(iv);
-
+				iv.setClickable(false);
+				iv.setFocusable(true);
+				iv.setFocusableInTouchMode(true);
+				//iv.setAdjustViewBounds(true);
 			}
 			/*
             if (sv == null)
@@ -1435,13 +1438,7 @@ public class _MainActivity extends Fragment implements RemoveCallbackListener {
                     iv.setLayoutParams(pnew);
 
 					//iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
-					if (iv.getParent() == null)
-					{
-						iv.setClickable(true);
-						iv.setFocusable(true);
-						iv.setFocusableInTouchMode(true);
-						iv.setAdjustViewBounds(true);
-					}
+
 						/*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
 					{
 						iv.setCropToPadding(false);
