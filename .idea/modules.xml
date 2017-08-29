@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/fileChooser/fileChooser.iml" filepath="$PROJECT_DIR$/fileChooser/fileChooser.iml" />
       <module fileurl="file:///vm/pubback/Learn/android/AS/learnforandroidfragAS/fileChooser/fileChooser.iml" filepath="/vm/pubback/Learn/android/AS/learnforandroidfragAS/fileChooser/fileChooser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jmgerrorintent/jmgerrorintent.iml" filepath="$PROJECT_DIR$/jmgerrorintent/jmgerrorintent.iml" />
       <module fileurl="file:///vm/pubback/Learn/android/AS/learnforandroidfragAS/jmgerrorintent/jmgerrorintent.iml" filepath="/vm/pubback/Learn/android/AS/learnforandroidfragAS/jmgerrorintent/jmgerrorintent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/learnforAndroidFrag/learnforAndroidFrag.iml" filepath="$PROJECT_DIR$/learnforAndroidFrag/learnforAndroidFrag.iml" />
       <module fileurl="file:///vm/pubback/Learn/android/AS/learnforandroidfragAS/learnforAndroidFrag/learnforAndroidFrag.iml" filepath="/vm/pubback/Learn/android/AS/learnforandroidfragAS/learnforAndroidFrag/learnforAndroidFrag.iml" />
+      <module fileurl="file://$PROJECT_DIR$/learnforandroidfragAS.iml" filepath="$PROJECT_DIR$/learnforandroidfragAS.iml" />
       <module fileurl="file:///vm/pubback/Learn/android/AS/learnforandroidfragAS/learnforandroidfragAS.iml" filepath="/vm/pubback/Learn/android/AS/learnforandroidfragAS/learnforandroidfragAS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
       <module fileurl="file:///vm/pubback/Learn/android/AS/learnforandroidfragAS/library/library.iml" filepath="/vm/pubback/Learn/android/AS/learnforandroidfragAS/library/library.iml" />
     </modules>
   </component>
