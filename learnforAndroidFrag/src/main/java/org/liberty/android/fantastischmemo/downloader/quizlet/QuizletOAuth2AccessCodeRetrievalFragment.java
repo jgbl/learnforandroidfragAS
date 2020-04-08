@@ -30,6 +30,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import br.com.thinkti.android.filechooserfrag.Data;
+
 //import roboguice.util.Ln;
 @TargetApi(11)
 public final class QuizletOAuth2AccessCodeRetrievalFragment
