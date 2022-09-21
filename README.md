@@ -12,3 +12,5 @@ eventually you also have to correct the settings.gradle file
 
 finally you have to remove the application section from the fileChooser manifest.
 
+Including the latest version APK
+
